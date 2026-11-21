@@ -467,6 +467,11 @@ body.land .mclock{transform:translate(-50%,-50%) rotate(90deg)}
 .mobileBar .mb.clockb .ico{width:30px;height:30px}
 .mobileBar .mb.clockb small{font-size:9px;color:var(--y);margin-top:1px}
 @media(max-width:820px){html body .mobileBar .mb.clockb small{display:none}}
+.sign.blk .plate{background:var(--r);color:#fff}
+.sign.blk .cls{background:var(--r);color:#fff}
+.assign .hit.tmp{background:rgba(255,159,26,.16);outline:2px dashed #ff9f1a}
+.sign.tmp .plate{border-color:#ff9f1a}
+.blkmsg{background:#3a0b08;border:1px solid var(--r);color:#ffb3ad;border-radius:8px;padding:8px 10px;font-size:12px;margin:8px 0}
 </style>
 <script>
 window.__errs=[];window.onerror=function(m,src,l,c){window.__errs.push(m+' @'+l+':'+c);var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:99999;background:#b00;color:#fff;font:14px/1.4 sans-serif;padding:10px;border-radius:8px;white-space:pre-wrap';(document.body||document.documentElement).appendChild(d)}d.textContent='Erro: '+window.__errs.join('\n')};
@@ -483,7 +488,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795285411';
+var APPV='1795288325';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -594,9 +599,20 @@ var ic=(n,c='')=>`<span class="ico ${c}"><svg viewBox="0 0 24 24" aria-hidden="t
 // pista: cabeceira 10 em cima, 28 embaixo
 var TH={"10":60,"28":1590};
 var STANDS=[
- {n:1,x:568,y:290,max:4},{n:2,x:568,y:412,max:4},{n:3,x:568,y:539,max:5},{n:4,x:530,y:659,max:6},{n:5,x:490,y:770,max:7},{n:6,x:508,y:895,max:7},{n:7,x:563,y:1006,max:6},{n:8,x:583,y:1118,max:5},{n:9,x:583,y:1247,max:4},{n:10,x:578,y:1367,max:4}];
+ {n:1,x:568,y:290,max:4},{n:2,x:568,y:412,max:4},{n:3,x:568,y:539,max:5},{n:4,x:530,y:659,max:6},{n:5,x:490,y:770,max:7},{n:6,x:508,y:895,max:7},{n:7,x:563,y:1006,max:6},{n:8,x:583,y:1118,max:5},{n:9,x:583,y:1247,max:4},{n:10,x:578,y:1367,max:4},
+ {n:11,x:620,y:232,max:4,remote:1,lab:'R1'},{n:12,x:640,y:1440,max:5,remote:1,lab:'R2'}];
 var SPR=[[192,246],[197,294],[238,338],[226,416],[348,491],[357,546],[515,615]];
 var SC=135/615;
+var SPRB=[[184,251],[202,300],[211,358],[261,440],[322,496],[383,575],[536,641]];
+var MODA=["A220-300","A320neo","A321neo","A330-200","A330-900","A350-1000","A380-800"];
+var MODB=["737-700","737-800","757-200","767-300ER","787-9","777-300ER","747-8"];
+// frota por companhia: A = Airbus, B = Boeing, AB = as duas
+var FLEET={G3:'B',AD:'A',LA:'A',TP:'A',EK:'AB',AF:'AB',BA:'AB',AA:'B',DL:'AB',UA:'B',PA:'B',RG:'B',VP:'B',TR:'AB',AR:'B',CM:'B',QR:'AB',LH:'AB',IB:'A',KL:'B',AV:'A',AZ:'AB',JL:'B',QF:'AB',SA:'A',CA:'AB',SQ:'AB',DT:'B',ET:'B',AT:'B',MS:'AB',VR:'B',SR:'AB',SK:'A'};
+function pickMk(al,cls){let f=FLEET[al]||'AB';if(al==='LA'&&cls>=5)f='B';if(al==='EK'&&cls===7)f='A';if(al==='SQ'&&cls===7)f='A';if(al==='QF'&&cls===7)f='A';return f.length>1?(Math.random()<.5?'A':'B'):f}
+var spr=f=>f.mk==='B'?SPRB:SPR;
+var pimg=f=>(f.mk==='B'?'b':'p')+f.cls+'.png';
+var model=f=>(f.mk==='B'?MODB:MODA)[f.cls-1];
+var mkName=f=>f.mk==='B'?'Boeing':'Airbus';
 var GROUND=[20,30,40,55,70,90,120];
 var MODELS=["A220 / 737-700","A320 / 737-800","A321neo / 737 MAX","767-300 / A330-200","787-9 / A330-900","777-300ER / A350-1000","A380 / 747-8"];
 // país de cada companhia (bandeira)
@@ -664,7 +680,7 @@ function reset(){
   storms.sort((a,b)=>a.s-b.s);dayOver=false;
   flights=DAY.map(([al,a,d,ap,cls,t,dl],i)=>{const sched=toMin(t),g=GROUND[cls-1];
     return {i,al,arrNo:al+a,depNo:al+d,ap,cls,sched,eta:sched+dl,ground:g,depSched:sched+g,dur:DUR[ap],state:"inbound",stand:null,path:null,
-      fuelPlan:D().fuel+5+Math.round(Math.random()*.12*DUR[ap])}});
+      fuelPlan:D().fuel+5+Math.round(Math.random()*.12*DUR[ap]),mk:pickMk(al,cls)}});
   STANDS.forEach(s=>s.res=null);
   now=toMin("11:52");runwayFree=0;sel=null;assignFor=null;lastWind=-1;
   score={landed:0,departed:0,onTime:0,lateMin:0,diverted:0,emerg:0};
@@ -686,7 +702,8 @@ function mkPath(start,segs,t0,startH=0){
   return {segs:out,end:t};
 }
 var dist=(a,b)=>Math.hypot(b[0]-a[0],b[1]-a[1]);
-var parkPos=(f,s)=>[s.x-SPR[f.cls-1][1]*SC/2,s.y];
+var sn=n=>n==null?'--':((STANDS[n-1]&&STANDS[n-1].lab)||pad(n));
+var parkPos=(f,s)=>[s.x-spr(f)[f.cls-1][1]*SC/2,s.y];
 
 /* rede de pistas de táxi, seguindo as linhas amarelas do mapa */
 var TWY=318;                                  // taxiway paralela (entre a grama e o pátio)
@@ -752,7 +769,8 @@ var capF=f=>CAPF[f.cls-1];
 function initSvc(f){
   if(f.fuelArr==null)f.fuelArr=clamp((nz(f.fuelPlan,D().fuel+10))-(f.holdMin||0),5,capF(f));
   const lack=Math.max(0,needF(f)-f.fuelArr);
-  f.svs=SVF.map((k,i)=>({s:null,d:i===4?Math.max(3,lack/capF(f)*FULLT[f.cls-1]):k*f.ground,q:!!D().auto}));
+  const rm=f.stand&&STANDS[f.stand-1].remote?1.35:1;
+  f.svs=SVF.map((k,i)=>({s:null,d:(i===4?Math.max(3,lack/capF(f)*FULLT[f.cls-1]):k*f.ground)*rm,q:!!D().auto}));
   if(lack<=0){const v=f.svs[4];v.s=now;v.d=.01;v.skip=true}
 }
 var svDone=(f,i)=>f.svs&&f.svs[i].s!=null&&now>=f.svs[i].s+f.svs[i].d;
@@ -763,7 +781,7 @@ function crewBusy(){const b={fuel:0,cat:0,clean:0};
 function svcStep(){
   const busy=crewBusy(),cap=D().crews;
   const parked=flights.filter(f=>f.state==="parked").sort((a,b)=>a.tPark-b.tPark);
-  for(const f of parked){if(!f.svs)initSvc(f);
+  for(const f of parked){if(!f.svs)initSvc(f);if(f.blk)continue;
     f.svs.forEach((v,i)=>{if(v.s!=null||!v.q||!depsOk(f,i)){v.wait=false;return}const c=CREW[i];
       if(c){if(busy[c]>=cap[c]){v.wait=true;return}busy[c]++}v.wait=false;v.s=now;if(i===4&&!v.skip&&pk('comb')!=='off')play('combustivel',{vol:.7});if((i===1||i===5)&&pk('bag')!=='off')play('bagagem',{vol:.6,dur:10});dirty=true})}
 }
@@ -813,7 +831,9 @@ function step(){
     if(f.state==="arriving"&&!f.tdSnd&&now>=f.path.segs[1].t){f.tdSnd=true;jet("touchdown");jet("brake");smoke(f)}
     if(f.state==="arriving"&&now>=f.path.end){if(pk('estaciona')!=='off')play('turbina_desliga',{vol:.6,dur:14});f.state="parked";f.tPark=now;f.path=null;score.landed++;initSvc(f);
       if(f.emerg){camp.rep=clamp(camp.rep+2,0,100);toast(`${f.arrNo} pousou em segurança · emergência resolvida`)}dirty=true}
-    if(f.state==="parked"&&!f.readyNotified&&isReady(f)){f.readyNotified=true;toast(`${f.depNo} pronto para partir · posição ${pad(f.stand)}`);if(pk('aviso')!=='off')play(pk('aviso'));dirty=true}
+    if(f.state==="moving"&&now>=f.path.end){f.state="parked";f.path=null;f.tPark=now;initSvc(f);toast(`${f.depNo} na posição ${sn(f.stand)} · serviços liberados`);dirty=true}
+    if(f.state==="parked"&&f.blk){const m=Math.floor((now-f.tPark)/5);if(m>(f.blkPen||0)){f.blkPen=m;camp.rep=clamp(camp.rep-1,0,100);camp.money-=500;dirty=true}}
+    if(f.state==="parked"&&!f.readyNotified&&isReady(f)){f.readyNotified=true;toast(`${f.depNo} pronto para partir · posição ${sn(f.stand)}`);if(pk('aviso')!=='off')play(pk('aviso'));dirty=true}
   }
   // partidas
   for(const f of flights){
@@ -848,11 +868,27 @@ function depart(f){
   toast(`${f.depNo} liberado · taxiando para a cabeceira ${f.rwy}`);dirty=true;
 }
 function assign(f,s){
-  if(s.max<f.cls)return toast(`Posição ${pad(s.n)} aceita até classe ${s.max} · ${f.arrNo} é classe ${f.cls}`);
-  if(s.res!=null&&s.res!==f.i)return toast(`Posição ${pad(s.n)} está ocupada`);
+  if(f.state==="parked"){return moveTo(f,s)}
+  if(s.res!=null&&s.res!==f.i)return toast(`Posição ${sn(s.n)} está ocupada`);
+  if(s.max<f.cls){
+    if(f.cls-s.max>2||s.remote)return toast(`Posição ${sn(s.n)} é pequena demais para ${f.arrNo} (classe ${f.cls})`);
+    if(f.stand!=null)STANDS[f.stand-1].res=null;
+    s.res=f.i;f.stand=s.n;f.blk=true;assignFor=null;openTab=null;
+    toast(`${f.arrNo} vai para a posição ${sn(s.n)} provisoriamente · sem serviços até a vaga certa`);dirty=true;return}
+  f.blk=false;
   if(f.stand!=null)STANDS[f.stand-1].res=null;
   s.res=f.i;f.stand=s.n;assignFor=null;openTab=null;
-  toast(`${f.arrNo} vai desembarcar na posição ${pad(s.n)}`);if(pk('bipe')!=='off')play('bipe',{vol:.6});dirty=true;
+  toast(`${f.arrNo} vai desembarcar na posição ${sn(s.n)}`);if(pk('bipe')!=='off')play('bipe',{vol:.6});dirty=true;
+}
+
+function moveTo(f,s){
+  if(s.n===f.stand){assignFor=null;dirty=true;return}
+  if(s.max<f.cls)return toast(`Posição ${sn(s.n)} não serve: ${f.depNo} é classe ${f.cls}`);
+  if(s.res!=null)return toast(`Posição ${sn(s.n)} está ocupada`);
+  const old=STANDS[f.stand-1];old.res=null;s.res=f.i;f.stand=s.n;f.blk=false;assignFor=null;
+  const a=parkPos(f,old),b=parkPos(f,s);
+  f.path=mkPath(a,[{b:[LANE,old.y],d:1,e:'io',h:90},{b:[LANE,s.y],d:Math.max(.2,Math.abs(s.y-old.y)/260)},{b,d:Math.max(.3,dist([LANE,s.y],b)/180),e:'out'}],now,90);
+  f.state="moving";f.svs=null;toast(`${f.depNo} taxiando para a posição ${sn(s.n)}`);dirty=true;
 }
 
 /* ---------- status ---------- */
@@ -881,7 +917,8 @@ function depStatus(f){
     case"takeoff":return["DECOLANDO","hot"];
     case"lineup":return["NA CABECEIRA","hot"];
     case"departing":return["TAXIANDO","ok"];
-    case"parked":if(isReady(f))return["PRONTO","ok"];if(svP(f,6)>0)return["EMBARQUE","hot"];
+    case"moving":return["TAXIANDO","ok"];
+    case"parked":if(f.blk)return["SEM VAGA","bad"];if(isReady(f))return["PRONTO","ok"];if(svP(f,6)>0)return["EMBARQUE","hot"];
   }
   return depEst(f)>f.depSched+15?["ATRASADO","bad"]:["NO HORÁRIO",""];
 }
@@ -912,14 +949,15 @@ function drawFixed(){
   STANDS.forEach(s=>{
     const f=s.res!=null?flights[s.res]:null;
     let c='';
-    if(af){c=(s.max>=af.cls&&(s.res==null||s.res===af.i))?' ok':' no'}
+    if(af){const free=s.res==null||s.res===af.i;c=(s.max>=af.cls&&free)?' ok':(af.state!=="parked"&&free&&!s.remote&&af.cls-s.max<=2)?' tmp':' no'}
+    else if(f&&f.blk&&f.state==="parked")c=' blk';
     else if(sel&&sel.stand===s.n)c=' sel';
     else if(f&&isReady(f))c=' ready';
     else if(f&&f.state!=="parked")c=' reserved';
     const pk=f&&f.state==="parked"&&f.svs?f:null;
     const pc=pk?Math.round(pk.svs.reduce((a,v,i)=>a+svP(pk,i)*v.d,0)/pk.svs.reduce((a,v)=>a+v.d,0)*100):null;
-    h+=`<div class="sign${c}" style="left:${(s.x+14)/W*100}%;top:${(s.y+62)/H*100}%">${pc!=null?`<div class="pct${pc>=100?' full':''}">${pc}%</div>`:''}<div class="plate">${s.n}</div><div class="cls">MAX ${s.max}</div></div>`;
-    h+=`<button class="hit${c.includes('ok')?' ok':''}" data-stand="${s.n}" aria-label="Posição ${s.n}" style="left:${(s.x-62)/W*100}%;top:${s.y/H*100}%"></button>`;
+    h+=`<div class="sign${c}" style="left:${(s.x+14)/W*100}%;top:${(s.y+(s.n===11?-46:62))/H*100}%">${pc!=null?`<div class="pct${pc>=100?' full':''}">${pc}%</div>`:''}<div class="plate">${s.lab||s.n}</div><div class="cls">${s.remote?'REMOTA · ':''}MAX ${s.max}</div></div>`;
+    h+=`<button class="hit${c.includes('ok')?' ok':c.includes('tmp')?' tmp':''}" data-stand="${s.n}" aria-label="Posição ${s.n}" style="left:${(s.x-62)/W*100}%;top:${s.y/H*100}%"></button>`;
   });
   map.classList.toggle('assign',!!af);
   fixed.innerHTML=h;
@@ -927,7 +965,7 @@ function drawFixed(){
 
 /* fumaça dos pneus no toque */
 function smoke(f){
-  const wpx=SPR[f.cls-1][0]*SC;
+  const wpx=spr(f)[f.cls-1][0]*SC;
   for(let k=0;k<7;k++)setTimeout(()=>{
     const p=pose(f);if(!p)return;
     for(const side of [-1,1]){
@@ -948,15 +986,15 @@ function drawPlanes(){
     if(!p||f.state==="gone")continue;
     live.add(f.i);
     let el=planeEls.get(f.i);
-    if(!el){el=document.createElement('div');el.className='pl';el.innerHTML=`<img src="p${f.cls}.png" alt=""><div class="tag" hidden></div>`;planesEl.appendChild(el);planeEls.set(f.i,el)}
-    const wpx=SPR[f.cls-1][0]*SC;
+    if(!el){el=document.createElement('div');el.className='pl';el.innerHTML=`<img src="${pimg(f)}" alt=""><div class="tag" hidden></div>`;planesEl.appendChild(el);planeEls.set(f.i,el)}
+    const wpx=spr(f)[f.cls-1][0]*SC;
     el.style.left=(p.x/W*100)+'%';el.style.top=(p.y/H*100)+'%';el.style.width=(wpx/W*100)+'%';
     el.style.zIndex=p.al>0?8:1;
     el.style.opacity=p.al>.88?Math.max(0,(1-p.al)/.12):1;
     el.style.filter=`drop-shadow(${-4-34*p.al}px ${5+46*p.al}px ${3+9*p.al}px rgba(0,0,0,${.45-.25*p.al})) brightness(${PB})`;
     el.firstChild.style.transform=`rotate(${p.h}deg) scale(${p.s})`;
     const tg=el.lastChild,show=sel&&sel.i===f.i;
-    tg.hidden=!show;if(show){tg.textContent=`${f.state==="arriving"?f.arrNo:f.depNo}`;const [sw,sl]=SPR[f.cls-1],hr=p.h*Math.PI/180,half=(Math.abs(Math.cos(hr))*sl+Math.abs(Math.sin(hr))*sw)/2*p.s;tg.style.cssText=LAND?(()=>{const hx=(Math.abs(Math.sin(hr))*sl+Math.abs(Math.cos(hr))*sw)/2*p.s;return `left:${50-hx/sw*100-6}%;top:50%;transform:translate(-50%,-50%) rotate(90deg)`})():`left:50%;top:${50+half/sl*100+3}%`}
+    tg.hidden=!show;if(show){tg.textContent=`${f.state==="arriving"?f.arrNo:f.depNo}`;const [sw,sl]=spr(f)[f.cls-1],hr=p.h*Math.PI/180,half=(Math.abs(Math.cos(hr))*sl+Math.abs(Math.sin(hr))*sw)/2*p.s;tg.style.cssText=LAND?(()=>{const hx=(Math.abs(Math.sin(hr))*sl+Math.abs(Math.cos(hr))*sw)/2*p.s;return `left:${50-hx/sw*100-6}%;top:50%;transform:translate(-50%,-50%) rotate(90deg)`})():`left:50%;top:${50+half/sl*100+3}%`}
   }
   for(const [i,el] of planeEls)if(!live.has(i)){el.remove();planeEls.delete(i)}
 }
@@ -965,21 +1003,21 @@ function drawPlanes(){
 var openTab=null,justOpened=null;
 function drawBar(){
   const ap=flights.filter(f=>f.state==="approach"||f.state==="holding").sort((a,b)=>a.eta-b.eta);
-  const rd=flights.filter(isReady);
+  const rd=flights.filter(isReady);const bk=flights.filter(f=>f.state==="parked"&&f.blk);
   const tab=(f,kind)=>{
     const hold=f.state==="holding",m=Math.max(0,Math.ceil(f.eta-now)),on=assignFor===f.i;
     const cls=`tg${hold?' hold':''}${f.emerg?' emerg':''}${kind==='rd'?' rd':''}${on?' sel':''}`;
-    const model=MODELS[f.cls-1].split(' / ')[0];
+    const mdl=model(f);
     if(kind==='rd')return `<div class="${cls}"><div class="tg-h" data-f="${f.i}" data-k="rd" role="button" tabindex="0">
-      <span class="tg-fl">${flag(f.al)}</span><img src="p${f.cls}.png" alt="">${logo(f.al,"tg-lg")}<b>${f.depNo}</b><small>PRONTO</small>
-      <span class="tg-c">→ ${CITY[f.ap]}</span><span class="tg-m">${model} · C${f.cls}</span><span class="tg-p">POS <em>${pad(f.stand)}</em></span>
+      <span class="tg-fl">${flag(f.al)}</span><img src="${pimg(f)}" alt="">${logo(f.al,"tg-lg")}<b>${f.depNo}</b><small>PRONTO</small>
+      <span class="tg-c">→ ${CITY[f.ap]}</span><span class="tg-m">${mdl} · C${f.cls}</span><span class="tg-p">POS <em>${sn(f.stand)}</em></span>
       <button class="tg-go" data-act="go" data-f="${f.i}">Partir</button></div></div>`;
     return `<div class="${cls}"><button class="tg-h" data-f="${f.i}" data-k="arr" aria-pressed="${on}">
-      <span class="tg-fl">${flag(f.al)}</span><img src="p${f.cls}.png" alt="">${logo(f.al,"tg-lg")}<b>${f.arrNo}</b><small>${f.emerg?'MAYDAY':hold?`COMB ${Math.max(0,Math.round((nz(f.fuelPlan,D().fuel+10))-(f.holdMin||0)))} min`:m+' min'}</small>
-      <span class="tg-c">${CITY[f.ap]}</span><span class="tg-m">${model} · C${f.cls}</span>
-      ${on?'<span class="tg-p tg-now">Toque na posição</span>':`<span class="tg-p">POS <em>${f.stand?pad(f.stand):'—'}</em></span>`}</button></div>`;
+      <span class="tg-fl">${flag(f.al)}</span><img src="${pimg(f)}" alt="">${logo(f.al,"tg-lg")}<b>${f.arrNo}</b><small>${f.emerg?'MAYDAY':hold?`COMB ${Math.max(0,Math.round((nz(f.fuelPlan,D().fuel+10))-(f.holdMin||0)))} min`:m+' min'}</small>
+      <span class="tg-c">${CITY[f.ap]}</span><span class="tg-m">${mdl} · C${f.cls}</span>
+      ${on?'<span class="tg-p tg-now">Toque na posição</span>':`<span class="tg-p">POS <em>${f.stand?sn(f.stand):'—'}</em></span>`}</button></div>`;
   };
-  $('rail').innerHTML=ap.map(f=>tab(f,'arr')).join('')+rd.map(f=>tab(f,'rd')).join('');
+  $('rail').innerHTML=bk.map(f=>`<div class="tg hold${assignFor===f.i?' sel':''}"><button class="tg-h" data-f="${f.i}" data-k="blk"><span class="tg-fl">${flag(f.al)}</span><img src="${pimg(f)}" alt=""><b>${f.depNo}</b><small>SEM VAGA</small><span class="tg-c">Pos ${sn(f.stand)} provisória</span><span class="tg-m">${model(f)} · C${f.cls}</span><span class="tg-p ${assignFor===f.i?'tg-now':''}">${assignFor===f.i?'Toque na vaga certa':'Toque p/ mover'}</span></button></div>`).join('')+ap.map(f=>tab(f,'arr')).join('')+rd.map(f=>tab(f,'rd')).join('');
 }
 
 /* ---------- painel ---------- */
@@ -1052,7 +1090,7 @@ function updateBoard(){
     setFlaps(r.g[0],fmt(arr?f.sched:f.depSched));
     setFlaps(r.g[1],norm(SHORTCITY[CITY[f.ap]]||CITY[f.ap],9));
     setFlaps(r.g[2],norm(arr?f.arrNo:f.depNo,6));
-    setFlaps(r.g[3],f.stand?pad(f.stand):'  ');
+    setFlaps(r.g[3],f.stand?sn(f.stand):'  ');
     setFlaps(r.g[4],norm(SHORTST[st]||st,10));
     r.g[4].className='fx'+(c?' st-'+c:'');
   }
@@ -1196,8 +1234,9 @@ function drawSvcView(f){
   const tiles=SERV.map(([n,,,k],i)=>{const [st,t]=SVSTATE(f,i);
     return `<button class="svt ${st}" data-sv="${i}" ${st==='ok'?'disabled':''}><span class="svt-i">${ic(k)}</span><b>${n}</b><small>${t}</small><i style="width:${(st==='ok'?1:svP(f,i))*100}%"></i></button>`}).join('');
   detail.innerHTML=`<button class="back" id="back">← Voltar ao painel</button>
-  <div class="svh"><span>${logo(f.al,'hd-lg')}${flag(f.al)} <b>${f.depNo}</b> → ${CITY[f.ap]}</span><span>Pos <b>${pad(f.stand)}</b></span></div>
+  <div class="svh"><span>${logo(f.al,'hd-lg')}${flag(f.al)} <b>${f.depNo}</b> → ${CITY[f.ap]}</span><span>Pos <b>${sn(f.stand)}</b></span></div>
   <div class="svh2"><span>Partida <b>${fmt(f.depSched)}</b></span><span>${late>15?`Estimada <b style="color:var(--r)">${fmt(est)} (+${late})</b>`:`Estimada <b style="color:var(--gr)">${fmt(est)}</b>`}</span></div>
+  ${f.blk?`<div class="blkmsg">Posição provisória: nenhum serviço até o avião ir para uma vaga classe ${f.cls}+. Toque no avião no mapa para mover.</div>`:""}
   <div class="svgrid">${tiles}</div>
   <button class="link ghost" id="svAll">Iniciar todos na ordem</button>
   <div class="crews">Equipes livres: ${Object.keys(CREWNAME).map(c=>`<span>${CREWNAME[c]} <b>${cap[c]>8?'∞':Math.max(0,cap[c]-busy[c])+'/'+cap[c]}</b></span>`).join('')}</div>
@@ -1226,7 +1265,7 @@ function drawDetail(){
     const rows=SERV.map(([n,a,b,k],i)=>{const v=svP(f,i),w=waitingCrew(f,i);return `<div class="sv${v>=1?' done':''}${w?' wait':''}"><span class="svn">${ic(k)}${n}</span><div class="b"><i style="width:${v*100}%"></i></div><span class="p">${v>=1?'✓':w?'fila':Math.round(v*100)+'%'}</span></div>`}).join('')
       +`<div class="crews">Equipes livres: ${Object.keys(CREWNAME).map(c=>`<span>${CREWNAME[c]} <b>${cap[c]>8?'∞':Math.max(0,cap[c]-busy[c])+'/'+cap[c]}</b></span>`).join('')}</div>`;
     const est=depEst(f),late=Math.round(est-f.depSched);
-    extra=`<div class="svc"><h3>Serviços em solo <span>Posição ${pad(f.stand)} · ${f.ground} min</span></h3>${rows}
+    extra=`<div class="svc"><h3>Serviços em solo <span>Posição ${sn(f.stand)} · ${f.ground} min</span></h3>${rows}
       <div class="depinfo"><span>Partida prevista <b>${fmt(f.depSched)}</b></span><span>${late>15?`Atraso estimado <b style="color:var(--r)">+${late} min</b>`:'<b style="color:var(--gr)">No horário</b>'}</span></div>
       <button class="go" id="go" ${ready?'':'disabled'}>${ic('dep','dk')}${ready?'Partir · pista '+activeRwy():'Aguardando serviços'}</button></div>`;
   }
@@ -1244,13 +1283,13 @@ function drawDetail(){
     <div class="grid">
       <div><small>Previsto</small><b>${fmt(arr?f.sched:f.depSched)}</b></div>
       <div><small>Estimado</small><b>${fmt(arr?f.eta:depEst(f))}${arr&&f.eta>f.sched?` (+${Math.round(f.eta-f.sched)})`:''}</b></div>
-      <div style="grid-column:1/-1"><small>Aeronave · classe ${f.cls} de 7</small><b>${MODELS[f.cls-1]}</b></div>
+      <div style="grid-column:1/-1"><small>Aeronave · ${mkName(f)} · classe ${f.cls} de 7</small><b>${mkName(f)} ${model(f)}</b></div>
       <div><small>Tempo de voo</small><b>${fmtDur(f.dur)}</b></div>
       <div><small>Tempo em solo</small><b>${f.ground} min</b></div>
       ${fuelNow(f)!=null?`<div style="grid-column:1/-1"><small>Combustível no tanque · ${Math.round(fuelNow(f))} min de voo (${Math.round(fuelNow(f)/capF(f)*100)}%)</small>${fuelBar(f,false)}</div>`:''}
     </div>
     <div class="perf"></div>
-    <div class="statusbig"><span class="pill">${st}</span><span class="gate"><small>Posição</small>${pad(f.stand)}</span></div>
+    <div class="statusbig"><span class="pill">${st}</span><span class="gate"><small>Posição</small>${sn(f.stand)}</span></div>
   </div>
   ${extra}
   ${airborne().some(o=>o.f===f)?`<button class="link" id="onmap">${ic('radar','dk')}Ver no mapa de voos</button>`:''}
@@ -1433,7 +1472,7 @@ function drawFMPanel(){
     </div>
     <div class="fm-row">${ic('route')}<span>Distância</span><b>${fmtKm(km)}</b></div>
     <div class="fm-row">${ic('clock')}<span>Tempo de voo</span><b>${fmtDur(f.dur).replace('h','h ')} min</b></div>
-    <div class="fm-row">${ic('plane')}<span>Aeronave</span><b>${MODELS[f.cls-1].split(' / ')[0]}</b></div>
+    <div class="fm-row">${ic('plane')}<span>Aeronave</span><b>${model(f)}</b></div>
     <div class="fm-row">${ic('alt')}<span>Altitude</span><b>${pr.alt.toLocaleString('pt-BR')} pés</b></div>
     <div class="fm-row">${ic('speed')}<span>Velocidade</span><b>${pr.spd} km/h</b></div>
     <div class="fm-row">${ic('clock')}<span>Chega em</span><b>${remH?remH+'h ':''}${remM} min · ${fmt(now+o.rem)}</b></div>
@@ -1485,22 +1524,24 @@ $('rail').addEventListener('click',e=>{
   if(act){depart(flights[+act.dataset.f]);dirty=true;return}
   const h=e.target.closest('.tg-h');if(!h)return;const f=flights[+h.dataset.f];
   if(h.dataset.k==="rd"){detailMode="svc";openFlight(f,"dep");return}
+  if(h.dataset.k==="blk"){if(assignFor===f.i){assignFor=null}else{assignFor=f.i;sel=f}dirty=true;return}
   if(assignFor===f.i){assignFor=null;dirty=true;return}
   assignFor=f.i;sel=f;dirty=true;
 });
 map.addEventListener('click',e=>{
   const b=e.target.closest('.hit');if(!b)return;
   const s=STANDS[+b.dataset.stand-1];
-  if(assignFor!=null&&!(s.res!=null&&s.res!==assignFor&&flights[s.res].state==="parked")){assign(flights[assignFor],s);return}
+  if(assignFor!=null&&!(s.res!=null&&s.res!==assignFor&&flights[s.res].state==="parked"&&flights[assignFor].state!=="parked")){assign(flights[assignFor],s);return}
   assignFor=null;
-  if(s.res==null)return toast(`Posição ${pad(s.n)} livre · até classe ${s.max}`);
+  if(s.res==null)return toast(`Posição ${sn(s.n)} livre · até classe ${s.max}`);
   const f=flights[s.res];
+  if(f.state==="parked"&&f.blk){assignFor=f.i;sel=f;toast(`Escolha a vaga certa para ${f.depNo} (classe ${f.cls})`);dirty=true;return}
   if(f.state==="parked"){showPop(f,s);return}
   detailMode='data';openFlight(f,"arr");
 });
 function showPop(f,s){
   const q=parkPos(f,s),sc=bw/941*zk,[x,y]=toScreen(q[0],q[1]),pop=$('pop');
-  pop.style.left=x+'px';pop.style.top=(y-SPR[f.cls-1][LAND?1:0]*SC*sc*.5-8)+'px';pop.dataset.f=f.i;
+  pop.style.left=x+'px';pop.style.top=(y-spr(f)[f.cls-1][LAND?1:0]*SC*sc*.5-8)+'px';pop.dataset.f=f.i;
   pop.querySelector('.pop-t').textContent=f.depNo;pop.hidden=false;
 }
 $('pop').addEventListener('click',e=>{const b=e.target.closest('[data-pm]');if(!b)return;const f=flights[+$('pop').dataset.f];$('pop').hidden=true;
