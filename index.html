@@ -302,6 +302,34 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
 .day-row b{font-variant-numeric:tabular-nums}
 .day-go{margin-top:14px;width:100%;min-height:50px;border-radius:10px;background:var(--y);color:var(--k);font-weight:800;font-size:17px}
 @media(prefers-reduced-motion:reduce){#storm,.tg.emerg .tg-h{animation:none}}
+.pop{position:absolute;z-index:13;transform:translate(-50%,-100%);background:var(--k);border:2px solid var(--y);border-radius:14px;padding:6px 8px 8px;box-shadow:0 8px 20px rgba(0,0,0,.55);text-align:center;animation:popIn .15s ease-out}
+.pop[hidden]{display:none}
+.pop::after{content:"";position:absolute;left:50%;bottom:-8px;transform:translateX(-50%);border:7px solid transparent;border-top-color:var(--y);border-bottom:0}
+.pop-t{display:block;font-size:12px;font-weight:800;color:var(--g);margin-bottom:4px}
+.pop div{display:flex;gap:8px}
+.pop button{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:58px}
+.pop button .ico{width:44px;height:44px;border-radius:10px}
+.pop button small{font-size:11px;font-weight:700}
+@keyframes popIn{from{opacity:0;transform:translate(-50%,-90%)}}
+.fbar{position:relative;height:10px;background:#e3e3e3;border-radius:5px;overflow:visible;margin-top:5px}
+.fbar i{position:absolute;left:0;top:0;bottom:0;border-radius:5px;transition:width .4s}
+.fbar em{position:absolute;top:-4px;bottom:-4px;width:3px;background:#000;border-radius:2px;transform:translateX(-50%)}
+.auto .fbar{background:#333}.auto .fbar em{background:#fff}
+.svh,.svh2{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:15px;margin:4px 0}
+.svh b{font-size:20px}.svh2{font-size:12px;color:var(--g)}.svh2 b{color:var(--w)}
+.svh span{display:flex;align-items:center;gap:6px}
+.svgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0 10px}
+.svt{position:relative;overflow:hidden;text-align:left;background:var(--k3);border:1px solid #333;border-radius:12px;padding:10px;min-height:92px;display:flex;flex-direction:column;gap:3px}
+.svt .svt-i .ico{width:34px;height:34px;border-radius:7px}
+.svt b{font-size:13px;line-height:1.15}.svt small{font-size:11px;color:var(--g);line-height:1.2}
+.svt>i{position:absolute;left:0;bottom:0;height:4px;background:var(--y)}
+.svt.idle{border-color:#444}.svt.idle .ico{background:#444}.svt.idle .ico svg{fill:var(--y)}
+.svt.q,.svt.wait{border-color:var(--y);border-style:dashed}.svt.wait small{color:#ffb020}
+.svt.run{border-color:var(--y);background:#1d1b06}.svt.run small{color:var(--y)}
+.svt.ok{border-color:var(--gr);opacity:.8}.svt.ok .ico{background:var(--gr)}.svt.ok>i{background:var(--gr)}.svt.ok small{color:var(--gr)}
+.auto{margin-top:12px;background:var(--k3);border-radius:10px;padding:10px 12px}
+.auto-h{display:flex;justify-content:space-between;font-size:13px}.auto-h b.ok{color:var(--gr)}.auto-h b.bad{color:#ff9f1a}
+.auto small{display:block;font-size:11px;color:var(--g);margin-top:6px}
 .mx-t{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
 .mx-t button{flex:1 1 30%;background:var(--k3);border-radius:8px;min-height:40px;font-size:12px;font-weight:700}
 .close{display:none;width:44px;height:44px;border-radius:50%;background:var(--k3);align-items:center;justify-content:center}
@@ -369,6 +397,7 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
   .mobileBar .mb.clockb small{font:700 9px "Inter Tight",sans-serif;color:var(--g);margin-top:2px}
   .top .clock{display:none}
   .close{display:flex}
+  .side.showDetail .stats,.side.showDetail .goals,.side.showDetail .speed,.side.showDetail .campl{display:none}
   .sign .plate{font-size:4.2vw}.sign .cls{font-size:1.9vw}.tag,.rwy{font-size:2.4vw}
   .toast{position:fixed;top:auto;bottom:18px;max-width:calc(100% - 150px);left:calc(50% - 30px)}
 }
@@ -395,6 +424,7 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
       <div id="planes"></div>
     </div>
     <div id="storm"></div>
+    <div class="pop" id="pop" hidden><span class="pop-t"></span><div><button data-pm="svc" aria-label="Serviços"><span class="ico"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span><small>Serviços</small></button><button data-pm="data" aria-label="Dados do voo"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></span><small>Voo</small></button></div></div>
     <div id="windBox"></div>
     <div class="rail" id="rail" aria-label="Voos chegando e prontos"></div>
     <div class="abar" id="abar" style="display:none"><div class="abh"><h2 id="abt"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 19h19v2h-19zM9.2 13.7l4.3 1.2 5.3 1.4c.8.2 1.6-.3 1.8-1.1.2-.8-.3-1.6-1.1-1.8l-5.3-1.4-2.8-9-1.9-.5v8.3L4.5 9.4l-.9-2.4-1.4-.4v5.2z"/></svg></span>Em aproximação · toque no avião, depois na posição</h2><button id="abtg" aria-expanded="true">Ocultar ▾</button></div><div class="cards" id="cards"></div></div>
@@ -526,7 +556,7 @@ const lerp=(a,b,k)=>a+(b-a)*k;
 const EASE={lin:k=>k,out:k=>1-(1-k)**2,in:k=>k*k,io:k=>k<.5?2*k*k:1-((-2*k+2)**2)/2};
 
 const DIFFS={
-  facil:{name:"Fácil",fuel:60,crews:{fuel:9,cat:9,clean:9},waves:[14,12,12],storms:0,goal:.75},
+  facil:{name:"Fácil",auto:true,fuel:60,crews:{fuel:9,cat:9,clean:9},waves:[14,12,12],storms:0,goal:.75},
   normal:{name:"Normal",fuel:40,crews:{fuel:4,cat:4,clean:4},waves:[17,15,16],storms:1,goal:.8},
   dificil:{name:"Difícil",fuel:28,crews:{fuel:3,cat:2,clean:2},waves:[19,19,26],storms:2,goal:.85}};
 let DIFF="normal",camp={day:1,stars:0,rep:70,money:0},storms=[],dayOver=false;
@@ -544,7 +574,8 @@ function reset(){
     storms.push({s:st,e:st+20+Math.floor(Math.random()*16),warned:false,on:false})}
   storms.sort((a,b)=>a.s-b.s);dayOver=false;
   flights=DAY.map(([al,a,d,ap,cls,t,dl],i)=>{const sched=toMin(t),g=GROUND[cls-1];
-    return {i,al,arrNo:al+a,depNo:al+d,ap,cls,sched,eta:sched+dl,ground:g,depSched:sched+g,dur:DUR[ap],state:"inbound",stand:null,path:null}});
+    return {i,al,arrNo:al+a,depNo:al+d,ap,cls,sched,eta:sched+dl,ground:g,depSched:sched+g,dur:DUR[ap],state:"inbound",stand:null,path:null,
+      fuelPlan:D().fuel+5+Math.round(Math.random()*.12*DUR[ap])}});
   STANDS.forEach(s=>s.res=null);
   now=toMin("11:52");runwayFree=0;sel=null;assignFor=null;lastWind=-1;
   score={landed:0,departed:0,onTime:0,lateMin:0,diverted:0,emerg:0};
@@ -623,22 +654,47 @@ function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('on');c
 /* serviços em solo com equipes limitadas */
 const CREW=[null,null,"clean","cat","fuel",null,null];
 const CREWNAME={fuel:"Combustível",cat:"Catering",clean:"Limpeza"};
-function initSvc(f){f.svs=SERV.map(([n,a,b])=>({s:null,d:(b-a)*f.ground,e0:f.tPark+a*f.ground}))}
+// combustível: capacidade do tanque e tempo de abastecer o tanque cheio (min), por classe
+const CAPF=[330,380,450,720,1000,1450,1450],FULLT=[20,25,30,40,50,60,70];
+const SVF=[.22,.26,.30,.30,0,.32,.35];
+const SDEP={2:[0],3:[0],5:[1],6:[2,3]};
+const needF=f=>f.dur+45;
+const capF=f=>CAPF[f.cls-1];
+function initSvc(f){
+  if(f.fuelArr==null)f.fuelArr=clamp((f.fuelPlan??D().fuel+10)-(f.holdMin||0),5,capF(f));
+  const lack=Math.max(0,needF(f)-f.fuelArr);
+  f.svs=SVF.map((k,i)=>({s:null,d:i===4?Math.max(3,lack/capF(f)*FULLT[f.cls-1]):k*f.ground,q:!!D().auto}));
+  if(lack<=0){const v=f.svs[4];v.s=now;v.d=.01;v.skip=true}
+}
 const svDone=(f,i)=>f.svs&&f.svs[i].s!=null&&now>=f.svs[i].s+f.svs[i].d;
 const svP=(f,i)=>{const v=f.svs&&f.svs[i];return !v||v.s==null?0:clamp((now-v.s)/v.d,0,1)};
-const depsOk=(f,i)=>i<5||[2,3,4].every(j=>svDone(f,j));
+const depsOk=(f,i)=>(SDEP[i]||[]).every(j=>svDone(f,j));
 function crewBusy(){const b={fuel:0,cat:0,clean:0};
-  for(const f of flights)if(f.state==="parked"&&f.svs)f.svs.forEach((v,i)=>{const c=CREW[i];if(c&&v.s!=null&&now<v.s+v.d)b[c]++});return b}
+  for(const f of flights)if(f.state==="parked"&&f.svs)f.svs.forEach((v,i)=>{const c=CREW[i];if(c&&v.s!=null&&!v.skip&&now<v.s+v.d)b[c]++});return b}
 function svcStep(){
   const busy=crewBusy(),cap=D().crews;
   const parked=flights.filter(f=>f.state==="parked").sort((a,b)=>a.tPark-b.tPark);
   for(const f of parked){if(!f.svs)initSvc(f);
-    f.svs.forEach((v,i)=>{if(v.s!=null||now<v.e0||!depsOk(f,i))return;const c=CREW[i];
+    f.svs.forEach((v,i)=>{if(v.s!=null||!v.q||!depsOk(f,i)){v.wait=false;return}const c=CREW[i];
       if(c){if(busy[c]>=cap[c]){v.wait=true;return}busy[c]++}v.wait=false;v.s=now;dirty=true})}
 }
 const waitingCrew=(f,i)=>{const v=f.svs&&f.svs[i];return v&&v.s==null&&v.wait};
 const servProg=f=>!f.svs?0:f.svs.reduce((a,_,i)=>a+svP(f,i),0)/f.svs.length;
 const isReady=f=>f.state==="parked"&&!!f.svs&&f.svs.every((_,i)=>svDone(f,i));
+function fuelNow(f){
+  const cap=capF(f),plan=f.fuelPlan??D().fuel+10,hm=f.holdMin||0;
+  if(["inbound","approach","holding"].includes(f.state))return clamp(plan-hm+Math.max(0,f.eta-now),0,cap);
+  if(f.state==="arriving")return clamp(plan-hm,0,cap);
+  if(f.state==="parked"&&f.svs){const lack=Math.max(0,needF(f)-f.fuelArr);return f.fuelArr+lack*svP(f,4)}
+  if(["departing","lineup","takeoff"].includes(f.state))return Math.max(f.fuelArr??0,needF(f));
+  return null;
+}
+function fuelBar(f,mark){
+  const cap=capF(f),fu=fuelNow(f);if(fu==null)return '';
+  const fr=fu/cap,need=needF(f);
+  const col=mark?(fu>=need?'var(--gr)':fu>=need*.5?'#ff9f1a':'var(--r)'):(fr>.5?'var(--gr)':fr>.2?'#ff9f1a':'var(--r)');
+  return `<div class="fbar"><i style="width:${fr*100}%;background:${col}"></i>${mark?`<em style="left:${Math.min(100,need/cap*100)}%"></em>`:''}</div>`;
+}
 const stormNow=()=>storms.find(x=>now>=x.s&&now<x.e);
 function divert(f){
   if(f.stand!=null&&STANDS[f.stand-1].res===f.i)STANDS[f.stand-1].res=null;
@@ -658,8 +714,9 @@ function step(){
         f.eta+=4;f.holds=(f.holds||0)+1;f.holdMin=(f.holdMin||0)+4;
         if(f.state!=="holding")toast(`${f.arrNo} entrou em espera: ${stm?'tempestade sobre a pista':'falta posição'}`);
         f.state="holding";
-        if(!f.emerg&&f.holdMin>=D().fuel){f.emerg=true;score.emerg++;toast(`MAYDAY · ${f.arrNo} com pouco combustível!`)}
-        else if(f.emerg&&f.holdMin>=D().fuel+12)divert(f);
+        const left=(f.fuelPlan??D().fuel+10)-f.holdMin;
+        if(!f.emerg&&left<=8){f.emerg=true;score.emerg++;toast(`MAYDAY · ${f.arrNo} com pouco combustível!`)}
+        else if(f.emerg&&left<=-4)divert(f);
         dirty=true}
       else if(now<runwayFree){f.eta=runwayFree+1.3}
       else{f.rwy=r;f.path=landingPath(f,r,STANDS[f.stand-1]);f.state="arriving";runwayFree=f.path.offRwy+.2;jet("approach");dirty=true}
@@ -722,10 +779,8 @@ function arrStatus(f){
 }
 function depEst(f){
   if(f.state==="parked"&&f.svs){
-    const end=i=>{const v=f.svs[i];return v.s!=null?v.s+v.d:Math.max(now,v.e0)+v.d};
-    const p1=Math.max(...[0,1,2,3,4].map(end));
-    const p2=Math.max(...[5,6].map(i=>{const v=f.svs[i];return v.s!=null?v.s+v.d:Math.max(p1,v.e0,now)+v.d}));
-    return Math.max(f.depSched,p2)}
+    const E={};for(const i of [0,1,4,2,3,5,6]){const v=f.svs[i];E[i]=v.s!=null?v.s+v.d:Math.max(now,...(SDEP[i]||[]).map(j=>E[j]))+v.d}
+    return Math.max(f.depSched,...Object.values(E))}
   if(f.state==="parked")return Math.max(f.depSched,f.tPark+f.ground);
   if(["inbound","approach","holding","arriving"].includes(f.state))return Math.max(f.depSched,f.eta+5+f.ground*.95);
   return f.depSched;
@@ -829,7 +884,7 @@ function drawBar(){
       <span class="tg-c">→ ${CITY[f.ap]}</span><span class="tg-m">${model} · C${f.cls}</span><span class="tg-p">POS <em>${pad(f.stand)}</em></span>
       <button class="tg-go" data-act="go" data-f="${f.i}">Partir</button></div></div>`;
     return `<div class="${cls}"><button class="tg-h" data-f="${f.i}" data-k="arr" aria-pressed="${on}">
-      <span class="tg-fl">${flag(f.al)}</span>${logo(f.al,"tg-lg")}<img src="p${f.cls}.png" alt=""><b>${f.arrNo}</b><small>${f.emerg?'MAYDAY':hold?`COMB ${Math.max(0,D().fuel-(f.holdMin||0))} min`:m+' min'}</small>
+      <span class="tg-fl">${flag(f.al)}</span>${logo(f.al,"tg-lg")}<img src="p${f.cls}.png" alt=""><b>${f.arrNo}</b><small>${f.emerg?'MAYDAY':hold?`COMB ${Math.max(0,Math.round((f.fuelPlan??D().fuel+10)-(f.holdMin||0)))} min`:m+' min'}</small>
       <span class="tg-c">${CITY[f.ap]}</span><span class="tg-m">${model} · C${f.cls}</span>
       ${on?'<span class="tg-p tg-now">Toque na posição</span>':`<span class="tg-p">POS <em>${f.stand?pad(f.stand):'—'}</em></span>`}</button></div>`;
   };
@@ -979,6 +1034,34 @@ function jet(kind){
 }
 function setSound(on){soundOn=on;applyMix();$('snd1').textContent=on?'Som ligado':'Som desligado';$('snd2').classList.toggle('on',on);if(on)audioInit()}
 
+let detailMode="data";
+const SVSHORT=['Desembarque','Descarga','Limpeza','Catering','Abastecimento','Carga','Embarque'];
+const SVSTATE=(f,i)=>{const v=f.svs[i];
+  if(v.skip)return["ok","Não precisa"];
+  if(svDone(f,i))return["ok","Pronto"];
+  if(v.s!=null)return["run",Math.round(svP(f,i)*100)+'% · '+Math.ceil(v.s+v.d-now)+' min'];
+  if(v.q&&v.wait)return["wait","Aguardando equipe"];
+  if(v.q&&!depsOk(f,i))return["q","Na fila · depois de "+(SDEP[i]||[]).filter(j=>!svDone(f,j)).map(j=>SVSHORT[j]).join(' e ')];
+  if(v.q)return["q","Começando…"];
+  if(!depsOk(f,i))return["idle","Depois de "+(SDEP[i]||[]).map(j=>SVSHORT[j]).join(' e ')];
+  return["idle","Toque para iniciar · "+Math.round(v.d)+" min"];
+};
+function drawSvcView(f){
+  const ready=isReady(f),busy=crewBusy(),cap=D().crews,est=depEst(f),late=Math.round(est-f.depSched);
+  const fu=fuelNow(f),need=needF(f);
+  const tiles=SERV.map(([n,,,k],i)=>{const [st,t]=SVSTATE(f,i);
+    return `<button class="svt ${st}" data-sv="${i}" ${st==='ok'?'disabled':''}><span class="svt-i">${ic(k)}</span><b>${n}</b><small>${t}</small><i style="width:${(st==='ok'?1:svP(f,i))*100}%"></i></button>`}).join('');
+  detail.innerHTML=`<button class="back" id="back">← Voltar ao painel</button>
+  <div class="svh"><span>${logo(f.al,'hd-lg')}${flag(f.al)} <b>${f.depNo}</b> → ${CITY[f.ap]}</span><span>Pos <b>${pad(f.stand)}</b></span></div>
+  <div class="svh2"><span>Partida <b>${fmt(f.depSched)}</b></span><span>${late>15?`Estimada <b style="color:var(--r)">${fmt(est)} (+${late})</b>`:`Estimada <b style="color:var(--gr)">${fmt(est)}</b>`}</span></div>
+  <div class="svgrid">${tiles}</div>
+  <button class="link ghost" id="svAll">Iniciar todos na ordem</button>
+  <div class="crews">Equipes livres: ${Object.keys(CREWNAME).map(c=>`<span>${CREWNAME[c]} <b>${cap[c]>8?'∞':Math.max(0,cap[c]-busy[c])+'/'+cap[c]}</b></span>`).join('')}</div>
+  <div class="auto"><div class="auto-h"><span>Autonomia até ${f.ap}</span><b class="${fu>=need?'ok':'bad'}">${Math.round(fu)} / ${need} min</b></div>${fuelBar(f,true)}
+    <small>${fu>=need?'Combustível suficiente para o voo + reserva':'Faltam '+Math.ceil(need-fu)+' min de voo · abasteça antes de partir'}</small></div>
+  <button class="go" id="go" ${ready?'':'disabled'}>${ic('dep','dk')}${ready?'Partir · pista '+activeRwy():'Aguardando serviços'}</button>`;
+  side.classList.add('showDetail');
+}
 function drawDetail(){
   if(!sel){side.classList.remove('showDetail');return}
   const f=sel,arr=tab==="arr";
@@ -990,7 +1073,11 @@ function drawDetail(){
   if(f.state==="approach"||f.state==="holding"){
     extra=`<button class="link" id="pick">${ic('arr','dk')}${f.stand?'Trocar posição de desembarque':'Escolher posição de desembarque'}</button>`;
   }
+  if(f.state==="parked"&&detailMode==="svc"){drawSvcView(f);return}
   if(f.state==="parked"){
+    extra=`<button class="link" id="openSvc">${ic('tool','dk')}Abrir serviços em solo</button>`;
+  }
+  if(false){
     const ready=isReady(f),busy=crewBusy(),cap=D().crews;
     const rows=SERV.map(([n,a,b,k],i)=>{const v=svP(f,i),w=waitingCrew(f,i);return `<div class="sv${v>=1?' done':''}${w?' wait':''}"><span class="svn">${ic(k)}${n}</span><div class="b"><i style="width:${v*100}%"></i></div><span class="p">${v>=1?'✓':w?'fila':Math.round(v*100)+'%'}</span></div>`}).join('')
       +`<div class="crews">Equipes livres: ${Object.keys(CREWNAME).map(c=>`<span>${CREWNAME[c]} <b>${cap[c]>8?'∞':Math.max(0,cap[c]-busy[c])+'/'+cap[c]}</b></span>`).join('')}</div>`;
@@ -1016,6 +1103,7 @@ function drawDetail(){
       <div style="grid-column:1/-1"><small>Aeronave · classe ${f.cls} de 7</small><b>${MODELS[f.cls-1]}</b></div>
       <div><small>Tempo de voo</small><b>${fmtDur(f.dur)}</b></div>
       <div><small>Tempo em solo</small><b>${f.ground} min</b></div>
+      ${fuelNow(f)!=null?`<div style="grid-column:1/-1"><small>Combustível no tanque · ${Math.round(fuelNow(f))} min de voo (${Math.round(fuelNow(f)/capF(f)*100)}%)</small>${fuelBar(f,false)}</div>`:''}
     </div>
     <div class="perf"></div>
     <div class="statusbig"><span class="pill">${st}</span><span class="gate"><small>Posição</small>${pad(f.stand)}</span></div>
@@ -1031,6 +1119,7 @@ function drawUI(){const dp=$('dpart');if(dp)dp.textContent=lastPart==='Dia'?'☀
 
 /* ---------- mapa de voos ---------- */
 Object.assign(ICONS,{
+  tool:'<path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/>',
   radar:'<path d="M12 2a10 10 0 1 0 10 10h-2.2A7.8 7.8 0 1 1 12 4.2z"/><path d="M12 6.3a5.7 5.7 0 1 0 5.7 5.7h-2.2A3.5 3.5 0 1 1 12 8.5z"/><circle cx="12" cy="12" r="1.9"/><path d="m11.2 11.2 8.3-8.3 1.6 1.6-8.3 8.3z"/>',
   route:'<circle cx="5" cy="18" r="2.6"/><circle cx="19" cy="6" r="2.6"/><path d="M7.5 16.6c2.6-.9 2.2-4.4 4.6-5.3 2.2-.8 3.3-1.3 4.6-3" stroke="#000" stroke-width="2" fill="none" stroke-dasharray="2.2 2"/>',
   clock:'<path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>',
@@ -1233,19 +1322,22 @@ document.querySelectorAll('.tab[data-t]').forEach(b=>b.addEventListener('click',
   tab=b.dataset.t;sel=null;side.classList.remove('showDetail');side.classList.add('open');setTabs();drawUI();
   const r=board.querySelector('.row:not(.past)');board.scrollTop=r?r.offsetTop-40:0;
 }));
-board.addEventListener('click',e=>{const r=e.target.closest('.row');if(!r)return;sel=flights[+r.dataset.f];dirty=true});
+board.addEventListener('click',e=>{const r=e.target.closest('.row');if(!r)return;detailMode='data';sel=flights[+r.dataset.f];dirty=true});
 detail.addEventListener('click',e=>{
-  if(e.target.closest('#back')){sel=null;side.classList.remove('showDetail');dirty=true}
+  if(e.target.closest('#back')){detailMode='data';sel=null;side.classList.remove('showDetail');dirty=true}
   if(e.target.closest('#swap')){tab=tab==="arr"?"dep":"arr";setTabs();dirty=true}
   if(e.target.closest('#pick')){assignFor=sel.i;if(mobile())side.classList.remove('open');setTabs();toast(`Toque na posição para ${sel.arrNo} (classe ${sel.cls})`);dirty=true}
   if(e.target.closest('#go')){depart(sel)}
+  if(e.target.closest('#openSvc')){detailMode="svc";dirty=true}
+  const sv=e.target.closest('.svt');if(sv&&sel&&sel.svs){const v=sel.svs[+sv.dataset.sv];if(v.s==null){v.q=!v.q;svcStep()}dirty=true}
+  if(e.target.closest('#svAll')&&sel&&sel.svs){sel.svs.forEach(v=>{if(v.s==null)v.q=true});svcStep();dirty=true}
   if(e.target.closest('#onmap')){openMap(sel)}
 });
 $('rail').addEventListener('click',e=>{
   const act=e.target.closest('[data-act]');
   if(act){depart(flights[+act.dataset.f]);dirty=true;return}
   const h=e.target.closest('.tg-h');if(!h)return;const f=flights[+h.dataset.f];
-  if(h.dataset.k==="rd"){openFlight(f,"dep");return}
+  if(h.dataset.k==="rd"){detailMode="svc";openFlight(f,"dep");return}
   if(assignFor===f.i){assignFor=null;dirty=true;return}
   assignFor=f.i;sel=f;dirty=true;
 });
@@ -1256,8 +1348,17 @@ map.addEventListener('click',e=>{
   assignFor=null;
   if(s.res==null)return toast(`Posição ${pad(s.n)} livre · até classe ${s.max}`);
   const f=flights[s.res];
-  openFlight(f,f.state==="parked"?"dep":"arr");
+  if(f.state==="parked"){showPop(f,s);return}
+  detailMode='data';openFlight(f,"arr");
 });
+function showPop(f,s){
+  const q=parkPos(f,s),sc=bw/941*zk,x=ZX+q[0]*sc,y=ZY+q[1]*sc,pop=$('pop');
+  pop.style.left=x+'px';pop.style.top=(y-SPR[f.cls-1][0]*SC*sc*.5-8)+'px';pop.dataset.f=f.i;
+  pop.querySelector('.pop-t').textContent=f.depNo;pop.hidden=false;
+}
+$('pop').addEventListener('click',e=>{const b=e.target.closest('[data-pm]');if(!b)return;const f=flights[+$('pop').dataset.f];$('pop').hidden=true;
+  detailMode=b.dataset.pm;openFlight(f,"dep")});
+$('stage').addEventListener('pointerdown',e=>{if(!e.target.closest('#pop,.hit'))$('pop').hidden=true},true);
 $('speed').addEventListener('click',e=>{
   const b=e.target.closest('button');if(!b)return;
   if(b.id==="restart"){reset();rowsTab=null;drawLights();dirty=true;return}
@@ -1355,6 +1456,7 @@ function loadGame(d){
   DIFF=d.diff||'normal';camp=d.camp||newCamp();storms=d.storms||[];dayOver=false;
   ROT=d.ROT;flights=d.flights;now=d.now;runwayFree=d.runwayFree;score=d.score;
   STANDS.forEach((x,i)=>x.res=d.stands[i]);
+  flights.forEach(f=>{if(f.svs)f.svs.forEach(v=>{if(v.q==null)v.q=true})});
   speed=d.speed??10;document.querySelectorAll('#speed button[data-s]').forEach(x=>x.classList.toggle('on',+x.dataset.s===speed));
   $('spdLbl').textContent=speed?speed+'×':'pausa';
   planeEls.forEach(e=>e.remove());planeEls.clear();sel=null;assignFor=null;lastWind=-1;rowsTab=null;
