@@ -442,6 +442,12 @@ body.land .rail{top:84px}
   .toast{position:fixed;top:auto;bottom:18px;max-width:calc(100% - 150px);left:calc(50% - 30px)}
 }
 @media(prefers-reduced-motion:reduce){.sign.ok .plate,.lt{animation:none!important}.lt.w,.lt.reil{opacity:.6}}
+.stage::before{content:"";position:absolute;top:-40px;right:-40px;bottom:-40px;left:-40px;background:url(lite_map.jpg) center/cover no-repeat;filter:blur(22px) brightness(.75)}
+body.land .stage::before{background-image:url(lite_maph.jpg)}
+/* capa: compatível com Safari antigo (sem gap em flex, altura explícita) */
+.cover{height:100vh;height:100dvh;grid-template-rows:auto minmax(0,1fr) auto}
+.signs>*+*{margin-top:8px}.sgn>*+*{margin-left:12px}.cv-act>*+*{margin-top:8px}
+@supports (gap:1px) and (aspect-ratio:1){.signs>*+*,.cv-act>*+*{margin-top:0}.sgn>*+*{margin-left:0}}
 /* LITE */
 .lt.w,.lt.reil{animation:none!important;opacity:.7}
 #storm{animation:none!important;background:rgba(12,18,34,.45)!important}
@@ -1496,7 +1502,7 @@ var dispW=()=>(LAND?bh:bw),dispH=()=>(LAND?bw:bh);
 function layoutMap(){
   const r=stage.getBoundingClientRect();SW=r.width;SH=r.height;
   barH=0;
-  const sc=LAND?(matchMedia('(pointer:coarse)').matches?Math.max(SW/1672,SH/941):Math.min(SW/1672,SH/941)):(mobile()||SW/SH<941/1672*1.15?Math.max(SW/941,SH/1672):SH/1672);
+  const sc=LAND?(SW/SH>1672/941*1.12?SW/1672:Math.min(SW/1672,SH/941)):(SW/SH<941/1672*1.15?Math.max(SW/941,SH/1672):SH/1672);
   const cu=(SW/2-ZX)/(dispW()*zk),cv=(SH/2-ZY)/(dispH()*zk);
   bw=941*sc;bh=1672*sc;map.style.width=bw+'px';map.style.height=bh+'px';
   const bg=$('bgH');bg.style.width=bh+'px';bg.style.height=bw+'px';bg.style.transform=`translateX(${bw}px) rotate(90deg)`;
@@ -1509,7 +1515,7 @@ function clampZ(){
   ZY=dh<=avail?(avail-dh)/2:clamp(ZY,avail-dh,0);
   $('zreset').hidden=zk<1.02;
 }
-var canPan=()=>dispW()*zk>SW+1||dispH()*zk>SH-barH+1;
+var canPan=()=>zk>1.02;
 function applyZ(){map.style.transform=`translate(${ZX}px,${ZY}px) scale(${zk})`+(LAND?` translateY(${bw}px) rotate(-90deg)`:'')}
 function zoomAt(px,py,nk){const u=(px-ZX)/zk,v=(py-ZY)/zk;zk=clamp(nk,1,4);ZX=px-u*zk;ZY=py-v*zk;clampZ();applyZ()}
 // local (mapa vertical) → tela
