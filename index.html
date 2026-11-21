@@ -549,7 +549,8 @@ const NAT={DT:"AO",ET:"ET",AT:"MA",MS:"EG",VR:"CV",LA:"CL",G3:"BR",AD:"BR",RG:"B
 const flag=al=>{const c=NAT[al];return c?String.fromCodePoint(...[...c].map(ch=>127397+ch.charCodeAt(0))):""};
 // logos opcionais: coloque logos/XX.png (código da companhia) no repositório
 const LOGO={};
-const logo=(al,c='')=>LOGO[al]?`<img class="lg ${c}" src="logos/${al}.png" alt="">`:'';
+const logo=(al,c='')=>LOGO[al]?`<img class="lg ${c}" src="logos/${al}.png?t=${LOGOV}" alt="">`:'';
+const LOGOV=Math.floor(Date.now()/60000);
 const AIRLINES={DT:"TAAG Angola",ET:"Ethiopian",AT:"Royal Air Maroc",MS:"EgyptAir",VR:"Cabo Verde Airlines",RG:"Varig",VP:"Vasp",TR:"Transbrasil",QF:"Qantas",SA:"South African",CA:"Air China",SQ:"Singapore Airlines",AZ:"Alitalia",PA:"Pan Am",JL:"Japan Airlines",LA:"LATAM",G3:"GOL",AD:"Azul",TP:"TAP Air Portugal",EK:"Emirates",AF:"Air France",BA:"British Airways",AA:"American Airlines",AR:"Aerolíneas Argentinas",CM:"Copa Airlines",QR:"Qatar Airways",LH:"Lufthansa",IB:"Iberia",KL:"KLM",AV:"Avianca",DL:"Delta",UA:"United"};
 const CITY={LAD:"Luanda",ADD:"Adis Abeba",CMN:"Casablanca",CAI:"Cairo",SID:"Ilha do Sal",NRT:"Tóquio",SYD:"Sydney",JNB:"Joanesburgo",PEK:"Pequim",SIN:"Singapura",POA:"Porto Alegre",MAO:"Manaus",FCO:"Roma",JFK:"Nova York",LAX:"Los Angeles",GRU:"São Paulo",BSB:"Brasília",REC:"Recife",LIS:"Lisboa",DXB:"Dubai",CDG:"Paris",LHR:"Londres",MIA:"Miami",EZE:"Buenos Aires",PTY:"Cidade do Panamá",SCL:"Santiago",DOH:"Doha",FRA:"Frankfurt",MAD:"Madri",AMS:"Amsterdã",BOG:"Bogotá",ATL:"Atlanta",SSA:"Salvador",IAH:"Houston"};
 // tempos de voo aproximados de/para o Galeão (GIG)
@@ -1611,7 +1612,8 @@ function endDay(){
 $('dayDlg').addEventListener('click',e=>{if(!e.target.closest('#nextDay'))return;
   camp.day++;reset();rowsTab=null;drawLights();$('dayDlg').hidden=true;writeKey(AUTO_KEY,false);toast(`Dia ${camp.day} · ${D().name}`);dirty=true});
 reset();setTabs();requestAnimationFrame(tick);
-Object.keys(AIRLINES).forEach(al=>{const im=new Image();im.onload=()=>{LOGO[al]=true;dirty=true};im.src=`logos/${al}.png`});
+function loadLogos(){Object.keys(AIRLINES).forEach(al=>{if(LOGO[al])return;const im=new Image();im.onload=()=>{LOGO[al]=true;dirty=true};im.src=`logos/${al}.png?t=${Math.floor(Date.now()/60000)}`})}
+loadLogos();setInterval(loadLogos,60000);
 }
 </script>
 </body>
