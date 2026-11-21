@@ -164,9 +164,9 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
 .tg-h img{width:32px;height:32px;object-fit:contain;flex:none;margin-bottom:2px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.6))}
 .tg-h{position:relative}
 .tg-fl{position:absolute;left:6px;top:4px;font-size:18px;line-height:1}
-.lg{object-fit:contain;background:#fff;border-radius:50%}
-.tg-lg{position:absolute;right:4px;top:4px;width:19px;height:19px}
-.hd-lg{width:28px;height:28px;vertical-align:middle;margin-right:8px}
+.lg{object-fit:contain;background:#fff;border-radius:4px;padding:2px 4px;display:block}
+.tg-h img.tg-lg{width:84%;height:22px;margin:3px auto 4px;filter:none}
+.hd-lg{height:26px;width:auto;max-width:110px;display:inline-block;vertical-align:middle;margin-right:8px}
 .pass .air{display:flex;align-items:center}
 .tg-h b{display:block;font-size:16px;line-height:1.05;font-weight:800;letter-spacing:-.01em}
 .tg-h small{display:block;font-size:12px;color:var(--y);font-weight:700;font-variant-numeric:tabular-nums}
@@ -886,11 +886,11 @@ function drawBar(){
     const cls=`tg${hold?' hold':''}${f.emerg?' emerg':''}${kind==='rd'?' rd':''}${on?' sel':''}`;
     const model=MODELS[f.cls-1].split(' / ')[0];
     if(kind==='rd')return `<div class="${cls}"><div class="tg-h" data-f="${f.i}" data-k="rd" role="button" tabindex="0">
-      <span class="tg-fl">${flag(f.al)}</span>${logo(f.al,"tg-lg")}<img src="p${f.cls}.png" alt=""><b>${f.depNo}</b><small>PRONTO</small>
+      <span class="tg-fl">${flag(f.al)}</span><img src="p${f.cls}.png" alt="">${logo(f.al,"tg-lg")}<b>${f.depNo}</b><small>PRONTO</small>
       <span class="tg-c">→ ${CITY[f.ap]}</span><span class="tg-m">${model} · C${f.cls}</span><span class="tg-p">POS <em>${pad(f.stand)}</em></span>
       <button class="tg-go" data-act="go" data-f="${f.i}">Partir</button></div></div>`;
     return `<div class="${cls}"><button class="tg-h" data-f="${f.i}" data-k="arr" aria-pressed="${on}">
-      <span class="tg-fl">${flag(f.al)}</span>${logo(f.al,"tg-lg")}<img src="p${f.cls}.png" alt=""><b>${f.arrNo}</b><small>${f.emerg?'MAYDAY':hold?`COMB ${Math.max(0,Math.round((f.fuelPlan??D().fuel+10)-(f.holdMin||0)))} min`:m+' min'}</small>
+      <span class="tg-fl">${flag(f.al)}</span><img src="p${f.cls}.png" alt="">${logo(f.al,"tg-lg")}<b>${f.arrNo}</b><small>${f.emerg?'MAYDAY':hold?`COMB ${Math.max(0,Math.round((f.fuelPlan??D().fuel+10)-(f.holdMin||0)))} min`:m+' min'}</small>
       <span class="tg-c">${CITY[f.ap]}</span><span class="tg-m">${model} · C${f.cls}</span>
       ${on?'<span class="tg-p tg-now">Toque na posição</span>':`<span class="tg-p">POS <em>${f.stand?pad(f.stand):'—'}</em></span>`}</button></div>`;
   };
