@@ -1,7 +1,7 @@
 # Onde paramos · DEPARTURE Galeão
 
 ## Versão salva antes das dificuldades
-A tag `v1-antes-dificuldades` guarda o jogo exatamente como estava antes desta rodada.
+O branch `v1-antes-dificuldades` guarda o jogo exatamente como estava antes desta rodada.
 Para voltar: peça ao Claude "volta pra v1-antes-dificuldades".
 
 ## O que já existe
