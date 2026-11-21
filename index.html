@@ -503,7 +503,9 @@ body.land .rail{top:84px}
     <label class="mx-r"><span>Painel (plaquinhas)</span><input type="range" min="0" max="100" data-k="flap"><output></output></label>
     <label class="mx-r"><span>Motores</span><input type="range" min="0" max="100" data-k="engine"><output></output></label>
     <label class="mx-r"><span>Freios e pneus</span><input type="range" min="0" max="100" data-k="brake"><output></output></label>
-    <div class="mx-t"><button data-test="flap">Testar painel</button><button data-test="takeoff">Testar decolagem</button><button data-test="brake">Testar freio</button></div>
+    <label class="mx-r"><span>Ambiente (pátio, chuva)</span><input type="range" min="0" max="100" data-k="amb"><output></output></label>
+    <label class="mx-r"><span>Avisos e cliques</span><input type="range" min="0" max="100" data-k="ui"><output></output></label>
+    <div class="mx-t"><button data-test="flap">Testar painel</button><button data-test="takeoff">Testar decolagem</button><button data-test="brake">Testar freio</button><button data-test="pouso">Testar pouso</button><button data-test="ding">Testar aviso</button></div>
   </div>
 </div>
 <div class="fmap" id="fmap" hidden>
@@ -710,7 +712,7 @@ function svcStep(){
   const parked=flights.filter(f=>f.state==="parked").sort((a,b)=>a.tPark-b.tPark);
   for(const f of parked){if(!f.svs)initSvc(f);
     f.svs.forEach((v,i)=>{if(v.s!=null||!v.q||!depsOk(f,i)){v.wait=false;return}const c=CREW[i];
-      if(c){if(busy[c]>=cap[c]){v.wait=true;return}busy[c]++}v.wait=false;v.s=now;dirty=true})}
+      if(c){if(busy[c]>=cap[c]){v.wait=true;return}busy[c]++}v.wait=false;v.s=now;if(i===4&&!v.skip)play('combustivel',{vol:.7});if(i===1||i===5)play('bagagem',{vol:.6,dur:10});dirty=true})}
 }
 const waitingCrew=(f,i)=>{const v=f.svs&&f.svs[i];return v&&v.s==null&&v.wait};
 const servProg=f=>!f.svs?0:f.svs.reduce((a,_,i)=>a+svP(f,i),0)/f.svs.length;
@@ -749,16 +751,16 @@ function step(){
         if(f.state!=="holding")toast(`${f.arrNo} entrou em espera: ${stm?'tempestade sobre a pista':'falta posição'}`);
         f.state="holding";
         const left=(f.fuelPlan??D().fuel+10)-f.holdMin;
-        if(!f.emerg&&left<=8){f.emerg=true;score.emerg++;toast(`MAYDAY · ${f.arrNo} com pouco combustível!`)}
+        if(!f.emerg&&left<=8){f.emerg=true;score.emerg++;toast(`MAYDAY · ${f.arrNo} com pouco combustível!`);play('mayday')}
         else if(f.emerg&&left<=-4)divert(f);
         dirty=true}
       else if(now<runwayFree){f.eta=runwayFree+1.3}
       else{f.rwy=r;f.path=landingPath(f,r,STANDS[f.stand-1]);f.state="arriving";runwayFree=f.path.offRwy+.2;jet("approach");dirty=true}
     }
     if(f.state==="arriving"&&!f.tdSnd&&now>=f.path.segs[1].t){f.tdSnd=true;jet("touchdown");jet("brake");smoke(f)}
-    if(f.state==="arriving"&&now>=f.path.end){f.state="parked";f.tPark=now;f.path=null;score.landed++;initSvc(f);
+    if(f.state==="arriving"&&now>=f.path.end){play('turbina_desliga',{vol:.6,dur:14});f.state="parked";f.tPark=now;f.path=null;score.landed++;initSvc(f);
       if(f.emerg){camp.rep=clamp(camp.rep+2,0,100);toast(`${f.arrNo} pousou em segurança · emergência resolvida`)}dirty=true}
-    if(f.state==="parked"&&!f.readyNotified&&isReady(f)){f.readyNotified=true;toast(`${f.depNo} pronto para partir · posição ${pad(f.stand)}`);dirty=true}
+    if(f.state==="parked"&&!f.readyNotified&&isReady(f)){f.readyNotified=true;toast(`${f.depNo} pronto para partir · posição ${pad(f.stand)}`);play('ding');dirty=true}
   }
   // partidas
   for(const f of flights){
@@ -781,15 +783,15 @@ function step(){
 }
 function stormStep(){
   for(const x of storms){
-    if(!x.warned&&now>=x.s-15&&now<x.s){x.warned=true;toast(`⛈ Tempestade chegando em ${Math.ceil(x.s-now)} min`);dirty=true}
+    if(!x.warned&&now>=x.s-15&&now<x.s){x.warned=true;toast(`⛈ Tempestade chegando em ${Math.ceil(x.s-now)} min`);play('trovao_longe');dirty=true}
     const on=now>=x.s&&now<x.e;
-    if(on!==x.on){x.on=on;toast(on?`⛈ Tempestade · pista fechada até ${fmt(x.e)}`:'Tempestade passou · pista reaberta');drawLights();dirty=true}
+    if(on!==x.on){x.on=on;loop('tempestade',on,1);toast(on?`⛈ Tempestade · pista fechada até ${fmt(x.e)}`:'Tempestade passou · pista reaberta');drawLights();dirty=true}
   }
   $('storm').classList.toggle('on',!!stormNow());
 }
 function depart(f){
   if(!isReady(f))return;
-  f.tPush=now;f.rwy=activeRwy();f.state="departing";f.path=taxiOutPath(f,f.rwy,STANDS[f.stand-1]);
+  play('motor_partida',{vol:.7,dur:16});f.tPush=now;f.rwy=activeRwy();f.state="departing";f.path=taxiOutPath(f,f.rwy,STANDS[f.stand-1]);
   toast(`${f.depNo} liberado · taxiando para a cabeceira ${f.rwy}`);dirty=true;
 }
 function assign(f,s){
@@ -797,7 +799,7 @@ function assign(f,s){
   if(s.res!=null&&s.res!==f.i)return toast(`Posição ${pad(s.n)} está ocupada`);
   if(f.stand!=null)STANDS[f.stand-1].res=null;
   s.res=f.i;f.stand=s.n;assignFor=null;openTab=null;
-  toast(`${f.arrNo} vai desembarcar na posição ${pad(s.n)}`);dirty=true;
+  toast(`${f.arrNo} vai desembarcar na posição ${pad(s.n)}`);play('bipe',{vol:.6});dirty=true;
 }
 
 /* ---------- status ---------- */
@@ -1006,41 +1008,67 @@ function updateBoard(){
 /* ---------- som das plaquinhas (sintetizado) ---------- */
 let AC=null,clickBuf=null,soundOn=true,lastClack=0;
 const BUS={};
-let MIX={master:80,flap:70,engine:80,brake:70};
+let MIX={master:80,flap:70,engine:80,brake:70,amb:45,ui:60};
 try{const m=JSON.parse(localStorage.getItem('departure_mix')||'null');if(m)MIX={...MIX,...m}}catch(e){}
 function mkBuses(){
   BUS.master=AC.createGain();BUS.master.connect(AC.destination);
-  for(const k of ["flap","engine","brake"]){BUS[k]=AC.createGain();BUS[k].connect(BUS.master)}
+  for(const k of ["flap","engine","brake","amb","ui"]){BUS[k]=AC.createGain();BUS[k].connect(BUS.master)}
   applyMix();
 }
 function applyMix(){
   if(!BUS.master)return;
   const v=x=>(x/100)**1.6;
   BUS.master.gain.value=soundOn?v(MIX.master)*1.4:0;
-  BUS.flap.gain.value=v(MIX.flap)*1.3;BUS.engine.gain.value=v(MIX.engine)*1.4;BUS.brake.gain.value=v(MIX.brake)*1.5;
+  BUS.flap.gain.value=v(MIX.flap)*1.3;BUS.engine.gain.value=v(MIX.engine)*1.4;BUS.brake.gain.value=v(MIX.brake)*1.5;BUS.amb.gain.value=v(MIX.amb);BUS.ui.gain.value=v(MIX.ui);
 }
 function audioInit(){
   try{
     if(!AC){AC=new (window.AudioContext||window.webkitAudioContext)();
       const sr=AC.sampleRate,n=Math.floor(sr*.045);clickBuf=AC.createBuffer(1,n,sr);const d=clickBuf.getChannelData(0);
       for(let i=0;i<n;i++){const t=i/sr;d[i]=(Math.random()*2-1)*Math.exp(-t/.0035)*.9+Math.sin(2*Math.PI*190*t)*Math.exp(-t/.008)*.5}}
-    if(!BUS.master)mkBuses();
+    if(!BUS.master){mkBuses();loadSounds()}
     if(AC.state==="suspended")AC.resume();
   }catch(e){}
 }
 function clack(){
   if(!soundOn||!AC||AC.state!=="running"||!MIX.flap)return;
   const t=AC.currentTime;if(t-lastClack<.014)return;lastClack=t;
+  if(SB.plaquinha){play('plaquinha',{rate:.85+Math.random()*.35,vol:.35+Math.random()*.25});return}
   const src=AC.createBufferSource();src.buffer=clickBuf;src.playbackRate.value=.75+Math.random()*.55;
   const bp=AC.createBiquadFilter();bp.type="bandpass";bp.frequency.value=1800+Math.random()*1400;bp.Q.value=.7;
   const g=AC.createGain();g.gain.value=.18+Math.random()*.16;
   src.connect(bp).connect(g).connect(BUS.flap);src.start();
 }
 document.addEventListener('pointerdown',audioInit);
-/* ---------- sons de pouso e decolagem (sintetizados, provisórios) ---------- */
+document.addEventListener('click',e=>{if(e.target.closest('button'))play('clique',{vol:.5})},true);
+/* ---------- efeitos reais (Artlist) ---------- */
+const SFX={pouso:'engine',frenagem:'brake',decolagem:'engine',patio_turbina:'engine',turbina_desliga:'engine',motor_partida:'engine',passagem:'engine',
+  ambiente_patio:'amb',terminal:'amb',tempestade:'amb',trovao_longe:'amb',bagagem:'amb',combustivel:'amb',
+  ding:'ui',mayday:'ui',bipe:'ui',clique:'ui',plaquinha:'flap'};
+const SB={},LOOPS={};
+function loadSounds(){for(const k in SFX)fetch(`sons/${k}.mp3`).then(r=>r.ok?r.arrayBuffer():Promise.reject()).then(b=>AC.decodeAudioData(b)).then(buf=>{SB[k]=buf;if(k==='ambiente_patio')ambStart()}).catch(()=>{})}
+function play(k,o={}){
+  if(!soundOn||!AC||AC.state!=="running"||!SB[k])return false;
+  const src=AC.createBufferSource();src.buffer=SB[k];src.playbackRate.value=o.rate||1;
+  const g=AC.createGain(),t=AC.currentTime;g.gain.setValueAtTime(o.vol??1,t);
+  if(o.dur){g.gain.setValueAtTime(o.vol??1,t+Math.max(0,o.dur-1.2));g.gain.linearRampToValueAtTime(0,t+o.dur)}
+  src.connect(g).connect(BUS[SFX[k]]);src.start(t,o.off||0,o.dur);return true;
+}
+function loop(k,on,vol=1){
+  if(!AC||!SB[k])return;
+  if(on&&!LOOPS[k]){const src=AC.createBufferSource();src.buffer=SB[k];src.loop=true;const g=AC.createGain();g.gain.value=0;
+    g.gain.linearRampToValueAtTime(vol,AC.currentTime+2.5);src.connect(g).connect(BUS[SFX[k]]);src.start();LOOPS[k]={src,g}}
+  if(!on&&LOOPS[k]){const L=LOOPS[k];L.g.gain.cancelScheduledValues(AC.currentTime);L.g.gain.setValueAtTime(L.g.gain.value,AC.currentTime);L.g.gain.linearRampToValueAtTime(0,AC.currentTime+2.5);L.src.stop(AC.currentTime+2.6);delete LOOPS[k]}
+}
+function ambStart(){loop('ambiente_patio',true,.8)}
+/* ---------- sons sintetizados (reserva) ---------- */
 let noiseBuf=null;
 function jet(kind){
   if(!soundOn||!AC||AC.state!=="running")return;
+  if(kind==="approach"&&play('pouso'))return;
+  if(kind==="touchdown"&&SB.frenagem)return;
+  if(kind==="brake"&&play('frenagem',{dur:14}))return;
+  if(kind==="takeoff"&&play('decolagem'))return;
   if(!noiseBuf){const n=AC.sampleRate*2;noiseBuf=AC.createBuffer(1,n,AC.sampleRate);const d=noiseBuf.getChannelData(0);let b=0;for(let i=0;i<n;i++){b=(b+.02*(Math.random()*2-1))/1.02;d[i]=b*3.5+(Math.random()*2-1)*.25}}
   const t=AC.currentTime,out=AC.createGain();out.connect(kind==="brake"||kind==="touchdown"?BUS.brake:BUS.engine);
   const noise=(f0,f1,dur,peak,att,q=.7)=>{const s=AC.createBufferSource();s.buffer=noiseBuf;s.loop=true;
@@ -1571,6 +1599,8 @@ mixer.addEventListener('click',e=>{
   const k=b.dataset.test;
   if(k==="flap"){for(let i=0;i<14;i++)setTimeout(clack,i*60)}
   else if(k==="brake"){jet("touchdown");jet("brake")}
+  else if(k==="pouso")jet("approach");
+  else if(k==="ding")play("ding");
   else jet(k);
 });
 $('snd2').addEventListener('click',()=>setSound(!soundOn));
