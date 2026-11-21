@@ -362,6 +362,12 @@ body.land .rail{top:84px}
 .auto{margin-top:12px;background:var(--k3);border-radius:10px;padding:10px 12px}
 .auto-h{display:flex;justify-content:space-between;font-size:13px}.auto-h b.ok{color:var(--gr)}.auto-h b.bad{color:#ff9f1a}
 .auto small{display:block;font-size:11px;color:var(--g);margin-top:6px}
+#mixer .mx-card{max-height:92dvh;overflow:auto}
+.mx-sec{margin:16px 0 4px;font-size:13px;font-weight:800;color:var(--y);border-top:1px solid #2a2a2a;padding-top:12px}
+.pk{display:grid;grid-template-columns:1fr 44px;gap:3px 8px;margin:10px 0;align-items:end}
+.pk span{grid-column:1/-1;font-size:12px;color:var(--g)}
+.pk select{width:100%;min-height:40px;font:inherit;font-size:14px;background:var(--k3);color:var(--w);border:1px solid #3a3a3a;border-radius:8px;padding:0 8px}
+.pk button{height:40px;border-radius:8px;background:var(--y);color:var(--k);font-weight:900}
 .mx-t{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
 .mx-t button{flex:1 1 30%;background:var(--k3);border-radius:8px;min-height:40px;font-size:12px;font-weight:700}
 .close{display:none;width:44px;height:44px;border-radius:50%;background:var(--k3);align-items:center;justify-content:center}
@@ -505,7 +511,8 @@ body.land .rail{top:84px}
     <label class="mx-r"><span>Freios e pneus</span><input type="range" min="0" max="100" data-k="brake"><output></output></label>
     <label class="mx-r"><span>Ambiente (pátio, chuva)</span><input type="range" min="0" max="100" data-k="amb"><output></output></label>
     <label class="mx-r"><span>Avisos e cliques</span><input type="range" min="0" max="100" data-k="ui"><output></output></label>
-    <div class="mx-t"><button data-test="flap">Testar painel</button><button data-test="takeoff">Testar decolagem</button><button data-test="brake">Testar freio</button><button data-test="pouso">Testar pouso</button><button data-test="ding">Testar aviso</button></div>
+    <div class="mx-sec">Escolha dos sons</div><div id="picks"></div>
+
   </div>
 </div>
 <div class="fmap" id="fmap" hidden>
@@ -758,9 +765,9 @@ function step(){
       else{f.rwy=r;f.path=landingPath(f,r,STANDS[f.stand-1]);f.state="arriving";runwayFree=f.path.offRwy+.2;jet("approach");dirty=true}
     }
     if(f.state==="arriving"&&!f.tdSnd&&now>=f.path.segs[1].t){f.tdSnd=true;jet("touchdown");jet("brake");smoke(f)}
-    if(f.state==="arriving"&&now>=f.path.end){play('turbina_desliga',{vol:.6,dur:14});f.state="parked";f.tPark=now;f.path=null;score.landed++;initSvc(f);
+    if(f.state==="arriving"&&now>=f.path.end){if(pk('estaciona')!=='off')play('turbina_desliga',{vol:.6,dur:14});f.state="parked";f.tPark=now;f.path=null;score.landed++;initSvc(f);
       if(f.emerg){camp.rep=clamp(camp.rep+2,0,100);toast(`${f.arrNo} pousou em segurança · emergência resolvida`)}dirty=true}
-    if(f.state==="parked"&&!f.readyNotified&&isReady(f)){f.readyNotified=true;toast(`${f.depNo} pronto para partir · posição ${pad(f.stand)}`);play('ding');dirty=true}
+    if(f.state==="parked"&&!f.readyNotified&&isReady(f)){f.readyNotified=true;toast(`${f.depNo} pronto para partir · posição ${pad(f.stand)}`);if(pk('aviso')!=='off')play(pk('aviso'));dirty=true}
   }
   // partidas
   for(const f of flights){
@@ -791,7 +798,7 @@ function stormStep(){
 }
 function depart(f){
   if(!isReady(f))return;
-  play('motor_partida',{vol:.7,dur:16});f.tPush=now;f.rwy=activeRwy();f.state="departing";f.path=taxiOutPath(f,f.rwy,STANDS[f.stand-1]);
+  if(pk('partida')!=='off')play('motor_partida',{vol:.7,dur:16});f.tPush=now;f.rwy=activeRwy();f.state="departing";f.path=taxiOutPath(f,f.rwy,STANDS[f.stand-1]);
   toast(`${f.depNo} liberado · taxiando para a cabeceira ${f.rwy}`);dirty=true;
 }
 function assign(f,s){
@@ -1033,20 +1040,22 @@ function audioInit(){
 function clack(){
   if(!soundOn||!AC||AC.state!=="running"||!MIX.flap)return;
   const t=AC.currentTime;if(t-lastClack<.014)return;lastClack=t;
-  if(SB.plaquinha){play('plaquinha',{rate:.85+Math.random()*.35,vol:.35+Math.random()*.25});return}
+  if(pk('painel')==='off')return;
+  if(pk('painel')==='plaquinha'&&SB.plaquinha){play('plaquinha',{rate:.85+Math.random()*.35,vol:.35+Math.random()*.25});return}
   const src=AC.createBufferSource();src.buffer=clickBuf;src.playbackRate.value=.75+Math.random()*.55;
   const bp=AC.createBiquadFilter();bp.type="bandpass";bp.frequency.value=1800+Math.random()*1400;bp.Q.value=.7;
   const g=AC.createGain();g.gain.value=.18+Math.random()*.16;
   src.connect(bp).connect(g).connect(BUS.flap);src.start();
 }
 document.addEventListener('pointerdown',audioInit);
-document.addEventListener('click',e=>{if(e.target.closest('button'))play('clique',{vol:.5})},true);
+document.addEventListener('click',e=>{if(e.target.closest('button')&&pk('clique')!=='off')play(pk('clique'),{vol:.5})},true);
 /* ---------- efeitos reais (Artlist) ---------- */
-const SFX={pouso:'engine',frenagem:'brake',decolagem:'engine',patio_turbina:'engine',turbina_desliga:'engine',motor_partida:'engine',passagem:'engine',
+const SFX={pouso_2:'engine',pouso_3:'engine',frenagem_2:'brake',frenagem_3:'brake',decolagem_2:'engine',decolagem_3:'engine',decolagem_4:'engine',ding_2:'ui',clique_2:'ui',terminal_2:'amb',
+  pouso:'engine',frenagem:'brake',decolagem:'engine',patio_turbina:'engine',turbina_desliga:'engine',motor_partida:'engine',passagem:'engine',
   ambiente_patio:'amb',terminal:'amb',tempestade:'amb',trovao_longe:'amb',bagagem:'amb',combustivel:'amb',
   ding:'ui',mayday:'ui',bipe:'ui',clique:'ui',plaquinha:'flap'};
 const SB={},LOOPS={};
-function loadSounds(){for(const k in SFX)fetch(`sons/${k}.mp3`).then(r=>r.ok?r.arrayBuffer():Promise.reject()).then(b=>AC.decodeAudioData(b)).then(buf=>{SB[k]=buf;if(k==='ambiente_patio')ambStart()}).catch(()=>{})}
+function loadSounds(){for(const k in SFX)fetch(`sons/${k}.mp3`).then(r=>r.ok?r.arrayBuffer():Promise.reject()).then(b=>AC.decodeAudioData(b)).then(buf=>{SB[k]=buf;if(k===pk('ambiente'))ambStart()}).catch(()=>{})}
 function play(k,o={}){
   if(!soundOn||!AC||AC.state!=="running"||!SB[k])return false;
   const src=AC.createBufferSource();src.buffer=SB[k];src.playbackRate.value=o.rate||1;
@@ -1060,15 +1069,29 @@ function loop(k,on,vol=1){
     g.gain.linearRampToValueAtTime(vol,AC.currentTime+2.5);src.connect(g).connect(BUS[SFX[k]]);src.start();LOOPS[k]={src,g}}
   if(!on&&LOOPS[k]){const L=LOOPS[k];L.g.gain.cancelScheduledValues(AC.currentTime);L.g.gain.setValueAtTime(L.g.gain.value,AC.currentTime);L.g.gain.linearRampToValueAtTime(0,AC.currentTime+2.5);L.src.stop(AC.currentTime+2.6);delete LOOPS[k]}
 }
-function ambStart(){loop('ambiente_patio',true,.8)}
+// escolha de som por evento (mixer)
+const SLOTS=[
+  {k:'pouso',n:'Pouso (avião chegando)',o:[['pouso','Jato pesado · passagem forte'],['pouso_2','Jato grande · da direita p/ esquerda'],['pouso_3','Jato pesado · passando por cima'],['synth','Sintetizado'],['off','Desligado']]},
+  {k:'frenagem',n:'Frenagem na pista',o:[['frenagem','Toque + reverso forte (17 s)'],['frenagem_2','Toque + freio curto (10 s)'],['frenagem_3','Só o reverso e a desaceleração'],['synth','Sintetizado (chiado de freio)'],['off','Desligado']]},
+  {k:'decolagem',n:'Decolagem',o:[['decolagem','Airliner · ronco forte'],['decolagem_2','Airliner · passando por cima'],['decolagem_3','Jato saindo da pista'],['decolagem_4','Jato da direita p/ esquerda'],['synth','Sintetizado'],['off','Desligado']]},
+  {k:'partida',n:'Partida dos motores (Partir)',o:[['motor_partida','Motor ligando'],['off','Desligado']]},
+  {k:'estaciona',n:'Turbina desligando (estacionou)',o:[['turbina_desliga','Turbina parando'],['off','Desligado']]},
+  {k:'ambiente',n:'Ambiente de fundo',o:[['ambiente_patio','Pátio com turbinas'],['terminal','Saguão movimentado'],['terminal_2','Saguão grande, murmúrio'],['off','Desligado']]},
+  {k:'aviso',n:'Aviso (voo pronto)',o:[['ding','Ding dong'],['ding_2','Carrilhão suave'],['off','Desligado']]},
+  {k:'clique',n:'Clique dos botões',o:[['clique','Clique digital'],['clique_2','Clique macio'],['off','Desligado']]},
+  {k:'painel',n:'Painel de plaquinhas',o:[['plaquinha','Clique real'],['synth','Sintetizado'],['off','Desligado']]}];
+let PICK={};SLOTS.forEach(x=>PICK[x.k]=x.o[0][0]);
+try{const m=JSON.parse(localStorage.getItem('departure_pick')||'null');if(m)PICK={...PICK,...m}}catch(e){}
+const pk=k=>PICK[k];
+function ambStart(){const a=pk('ambiente');['ambiente_patio','terminal','terminal_2'].forEach(x=>{if(x!==a)loop(x,false)});if(a!=='off')loop(a,true,.8)}
 /* ---------- sons sintetizados (reserva) ---------- */
 let noiseBuf=null;
 function jet(kind){
   if(!soundOn||!AC||AC.state!=="running")return;
-  if(kind==="approach"&&play('pouso'))return;
-  if(kind==="touchdown"&&SB.frenagem)return;
-  if(kind==="brake"&&play('frenagem',{dur:14}))return;
-  if(kind==="takeoff"&&play('decolagem'))return;
+  const map={approach:'pouso',brake:'frenagem',touchdown:'frenagem',takeoff:'decolagem'},sel=pk(map[kind]);
+  if(sel==='off')return;
+  if(kind==="touchdown"&&sel!=='synth')return;
+  if(sel!=='synth'&&play(sel,{vol:kind==='brake'?1.15:1}))return;
   if(!noiseBuf){const n=AC.sampleRate*2;noiseBuf=AC.createBuffer(1,n,AC.sampleRate);const d=noiseBuf.getChannelData(0);let b=0;for(let i=0;i<n;i++){b=(b+.02*(Math.random()*2-1))/1.02;d[i]=b*3.5+(Math.random()*2-1)*.25}}
   const t=AC.currentTime,out=AC.createGain();out.connect(kind==="brake"||kind==="touchdown"?BUS.brake:BUS.engine);
   const noise=(f0,f1,dur,peak,att,q=.7)=>{const s=AC.createBufferSource();s.buffer=noiseBuf;s.loop=true;
@@ -1585,6 +1608,14 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden&&started)wr
 refreshCover();
 $('cont').addEventListener('click',()=>{const d=readSave();if(d)loadGame(d);startGame()});
 const mixer=$('mixer');
+const PREV={pouso:()=>jet('approach'),frenagem:()=>jet('brake'),decolagem:()=>jet('takeoff'),painel:()=>{for(let i=0;i<14;i++)setTimeout(clack,i*60)}};
+function drawPicks(){$('picks').innerHTML=SLOTS.map(x=>`<label class="pk"><span>${x.n}</span><select data-pk="${x.k}">${x.o.map(([v,t])=>`<option value="${v}"${PICK[x.k]===v?' selected':''}>${t}</option>`).join('')}</select><button type="button" data-pv="${x.k}" aria-label="Ouvir">▶</button></label>`).join('')}
+drawPicks();
+$('picks').addEventListener('change',e=>{const sl=e.target.closest('select');if(!sl)return;PICK[sl.dataset.pk]=sl.value;
+  try{localStorage.setItem('departure_pick',JSON.stringify(PICK))}catch(_){}
+  if(sl.dataset.pk==='ambiente')ambStart()});
+$('picks').addEventListener('click',e=>{const b=e.target.closest('[data-pv]');if(!b)return;audioInit();if(!soundOn)setSound(true);
+  const k=b.dataset.pv,v=PICK[k];if(PREV[k])return PREV[k]();if(v!=='off')play(v,{dur:8})});
 mixer.querySelectorAll('input').forEach(inp=>{
   const k=inp.dataset.k;inp.value=MIX[k];inp.nextElementSibling.textContent=MIX[k];
   inp.addEventListener('input',()=>{MIX[k]=+inp.value;inp.nextElementSibling.textContent=inp.value;audioInit();applyMix();
