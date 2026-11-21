@@ -41,6 +41,8 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
 /* plaquinhas e áreas de clique */
 .sign{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 3px rgba(0,0,0,.6));pointer-events:none;z-index:3}
 .sign .plate{background:var(--k);border-radius:4px;padding:1px 6px 2px;color:var(--y);font-weight:800;font-size:clamp(13px,2.2vh,24px);letter-spacing:-.04em;line-height:1.1;border:2px solid transparent;transition:.2s}
+.sign .pct{background:var(--k);color:var(--y);font-weight:800;font-size:clamp(8px,1.05vh,11px);padding:0 4px;border-radius:3px;margin-bottom:1px;font-variant-numeric:tabular-nums;border:1px solid #444}
+.sign .pct.full{color:var(--k);background:#5dff8f;border-color:#5dff8f}
 .sign .cls{background:var(--y);color:var(--k);font-weight:800;font-size:clamp(7px,.95vh,10px);padding:0 4px;border-radius:2px;margin-top:1px}
 .sign.sel .plate{border-color:var(--y);background:var(--y);color:var(--k)}
 .sign.ready .plate{border-color:#5dff8f;box-shadow:0 0 6px 2px rgba(70,224,122,.9),0 0 16px 4px rgba(70,224,122,.55);animation:readyGlow 1.4s ease-in-out infinite}
@@ -398,6 +400,7 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
   .top .clock{display:none}
   .close{display:flex}
   .side.showDetail .stats,.side.showDetail .goals,.side.showDetail .speed,.side.showDetail .campl{display:none}
+  .sign .pct{font-size:2.3vw}
   .sign .plate{font-size:4.2vw}.sign .cls{font-size:1.9vw}.tag,.rwy{font-size:2.4vw}
   .toast{position:fixed;top:auto;bottom:18px;max-width:calc(100% - 150px);left:calc(50% - 30px)}
 }
@@ -827,7 +830,9 @@ function drawFixed(){
     else if(sel&&sel.stand===s.n)c=' sel';
     else if(f&&isReady(f))c=' ready';
     else if(f&&f.state!=="parked")c=' reserved';
-    h+=`<div class="sign${c}" style="left:${(s.x+14)/W*100}%;top:${(s.y+30)/H*100}%"><div class="plate">${s.n}</div><div class="cls">MAX ${s.max}</div></div>`;
+    const pk=f&&f.state==="parked"&&f.svs?f:null;
+    const pc=pk?Math.round(pk.svs.reduce((a,v,i)=>a+svP(pk,i)*v.d,0)/pk.svs.reduce((a,v)=>a+v.d,0)*100):null;
+    h+=`<div class="sign${c}" style="left:${(s.x+14)/W*100}%;top:${(s.y+30)/H*100}%">${pc!=null?`<div class="pct${pc>=100?' full':''}">${pc}%</div>`:''}<div class="plate">${s.n}</div><div class="cls">MAX ${s.max}</div></div>`;
     h+=`<button class="hit${c.includes('ok')?' ok':''}" data-stand="${s.n}" aria-label="Posição ${s.n}" style="left:${(s.x-62)/W*100}%;top:${s.y/H*100}%"></button>`;
   });
   map.classList.toggle('assign',!!af);
