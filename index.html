@@ -396,8 +396,7 @@ body.land .rail{top:84px}
 .cv-board .big .fl{--cw:min(8.2vw,86px);color:#fff;border-radius:5px;font-weight:800}
 .cv-board .small{margin-top:clamp(8px,1.4vw,14px)}
 .cv-board .small .fl{--cw:min(3.1vw,30px);border-radius:3px}
-.cv-plane{position:absolute;width:clamp(64px,10vw,120px);filter:brightness(0);right:6%;bottom:-9%;transform:rotate(40deg);pointer-events:none}
-@media(max-width:600px){.cv-plane{right:10%;bottom:4%}}
+.cv-plane{position:static;align-self:center;width:clamp(64px,9vw,120px);filter:brightness(0);transform:rotate(40deg);pointer-events:none;margin-bottom:clamp(4px,1.5vh,14px)}
 @keyframes fly{from{transform:translate(0,30vh) rotate(38deg)}to{transform:translate(85vw,-110vh) rotate(38deg)}}
 .cv-bot{display:grid;grid-template-columns:1fr auto;align-items:end;gap:16px}
 .cv-bot h2{margin:0;font-size:clamp(38px,8vw,92px);line-height:.92;letter-spacing:-.045em;font-weight:800}
