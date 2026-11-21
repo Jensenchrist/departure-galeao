@@ -153,6 +153,36 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
 .link{margin-top:12px;width:100%;min-height:46px;border-radius:8px;background:var(--y);color:var(--k);font-weight:800}
 .link.ghost{background:var(--k3);color:var(--w)}
 .mobileBar{display:none}
+body.land .app{display:block}
+body.land .stage{position:fixed;inset:0;height:auto}
+body.land .abar{position:fixed;bottom:62px}
+body.land .side{position:fixed;inset:0;height:100dvh;border-left:0;border-top:3px solid var(--y);transform:translateX(-104%);transition:transform .3s ease;z-index:60;padding-top:env(safe-area-inset-top)}
+body.land .side.open{transform:none}
+body.land .tabs{display:none}
+body.land .mobileBar{display:flex;flex-direction:column;gap:8px;position:fixed;left:8px;top:15vh;z-index:40;background:none;border:0;padding:0}
+body.land .mobileBar .tab,body.land .mobileBar .mb{width:56px;height:56px;min-height:0;padding:0;font-size:0;gap:0;border-radius:12px;background:rgba(0,0,0,.88);border:1px solid #333;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(0,0,0,.45)}
+body.land .mobileBar .tab .ico,body.land .mobileBar .mb .ico{width:34px;height:34px;border-radius:7px}
+body.land .mobileBar .tab.on{background:var(--y)}
+body.land .mobileBar .mb.clockb{flex-direction:column;font-family:Doto,monospace;font-weight:900;color:var(--y)}
+body.land .mobileBar .mb.clockb .clock{font-size:15px;padding:0;letter-spacing:-.04em}
+body.land .mobileBar .mb.clockb small{font:700 9px "Inter Tight",sans-serif;color:var(--g);margin-top:2px}
+body.land .top .clock{display:none}
+body.land .close{display:flex}
+body.land .side.showDetail .stats,body.land .side.showDetail .goals,body.land .side.showDetail .speed,body.land .side.showDetail .campl{display:none}
+body.land .toast{position:fixed;top:auto;bottom:18px;max-width:calc(100% - 150px);left:calc(50% - 30px)}
+body.land .side{inset:0 0 0 auto;width:min(440px,100%);border-top:0;border-left:3px solid var(--y);transform:translateX(104%)}
+body.land .side.open{transform:none}
+body.land .map{background:none}
+body.land .sky{display:none}
+body.land .sign,body.land .rwy{transform:translate(-50%,-50%) rotate(90deg)}
+body.land .mobileBar{top:50%;transform:translateY(-50%)}
+#bgH{position:absolute;left:0;top:0;transform-origin:0 0;background:url(maph_dia.jpg) center/100% 100% no-repeat;display:none;pointer-events:none}
+#bgH i{position:absolute;inset:0;opacity:0;background:center/100% 100% no-repeat}
+#skyTh{background-image:url(maph_tarde.jpg)!important}#skyNh{background-image:url(maph_noite.jpg)!important}
+body.land #bgH{display:block}
+body.land .rail{top:84px}
+@media(max-height:520px){body.land .mobileBar{gap:4px}body.land .mobileBar .tab,body.land .mobileBar .mb{width:40px;height:40px;border-radius:9px}body.land .mobileBar .tab .ico,body.land .mobileBar .mb .ico{width:24px;height:24px}body.land .mobileBar .mb.clockb .clock{font-size:11px}body.land .mobileBar .mb.clockb small{display:none}body.land .rail{top:70px}}
+
 .sky{position:absolute;inset:0;background:center/100% 100% no-repeat;opacity:0;pointer-events:none}
 #skyT{background-image:url(map_tarde.jpg)}#skyN{background-image:url(map_noite.jpg)}
 .daypart{display:block;font-size:10px;color:var(--y);font-weight:700}
@@ -424,7 +454,7 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
   <div class="stage" id="stage">
     <button class="zreset" id="zreset" hidden>⤢ Tirar zoom</button><div class="zhint" id="zhint">Dois dedos para aproximar · arraste para os lados</div>
     <div class="map" id="map">
-      <div class="sky" id="skyT"></div><div class="sky" id="skyN"></div><div id="lights"></div><div id="fixed"></div>
+      <div id="bgH"><i id="skyTh"></i><i id="skyNh"></i></div><div class="sky" id="skyT"></div><div class="sky" id="skyN"></div><div id="lights"></div><div id="fixed"></div>
       <div id="planes"></div>
     </div>
     <div id="storm"></div>
@@ -818,7 +848,7 @@ function drawLights(){
   }
   $('lights').innerHTML=h;h='';
   // indicador de vento (seta = para onde o vento sopra, no referencial do mapa)
-  const ang=w[1]+260;
+  const ang=w[1]+260-(LAND?90:0);
   $('windBox').innerHTML=`<div class="wind"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="#555"/><g transform="rotate(${ang} 20 20)"><path d="M20 5 L26 16 H22 V33 H18 V16 H14 Z" fill="#FDE934"/></g></svg><div><b>Vento ${String(w[1]).padStart(3,'0')}° · ${w[2]} kt</b><small>${stormNow()?`⛈ Pista fechada até ${fmt(stormNow().e)}`:`Pista ${r} em uso`}</small><span class="daypart" id="dpart"></span></div></div>`;
 }
 function drawFixed(){
@@ -871,7 +901,7 @@ function drawPlanes(){
     el.style.filter=`drop-shadow(${-4-34*p.al}px ${5+46*p.al}px ${3+9*p.al}px rgba(0,0,0,${.45-.25*p.al})) brightness(${PB})`;
     el.firstChild.style.transform=`rotate(${p.h}deg) scale(${p.s})`;
     const tg=el.lastChild,show=sel&&sel.i===f.i;
-    tg.hidden=!show;if(show){tg.textContent=`${f.state==="arriving"?f.arrNo:f.depNo}`;const [sw,sl]=SPR[f.cls-1],hr=p.h*Math.PI/180,half=(Math.abs(Math.cos(hr))*sl+Math.abs(Math.sin(hr))*sw)/2*p.s;tg.style.cssText=`left:50%;top:${50+half/sl*100+3}%`}
+    tg.hidden=!show;if(show){tg.textContent=`${f.state==="arriving"?f.arrNo:f.depNo}`;const [sw,sl]=SPR[f.cls-1],hr=p.h*Math.PI/180,half=(Math.abs(Math.cos(hr))*sl+Math.abs(Math.sin(hr))*sw)/2*p.s;tg.style.cssText=LAND?(()=>{const hx=(Math.abs(Math.sin(hr))*sl+Math.abs(Math.cos(hr))*sw)/2*p.s;return `left:${50-hx/sw*100-6}%;top:50%;transform:translate(-50%,-50%) rotate(90deg)`})():`left:50%;top:${50+half/sl*100+3}%`}
   }
   for(const [i,el] of planeEls)if(!live.has(i)){el.remove();planeEls.delete(i)}
 }
@@ -1322,7 +1352,7 @@ fcv.addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{if(e.key==="Escape"&&mapOpen)closeMap()});
 
 /* ---------- interação ---------- */
-const mobile=()=>matchMedia('(max-width:820px)').matches;
+const mobile=()=>matchMedia('(max-width:820px)').matches||document.body.classList.contains('land');
 function setTabs(){document.querySelectorAll('.tab[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t===tab&&(!mobile()||side.classList.contains('open'))))}
 function openFlight(f,t){sel=f;tab=t;side.classList.add('open');setTabs();dirty=true}
 
@@ -1361,8 +1391,8 @@ map.addEventListener('click',e=>{
   detailMode='data';openFlight(f,"arr");
 });
 function showPop(f,s){
-  const q=parkPos(f,s),sc=bw/941*zk,x=ZX+q[0]*sc,y=ZY+q[1]*sc,pop=$('pop');
-  pop.style.left=x+'px';pop.style.top=(y-SPR[f.cls-1][0]*SC*sc*.5-8)+'px';pop.dataset.f=f.i;
+  const q=parkPos(f,s),sc=bw/941*zk,[x,y]=toScreen(q[0],q[1]),pop=$('pop');
+  pop.style.left=x+'px';pop.style.top=(y-SPR[f.cls-1][LAND?1:0]*SC*sc*.5-8)+'px';pop.dataset.f=f.i;
   pop.querySelector('.pop-t').textContent=f.depNo;pop.hidden=false;
 }
 $('pop').addEventListener('click',e=>{const b=e.target.closest('[data-pm]');if(!b)return;const f=flights[+$('pop').dataset.f];$('pop').hidden=true;
@@ -1379,25 +1409,34 @@ $('speed').addEventListener('click',e=>{
 const stage=$('stage'),abar=$('abar');
 let zk=1,ZX=0,ZY=0,bw=1,bh=1,SW=1,SH=1,barH=0,laidOut=false;
 // celular: o mapa cobre a tela inteira; computador: ocupa a altura toda
+let LAND=false;
+const dispW=()=>(LAND?bh:bw),dispH=()=>(LAND?bw:bh);
 function layoutMap(){
   const r=stage.getBoundingClientRect();SW=r.width;SH=r.height;
-  barH=abar.classList.contains('min')?0:abar.offsetHeight;
-  const cover=mobile()||SW/SH<941/1672*1.15;
-  const sc=cover?Math.max(SW/941,SH/1672):SH/1672;
-  const cu=(SW/2-ZX)/(bw*zk),cv=(SH/2-ZY)/(bh*zk);
+  barH=0;
+  const sc=LAND?(matchMedia('(pointer:coarse)').matches?Math.max(SW/1672,SH/941):Math.min(SW/1672,SH/941)):(mobile()||SW/SH<941/1672*1.15?Math.max(SW/941,SH/1672):SH/1672);
+  const cu=(SW/2-ZX)/(dispW()*zk),cv=(SH/2-ZY)/(dispH()*zk);
   bw=941*sc;bh=1672*sc;map.style.width=bw+'px';map.style.height=bh+'px';
-  if(!laidOut){ZX=(SW-bw)/2;ZY=0;laidOut=true}else{ZX=SW/2-cu*bw*zk;ZY=SH/2-cv*bh*zk}
+  const bg=$('bgH');bg.style.width=bh+'px';bg.style.height=bw+'px';bg.style.transform=`translateX(${bw}px) rotate(90deg)`;
+  if(!laidOut){ZX=(SW-dispW())/2;ZY=LAND?(SH-dispH())/2:0;laidOut=true}else{ZX=SW/2-cu*dispW()*zk;ZY=SH/2-cv*dispH()*zk}
   clampZ();applyZ();
 }
 function clampZ(){
-  zk=clamp(zk,1,4);const dw=bw*zk,dh=bh*zk,avail=SH-barH;
+  zk=clamp(zk,1,4);const dw=dispW()*zk,dh=dispH()*zk,avail=SH-barH;
   ZX=dw<=SW?(SW-dw)/2:clamp(ZX,SW-dw,0);
   ZY=dh<=avail?(avail-dh)/2:clamp(ZY,avail-dh,0);
   $('zreset').hidden=zk<1.02;
 }
-const canPan=()=>bw*zk>SW+1||bh*zk>SH-barH+1;
-function applyZ(){map.style.transform=`translate(${ZX}px,${ZY}px) scale(${zk})`}
+const canPan=()=>dispW()*zk>SW+1||dispH()*zk>SH-barH+1;
+function applyZ(){map.style.transform=`translate(${ZX}px,${ZY}px) scale(${zk})`+(LAND?` translateY(${bw}px) rotate(-90deg)`:'')}
 function zoomAt(px,py,nk){const u=(px-ZX)/zk,v=(py-ZY)/zk;zk=clamp(nk,1,4);ZX=px-u*zk;ZY=py-v*zk;clampZ();applyZ()}
+// local (mapa vertical) → tela
+function toScreen(x,y){const s=bw/941*zk;return LAND?[ZX+y*s,ZY+(941-x)*s]:[ZX+x*s,ZY+y*s]}
+function checkLand(){
+  const l=innerWidth>=700&&innerWidth>innerHeight*1.15;
+  if(l!==LAND){LAND=l;document.body.classList.toggle('land',l);laidOut=false;zk=1;layoutMap();if(typeof drawLights==='function')drawLights();dirty=true}
+}
+addEventListener('resize',checkLand);
 const ptrs=new Map();let pinch=null,dragged=false,moved=0;
 const rel=e=>{const r=stage.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}};
 stage.addEventListener('pointerdown',e=>{
@@ -1417,7 +1456,8 @@ const up=e=>{ptrs.delete(e.pointerId);if(ptrs.size<2)pinch=null};
 stage.addEventListener('pointerup',up);stage.addEventListener('pointercancel',up);stage.addEventListener('pointerleave',up);
 stage.addEventListener('click',e=>{if(dragged){e.stopPropagation();e.preventDefault();dragged=false}},true);
 stage.addEventListener('wheel',e=>{e.preventDefault();const p=rel(e);zoomAt(p.x,p.y,zk*Math.exp(-e.deltaY*.0015));$('zhint').style.opacity=0},{passive:false});
-$('zreset').addEventListener('click',()=>{zk=1;ZX=(SW-bw)/2;ZY=0;clampZ();applyZ()});
+$('zreset').addEventListener('click',()=>{zk=1;laidOut=false;layoutMap()});
+checkLand();
 new ResizeObserver(layoutMap).observe(stage);new ResizeObserver(layoutMap).observe(abar);
 setTimeout(()=>{$('zhint').style.opacity=0},4500);
 if(!matchMedia('(pointer:coarse)').matches)$('zhint').textContent='Role para aproximar · arraste com zoom';
@@ -1427,7 +1467,7 @@ const ramp=(a,b)=>clamp((now-toMin(a))/(toMin(b)-toMin(a)),0,1);
 let PB=1,lastPart="";
 function skyTick(){
   const t=ramp("15:30","17:00")*(1-ramp("17:45","19:00")),n=ramp("17:45","19:00");
-  $('skyT').style.opacity=t;$('skyN').style.opacity=n;
+  $('skyT').style.opacity=t;$('skyN').style.opacity=n;$('skyTh').style.opacity=t;$('skyNh').style.opacity=n;
   PB=1-.28*n;
   const part=n>.5?"Noite":t>.5?"Tarde":"Dia";
   if(part!==lastPart){lastPart=part;const el=document.querySelector('.wind small');if(el)el.dataset.p=part;dirty=true}
