@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Departure · Galeão</title>
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-512.png">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Departure">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#000000">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Doto:wght@700;900&family=Inter+Tight:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE: sinalização de aeroporto, direta e legível
+   IDEA: o mapa é a torre de controle; a lateral é o painel flip-board do terminal
+   PICTURE: mapa com pista iluminada, aviões em movimento e plaquinhas numeradas
+   COLOUR+TYPE: preto, amarelo #FDE934, cinza #BFBEBE · Inter Tight + Doto (matricial)
+   LAYOUT: mapa à esquerda com barra de aproximação embaixo; painel à direita; no celular o painel sobe de baixo */
+:root{--y:#FDE934;--k:#000;--k2:#0d0d0d;--k3:#1a1a1a;--w:#fff;--g:#BFBEBE;--r:#ff5a4f;--gr:#46e07a;color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0;height:100%;background:#0a0a0a;color:var(--w);font:15px/1.4 "Inter Tight","Helvetica Neue",Arial,sans-serif;overflow:hidden}
+button{font:inherit;cursor:pointer;border:0;color:inherit;background:none}
+button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
+.app{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,420px);height:100dvh}
+.stage{position:relative;height:100dvh;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+.zreset{position:absolute;left:10px;top:10px;z-index:12;display:flex;align-items:center;gap:6px;background:var(--k);border:1px solid var(--y);color:var(--y);font-weight:800;font-size:12px;border-radius:18px;padding:6px 12px;min-height:36px}
+.zreset[hidden]{display:none}
+.zhint{position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);font-weight:700;z-index:12;background:rgba(0,0,0,.7);color:var(--g);font-size:11px;border-radius:12px;padding:4px 10px;pointer-events:none;transition:opacity .6s}
+.map{position:absolute;left:0;top:0;transform-origin:0 0;background:url(map.jpg) center/100% 100% no-repeat;overflow:hidden;will-change:transform}
+
+/* aviões */
+.pl{position:absolute;transform:translate(-50%,-50%);pointer-events:none;will-change:left,top}
+.pl img{display:block;width:100%;transform-origin:50% 50%}
+.puff{position:absolute;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(255,255,255,.95),rgba(225,225,225,.6) 45%,rgba(200,200,200,0) 70%);pointer-events:none;z-index:7;animation:puff 1.6s ease-out forwards}
+@keyframes puff{0%{transform:translate(-50%,-50%) scale(.4);opacity:.95}100%{transform:translate(-50%,-50%) scale(3.2);opacity:0}}
+
+/* plaquinhas e áreas de clique */
+.sign{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 3px rgba(0,0,0,.6));pointer-events:none;z-index:3}
+.sign .plate{background:var(--k);border-radius:4px;padding:1px 6px 2px;color:var(--y);font-weight:800;font-size:clamp(13px,2.2vh,24px);letter-spacing:-.04em;line-height:1.1;border:2px solid transparent;transition:.2s}
+.sign .cls{background:var(--y);color:var(--k);font-weight:800;font-size:clamp(7px,.95vh,10px);padding:0 4px;border-radius:2px;margin-top:1px}
+.sign.sel .plate{border-color:var(--y);background:var(--y);color:var(--k)}
+.sign.ready .plate{border-color:#5dff8f;box-shadow:0 0 6px 2px rgba(70,224,122,.9),0 0 16px 4px rgba(70,224,122,.55);animation:readyGlow 1.4s ease-in-out infinite}
+.sign.ready .cls{background:#5dff8f}
+@keyframes readyGlow{50%{box-shadow:0 0 10px 3px rgba(93,255,143,1),0 0 26px 8px rgba(70,224,122,.7)}}
+.sign.reserved .plate{border-color:var(--y)}
+.sign.ok .plate{background:var(--gr);color:var(--k);animation:pulse 1s infinite}
+.sign.no{opacity:.35}
+@keyframes pulse{50%{transform:scale(1.15)}}
+.hit{position:absolute;transform:translate(-50%,-50%);width:17%;height:6.8%;border-radius:10px;z-index:4}
+.hit:hover{background:rgba(253,233,52,.12)}
+.assign .hit.ok{background:rgba(70,224,122,.18);outline:2px dashed var(--gr)}
+.tag{position:absolute;transform:translate(-50%,-100%);background:var(--k);color:var(--w);font-size:clamp(9px,1.2vh,12px);font-weight:700;padding:2px 6px;border-radius:3px;white-space:nowrap;border-left:3px solid var(--y);pointer-events:none;z-index:5}
+
+/* luzes de cabeceira */
+.lt{position:absolute;width:.75%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);z-index:2}
+.lt.g{background:#5dff8f;box-shadow:0 0 6px 2px #2cff6a}
+.lt.r{background:#ff3b30;box-shadow:0 0 6px 2px #ff1a0d}
+.lt.w{background:#fff;box-shadow:0 0 8px 3px #fff;opacity:0;animation:rabbit 1.2s infinite}
+.lt.reil{width:1.1%;background:#fff;box-shadow:0 0 10px 4px #fff;opacity:0;animation:strobe 1s infinite}
+@keyframes rabbit{0%,12%{opacity:1}20%,100%{opacity:0}}
+@keyframes strobe{0%,8%{opacity:1}14%,100%{opacity:0}}
+.rwy{position:absolute;transform:translate(-50%,-50%);z-index:3;font-weight:800;font-size:clamp(9px,1.2vh,13px);padding:2px 5px;border-radius:3px;white-space:nowrap;text-align:center;line-height:1.1}
+.rwy.on{background:#0d3d1c;color:#5dff8f;border:1px solid #5dff8f}
+.rwy.off{background:#3a0d0b;color:#ff6b60;border:1px solid #ff6b60}
+.wind{position:absolute;right:1.5%;top:1%;z-index:6;background:rgba(0,0,0,.85);border-radius:8px;padding:6px 8px;display:flex;gap:8px;align-items:center;border:1px solid #333}
+.wind svg{width:34px;height:34px}
+.wind b{display:block;font-size:12px}.wind small{display:block;font-size:10px;color:var(--g)}
+
+/* barra de aproximação */
+.abar{position:absolute;left:0;right:0;bottom:0;z-index:10;background:linear-gradient(transparent,rgba(0,0,0,.9) 22%);padding:22px 8px 8px}
+.abar h2{margin:0 0 6px 4px;font-size:11px;color:var(--g);font-weight:700}
+.cards{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;min-height:96px;touch-action:pan-x}
+.ac{flex:0 0 auto;width:178px;text-align:left;background:var(--k);border:2px solid #2a2a2a;border-radius:10px;padding:8px 10px;display:grid;grid-template-columns:30px 1fr;gap:2px 8px;align-items:center}
+.ac img{grid-row:span 2;width:28px;justify-self:center}
+.ac .fn{font-weight:800;font-size:15px;display:flex;justify-content:space-between;gap:4px}
+.ac .fn span{font-family:Doto,monospace;color:var(--y);font-weight:900}
+.ac .sub{font-size:11px;color:var(--g);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ac .ft{grid-column:1/-1;display:flex;justify-content:space-between;font-size:12px;margin-top:4px;padding-top:5px;border-top:1px solid #222}
+.ac .ft b{color:var(--y)}
+.ac.sel{border-color:var(--y);background:#1d1b06}
+.ac.hold{border-color:var(--r)}.ac.hold .ft b.t{color:var(--r)}
+.ac.rd{border-color:var(--gr)}.ac.rd .ft b{color:var(--gr)}
+.empty{font-size:12px;color:#777;padding:8px 4px}
+.toast{position:absolute;left:50%;top:12px;transform:translateX(-50%);z-index:20;background:var(--y);color:var(--k);font-weight:800;font-size:13px;padding:8px 14px;border-radius:8px;box-shadow:0 4px 14px rgba(0,0,0,.5);max-width:92%;text-align:center;transition:opacity .3s;opacity:0;pointer-events:none}
+.toast.on{opacity:1}
+
+/* painel lateral */
+.side{background:var(--k);display:flex;flex-direction:column;height:100dvh;border-left:3px solid var(--y)}
+.top{padding:14px 16px 8px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.top h1{margin:0;font-size:18px;font-weight:800;letter-spacing:-.02em}
+.clock{font-family:Doto,monospace;font-weight:900;color:var(--y);font-size:30px;line-height:1}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0 16px 10px}
+.stats div{background:var(--k3);border-radius:8px;padding:6px 8px}
+.stats small{display:block;font-size:10px;color:var(--g)}.stats b{font-size:17px}
+.speed{display:flex;gap:4px;padding:0 16px 10px;flex-wrap:wrap}
+.speed button{background:var(--k3);color:var(--g);font-size:12px;font-weight:700;padding:6px 10px;border-radius:5px;min-height:32px}
+.speed button.on{background:var(--y);color:var(--k)}
+.speed .rs{margin-left:auto}
+.tabs{display:grid;grid-template-columns:1fr 1fr .8fr;gap:6px;padding:0 16px 12px}
+.tab{display:flex;align-items:center;gap:8px;justify-content:center;background:var(--k3);border-radius:8px;min-height:48px;font-weight:800;font-size:15px}
+.tab svg{width:20px;height:20px;fill:currentColor}
+.tab.on{background:var(--y);color:var(--k)}
+.board{flex:1;overflow:auto;background:var(--k2);border-top:1px solid #222}
+.head,.row{display:grid;grid-template-columns:50px minmax(0,1fr) 70px 30px 104px;gap:6px;align-items:center;padding:0 12px}
+.head{position:sticky;top:0;background:var(--k2);color:var(--g);font-size:11px;font-weight:700;padding-top:8px;padding-bottom:6px;border-bottom:1px solid var(--y);z-index:1}
+.row{width:100%;text-align:left;font-family:Doto,monospace;font-weight:900;color:var(--y);font-size:15px;min-height:42px;border-bottom:1px solid #1d1d1d;text-transform:uppercase}
+.row:hover{background:#171717}.row.sel{background:#262410}
+.row.past{opacity:.38}
+.row span{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.st{font-size:13px}.st.bad{color:var(--r)}.st.ok{color:var(--gr)}.st.hot{color:var(--w)}
+
+.detail{flex:1;overflow:auto;padding:4px 16px 20px;display:none}
+.side.showDetail .board{display:none}.side.showDetail .detail{display:block}
+.back{display:flex;align-items:center;gap:6px;color:var(--g);font-weight:700;min-height:44px}
+.pass{background:var(--w);color:var(--k);border-radius:10px;overflow:hidden}
+.pass .hd{background:var(--k);color:var(--w);padding:14px 16px;border:2px solid var(--w);border-bottom:0;border-radius:10px 10px 0 0;display:flex;justify-content:space-between;align-items:center}
+.pass .air{font-weight:800;font-size:18px}.pass .code{font-family:Doto,monospace;color:var(--y);font-size:22px;font-weight:900}
+.route{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;padding:16px 16px 6px}
+.route .c{font-size:clamp(30px,8vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1}
+.route small{display:block;font-size:12px;color:#555;font-weight:500}
+.route .r{text-align:right}
+.route svg{width:28px;height:28px;margin:0 8px 6px}
+.prog{margin:8px 16px 4px;height:6px;background:#e5e5e5;border-radius:3px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--k)}
+.progl{display:flex;justify-content:space-between;font-size:11px;color:#555;padding:0 16px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 10px;padding:14px 16px 16px}
+.grid div small{display:block;font-size:11px;color:#666;font-weight:600}
+.grid div b{font-size:17px;font-weight:800;white-space:nowrap}
+.perf{border-top:2px dashed #bbb;margin:0 10px}
+.statusbig{display:flex;justify-content:space-between;align-items:center;padding:12px 16px 14px}
+.statusbig .pill{background:var(--k);color:var(--y);font-family:Doto,monospace;font-weight:900;font-size:17px;padding:6px 10px;border-radius:5px}
+.statusbig .gate{font-size:44px;font-weight:800;line-height:.9;letter-spacing:-.04em;text-align:right}
+.statusbig .gate small{display:block;font-size:11px;color:#666;letter-spacing:0}
+.svc{margin-top:14px;background:var(--k3);border-radius:10px;padding:14px}
+.svc h3{margin:0 0 10px;font-size:14px;font-weight:800;display:flex;justify-content:space-between}
+.svc h3 span{color:var(--g);font-weight:600;font-size:12px}
+.sv{display:grid;grid-template-columns:150px 1fr 40px;gap:8px;align-items:center;margin:7px 0;font-size:13px}
+.sv .b{height:8px;background:#333;border-radius:4px;overflow:hidden}
+.sv .b i{display:block;height:100%;background:var(--y);transition:width .3s}
+.sv.done .b i{background:var(--gr)}
+.sv .p{text-align:right;color:var(--g);font-variant-numeric:tabular-nums;font-size:12px}
+.sv.done .p{color:var(--gr)}
+.depinfo{display:flex;justify-content:space-between;font-size:12px;color:var(--g);margin-top:12px}
+.depinfo b{color:var(--w)}
+.go{margin-top:12px;width:100%;min-height:52px;border-radius:8px;background:var(--gr);color:var(--k);font-weight:800;font-size:17px;display:flex;align-items:center;justify-content:center;gap:8px}
+.go:disabled{background:#2a2a2a;color:#777;cursor:not-allowed}
+.link{margin-top:12px;width:100%;min-height:46px;border-radius:8px;background:var(--y);color:var(--k);font-weight:800}
+.link.ghost{background:var(--k3);color:var(--w)}
+.mobileBar{display:none}
+.sky{position:absolute;inset:0;background:center/100% 100% no-repeat;opacity:0;pointer-events:none}
+#skyT{background-image:url(map_tarde.jpg)}#skyN{background-image:url(map_noite.jpg)}
+.daypart{display:block;font-size:10px;color:var(--y);font-weight:700}
+/* linguetas laterais */
+.rail{position:absolute;right:0;top:86px;bottom:10px;z-index:11;display:flex;flex-direction:column;align-items:flex-end;gap:6px;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;touch-action:pan-y;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:0 0 12px 8px;pointer-events:auto}
+.rail::-webkit-scrollbar{display:none}
+.tg{display:flex;align-items:stretch;pointer-events:auto;filter:drop-shadow(-3px 4px 8px rgba(0,0,0,.55));flex:none}
+.tg-h{display:flex;flex-direction:column;align-items:center;gap:1px;background:var(--k);border-left:4px solid var(--y);border-radius:12px 0 0 12px;padding:6px 5px 7px 4px;width:100px;text-align:center;color:var(--w)}
+.tg-h img{width:32px;height:32px;object-fit:contain;flex:none;margin-bottom:2px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.6))}
+.tg-h b{display:block;font-size:16px;line-height:1.05;font-weight:800;letter-spacing:-.01em}
+.tg-h small{display:block;font-size:12px;color:var(--y);font-weight:700;font-variant-numeric:tabular-nums}
+.tg-c{font-size:11px;font-weight:700;margin-top:2px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tg-m{font-size:10px;color:var(--g);white-space:nowrap}
+.tg-p{margin-top:3px;font-size:9.5px;font-weight:700;color:var(--g);border-top:1px solid #2a2a2a;padding-top:3px;width:100%}
+.tg-p em{font-style:normal;font-size:14px;color:var(--y);margin-left:3px}
+.tg-now{color:var(--k);background:var(--y);border-radius:4px;border:0;padding:3px 2px;animation:pulse 1s infinite}
+.tg.hold .tg-h{border-left-color:var(--r)}.tg.hold .tg-h small{color:var(--r)}
+.tg.rd .tg-h{border-left-color:var(--gr);cursor:pointer}.tg.rd .tg-h small{color:var(--gr)}
+.tg.sel .tg-h{background:#1d1b06;box-shadow:inset 0 0 0 2px var(--y)}
+.tg-go{margin-top:5px;width:100%;background:var(--gr);color:var(--k);font-weight:800;font-size:13px;border-radius:7px;min-height:34px}
+@media(max-width:820px){.rail{top:64px}.tg-h{width:92px}}
+.tg-h:focus-visible{outline:2px solid var(--y)}
+/* mapa de voos */
+.fmap{position:fixed;inset:0;z-index:85;background:#050505;display:flex;flex-direction:column}
+.fmap[hidden]{display:none}
+.fm-top{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid #222}
+.fm-t{display:flex;gap:10px;align-items:center;flex:1}
+.fm-t .ico{width:36px;height:36px;border-radius:7px}
+.fm-t b{font-size:18px;color:var(--y);display:block;line-height:1.1}.fm-t small{display:block;color:var(--g);font-size:11px}
+.fm-coord{font-family:Doto,monospace;font-weight:900;color:var(--y);font-size:14px;white-space:nowrap;border:1px solid #333;border-radius:6px;padding:5px 8px}
+.fm-x{width:44px;height:44px;border-radius:50%;background:var(--k3);display:flex;align-items:center;justify-content:center;flex:none}.fm-x svg{width:22px;height:22px}
+.fm-body{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 370px;min-height:0}
+.fm-mapwrap{position:relative;min-height:0}
+#fmCanvas{position:absolute;inset:0;width:100%;height:100%;cursor:pointer}
+.fm-note{position:absolute;left:12px;bottom:10px;font-size:11px;color:#777}
+.fm-side{overflow:auto;padding:12px;border-left:1px solid #222;display:flex;flex-direction:column;gap:10px}
+.fm-chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex:none}
+.fm-chip{flex:none;background:var(--k3);border:1px solid #2e2e2e;border-radius:8px;padding:6px 9px;text-align:left;min-width:108px}
+.fm-chip b{display:block;font-size:13px}.fm-chip small{display:block;font-size:10px;color:var(--g)}
+.fm-chip i{display:block;height:3px;background:#333;border-radius:2px;margin-top:5px;overflow:hidden}.fm-chip i em{display:block;height:100%;background:var(--y)}
+.fm-chip.on{border-color:var(--y);background:#1d1b06}
+.fm-card{border:1px solid var(--y);border-radius:12px;padding:14px;background:#0b0b0b}
+.fm-h{display:flex;align-items:center;gap:10px;padding-bottom:10px;border-bottom:1px solid #2a2a2a}
+.fm-h .ico{width:30px;height:30px;border-radius:6px}
+.fm-h b{font-size:16px;flex:1}.fm-h span{font-family:Doto,monospace;font-weight:900;color:var(--y);font-size:18px}
+.fm-leg{display:grid;grid-template-columns:26px 1fr;gap:4px 10px;padding:12px 0;border-bottom:1px solid #2a2a2a}
+.fm-leg .frail{grid-row:span 2;display:flex;flex-direction:column;align-items:center}
+.fm-leg .frail .ico{width:24px;height:24px;border-radius:5px}
+.fm-leg .frail em{flex:1;width:0;border-left:2px dashed var(--y);margin:4px 0;min-height:24px}
+.fm-ap small{display:block;font-size:10px;color:var(--g)}
+.fm-ap .nm{font-size:12px;color:#ddd}
+.fm-ap .cd{font-size:24px;font-weight:800;line-height:1.1;display:flex;align-items:center;gap:8px}
+.fm-ap .cd span{font-size:11px;border:1px solid #555;border-radius:3px;padding:1px 5px;font-weight:700;color:var(--g)}
+.fm-row{display:grid;grid-template-columns:26px 1fr auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid #1d1d1d;font-size:13px}
+.fm-row:last-child{border-bottom:0}
+.fm-row .ico{width:24px;height:24px;border-radius:5px}
+.fm-row span{color:var(--g)}.fm-row b{font-size:15px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.fm-row b.ok{color:var(--gr)}.fm-row b.bad{color:var(--r)}
+.fm-wx{display:flex;gap:10px;align-items:center;border:1px dashed #444;border-radius:10px;padding:10px 12px;font-size:12px;color:var(--g)}
+.fm-wx b{display:block;color:var(--w);font-size:13px}
+.fm-wx>div{flex:1}
+.fm-wx{flex-direction:column;align-items:stretch}
+.trk{position:relative;height:34px;margin-top:6px;flex:none!important}
+.fm-wx>div:first-child{flex:none}
+.trk .ln{position:absolute;left:14px;right:14px;top:16px;border-top:2px dashed #444}
+.trk .dn{position:absolute;left:14px;top:15px;height:4px;background:var(--y);border-radius:2px}
+.trk .ep{position:absolute;top:22px;font-size:10px;font-weight:800;color:var(--g)}
+.trk .ep.l{left:0}.trk .ep.r{right:0}
+.trk svg{position:absolute;top:1px;width:30px;height:30px;fill:var(--y);transform:translateX(-50%);filter:drop-shadow(0 0 4px rgba(253,233,52,.6))}
+.fm-empty{color:#888;font-size:13px;padding:20px 4px}
+@media(max-width:820px){
+  .fm-body{grid-template-columns:1fr;grid-template-rows:auto 1fr;overflow:hidden}
+  .fm-mapwrap{aspect-ratio:2.15/1}
+  .fm-side{border-left:0;border-top:1px solid #222}
+  .fm-coord{font-size:11px;padding:4px 6px}
+  .fm-t small{display:none}
+  .mobileBar .tab{font-size:13px;gap:5px}.mobileBar .tab .ico{width:22px;height:22px}
+}
+.apt{font-size:12px;font-weight:700;color:var(--y);margin-left:6px;letter-spacing:0;vertical-align:middle}
+/* ícones estilo placa de aeroporto */
+.ico{display:inline-flex;align-items:center;justify-content:center;flex:none;width:1.6em;height:1.6em;background:var(--y);border-radius:.28em}
+.ico svg{width:78%;height:78%;fill:var(--k)}
+.ico.dk{background:var(--k)}.ico.dk svg{fill:var(--gr)}
+.link .ico.dk svg{fill:var(--y)}
+.go:disabled .ico{background:#3a3a3a}.go:disabled .ico svg{fill:#777}
+.tab .ico{width:28px;height:28px}
+.tab.on .ico{background:var(--k)}.tab.on .ico svg{fill:var(--y)}
+.ib{display:inline-flex;align-items:center;gap:6px}.ib .ico{width:20px;height:20px;border-radius:4px}
+#snd2:not(.on) .ico{background:#555}
+.abh h2{display:flex;align-items:center;gap:8px}.abh h2 .ico{width:20px;height:20px;border-radius:4px}
+.sv{grid-template-columns:150px 1fr 40px}
+.svn{display:flex;align-items:center;gap:8px}.svn .ico{width:24px;height:24px;border-radius:5px}
+.sv.done .svn .ico{background:var(--gr)}
+.go .ico,.link .ico{width:26px;height:26px;border-radius:5px}
+.link{display:flex;align-items:center;justify-content:center;gap:8px}
+.signs{display:flex;flex-direction:column;gap:clamp(6px,1vh,10px);max-width:560px}
+.sgn{display:flex;align-items:center;gap:clamp(8px,1.4vw,16px);background:#141414;border-radius:12px;padding:clamp(8px,1.2vw,14px) clamp(12px,1.6vw,20px);color:var(--y)}
+.sgn .arw{width:clamp(28px,4vw,48px);height:clamp(28px,4vw,48px);fill:var(--y);flex:none}
+.sgn .ico{width:clamp(36px,5vw,58px);height:clamp(36px,5vw,58px);border-radius:7px}
+.sgn b{font-size:clamp(20px,3.4vw,38px);font-weight:800;letter-spacing:-.01em}
+.mixer{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:16px}
+.mixer[hidden]{display:none}
+.mx-card{background:var(--k);border:2px solid var(--y);border-radius:14px;padding:16px;width:min(380px,100%)}
+.mx-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.mx-h b{font-size:18px}
+.mx-h button{width:44px;height:44px;border-radius:50%;background:var(--k3);display:flex;align-items:center;justify-content:center}.mx-h svg{width:20px;height:20px}
+.mx-r{display:grid;grid-template-columns:1fr 44px;gap:2px 10px;align-items:center;margin:12px 0;font-size:14px;font-weight:700}
+.mx-r span{grid-column:1/-1;color:var(--g);font-size:12px}
+.mx-r input{width:100%;accent-color:var(--y);height:28px}
+.mx-r output{text-align:right;font-variant-numeric:tabular-nums;color:var(--y)}
+.mx-t{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
+.mx-t button{flex:1 1 30%;background:var(--k3);border-radius:8px;min-height:40px;font-size:12px;font-weight:700}
+.close{display:none;width:44px;height:44px;border-radius:50%;background:var(--k3);align-items:center;justify-content:center}
+.close svg{width:22px;height:22px}
+
+/* barra recolhível */
+.abh{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 6px 4px}
+.abh h2{margin:0}
+#abtg{background:var(--k);border:1px solid #444;color:var(--w);font-size:12px;font-weight:700;padding:6px 12px;border-radius:16px;min-height:32px;white-space:nowrap}
+#abtg.alert{border-color:var(--r);color:var(--r)}
+.abar.min{background:none;padding-top:8px;pointer-events:none}
+.abar.min .cards,.abar.min h2{display:none}
+.abar.min .abh{justify-content:flex-end;pointer-events:auto}
+
+/* painel de plaquinhas (split-flap) */
+.fx{display:flex;gap:1px}
+.fl{display:inline-block;position:relative;width:var(--cw,11px);height:calc(var(--cw,11px)*1.45);background:linear-gradient(#262626 0 49.5%,#050505 49.5% 50.5%,#1b1b1b 50.5%);border-radius:2px;color:var(--y);font:700 calc(var(--cw,11px)*1.08)/calc(var(--cw,11px)*1.45) "Inter Tight",Arial,sans-serif;text-align:center;overflow:hidden;transform-origin:50% 50%}
+.board .row{font-family:inherit;display:flex;justify-content:space-between;gap:6px;padding:6px 10px;min-height:0}
+.board .row .fl{--cw:min(11px,2.75vw)}
+.board .head{display:flex;justify-content:space-between;gap:6px;padding:8px 10px 6px}
+.board .head span{font-size:10px}
+.st-bad .fl{color:var(--r)}.st-ok .fl{color:var(--gr)}.st-hot .fl{color:var(--w)}
+
+/* capa */
+.cover{position:fixed;inset:0;z-index:100;background:var(--y);color:var(--k);display:grid;grid-template-rows:auto 1fr auto;padding:clamp(16px,4vw,40px);overflow:hidden;transition:transform .7s cubic-bezier(.7,0,.3,1)}
+.cover.gone{transform:translateY(-102%)}
+.cv-top{display:flex;justify-content:space-between;align-items:flex-start;font-weight:800;font-size:clamp(28px,5vw,54px);line-height:.8}
+.cv-top small{font-size:13px;font-weight:700;letter-spacing:.02em;text-align:right;line-height:1.3}
+.cv-mid{display:flex;flex-direction:column;justify-content:center;gap:clamp(10px,2vh,18px);position:relative}
+.cv-board{background:#141414;border-radius:12px;padding:clamp(10px,2vw,18px);box-shadow:0 18px 40px rgba(0,0,0,.35);align-self:center;max-width:100%}
+.cv-board .fx{gap:clamp(3px,.6vw,6px);justify-content:center}
+.cv-board .big .fl{--cw:min(8.2vw,86px);color:#fff;border-radius:5px;font-weight:800}
+.cv-board .small{margin-top:clamp(8px,1.4vw,14px)}
+.cv-board .small .fl{--cw:min(3.1vw,30px);border-radius:3px}
+.cv-plane{position:absolute;width:clamp(64px,10vw,120px);filter:brightness(0);right:6%;bottom:-9%;transform:rotate(40deg);pointer-events:none}
+@media(max-width:600px){.cv-plane{right:10%;bottom:4%}}
+@keyframes fly{from{transform:translate(0,30vh) rotate(38deg)}to{transform:translate(85vw,-110vh) rotate(38deg)}}
+.cv-bot{display:grid;grid-template-columns:1fr auto;align-items:end;gap:16px}
+.cv-bot h2{margin:0;font-size:clamp(38px,8vw,92px);line-height:.92;letter-spacing:-.045em;font-weight:800}
+.cv-bot h2 svg{width:.7em;height:.7em;display:block;margin-bottom:.12em}
+.cv-act{display:flex;flex-direction:column;gap:8px;align-items:stretch;min-width:min(220px,40vw)}
+#play{background:var(--k);color:var(--y);font-weight:800;font-size:clamp(18px,2.4vw,24px);min-height:60px;border-radius:10px;padding:0 28px}
+#play:hover{transform:translateY(-2px)}
+#snd1{border:2px solid var(--k);border-radius:10px;min-height:44px;font-weight:700;color:var(--k)}
+.barcode{height:28px;margin-top:6px;background:repeating-linear-gradient(90deg,#000 0 2px,transparent 2px 4px,#000 4px 5px,transparent 5px 8px,#000 8px 11px,transparent 11px 13px)}
+@media(max-width:600px){.cv-bot{grid-template-columns:1fr}.cv-act{min-width:0}}
+
+@media(max-width:820px){
+  .app{display:block}
+  .stage{position:fixed;left:0;right:0;top:0;bottom:62px;height:auto}
+  .abar{position:fixed;bottom:62px}
+  .side{position:fixed;left:0;right:0;bottom:62px;height:calc(76dvh - 62px);border-left:0;border-top:3px solid var(--y);border-radius:14px 14px 0 0;transform:translateY(110%);transition:transform .3s ease;z-index:30}
+  .side.open{transform:none}
+  .tabs{display:none}
+  .mobileBar{display:grid;grid-template-columns:1fr 1fr .8fr auto;gap:6px;position:fixed;left:0;right:0;bottom:0;padding:8px;background:var(--k);z-index:40;border-top:1px solid #222}
+  .mobileBar .tab{min-height:46px}
+  .mobileBar .clock{font-size:22px;align-self:center;padding:0 6px}
+  .top .clock{display:none}
+  .close{display:flex}
+  .sign .plate{font-size:4.2vw}.sign .cls{font-size:1.9vw}.tag,.rwy{font-size:2.4vw}
+  .toast{position:fixed;top:auto;bottom:78px;max-width:calc(100% - 140px);left:calc(50% - 56px)}
+}
+@media(prefers-reduced-motion:reduce){.sign.ok .plate,.lt{animation:none!important}.lt.w,.lt.reil{opacity:.6}}
+</style>
+</head>
+<body>
+<div class="cover" id="cover">
+  <div class="cv-top"><span>**</span><small>Rio de Janeiro · Galeão<br>GIG · SBGL · Torre de controle</small></div>
+  <div class="cv-mid">
+    <img class="cv-plane" src="p5.png" alt="">
+    <div class="cv-board"><div class="big" id="cvTitle"></div><div class="small" id="cvSub"></div></div>
+  </div>
+  <div class="cv-bot">
+    <div class="signs"><div class="sgn"><svg class="arw" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 4.5 3 12l7.5 7.5 2.1-2.1L8.7 13.5H21v-3H8.7l3.9-3.9z"/></svg><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 19h19v2h-19zM22.1 9.5c-.2-.8-1-1.3-1.8-1.1l-5.3 1.4L8.1 3.4l-1.9.5 4.1 7.2-5 1.3-2-1.5-1.5.4 1.8 3.2.8 1.3 1.6-.4 5.3-1.4 4.3-1.2 5.3-1.4c.8-.3 1.3-1.1 1.1-1.9z"/></svg></span><b>PARTIDAS</b></div><div class="sgn"><svg class="arw" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 13.5 12 21l-7.5-7.5 2.1-2.1 3.9 3.9V3h3v12.3l3.9-3.9z"/></svg><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 19h19v2h-19zM9.2 13.7l4.3 1.2 5.3 1.4c.8.2 1.6-.3 1.8-1.1.2-.8-.3-1.6-1.1-1.8l-5.3-1.4-2.8-9-1.9-.5v8.3L4.5 9.4l-.9-2.4-1.4-.4v5.2z"/></svg></span><b>CHEGADAS</b></div><div class="sgn"><svg class="arw" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 13.5 12 21l-7.5-7.5 2.1-2.1 3.9 3.9V3h3v12.3l3.9-3.9z"/></svg><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 6h-2V3c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v3H7c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2 0 .55.45 1 1 1s1-.45 1-1h6c0 .55.45 1 1 1s1-.45 1-1c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM9.5 18H8V9h1.5v9zm3.25 0h-1.5V9h1.5v9zm.75-12h-3V3.5h3V6zM16 18h-1.5V9H16v9z"/></svg></span><b>BAGAGEM</b></div></div>
+    <div class="cv-act"><button id="play">Jogar</button><button id="snd1">Som ligado</button><div class="barcode"></div></div>
+  </div>
+</div>
+<div class="app">
+  <div class="stage" id="stage">
+    <button class="zreset" id="zreset" hidden>⤢ Tirar zoom</button><div class="zhint" id="zhint">Dois dedos para aproximar · arraste para os lados</div>
+    <div class="map" id="map">
+      <div class="sky" id="skyT"></div><div class="sky" id="skyN"></div><div id="lights"></div><div id="fixed"></div>
+      <div id="planes"></div>
+    </div>
+    <div class="rail" id="rail" aria-label="Voos chegando e prontos"></div>
+    <div class="abar" id="abar" style="display:none"><div class="abh"><h2 id="abt"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 19h19v2h-19zM9.2 13.7l4.3 1.2 5.3 1.4c.8.2 1.6-.3 1.8-1.1.2-.8-.3-1.6-1.1-1.8l-5.3-1.4-2.8-9-1.9-.5v8.3L4.5 9.4l-.9-2.4-1.4-.4v5.2z"/></svg></span>Em aproximação · toque no avião, depois na posição</h2><button id="abtg" aria-expanded="true">Ocultar ▾</button></div><div class="cards" id="cards"></div></div>
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <aside class="side" id="side">
+    <div class="top"><h1>DEPARTURE <span class="apt">GIG · Galeão</span></h1><div class="clock" id="clock">--:--</div><button class="close" id="closeSide" aria-label="Fechar painel"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
+    <div class="stats" id="stats"></div>
+    <div class="speed" id="speed"><button data-s="0">Pausar</button><button data-s="1">1×</button><button data-s="10" class="on">10×</button><button data-s="60">60×</button><button id="snd2" class="on ib"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></span>Som</button><button id="mixBtn" class="ib"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg></span>Mixer</button><button class="rs" id="restart">Reiniciar</button></div>
+    <div class="tabs">
+      <button class="tab on" data-t="arr"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 19h19v2h-19zM9.2 13.7l4.3 1.2 5.3 1.4c.8.2 1.6-.3 1.8-1.1.2-.8-.3-1.6-1.1-1.8l-5.3-1.4-2.8-9-1.9-.5v8.3L4.5 9.4l-.9-2.4-1.4-.4v5.2z"/></svg></span>Chegadas</button>
+      <button class="tab" data-t="dep"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 19h19v2h-19zM22.1 9.5c-.2-.8-1-1.3-1.8-1.1l-5.3 1.4L8.1 3.4l-1.9.5 4.1 7.2-5 1.3-2-1.5-1.5.4 1.8 3.2.8 1.3 1.6-.4 5.3-1.4 4.3-1.2 5.3-1.4c.8-.3 1.3-1.1 1.1-1.9z"/></svg></span>Partidas</button>
+      <button class="tab mapbtn" id="mapBtn"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10h-2.2A7.8 7.8 0 1 1 12 4.2z"/><path d="M12 6.3a5.7 5.7 0 1 0 5.7 5.7h-2.2A3.5 3.5 0 1 1 12 8.5z"/><circle cx="12" cy="12" r="1.9"/><path d="m11.2 11.2 8.3-8.3 1.6 1.6-8.3 8.3z"/></svg></span>Mapa</button>
+    </div>
+    <div class="board" id="board"></div>
+    <div class="detail" id="detail"></div>
+  </aside>
+
+  <div class="mixer" id="mixer" hidden>
+  <div class="mx-card" role="dialog" aria-label="Mixer de áudio">
+    <div class="mx-h"><b>Mixer de áudio</b><button id="mixClose" aria-label="Fechar mixer"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
+    <label class="mx-r"><span>Geral</span><input type="range" min="0" max="100" data-k="master"><output></output></label>
+    <label class="mx-r"><span>Painel (plaquinhas)</span><input type="range" min="0" max="100" data-k="flap"><output></output></label>
+    <label class="mx-r"><span>Motores</span><input type="range" min="0" max="100" data-k="engine"><output></output></label>
+    <label class="mx-r"><span>Freios e pneus</span><input type="range" min="0" max="100" data-k="brake"><output></output></label>
+    <div class="mx-t"><button data-test="flap">Testar painel</button><button data-test="takeoff">Testar decolagem</button><button data-test="brake">Testar freio</button></div>
+  </div>
+</div>
+<div class="fmap" id="fmap" hidden>
+  <div class="fm-top">
+    <div class="fm-t"><span id="fmIco"></span><div><b>EM ROTA</b><small>Mapa de voos · Galeão</small></div></div>
+    <div class="fm-coord" id="fmCoord"></div>
+    <button class="fm-x" id="fmClose" aria-label="Fechar mapa"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button>
+  </div>
+  <div class="fm-body">
+    <div class="fm-mapwrap" id="fmWrap"><canvas id="fmCanvas"></canvas><div class="fm-note" id="fmNote"></div></div>
+    <aside class="fm-side"><div class="fm-chips" id="fmChips"></div><div class="fm-card" id="fmCard"></div><div class="fm-wx" id="fmWx"></div></aside>
+  </div>
+</div>
+<nav class="mobileBar">
+    <button class="tab" data-t="arr"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 19h19v2h-19zM9.2 13.7l4.3 1.2 5.3 1.4c.8.2 1.6-.3 1.8-1.1.2-.8-.3-1.6-1.1-1.8l-5.3-1.4-2.8-9-1.9-.5v8.3L4.5 9.4l-.9-2.4-1.4-.4v5.2z"/></svg></span>Chegadas</button>
+    <button class="tab" data-t="dep"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 19h19v2h-19zM22.1 9.5c-.2-.8-1-1.3-1.8-1.1l-5.3 1.4L8.1 3.4l-1.9.5 4.1 7.2-5 1.3-2-1.5-1.5.4 1.8 3.2.8 1.3 1.6-.4 5.3-1.4 4.3-1.2 5.3-1.4c.8-.3 1.3-1.1 1.1-1.9z"/></svg></span>Partidas</button>
+    <button class="tab mapbtn" id="mapBtn2"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10h-2.2A7.8 7.8 0 1 1 12 4.2z"/><path d="M12 6.3a5.7 5.7 0 1 0 5.7 5.7h-2.2A3.5 3.5 0 1 1 12 8.5z"/><circle cx="12" cy="12" r="1.9"/><path d="m11.2 11.2 8.3-8.3 1.6 1.6-8.3 8.3z"/></svg></span>Mapa</button>
+    <div class="clock" id="clock2">--:--</div>
+  </nav>
+</div>
+
+<script>
+{
+const W=941,H=1672,RX=217,LANE=362;
+const ICONS={"dep": "<path d=\"M2.5 19h19v2h-19zM22.1 9.5c-.2-.8-1-1.3-1.8-1.1l-5.3 1.4L8.1 3.4l-1.9.5 4.1 7.2-5 1.3-2-1.5-1.5.4 1.8 3.2.8 1.3 1.6-.4 5.3-1.4 4.3-1.2 5.3-1.4c.8-.3 1.3-1.1 1.1-1.9z\"/>", "arr": "<path d=\"M2.5 19h19v2h-19zM9.2 13.7l4.3 1.2 5.3 1.4c.8.2 1.6-.3 1.8-1.1.2-.8-.3-1.6-1.1-1.8l-5.3-1.4-2.8-9-1.9-.5v8.3L4.5 9.4l-.9-2.4-1.4-.4v5.2z\"/>", "bag": "<path d=\"M17 6h-2V3c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v3H7c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2 0 .55.45 1 1 1s1-.45 1-1h6c0 .55.45 1 1 1s1-.45 1-1c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM9.5 18H8V9h1.5v9zm3.25 0h-1.5V9h1.5v9zm.75-12h-3V3.5h3V6zM16 18h-1.5V9H16v9z\"/>", "walk": "<path d=\"M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9 7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7z\"/>", "fuel": "<path d=\"M19.77 7.23l.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33 0 1.38 1.12 2.5 2.5 2.5.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77zM12 10H6V5h6v5z\"/>", "food": "<path d=\"M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z\"/>", "clean": "<path d=\"M13 2h2v8h-2z\"/><path d=\"M8.5 11h11l1 3h-13z\"/><path d=\"M7.5 15h13l1.5 7H6zm2.5 1.5-.7 4h1.4l.6-4zm3.3 0-.3 4h1.4l.2-4zm3.4 0 .1 4h1.4l-.3-4z\" fill-rule=\"evenodd\"/>", "spk": "<path d=\"M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z\"/>", "tune": "<path d=\"M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z\"/>", "out": "<path d=\"M2 3h6v18H2zm1.6 1.6v14.8h2.8V4.6z\" fill-rule=\"evenodd\"/><g transform=\"translate(5 1) scale(.85)\"><path d=\"M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9 7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7z\"/></g>", "in": "<path d=\"M16 3h6v18h-6zm1.6 1.6v14.8h2.8V4.6z\" fill-rule=\"evenodd\"/><g transform=\"translate(-2 1) scale(.85)\"><path d=\"M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9 7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7z\"/></g>", "bagdown": "<g transform=\"translate(-2 2) scale(.82)\"><path d=\"M17 6h-2V3c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v3H7c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2 0 .55.45 1 1 1s1-.45 1-1h6c0 .55.45 1 1 1s1-.45 1-1c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM9.5 18H8V9h1.5v9zm3.25 0h-1.5V9h1.5v9zm.75-12h-3V3.5h3V6zM16 18h-1.5V9H16v9z\"/></g><path d=\"M18 3h2v10h3l-4 6-4-6h3z\"/>", "bagup": "<g transform=\"translate(-2 2) scale(.82)\"><path d=\"M17 6h-2V3c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v3H7c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2 0 .55.45 1 1 1s1-.45 1-1h6c0 .55.45 1 1 1s1-.45 1-1c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM9.5 18H8V9h1.5v9zm3.25 0h-1.5V9h1.5v9zm.75-12h-3V3.5h3V6zM16 18h-1.5V9H16v9z\"/></g><path d=\"M18 21h2V11h3l-4-6-4 6h3z\"/>"};
+const ic=(n,c='')=>`<span class="ico ${c}"><svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]}</svg></span>`;
+
+// pista: cabeceira 10 em cima, 28 embaixo
+const TH={"10":60,"28":1590};
+const STANDS=[
+ {n:1,x:535,y:295,max:4},{n:2,x:525,y:420,max:4},{n:3,x:535,y:545,max:5},{n:4,x:495,y:660,max:6},
+ {n:5,x:455,y:765,max:7},{n:6,x:465,y:890,max:7},{n:7,x:510,y:1000,max:6},{n:8,x:535,y:1120,max:5},
+ {n:9,x:535,y:1250,max:4},{n:10,x:540,y:1365,max:4}];
+const SPR=[[192,246],[197,294],[238,338],[226,416],[348,491],[357,546],[515,615]];
+const SC=135/615;
+const GROUND=[20,30,40,55,70,90,120];
+const MODELS=["A220 / 737-700","A320 / 737-800","A321neo / 737 MAX","767-300 / A330-200","787-9 / A330-900","777-300ER / A350-1000","A380 / 747-8"];
+const AIRLINES={RG:"Varig",VP:"Vasp",TR:"Transbrasil",QF:"Qantas",SA:"South African",CA:"Air China",SQ:"Singapore Airlines",AZ:"Alitalia",PA:"Pan Am",JL:"Japan Airlines",LA:"LATAM",G3:"GOL",AD:"Azul",TP:"TAP Air Portugal",EK:"Emirates",AF:"Air France",BA:"British Airways",AA:"American Airlines",AR:"Aerolíneas Argentinas",CM:"Copa Airlines",QR:"Qatar Airways",LH:"Lufthansa",IB:"Iberia",KL:"KLM",AV:"Avianca",DL:"Delta",UA:"United"};
+const CITY={NRT:"Tóquio",SYD:"Sydney",JNB:"Joanesburgo",PEK:"Pequim",SIN:"Singapura",POA:"Porto Alegre",MAO:"Manaus",FCO:"Roma",JFK:"Nova York",LAX:"Los Angeles",GRU:"São Paulo",BSB:"Brasília",REC:"Recife",LIS:"Lisboa",DXB:"Dubai",CDG:"Paris",LHR:"Londres",MIA:"Miami",EZE:"Buenos Aires",PTY:"Cidade do Panamá",SCL:"Santiago",DOH:"Doha",FRA:"Frankfurt",MAD:"Madri",AMS:"Amsterdã",BOG:"Bogotá",ATL:"Atlanta",SSA:"Salvador",IAH:"Houston"};
+// tempos de voo aproximados de/para o Galeão (GIG)
+const DUR={NRT:1330,SYD:1000,JNB:540,PEK:1250,SIN:1220,POA:115,MAO:250,FCO:705,JFK:600,LAX:725,GRU:60,BSB:110,REC:165,LIS:570,DXB:870,CDG:665,LHR:695,MIA:510,EZE:175,PTY:405,SCL:255,DOH:885,FRA:700,MAD:610,AMS:695,BOG:375,ATL:590,SSA:120,IAH:615};
+// [cia, voo chegada, voo partida, origem/destino, classe, hora prevista de pouso, atraso de origem]
+// rotas possíveis: [cia, origem, classes possíveis]
+const ROUTES=[["LA","GRU",[2,3]],["LA","SCL",[3,5]],["LA","BSB",[2,3]],["LA","REC",[2,3]],["G3","BSB",[1,2]],["G3","SSA",[1,2]],["G3","GRU",[1,2]],["G3","EZE",[2]],
+ ["AD","REC",[2,3]],["AD","GRU",[1,2]],["AD","SSA",[1,3]],["TP","LIS",[5,6]],["EK","DXB",[7,6]],["AF","CDG",[6,5]],["BA","LHR",[5,6]],["AA","MIA",[4,5]],
+ ["AR","EZE",[1,2]],["CM","PTY",[2,3]],["QR","DOH",[6,5]],["LH","FRA",[7,6]],["IB","MAD",[5]],["KL","AMS",[5,6]],["AV","BOG",[2,3]],["DL","ATL",[4,5]],
+ ["UA","IAH",[5]],["AZ","FCO",[6,5,4]],["PA","JFK",[7,4]],["PA","MIA",[4,7]],["JL","NRT",[7,6]],["QF","SYD",[7,6]],["SA","JNB",[5,6]],["CA","PEK",[6]],["SQ","SIN",[7,6]],["PA","LAX",[7]],
+ ["RG","LIS",[6,5]],["RG","FRA",[6,7]],["RG","MIA",[5,4]],["RG","NRT",[7]],["RG","POA",[2,3]],["VP","GRU",[1,2]],["VP","BSB",[2,3]],["VP","MAO",[3,4]],["VP","MIA",[4]],
+ ["TR","GRU",[1,2]],["TR","BSB",[2,3]],["TR","REC",[2,3]],["TR","MIA",[4]]];
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+function genWave(start,n){
+  const pool=[...ROUTES].sort(()=>Math.random()-.5).slice(0,n);
+  let t=start;
+  return pool.map(([al,ap,cl])=>{
+    t+=4+Math.floor(Math.random()*9);
+    const base=["LA","G3","AD","VP","TR"].includes(al)?1000+Math.floor(Math.random()*8000):10+Math.floor(Math.random()*890);
+    const a=base%2?base:base+1;
+    return [al,a,a+1,ap,pick(cl),fmt(t),Math.random()<.25?5+Math.floor(Math.random()*20):0];
+  });
+}
+let ROT=null;
+// vento: [hora, direção de onde sopra (graus), intensidade kt]
+const WIND=[["00:00",100,12],["13:25",280,16],["15:05",110,9]];
+// serviços em solo: [nome, início, fim] como fração do tempo em solo
+const SERV=[["Desembarque",0,.22,"out"],["Bagagem (descarga)",.04,.3,"bagdown"],["Limpeza",.22,.52,"clean"],["Catering",.28,.58,"food"],["Abastecimento",.22,.62,"fuel"],["Bagagem (carga)",.6,.92,"bagup"],["Embarque",.6,.95,"in"]];
+
+const toMin=s=>{const[h,m]=s.split(':').map(Number);return h*60+m};
+const fmt=m=>{m=((Math.floor(m)%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')};
+const fmtDur=m=>`${Math.floor(m/60)}h${String(m%60).padStart(2,'0')}`;
+const pad=n=>n==null?'--':String(n).padStart(2,'0');
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const lerp=(a,b,k)=>a+(b-a)*k;
+const EASE={lin:k=>k,out:k=>1-(1-k)**2,in:k=>k*k,io:k=>k<.5?2*k*k:1-((-2*k+2)**2)/2};
+
+let flights,now,speed=10,tab="arr",sel=null,assignFor=null,runwayFree,score,lastWind=-1;
+const $=id=>document.getElementById(id);
+const map=$('map'),fixed=$('fixed'),planesEl=$('planes'),board=$('board'),detail=$('detail'),side=$('side'),cards=$('cards');
+
+function reset(){
+  if(flights||!ROT)ROT=genWave(toMin("11:58"),20);
+  const DAY=[...ROT,...genWave(toMin("14:55"),18),...genWave(toMin("17:55"),16)];
+  flights=DAY.map(([al,a,d,ap,cls,t,dl],i)=>{const sched=toMin(t),g=GROUND[cls-1];
+    return {i,al,arrNo:al+a,depNo:al+d,ap,cls,sched,eta:sched+dl,ground:g,depSched:sched+g,dur:DUR[ap],state:"inbound",stand:null,path:null}});
+  STANDS.forEach(s=>s.res=null);
+  now=toMin("11:52");runwayFree=0;sel=null;assignFor=null;lastWind=-1;
+  score={landed:0,departed:0,onTime:0,lateMin:0};
+  planeEls.forEach(e=>e.remove());planeEls.clear();
+  side.classList.remove('showDetail');
+}
+
+/* ---------- vento e pista em uso ---------- */
+function windNow(){let w=WIND[0];for(const x of WIND)if(now>=toMin(x[0]))w=x;return w}
+function activeRwy(){const d=windNow()[1];const diff=a=>Math.abs(((d-a+540)%360)-180);return diff(100)<=diff(280)?"10":"28"}
+
+/* ---------- trajetórias ---------- */
+// segmento: {b:[x,y], d:duração (min), e:ease, h:rumo fixo opcional, s:escala final, al:altitude final}
+function mkPath(start,segs,t0,startH=0){
+  let p=start,t=t0,s=1,al=0,h=startH;
+  const out=segs.map(g=>{const seg={a:p,b:g.b,t,d:g.d,e:g.e||'lin',s0:g.s0??s,s1:g.s??s,a0:g.a0??al,a1:g.al??al,
+      h:g.h??(Math.hypot(g.b[0]-p[0],g.b[1]-p[1])>.5?Math.atan2(g.b[0]-p[0],-(g.b[1]-p[1]))*180/Math.PI:h)};
+    p=g.b;t+=g.d;s=seg.s1;al=seg.a1;h=seg.h;return seg});
+  return {segs:out,end:t};
+}
+const dist=(a,b)=>Math.hypot(b[0]-a[0],b[1]-a[1]);
+const parkPos=(f,s)=>[s.x-SPR[f.cls-1][1]*SC/2-2,s.y];
+
+/* rede de pistas de táxi, seguindo as linhas amarelas do mapa */
+const TWY=318;                                  // taxiway paralela (entre a grama e o pátio)
+const CONN=[195,482,975,1308,1560];             // saídas pista ↔ taxiway
+const ENTRY=[330,482,640,845,1085,1257];        // ligações taxiway ↔ faixa do pátio
+const TD={"10":TH["10"]+200,"28":TH["28"]-200}; // ponto de toque
+const DEP={"10":195,"28":1560};                 // saída usada para decolar
+const nearest=(arr,y)=>arr.reduce((a,b)=>Math.abs(b-y)<Math.abs(a-y)?b:a);
+function viaApron(fromT,s){                     // da taxiway até a posição
+  const e=nearest(ENTRY,s.y);
+  return [[TWY,e],[LANE,e],[LANE,s.y]];
+}
+function landingPath(f,r,s){
+  const down=r==="10",dir=down?1:-1,td=TD[r],minRoll=250+f.cls*40;
+  const ok=CONN.filter(c=>down?c>=td+minRoll:c<=td-minRoll&&c>TH["10"]+100);
+  // aviões grandes (classe 5+) usam a pista toda e saem no fim; os médios saem no meio
+  const endC=down?CONN[CONN.length-1]:CONN[0];
+  const c=f.cls>=5?endC:f.cls>=3?(down?975:482):(ok.length?ok.reduce((a,b)=>Math.abs(b-s.y)<Math.abs(a-s.y)?b:a):endC);
+  const p=parkPos(f,s);
+  const pts=[[RX,c-dir*28],[262,c],[TWY,c],...viaApron([TWY,c],s)];
+  const segs=[{b:[RX,td],d:1.6,s0:1.9,s:1,a0:1,al:0},{b:pts[0],d:Math.max(.9,Math.abs(pts[0][1]-td)/480),e:'out'}];
+  let prev=pts[0];
+  for(const q of pts.slice(1)){const d=dist(prev,q);if(d>1)segs.push({b:q,d:Math.max(.08,d/280)});prev=q}
+  segs.push({b:p,d:Math.max(.2,dist(prev,p)/180),e:'out'});
+  const P=mkPath([RX,down?-320:H+320],segs,now,down?180:0);
+  P.offRwy=P.segs[2].t+P.segs[2].d;            // pista livre ao chegar na taxiway
+  return P;
+}
+function taxiOutPath(f,r,s){
+  const p=parkPos(f,s),c=DEP[r],e=nearest(ENTRY,s.y);
+  const pts=[[LANE,s.y],[LANE,e],[TWY,e],[TWY,c],[285,c]];
+  const segs=[{b:pts[0],d:1,e:'io',h:90}];let prev=pts[0];
+  for(const q of pts.slice(1)){const d=dist(prev,q);if(d>1)segs.push({b:q,d:Math.max(.08,d/260)});prev=q}
+  return mkPath(p,segs,now,90);
+}
+function takeoffPath(f,r){
+  const down=r==="10",c=DEP[r];
+  return mkPath([285,c],[
+    {b:[RX,c],d:.5,e:'out'},
+    {b:[RX,c+(down?2:-2)],d:.15,h:down?180:0},
+    {b:[RX,down?1000:650],d:1,e:'in'},
+    {b:[RX,down?H+320:-320],d:.8,s:1.8,al:1}
+  ],now,270);
+}
+function pose(f){
+  const P=f.path;if(!P)return null;
+  let g=P.segs.find(x=>now<x.t+x.d)||P.segs[P.segs.length-1];
+  const k=clamp((now-g.t)/g.d,0,1),ke=EASE[g.e](k);
+  return {x:lerp(g.a[0],g.b[0],ke),y:lerp(g.a[1],g.b[1],ke),h:g.h,s:lerp(g.s0,g.s1,ke),al:lerp(g.a0,g.a1,ke)};
+}
+
+/* ---------- simulação ---------- */
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),2600)}
+const servProg=f=>f.tPark==null?0:clamp((now-f.tPark)/f.ground,0,1);
+const isReady=f=>f.state==="parked"&&servProg(f)>=.95;
+
+function step(){
+  const r=activeRwy();
+  // chegadas
+  for(const f of flights){
+    if(f.state==="inbound"&&now>=f.eta-20){f.state="approach";dirty=true}
+    if((f.state==="approach"||f.state==="holding")&&now>=f.eta-1.3){
+      if(f.stand==null){f.eta+=4;if(f.state!=="holding")toast(`${f.arrNo} entrou em espera: falta posição`);f.state="holding";dirty=true}
+      else if(now<runwayFree){f.eta=runwayFree+1.3}
+      else{f.rwy=r;f.path=landingPath(f,r,STANDS[f.stand-1]);f.state="arriving";runwayFree=f.path.offRwy+.2;jet("approach");dirty=true}
+    }
+    if(f.state==="arriving"&&!f.tdSnd&&now>=f.path.segs[1].t){f.tdSnd=true;jet("touchdown");jet("brake");smoke(f)}
+    if(f.state==="arriving"&&now>=f.path.end){f.state="parked";f.tPark=now;f.path=null;score.landed++;dirty=true}
+    if(f.state==="parked"&&!f.readyNotified&&isReady(f)){f.readyNotified=true;toast(`${f.depNo} pronto para partir · posição ${pad(f.stand)}`);dirty=true}
+  }
+  // partidas
+  for(const f of flights){
+    if(f.state==="departing"){
+      const s=STANDS[f.stand-1];
+      if(s.res===f.i&&now>=f.path.segs[0].t+f.path.segs[0].d){s.res=null;dirty=true}
+      if(now>=f.path.end){f.state="lineup";dirty=true}
+    }
+    if(f.state==="lineup"&&now>=runwayFree){
+      const incoming=flights.some(o=>o.state==="arriving"&&now<o.path.segs[1].t+o.path.segs[1].d);
+      if(!incoming){f.path=takeoffPath(f,f.rwy);f.state="takeoff";runwayFree=now+2;dirty=true}
+    }
+    if(f.state==="takeoff"&&!f.toSnd&&now>=f.path.segs[2].t){f.toSnd=true;jet("takeoff")}
+    if(f.state==="takeoff"&&now>=f.path.end){
+      f.state="gone";f.tOff=now;score.departed++;const late=Math.max(0,Math.round(now-f.depSched));
+      if(late<=5)score.onTime++;else score.lateMin+=late;dirty=true}
+  }
+}
+function depart(f){
+  if(!isReady(f))return;
+  f.rwy=activeRwy();f.state="departing";f.path=taxiOutPath(f,f.rwy,STANDS[f.stand-1]);
+  toast(`${f.depNo} liberado · taxiando para a cabeceira ${f.rwy}`);dirty=true;
+}
+function assign(f,s){
+  if(s.max<f.cls)return toast(`Posição ${pad(s.n)} aceita até classe ${s.max} · ${f.arrNo} é classe ${f.cls}`);
+  if(s.res!=null&&s.res!==f.i)return toast(`Posição ${pad(s.n)} está ocupada`);
+  if(f.stand!=null)STANDS[f.stand-1].res=null;
+  s.res=f.i;f.stand=s.n;assignFor=null;openTab=null;
+  toast(`${f.arrNo} vai desembarcar na posição ${pad(s.n)}`);dirty=true;
+}
+
+/* ---------- status ---------- */
+function arrStatus(f){
+  switch(f.state){
+    case"inbound":return now<f.eta-f.dur?(f.eta>f.sched?["ATRASADO","bad"]:["PREVISTO",""]):(f.eta>f.sched?["ATRASADO","bad"]:["EM VOO","ok"]);
+    case"approach":return["APROXIMAÇÃO","hot"];
+    case"holding":return["EM ESPERA","bad"];
+    case"arriving":return now<f.path.segs[1].t?["POUSANDO","hot"]:["TAXIANDO","ok"];
+    default:return["NO PORTÃO","ok"];
+  }
+}
+function depEst(f){
+  if(f.state==="parked")return Math.max(f.depSched,f.tPark+f.ground*.95);
+  if(["inbound","approach","holding","arriving"].includes(f.state))return Math.max(f.depSched,f.eta+5+f.ground*.95);
+  return f.depSched;
+}
+function depStatus(f){
+  switch(f.state){
+    case"gone":return["DECOLOU",""];
+    case"takeoff":return["DECOLANDO","hot"];
+    case"lineup":return["NA CABECEIRA","hot"];
+    case"departing":return["TAXIANDO","ok"];
+    case"parked":if(isReady(f))return["PRONTO","ok"];if(servProg(f)>=.6)return["EMBARQUE","hot"];
+  }
+  return depEst(f)>f.depSched+5?["ATRASADO","bad"]:["NO HORÁRIO",""];
+}
+
+/* ---------- desenho do mapa ---------- */
+function drawLights(){
+  const r=activeRwy(),w=windNow();let h='';
+  // luzes de cabeceira: verde na cabeceira de pouso, vermelha no fim da pista
+  for(const end of ["10","28"]){
+    const y=TH[end],on=end===r;
+    for(let i=0;i<9;i++)h+=`<i class="lt ${on?'g':'r'}" style="left:${(181+i*9)/W*100}%;top:${y/H*100}%"></i>`;
+    if(on){
+      const ys=end==="10"?[4,18,32,46]:[1604,1618,1632,1646,1660];
+      const ord=end==="10"?ys:[...ys].reverse();
+      ord.forEach((yy,k)=>h+=`<i class="lt w" style="left:${RX/W*100}%;top:${yy/H*100}%;animation-delay:${(k*.12).toFixed(2)}s"></i>`);
+      h+=`<i class="lt reil" style="left:${172/W*100}%;top:${y/H*100}%"></i><i class="lt reil" style="left:${263/W*100}%;top:${y/H*100}%"></i>`;
+    }
+    h+=`<div class="rwy ${on?'on':'off'}" style="left:${140/W*100}%;top:${(end==="10"?y+40:y-40)/H*100}%">${end}<br>${on?'POUSO':'FIM'}</div>`;
+  }
+  $('lights').innerHTML=h;h='';
+  // indicador de vento (seta = para onde o vento sopra, no referencial do mapa)
+  const ang=w[1]+260;
+  $('lights').innerHTML+=`<div class="wind"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="#555"/><g transform="rotate(${ang} 20 20)"><path d="M20 5 L26 16 H22 V33 H18 V16 H14 Z" fill="#FDE934"/></g></svg><div><b>Vento ${String(w[1]).padStart(3,'0')}° · ${w[2]} kt</b><small>Pista ${r} em uso</small><span class="daypart" id="dpart"></span></div></div>`;
+}
+function drawFixed(){
+  // plaquinhas e áreas de clique
+  let h='';const af=assignFor!=null?flights[assignFor]:null;
+  STANDS.forEach(s=>{
+    const f=s.res!=null?flights[s.res]:null;
+    let c='';
+    if(af){c=(s.max>=af.cls&&(s.res==null||s.res===af.i))?' ok':' no'}
+    else if(sel&&sel.stand===s.n)c=' sel';
+    else if(f&&isReady(f))c=' ready';
+    else if(f&&f.state!=="parked")c=' reserved';
+    h+=`<div class="sign${c}" style="left:${(s.x+14)/W*100}%;top:${(s.y+30)/H*100}%"><div class="plate">${s.n}</div><div class="cls">MAX ${s.max}</div></div>`;
+    h+=`<button class="hit${c.includes('ok')?' ok':''}" data-stand="${s.n}" aria-label="Posição ${s.n}" style="left:${(s.x-62)/W*100}%;top:${s.y/H*100}%"></button>`;
+  });
+  map.classList.toggle('assign',!!af);
+  fixed.innerHTML=h;
+}
+
+/* fumaça dos pneus no toque */
+function smoke(f){
+  const wpx=SPR[f.cls-1][0]*SC;
+  for(let k=0;k<7;k++)setTimeout(()=>{
+    const p=pose(f);if(!p)return;
+    for(const side of [-1,1]){
+      const el=document.createElement('i');el.className='puff';
+      const sz=wpx*(.22+Math.random()*.1);
+      el.style.cssText=`left:${(p.x+side*wpx*.13)/W*100}%;top:${(p.y+(f.rwy==="10"?-1:1)*wpx*.05)/H*100}%;width:${sz/W*100}%`;
+      planesEl.appendChild(el);setTimeout(()=>el.remove(),1700);
+    }
+  },k*70);
+}
+const planeEls=new Map();
+function drawPlanes(){
+  const live=new Set();
+  for(const f of flights){
+    let p=null;
+    if(f.path)p=pose(f);
+    else if(f.state==="parked"){const q=parkPos(f,STANDS[f.stand-1]);p={x:q[0],y:q[1],h:90,s:1,al:0}}
+    if(!p||f.state==="gone")continue;
+    live.add(f.i);
+    let el=planeEls.get(f.i);
+    if(!el){el=document.createElement('div');el.className='pl';el.innerHTML=`<img src="p${f.cls}.png" alt=""><div class="tag" hidden></div>`;planesEl.appendChild(el);planeEls.set(f.i,el)}
+    const wpx=SPR[f.cls-1][0]*SC;
+    el.style.left=(p.x/W*100)+'%';el.style.top=(p.y/H*100)+'%';el.style.width=(wpx/W*100)+'%';
+    el.style.zIndex=p.al>0?8:1;
+    el.style.opacity=p.al>.88?Math.max(0,(1-p.al)/.12):1;
+    el.style.filter=`drop-shadow(${-4-34*p.al}px ${5+46*p.al}px ${3+9*p.al}px rgba(0,0,0,${.45-.25*p.al})) brightness(${PB})`;
+    el.firstChild.style.transform=`rotate(${p.h}deg) scale(${p.s})`;
+    const tg=el.lastChild,show=sel&&sel.i===f.i;
+    tg.hidden=!show;if(show){tg.textContent=`${f.state==="arriving"?f.arrNo:f.depNo}`;const [sw,sl]=SPR[f.cls-1];tg.style.cssText=`left:50%;top:${50-50*sw/sl-2}%`}
+  }
+  for(const [i,el] of planeEls)if(!live.has(i)){el.remove();planeEls.delete(i)}
+}
+
+/* ---------- barra de aproximação ---------- */
+let openTab=null,justOpened=null;
+function drawBar(){
+  const ap=flights.filter(f=>f.state==="approach"||f.state==="holding").sort((a,b)=>a.eta-b.eta);
+  const rd=flights.filter(isReady);
+  const tab=(f,kind)=>{
+    const hold=f.state==="holding",m=Math.max(0,Math.ceil(f.eta-now)),on=assignFor===f.i;
+    const cls=`tg${hold?' hold':''}${kind==='rd'?' rd':''}${on?' sel':''}`;
+    const model=MODELS[f.cls-1].split(' / ')[0];
+    if(kind==='rd')return `<div class="${cls}"><div class="tg-h" data-f="${f.i}" data-k="rd" role="button" tabindex="0">
+      <img src="p${f.cls}.png" alt=""><b>${f.depNo}</b><small>PRONTO</small>
+      <span class="tg-c">→ ${CITY[f.ap]}</span><span class="tg-m">${model} · C${f.cls}</span><span class="tg-p">POS <em>${pad(f.stand)}</em></span>
+      <button class="tg-go" data-act="go" data-f="${f.i}">Partir</button></div></div>`;
+    return `<div class="${cls}"><button class="tg-h" data-f="${f.i}" data-k="arr" aria-pressed="${on}">
+      <img src="p${f.cls}.png" alt=""><b>${f.arrNo}</b><small>${hold?'ESPERA':m+' min'}</small>
+      <span class="tg-c">${CITY[f.ap]}</span><span class="tg-m">${model} · C${f.cls}</span>
+      ${on?'<span class="tg-p tg-now">Toque na posição</span>':`<span class="tg-p">POS <em>${f.stand?pad(f.stand):'—'}</em></span>`}</button></div>`;
+  };
+  $('rail').innerHTML=ap.map(f=>tab(f,'arr')).join('')+rd.map(f=>tab(f,'rd')).join('');
+}
+
+/* ---------- painel ---------- */
+function drawStats(){
+  const pct=score.departed?Math.round(score.onTime/score.departed*100)+'%':'--';
+  $('stats').innerHTML=`<div><small>Pousos</small><b>${score.landed}</b></div><div><small>Decolagens</small><b>${score.departed}</b></div><div><small>Pontualidade</small><b>${pct}</b></div>`;
+  $('clock').textContent=$('clock2').textContent=fmt(now);
+}
+/* ---------- painel split-flap ---------- */
+const CH=" ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:.-";
+const COLS=[5,9,6,2,10];
+const SHORTCITY={"Joanesburgo":"JOANESBRG","Porto Alegre":"P. ALEGRE","Los Angeles":"L.ANGELES","Buenos Aires":"B. AIRES","Cidade do Panamá":"PANAMA","São Paulo":"SAO PAULO","Amsterdã":"AMSTERDA"};
+const SHORTST={"APROXIMAÇÃO":"APROXIMA.","NA CABECEIRA":"CABECEIRA","PORTÃO FECHADO":"FECHADO","ÚLTIMA CHAMADA":"ULT.CHAM."};
+const norm=(t,n)=>t.normalize('NFD').replace(/[̀-ͯ]/g,'').toUpperCase().replace(/[^A-Z0-9:.\- ]/g,' ').slice(0,n).padEnd(n,' ');
+const flips=new Map();
+function flapRow(n){let h='<span class="fx">';for(let i=0;i<n;i++)h+='<span class="fl" data-c=" "> </span>';return h+'</span>'}
+function setFlaps(group,text){
+  const cells=group.children;
+  for(let i=0;i<cells.length;i++){
+    const el=cells[i],to=text[i]||' ';
+    const cur=flips.has(el)?flips.get(el).seq.at(-1):el.dataset.c;
+    if(cur===to)continue;
+    const a=CH.indexOf(el.dataset.c),b=CH.indexOf(to);let seq=[];
+    let k=a<0?0:a;const steps=((b-k)+CH.length)%CH.length;
+    if(steps>7)k=(b-6+CH.length)%CH.length;
+    while(k!==b){k=(k+1)%CH.length;seq.push(CH[k])}
+    if(!seq.length)seq=[to];
+    flips.set(el,{seq,i:0,t:performance.now()+Math.random()*120});
+  }
+}
+function flipTick(t){
+  for(const [el,f] of flips){
+    if(t<f.t)continue;
+    const c=f.seq[f.i++];el.textContent=c;el.dataset.c=c;
+    if(el.animate)el.animate([{transform:'scaleY(1)'},{transform:'scaleY(.15)',filter:'brightness(.6)'},{transform:'scaleY(1)'}],{duration:70});
+    clack();
+    f.t=t+55+Math.random()*25;
+    if(f.i>=f.seq.length)flips.delete(el);
+  }
+}
+let rows=[],rowsTab=null;
+function buildBoard(){
+  const arr=tab==="arr";rowsTab=tab;
+  const list=[...flights].sort((a,b)=>arr?a.sched-b.sched:a.depSched-b.depSched);
+  let h=`<div class="head"><span>HORA</span><span>${arr?'ORIGEM':'DESTINO'}</span><span>VOO</span><span>POS</span><span>SITUAÇÃO</span></div>`;
+  list.forEach(f=>{h+=`<button class="row" data-f="${f.i}">${COLS.map(flapRow).join('')}</button>`});
+  board.innerHTML=h;
+  rows=[...board.querySelectorAll('.row')].map(el=>({el,f:flights[+el.dataset.f],g:el.children}));
+  // alinha o cabeçalho com as colunas
+  const hs=board.querySelectorAll('.head span');
+  requestAnimationFrame(()=>{const g=rows[0]?.g;if(!g)return;hs.forEach((sp,i)=>{sp.style.width=g[i].offsetWidth+'px'})});
+  updateBoard();
+}
+function updateBoard(){
+  if(rowsTab!==tab||rows.length!==flights.length||rows[0]?.f!==flights[rows[0].f.i])return buildBoard();
+  const arr=tab==="arr";
+  for(const r of rows){
+    const f=r.f;const [st,c]=arr?arrStatus(f):depStatus(f);
+    const past=arr?(f.tPark!=null&&now>=f.tPark+30):(f.state==="gone"&&now>=f.tOff+15);
+    r.el.classList.toggle('past',past);r.el.classList.toggle('sel',!!(sel&&sel.i===f.i));
+    setFlaps(r.g[0],fmt(arr?f.sched:f.depSched));
+    setFlaps(r.g[1],norm(SHORTCITY[CITY[f.ap]]||CITY[f.ap],9));
+    setFlaps(r.g[2],norm(arr?f.arrNo:f.depNo,6));
+    setFlaps(r.g[3],f.stand?pad(f.stand):'  ');
+    setFlaps(r.g[4],norm(SHORTST[st]||st,10));
+    r.g[4].className='fx'+(c?' st-'+c:'');
+  }
+}
+
+/* ---------- som das plaquinhas (sintetizado) ---------- */
+let AC=null,clickBuf=null,soundOn=true,lastClack=0;
+const BUS={};
+let MIX={master:80,flap:70,engine:80,brake:70};
+try{const m=JSON.parse(localStorage.getItem('departure_mix')||'null');if(m)MIX={...MIX,...m}}catch(e){}
+function mkBuses(){
+  BUS.master=AC.createGain();BUS.master.connect(AC.destination);
+  for(const k of ["flap","engine","brake"]){BUS[k]=AC.createGain();BUS[k].connect(BUS.master)}
+  applyMix();
+}
+function applyMix(){
+  if(!BUS.master)return;
+  const v=x=>(x/100)**1.6;
+  BUS.master.gain.value=soundOn?v(MIX.master)*1.4:0;
+  BUS.flap.gain.value=v(MIX.flap)*1.3;BUS.engine.gain.value=v(MIX.engine)*1.4;BUS.brake.gain.value=v(MIX.brake)*1.5;
+}
+function audioInit(){
+  try{
+    if(!AC){AC=new (window.AudioContext||window.webkitAudioContext)();
+      const sr=AC.sampleRate,n=Math.floor(sr*.045);clickBuf=AC.createBuffer(1,n,sr);const d=clickBuf.getChannelData(0);
+      for(let i=0;i<n;i++){const t=i/sr;d[i]=(Math.random()*2-1)*Math.exp(-t/.0035)*.9+Math.sin(2*Math.PI*190*t)*Math.exp(-t/.008)*.5}}
+    if(!BUS.master)mkBuses();
+    if(AC.state==="suspended")AC.resume();
+  }catch(e){}
+}
+function clack(){
+  if(!soundOn||!AC||AC.state!=="running"||!MIX.flap)return;
+  const t=AC.currentTime;if(t-lastClack<.014)return;lastClack=t;
+  const src=AC.createBufferSource();src.buffer=clickBuf;src.playbackRate.value=.75+Math.random()*.55;
+  const bp=AC.createBiquadFilter();bp.type="bandpass";bp.frequency.value=1800+Math.random()*1400;bp.Q.value=.7;
+  const g=AC.createGain();g.gain.value=.18+Math.random()*.16;
+  src.connect(bp).connect(g).connect(BUS.flap);src.start();
+}
+document.addEventListener('pointerdown',audioInit);
+/* ---------- sons de pouso e decolagem (sintetizados, provisórios) ---------- */
+let noiseBuf=null;
+function jet(kind){
+  if(!soundOn||!AC||AC.state!=="running")return;
+  if(!noiseBuf){const n=AC.sampleRate*2;noiseBuf=AC.createBuffer(1,n,AC.sampleRate);const d=noiseBuf.getChannelData(0);let b=0;for(let i=0;i<n;i++){b=(b+.02*(Math.random()*2-1))/1.02;d[i]=b*3.5+(Math.random()*2-1)*.25}}
+  const t=AC.currentTime,out=AC.createGain();out.connect(kind==="brake"||kind==="touchdown"?BUS.brake:BUS.engine);
+  const noise=(f0,f1,dur,peak,att,q=.7)=>{const s=AC.createBufferSource();s.buffer=noiseBuf;s.loop=true;
+    const lp=AC.createBiquadFilter();lp.type="lowpass";lp.Q.value=q;lp.frequency.setValueAtTime(f0,t);lp.frequency.exponentialRampToValueAtTime(f1,t+dur);
+    const g=AC.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(peak,t+att);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+    s.connect(lp).connect(g).connect(out);s.start(t);s.stop(t+dur+.1)};
+  const tone=(type,f0,f1,dur,peak,att)=>{const o=AC.createOscillator();o.type=type;o.frequency.setValueAtTime(f0,t);o.frequency.exponentialRampToValueAtTime(f1,t+dur);
+    const g=AC.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(peak,t+att);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+    o.connect(g).connect(out);o.start(t);o.stop(t+dur+.1)};
+  if(kind==="approach"){noise(1400,350,3.2,.35,1.4);tone("sine",420,300,3,.02,1.2)}
+  if(kind==="touchdown"){
+    const c=AC.createBufferSource();c.buffer=noiseBuf;const hp=AC.createBiquadFilter();hp.type="highpass";hp.frequency.value=2500;const g=AC.createGain();
+    g.gain.setValueAtTime(.25,t);g.gain.exponentialRampToValueAtTime(.0001,t+.12);c.connect(hp).connect(g).connect(out);c.start(t);c.stop(t+.15);
+    noise(500,900,2.6,.5,.35,1.2);tone("sawtooth",160,90,2.4,.03,.3)}
+  if(kind==="brake"){
+    // chiado de freio: ruído em faixa estreita + tom com vibrato
+    const s=AC.createBufferSource();s.buffer=noiseBuf;s.loop=true;const bp=AC.createBiquadFilter();bp.type="bandpass";bp.Q.value=9;
+    bp.frequency.setValueAtTime(3300,t);bp.frequency.linearRampToValueAtTime(2500,t+2.6);
+    const g=AC.createGain();g.gain.setValueAtTime(.0001,t);g.gain.setValueAtTime(.0001,t+.35);g.gain.exponentialRampToValueAtTime(.32,t+.8);g.gain.exponentialRampToValueAtTime(.0001,t+3);
+    s.connect(bp).connect(g).connect(out);s.start(t);s.stop(t+3.1);
+    const o=AC.createOscillator(),lfo=AC.createOscillator(),lg=AC.createGain(),og=AC.createGain();
+    o.type="triangle";o.frequency.setValueAtTime(2900,t);o.frequency.linearRampToValueAtTime(2300,t+2.8);lfo.frequency.value=7;lg.gain.value=45;lfo.connect(lg).connect(o.frequency);
+    og.gain.setValueAtTime(.0001,t);og.gain.setValueAtTime(.0001,t+.4);og.gain.exponentialRampToValueAtTime(.025,t+.9);og.gain.exponentialRampToValueAtTime(.0001,t+2.9);
+    o.connect(og).connect(out);o.start(t);lfo.start(t);o.stop(t+3);lfo.stop(t+3);
+  }
+  if(kind==="takeoff"){noise(250,2200,5,.55,1.6);tone("sawtooth",700,2600,4.5,.012,1.2);tone("sine",55,90,4.5,.12,1.2)}
+}
+function setSound(on){soundOn=on;applyMix();$('snd1').textContent=on?'Som ligado':'Som desligado';$('snd2').classList.toggle('on',on);if(on)audioInit()}
+
+function drawDetail(){
+  if(!sel){side.classList.remove('showDetail');return}
+  const f=sel,arr=tab==="arr";
+  const [st]=arr?arrStatus(f):depStatus(f);
+  let p,pl,pr;
+  if(arr){const s=f.eta-f.dur;p=clamp((now-s)/f.dur,0,1);pl=`Saiu ${fmt(s)}`;pr=`Chega ${fmt(f.eta)}`}
+  else{p=servProg(f);pl=f.tPark!=null?`Em solo desde ${fmt(f.tPark)}`:'Aguardando chegada';pr=`Parte ${fmt(depEst(f))}`}
+  let extra='';
+  if(f.state==="approach"||f.state==="holding"){
+    extra=`<button class="link" id="pick">${ic('arr','dk')}${f.stand?'Trocar posição de desembarque':'Escolher posição de desembarque'}</button>`;
+  }
+  if(f.state==="parked"){
+    const sp=servProg(f),ready=isReady(f);
+    const rows=SERV.map(([n,a,b,k])=>{const v=clamp((sp-a)/(b-a),0,1);return `<div class="sv${v>=1?' done':''}"><span class="svn">${ic(k)}${n}</span><div class="b"><i style="width:${v*100}%"></i></div><span class="p">${v>=1?'✓':Math.round(v*100)+'%'}</span></div>`}).join('');
+    const est=depEst(f),late=Math.round(est-f.depSched);
+    extra=`<div class="svc"><h3>Serviços em solo <span>Posição ${pad(f.stand)} · ${f.ground} min</span></h3>${rows}
+      <div class="depinfo"><span>Partida prevista <b>${fmt(f.depSched)}</b></span><span>${late>5?`Atraso estimado <b style="color:var(--r)">+${late} min</b>`:'<b style="color:var(--gr)">No horário</b>'}</span></div>
+      <button class="go" id="go" ${ready?'':'disabled'}>${ic('dep','dk')}${ready?'Partir · pista '+activeRwy():'Aguardando serviços'}</button></div>`;
+  }
+  detail.innerHTML=`
+  <button class="back" id="back">← Voltar ao painel</button>
+  <div class="pass">
+    <div class="hd"><span class="air">${AIRLINES[f.al]}</span><span class="code">${arr?f.arrNo:f.depNo}</span></div>
+    <div class="route">
+      <div><small>${arr?'Origem':'Saída'}</small><span class="c">${arr?f.ap:'GIG'}</span><small>${arr?CITY[f.ap]:'Rio · Galeão'}</small></div>
+      <svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" transform="rotate(90 12 12)"/></svg>
+      <div class="r"><small>Destino</small><span class="c">${arr?'GIG':f.ap}</span><small>${arr?'Rio · Galeão':CITY[f.ap]}</small></div>
+    </div>
+    <div class="prog"><i style="width:${p*100}%"></i></div>
+    <div class="progl"><span>${pl}</span><span>${pr}</span></div>
+    <div class="grid">
+      <div><small>Previsto</small><b>${fmt(arr?f.sched:f.depSched)}</b></div>
+      <div><small>Estimado</small><b>${fmt(arr?f.eta:depEst(f))}${arr&&f.eta>f.sched?` (+${Math.round(f.eta-f.sched)})`:''}</b></div>
+      <div style="grid-column:1/-1"><small>Aeronave · classe ${f.cls} de 7</small><b>${MODELS[f.cls-1]}</b></div>
+      <div><small>Tempo de voo</small><b>${fmtDur(f.dur)}</b></div>
+      <div><small>Tempo em solo</small><b>${f.ground} min</b></div>
+    </div>
+    <div class="perf"></div>
+    <div class="statusbig"><span class="pill">${st}</span><span class="gate"><small>Posição</small>${pad(f.stand)}</span></div>
+  </div>
+  ${extra}
+  ${airborne().some(o=>o.f===f)?`<button class="link" id="onmap">${ic('radar','dk')}Ver no mapa de voos</button>`:''}
+  <button class="link ghost" id="swap">Ver ${arr?'partida '+f.depNo:'chegada '+f.arrNo}</button>`;
+  side.classList.add('showDetail');
+}
+
+let dirty=true,lastQ=-1;
+function drawUI(){const dp=$('dpart');if(dp)dp.textContent=lastPart==='Dia'?'☀ Dia':lastPart==='Tarde'?'◐ Fim de tarde':'☾ Noite';drawFixed();drawBar();drawStats();updateBoard();if(sel)drawDetail();if(mapOpen)drawFMPanel()}
+
+/* ---------- mapa de voos ---------- */
+Object.assign(ICONS,{
+  radar:'<path d="M12 2a10 10 0 1 0 10 10h-2.2A7.8 7.8 0 1 1 12 4.2z"/><path d="M12 6.3a5.7 5.7 0 1 0 5.7 5.7h-2.2A3.5 3.5 0 1 1 12 8.5z"/><circle cx="12" cy="12" r="1.9"/><path d="m11.2 11.2 8.3-8.3 1.6 1.6-8.3 8.3z"/>',
+  route:'<circle cx="5" cy="18" r="2.6"/><circle cx="19" cy="6" r="2.6"/><path d="M7.5 16.6c2.6-.9 2.2-4.4 4.6-5.3 2.2-.8 3.3-1.3 4.6-3" stroke="#000" stroke-width="2" fill="none" stroke-dasharray="2.2 2"/>',
+  clock:'<path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>',
+  plane:'<path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" transform="rotate(90 12 12)"/>',
+  alt:'<path d="M14 6l-3.75 5 2.85 3.8-1.6 1.2C9.81 13.75 7 10 7 10l-6 8h22L14 6z"/>',
+  speed:'<path d="M20.38 8.57l-1.23 1.85a8 8 0 0 1-.22 7.58H5.07A8 8 0 0 1 15.58 6.85l1.85-1.23A10 10 0 0 0 3.35 19a2 2 0 0 0 1.72 1h13.85a2 2 0 0 0 1.74-1 10 10 0 0 0-.27-10.44zm-9.79 6.84a2 2 0 0 0 2.83 0l5.66-8.49-8.49 5.66a2 2 0 0 0 0 2.83z"/>',
+  check:'<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>',
+  pin:'<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>'
+});
+// aeroportos: [lat, lon, nome do aeroporto, cidade]
+const APT={NRT:[35.77,140.39,"Narita","Tóquio"],SYD:[-33.95,151.18,"Kingsford Smith","Sydney"],JNB:[-26.14,28.25,"O. R. Tambo","Joanesburgo"],PEK:[40.08,116.58,"Capital International","Pequim"],SIN:[1.36,103.99,"Changi","Singapura"],POA:[-29.99,-51.17,"Salgado Filho","Porto Alegre"],MAO:[-3.04,-60.05,"Eduardo Gomes","Manaus"],FCO:[41.80,12.25,"Leonardo da Vinci – Fiumicino","Roma"],JFK:[40.64,-73.78,"John F. Kennedy","Nova York"],LAX:[33.94,-118.41,"Los Angeles International","Los Angeles"],GIG:[-22.81,-43.25,"Galeão – Antonio Carlos Jobim","Rio de Janeiro"],GRU:[-23.43,-46.47,"Guarulhos","São Paulo"],BSB:[-15.87,-47.92,"Presidente Juscelino Kubitschek","Brasília"],
+ REC:[-8.13,-34.92,"Guararapes – Gilberto Freyre","Recife"],SSA:[-12.91,-38.33,"Dep. Luís Eduardo Magalhães","Salvador"],LIS:[38.77,-9.13,"Humberto Delgado","Lisboa"],
+ DXB:[25.25,55.36,"Dubai International","Dubai"],CDG:[49.01,2.55,"Charles de Gaulle","Paris"],LHR:[51.47,-.45,"Heathrow","Londres"],MIA:[25.79,-80.29,"Miami International","Miami"],
+ EZE:[-34.82,-58.54,"Ministro Pistarini (Ezeiza)","Buenos Aires"],PTY:[9.07,-79.38,"Tocumen","Cidade do Panamá"],SCL:[-33.39,-70.79,"Arturo Merino Benítez","Santiago"],
+ DOH:[25.27,51.61,"Hamad International","Doha"],FRA:[50.03,8.56,"Frankfurt am Main","Frankfurt"],MAD:[40.49,-3.57,"Adolfo Suárez Madrid-Barajas","Madri"],
+ AMS:[52.31,4.76,"Schiphol","Amsterdã"],BOG:[4.7,-74.15,"El Dorado","Bogotá"],ATL:[33.64,-84.43,"Hartsfield-Jackson","Atlanta"],IAH:[29.98,-95.34,"George Bush Intercontinental","Houston"]};
+const VIEW={lon0:-180,lon1:180,lat0:-72,lat1:88};
+// posição do rótulo de cada aeroporto (evita sobreposição)
+const LBL={FCO:[8,12],JFK:[8,-6],LAX:[8,-6],GIG:[10,20],GRU:[-38,14],LHR:[-34,-4],AMS:[2,-9],CDG:[-10,15],FRA:[8,6],LIS:[-28,-4],MAD:[8,12],DOH:[-36,-6],DXB:[6,15],
+ MIA:[8,4],ATL:[6,-8],IAH:[-32,-6],PTY:[-34,-4],BOG:[8,6],SCL:[-32,6],EZE:[8,12],BSB:[-34,-4],SSA:[8,8],REC:[8,-4]};
+const RAD=Math.PI/180;
+function gcDist(a,b){const p1=a[0]*RAD,p2=b[0]*RAD,dl=(b[1]-a[1])*RAD,dp=p2-p1;return 2*Math.asin(Math.sqrt(Math.sin(dp/2)**2+Math.cos(p1)*Math.cos(p2)*Math.sin(dl/2)**2))}
+function gcPoint(a,b,t){
+  const d=gcDist(a,b);if(d<1e-9)return a;
+  const p1=a[0]*RAD,l1=a[1]*RAD,p2=b[0]*RAD,l2=b[1]*RAD,A=Math.sin((1-t)*d)/Math.sin(d),B=Math.sin(t*d)/Math.sin(d);
+  const x=A*Math.cos(p1)*Math.cos(l1)+B*Math.cos(p2)*Math.cos(l2),y=A*Math.cos(p1)*Math.sin(l1)+B*Math.cos(p2)*Math.sin(l2),z=A*Math.sin(p1)+B*Math.sin(p2);
+  return [Math.atan2(z,Math.hypot(x,y))/RAD,Math.atan2(y,x)/RAD];
+}
+function airborne(){
+  const out=[];
+  for(const f of flights){
+    if(["inbound","approach","holding"].includes(f.state)){const s=f.eta-f.dur;if(now>=s)out.push({f,leg:"arr",from:f.ap,to:"GIG",dur:f.dur,p:clamp((now-s)/f.dur,0,1),rem:Math.max(0,f.eta-now)})}
+    if(f.state==="gone"&&now<f.tOff+f.dur)out.push({f,leg:"dep",from:"GIG",to:f.ap,dur:f.dur,p:clamp((now-f.tOff)/f.dur,0,1),rem:Math.max(0,f.tOff+f.dur-now)});
+  }
+  return out;
+}
+function profile(o){
+  const c=o.f.cls,cr=[35000,37000,37000,39000,41000,39000,37000][c-1],vs=[830,840,845,850,905,905,910][c-1];
+  if(o.f.state==="holding")return{alt:8000,spd:420,phase:"Em espera sobre o Galeão"};
+  const el=o.p*o.dur,rem=o.dur-el,cl=Math.min(25,o.dur*.3),de=Math.min(30,o.dur*.35);
+  let k=1,phase="Cruzeiro · céu limpo à frente";
+  if(el<cl){k=el/cl;phase="Subindo para a altitude de cruzeiro"}else if(rem<de){k=rem/de;phase=`Descendo para ${APT[o.to][3]}`}
+  return{alt:Math.round((2500+(cr-2500)*k)/100)*100,spd:Math.round(290+(vs-290)*Math.min(1,k*1.25)),phase};
+}
+let mapOpen=false,mapSelId=null,world=null,worldState="idle",baseCv=null,baseKey="",fmRect=null,fmPlanes=[];
+const fmap=$('fmap'),fcv=$('fmCanvas'),fctx=fcv.getContext('2d');
+$('fmIco').innerHTML=ic('radar');
+function decodeWorld(json){
+  if(!json||!json.UTF8Encoding)return json;
+  const sc=json.UTF8Scale||1024;
+  const dec=(str,off)=>{const r=[];let px=off[0],py=off[1];for(let i=0;i<str.length;i+=2){let x=str.charCodeAt(i)-64,y=str.charCodeAt(i+1)-64;x=(x>>1)^(-(x&1));y=(y>>1)^(-(y&1));x+=px;y+=py;px=x;py=y;r.push([x/sc,y/sc])}return r};
+  for(const ft of json.features){const g=ft.geometry,c=g.coordinates,o=g.encodeOffsets;
+    for(let i=0;i<c.length;i++){if(g.type==="Polygon")c[i]=dec(c[i],o[i]);else if(g.type==="MultiPolygon")for(let j=0;j<c[i].length;j++)c[i][j]=dec(c[i][j],o[i][j])}}
+  json.UTF8Encoding=false;return json;
+}
+function ensureWorld(){
+  if(worldState!=="idle")return;worldState="loading";
+  const prev=window.echarts;
+  window.echarts={registerMap:(n,g)=>{try{world=decodeWorld(g)}catch(e){world=null}}};
+  const sc=document.createElement('script');sc.src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/map/js/world.js";
+  const done=ok=>{worldState=ok&&world?"ok":"fail";window.echarts=prev;baseKey="";};
+  sc.onload=()=>done(true);sc.onerror=()=>done(false);
+  setTimeout(()=>{if(worldState==="loading")done(false)},12000);
+  document.head.appendChild(sc);
+}
+function fitRect(w,h){
+  const ar=(VIEW.lon1-VIEW.lon0)/(VIEW.lat1-VIEW.lat0)*.86;
+  let rw=w,rh=w/ar;if(rh>h){rh=h;rw=h*ar}
+  return {x:(w-rw)/2,y:(h-rh)/2,w:rw,h:rh};
+}
+const projF=(lat,lon,r)=>[r.x+(lon-VIEW.lon0)/(VIEW.lon1-VIEW.lon0)*r.w,r.y+(VIEW.lat1-lat)/(VIEW.lat1-VIEW.lat0)*r.h];
+function buildBase(w,h,dpr){
+  const r=fitRect(w,h);fmRect=r;
+  baseCv=document.createElement('canvas');baseCv.width=w*dpr;baseCv.height=h*dpr;
+  const b=baseCv.getContext('2d');b.scale(dpr,dpr);
+  // grade de coordenadas
+  b.strokeStyle="rgba(253,233,52,.08)";b.lineWidth=1;
+  for(let lon=-120;lon<=60;lon+=20){const[x1,y1]=projF(VIEW.lat1,lon,r),[x2,y2]=projF(VIEW.lat0,lon,r);b.beginPath();b.moveTo(x1,y1);b.lineTo(x2,y2);b.stroke()}
+  for(let lat=-40;lat<=60;lat+=20){const[x1,y1]=projF(lat,VIEW.lon0,r),[x2,y2]=projF(lat,VIEW.lon1,r);b.beginPath();b.moveTo(x1,y1);b.lineTo(x2,y2);b.stroke()}
+  b.setLineDash([4,6]);b.strokeStyle="rgba(253,233,52,.18)";{const[x1,y1]=projF(0,VIEW.lon0,r),[x2,y2]=projF(0,VIEW.lon1,r);b.beginPath();b.moveTo(x1,y1);b.lineTo(x2,y2);b.stroke()}b.setLineDash([]);
+  if(world){
+    // continentes como pontos (estilo painel de LED)
+    const m=document.createElement('canvas');m.width=Math.ceil(w);m.height=Math.ceil(h);const mc=m.getContext('2d');mc.fillStyle="#fff";
+    const ring=pts=>{let shift=false;for(let i=1;i<pts.length;i++)if(Math.abs(pts[i][0]-pts[i-1][0])>180){shift=true;break}
+      const once=off=>{pts.forEach((q,i)=>{const lon=(shift&&q[0]<0?q[0]+360:q[0])+off;const[x,y]=projF(q[1],lon,r);i?mc.lineTo(x,y):mc.moveTo(x,y)});mc.closePath()};
+      once(0);if(shift)once(-360)};
+    for(const ft of world.features){const g=ft.geometry;if(!g)continue;mc.beginPath();
+      if(g.type==="Polygon")g.coordinates.forEach(ring);else if(g.type==="MultiPolygon")g.coordinates.forEach(pl=>pl.forEach(ring));
+      mc.fill("evenodd")}
+    const img=mc.getImageData(0,0,m.width,m.height).data,step=Math.max(4,Math.round(r.w/150)),rad=step*.32;
+    b.fillStyle="rgba(253,233,52,.5)";
+    for(let y=Math.floor(r.y);y<r.y+r.h;y+=step)for(let x=Math.floor(r.x);x<r.x+r.w;x+=step){
+      if(img[(y*m.width+x)*4+3]>100){b.beginPath();b.arc(x,y,rad,0,7);b.fill()}}
+    $('fmNote').textContent="";
+  }else{
+    $('fmNote').textContent=worldState==="loading"?"Carregando continentes…":"Sem contorno dos continentes (sem conexão)";
+  }
+  // borda do mapa
+  b.strokeStyle="rgba(253,233,52,.35)";b.lineWidth=1;b.strokeRect(r.x+.5,r.y+.5,r.w-1,r.h-1);
+}
+const PLANE=new Path2D("M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z");
+function drawFM(t){
+  const wr=$('fmWrap').getBoundingClientRect(),dpr=Math.min(2,window.devicePixelRatio||1);
+  const w=Math.max(10,wr.width),h=Math.max(10,wr.height),key=`${w}x${h}x${dpr}x${worldState}`;
+  if(fcv.width!==Math.round(w*dpr)||fcv.height!==Math.round(h*dpr)){fcv.width=Math.round(w*dpr);fcv.height=Math.round(h*dpr)}
+  if(key!==baseKey){baseKey=key;buildBase(w,h,dpr)}
+  const c=fctx,r=fmRect;c.setTransform(1,0,0,1,0,0);c.clearRect(0,0,fcv.width,fcv.height);c.drawImage(baseCv,0,0);c.setTransform(dpr,0,0,dpr,0,0);
+  const air=airborne();fmPlanes=[];
+  const active=new Set(["GIG",...air.map(o=>o.f.ap)]);
+  const sz=clamp(r.w/70,9,18);
+  c.save();c.beginPath();c.rect(r.x,r.y,r.w,r.h);c.clip();
+  // rotas
+  for(const o of air){
+    const a=APT[o.from],b=APT[o.to],isSel=o.f.i===mapSelId,N=64;
+    const pts=[];for(let k=0;k<=N;k++){const g=gcPoint(a,b,k/N);pts.push(projF(g[0],g[1],r))}
+    const seg=(arr)=>{arr.forEach((q,i)=>(i&&Math.abs(q[0]-arr[i-1][0])<r.w/2)?c.lineTo(q[0],q[1]):c.moveTo(q[0],q[1]))};
+    const cut=Math.round(o.p*N);
+    c.lineWidth=isSel?2.4:1.4;
+    c.strokeStyle=isSel?"rgba(253,233,52,.45)":"rgba(160,160,160,.22)";c.setLineDash([4,5]);c.beginPath();seg(pts.slice(cut));c.stroke();c.setLineDash([]);
+    c.strokeStyle=isSel?"#FDE934":"rgba(175,175,175,.55)";if(isSel){c.shadowColor="#FDE934";c.shadowBlur=10}
+    c.beginPath();seg(pts.slice(0,cut+1));c.stroke();c.shadowBlur=0;
+    // avião
+    const g=gcPoint(a,b,o.p),g2=gcPoint(a,b,Math.min(1,o.p+.01)),g0=gcPoint(a,b,Math.max(0,o.p-.01));
+    const[px,py]=projF(g[0],g[1],r),q2=projF(g2[0],g2[1],r),q0=projF(g0[0],g0[1],r);
+    let dx=q2[0]-q0[0];if(Math.abs(dx)>r.w/2)dx-=Math.sign(dx)*r.w;const ang=Math.atan2(dx,-(q2[1]-q0[1]));
+    c.save();c.translate(px,py);c.rotate(ang);const s=(isSel?sz*1.35:sz)/24;c.scale(s,s);c.translate(-12,-12);
+    c.fillStyle=isSel?"#fff":"#FDE934";c.strokeStyle="#000";c.lineWidth=2.5;c.stroke(PLANE);c.fill(PLANE);c.restore();
+    fmPlanes.push({o,x:px,y:py,lat:g[0],lon:g[1]});
+    if(isSel){const label=o.leg==="arr"?o.f.arrNo:o.f.depNo;c.font="700 12px 'Inter Tight',Arial";const tw=c.measureText(label).width+12;
+      c.fillStyle="#000";c.fillRect(px+12,py-26,tw,18);c.fillStyle="#FDE934";c.fillRect(px+12,py-26,3,18);c.fillStyle="#fff";c.fillText(label,px+19,py-13)}
+  }
+  c.restore();
+  // aeroportos
+  for(const k of active){const a=APT[k],[x,y]=projF(a[0],a[1],r),home=k==="GIG";
+    if(home){const pl=(t/1000)%2/2;c.strokeStyle=`rgba(253,233,52,${1-pl})`;c.lineWidth=2;c.beginPath();c.arc(x,y,6+pl*16,0,7);c.stroke()}
+    c.fillStyle=home?"#FDE934":"#000";c.strokeStyle="#FDE934";c.lineWidth=2;c.beginPath();c.arc(x,y,home?6:3.5,0,7);c.fill();c.stroke();
+    const selF=air.find(o=>o.f.i===mapSelId);
+    if(!home&&r.w<600&&!(selF&&selF.f.ap===k))continue;
+    c.font=`800 ${home?14:11}px 'Inter Tight',Arial`;c.fillStyle=home?"#FDE934":"#ddd";
+    const lbl=home?"RIO · GIG":k,tw=c.measureText(lbl).width,o=LBL[k]||[8,-8];
+    let tx=x+o[0],ty=y+o[1];if(tx+tw>r.x+r.w-4)tx=x-8-tw;c.fillText(lbl,tx,ty)}
+  // coordenadas do avião selecionado
+  const sp=fmPlanes.find(q=>q.o.f.i===mapSelId);
+  const tp=$('trkPl'),td=$('trkDone');
+  if(sp&&tp){const pct=sp.o.p*100;tp.style.left=`calc(14px + (100% - 28px) * ${sp.o.p})`;td.style.width=`calc((100% - 28px) * ${sp.o.p})`}
+  $('fmCoord').textContent=sp?`${Math.abs(sp.lat).toFixed(4)}° ${sp.lat<0?'S':'N'}, ${Math.abs(sp.lon).toFixed(4)}° ${sp.lon<0?'O':'L'}`:'22.8100° S, 43.2500° O';
+}
+const fmtKm=n=>n.toLocaleString('pt-BR')+' km';
+function drawFMPanel(){
+  const air=airborne();
+  if(mapSelId==null||!air.some(o=>o.f.i===mapSelId))mapSelId=air[0]?.f.i??null;
+  $('fmChips').innerHTML=air.map(o=>`<button class="fm-chip${o.f.i===mapSelId?' on':''}" data-f="${o.f.i}"><b>${o.leg==="arr"?o.f.arrNo:o.f.depNo}</b><small>${o.from} → ${o.to}</small><i><em style="width:${o.p*100}%"></em></i></button>`).join('')||'';
+  const o=air.find(x=>x.f.i===mapSelId);
+  if(!o){$('fmCard').innerHTML='<div class="fm-empty">Nenhum avião voando agora. Avance o relógio para ver os voos a caminho do Galeão.</div>';$('fmWx').innerHTML='';return}
+  const f=o.f,A=APT[o.from],B=APT[o.to],pr=profile(o),km=Math.round(gcDist(A,B)*6371/10)*10;
+  const st=o.leg==="arr"?arrStatus(f):["EM ROTA","ok"],stTxt=f.state==="holding"?"EM ESPERA":(o.leg==="arr"&&f.state==="inbound"?"EM ROTA":st[0]);
+  const remH=Math.floor(o.rem/60),remM=Math.round(o.rem%60);
+  $('fmCard').innerHTML=`
+    <div class="fm-h">${ic('dep')}<b>${AIRLINES[f.al]}</b><span>${o.leg==="arr"?f.arrNo:f.depNo}</span></div>
+    <div class="fm-leg">
+      <div class="frail">${ic('dep')}<em></em>${ic('pin')}</div>
+      <div class="fm-ap"><small>Partida · ${A[3]}</small><div class="nm">${A[2]}</div><div class="cd">${A[3]==='Rio de Janeiro'?'Rio':A[3]} <span>${o.from}</span></div></div>
+      <div class="fm-ap" style="margin-top:12px"><small>Chegada · ${B[3]}</small><div class="nm">${B[2]}</div><div class="cd">${B[3]==='Rio de Janeiro'?'Rio':B[3]} <span>${o.to}</span></div></div>
+    </div>
+    <div class="fm-row">${ic('route')}<span>Distância</span><b>${fmtKm(km)}</b></div>
+    <div class="fm-row">${ic('clock')}<span>Tempo de voo</span><b>${fmtDur(f.dur).replace('h','h ')} min</b></div>
+    <div class="fm-row">${ic('plane')}<span>Aeronave</span><b>${MODELS[f.cls-1].split(' / ')[0]}</b></div>
+    <div class="fm-row">${ic('alt')}<span>Altitude</span><b>${pr.alt.toLocaleString('pt-BR')} pés</b></div>
+    <div class="fm-row">${ic('speed')}<span>Velocidade</span><b>${pr.spd} km/h</b></div>
+    <div class="fm-row">${ic('clock')}<span>Chega em</span><b>${remH?remH+'h ':''}${remM} min · ${fmt(now+o.rem)}</b></div>
+    <div class="fm-row">${ic('check')}<span>Situação</span><b class="${f.state==='holding'?'bad':'ok'}">${stTxt}</b></div>`;
+  const w=windNow();
+  $('fmWx').innerHTML=`<div><b>${pr.phase}</b>Vento no Galeão ${String(w[1]).padStart(3,'0')}° · ${w[2]} kt · pista ${activeRwy()} em uso</div>
+    <div class="trk"><i class="ln"></i><i class="dn" id="trkDone"></i><span class="ep l">${o.from}</span><span class="ep r">${o.to}</span><svg id="trkPl" viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" transform="rotate(90 12 12)"/></svg></div>`;
+}
+function openMap(f){
+  audioInit();ensureWorld();mapOpen=true;fmap.hidden=false;
+  if(f)mapSelId=f.i;baseKey="";drawFMPanel();
+  if(mobile())side.classList.remove('open'),setTabs();
+}
+function closeMap(){mapOpen=false;fmap.hidden=true}
+$('mapBtn').addEventListener('click',()=>openMap(null));
+$('mapBtn2').addEventListener('click',()=>openMap(null));
+$('fmClose').addEventListener('click',closeMap);
+$('fmChips').addEventListener('click',e=>{const b=e.target.closest('.fm-chip');if(!b)return;mapSelId=+b.dataset.f;drawFMPanel()});
+fcv.addEventListener('click',e=>{
+  const rc=fcv.getBoundingClientRect(),x=e.clientX-rc.left,y=e.clientY-rc.top;
+  let best=null,bd=30;for(const q of fmPlanes){const d=Math.hypot(q.x-x,q.y-y);if(d<bd){bd=d;best=q}}
+  if(best){mapSelId=best.o.f.i;drawFMPanel()}
+});
+document.addEventListener('keydown',e=>{if(e.key==="Escape"&&mapOpen)closeMap()});
+
+/* ---------- interação ---------- */
+const mobile=()=>matchMedia('(max-width:820px)').matches;
+function setTabs(){document.querySelectorAll('.tab[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t===tab&&(!mobile()||side.classList.contains('open'))))}
+function openFlight(f,t){sel=f;tab=t;side.classList.add('open');setTabs();dirty=true}
+
+document.querySelectorAll('.tab[data-t]').forEach(b=>b.addEventListener('click',()=>{
+  if(mobile()&&side.classList.contains('open')&&tab===b.dataset.t&&!sel){side.classList.remove('open');setTabs();return}
+  tab=b.dataset.t;sel=null;side.classList.remove('showDetail');side.classList.add('open');setTabs();drawUI();
+  const r=board.querySelector('.row:not(.past)');board.scrollTop=r?r.offsetTop-40:0;
+}));
+board.addEventListener('click',e=>{const r=e.target.closest('.row');if(!r)return;sel=flights[+r.dataset.f];dirty=true});
+detail.addEventListener('click',e=>{
+  if(e.target.closest('#back')){sel=null;side.classList.remove('showDetail');dirty=true}
+  if(e.target.closest('#swap')){tab=tab==="arr"?"dep":"arr";setTabs();dirty=true}
+  if(e.target.closest('#pick')){assignFor=sel.i;if(mobile())side.classList.remove('open');setTabs();toast(`Toque na posição para ${sel.arrNo} (classe ${sel.cls})`);dirty=true}
+  if(e.target.closest('#go')){depart(sel)}
+  if(e.target.closest('#onmap')){openMap(sel)}
+});
+$('rail').addEventListener('click',e=>{
+  const act=e.target.closest('[data-act]');
+  if(act){depart(flights[+act.dataset.f]);dirty=true;return}
+  const h=e.target.closest('.tg-h');if(!h)return;const f=flights[+h.dataset.f];
+  if(h.dataset.k==="rd"){openFlight(f,"dep");return}
+  if(assignFor===f.i){assignFor=null;dirty=true;return}
+  assignFor=f.i;sel=f;dirty=true;
+});
+map.addEventListener('click',e=>{
+  const b=e.target.closest('.hit');if(!b)return;
+  const s=STANDS[+b.dataset.stand-1];
+  if(assignFor!=null&&!(s.res!=null&&s.res!==assignFor&&flights[s.res].state==="parked")){assign(flights[assignFor],s);return}
+  assignFor=null;
+  if(s.res==null)return toast(`Posição ${pad(s.n)} livre · até classe ${s.max}`);
+  const f=flights[s.res];
+  openFlight(f,f.state==="parked"?"dep":"arr");
+});
+$('speed').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  if(b.id==="restart"){reset();rowsTab=null;drawLights();dirty=true;return}
+  if(b.dataset.s==null)return;
+  speed=+b.dataset.s;document.querySelectorAll('#speed button[data-s]').forEach(x=>x.classList.toggle('on',x===b));
+});
+
+/* ---------- mapa fixo na tela: pinça para aproximar, arrastar só com zoom ---------- */
+const stage=$('stage'),abar=$('abar');
+let zk=1,ZX=0,ZY=0,bw=1,bh=1,SW=1,SH=1,barH=0,laidOut=false;
+// celular: o mapa cobre a tela inteira; computador: ocupa a altura toda
+function layoutMap(){
+  const r=stage.getBoundingClientRect();SW=r.width;SH=r.height;
+  barH=abar.classList.contains('min')?0:abar.offsetHeight;
+  const cover=mobile()||SW/SH<941/1672*1.15;
+  const sc=cover?Math.max(SW/941,SH/1672):SH/1672;
+  const cu=(SW/2-ZX)/(bw*zk),cv=(SH/2-ZY)/(bh*zk);
+  bw=941*sc;bh=1672*sc;map.style.width=bw+'px';map.style.height=bh+'px';
+  if(!laidOut){ZX=(SW-bw)/2;ZY=0;laidOut=true}else{ZX=SW/2-cu*bw*zk;ZY=SH/2-cv*bh*zk}
+  clampZ();applyZ();
+}
+function clampZ(){
+  zk=clamp(zk,1,4);const dw=bw*zk,dh=bh*zk,avail=SH-barH;
+  ZX=dw<=SW?(SW-dw)/2:clamp(ZX,SW-dw,0);
+  ZY=dh<=avail?(avail-dh)/2:clamp(ZY,avail-dh,0);
+  $('zreset').hidden=zk<1.02;
+}
+const canPan=()=>bw*zk>SW+1||bh*zk>SH-barH+1;
+function applyZ(){map.style.transform=`translate(${ZX}px,${ZY}px) scale(${zk})`}
+function zoomAt(px,py,nk){const u=(px-ZX)/zk,v=(py-ZY)/zk;zk=clamp(nk,1,4);ZX=px-u*zk;ZY=py-v*zk;clampZ();applyZ()}
+const ptrs=new Map();let pinch=null,dragged=false,moved=0;
+const rel=e=>{const r=stage.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}};
+stage.addEventListener('pointerdown',e=>{
+  if(e.target.closest('.abar,.zreset,.rail'))return;
+  ptrs.set(e.pointerId,rel(e));if(ptrs.size===1){dragged=false;moved=0}
+  if(ptrs.size===2){const[a,b]=[...ptrs.values()],m={x:(a.x+b.x)/2,y:(a.y+b.y)/2};
+    pinch={d:Math.hypot(a.x-b.x,a.y-b.y)||1,k:zk,u:(m.x-ZX)/zk,v:(m.y-ZY)/zk}}
+});
+stage.addEventListener('pointermove',e=>{
+  if(!ptrs.has(e.pointerId))return;
+  const prev=ptrs.get(e.pointerId),cur=rel(e);ptrs.set(e.pointerId,cur);
+  if(ptrs.size>=2&&pinch){const[a,b]=[...ptrs.values()],m={x:(a.x+b.x)/2,y:(a.y+b.y)/2};
+    zk=clamp(pinch.k*Math.hypot(a.x-b.x,a.y-b.y)/pinch.d,1,4);ZX=m.x-pinch.u*zk;ZY=m.y-pinch.v*zk;clampZ();applyZ();dragged=true;$('zhint').style.opacity=0}
+  else if(ptrs.size===1&&canPan()){moved+=Math.abs(cur.x-prev.x)+Math.abs(cur.y-prev.y);if(moved>6)dragged=true;ZX+=cur.x-prev.x;ZY+=cur.y-prev.y;clampZ();applyZ()}
+});
+const up=e=>{ptrs.delete(e.pointerId);if(ptrs.size<2)pinch=null};
+stage.addEventListener('pointerup',up);stage.addEventListener('pointercancel',up);stage.addEventListener('pointerleave',up);
+stage.addEventListener('click',e=>{if(dragged){e.stopPropagation();e.preventDefault();dragged=false}},true);
+stage.addEventListener('wheel',e=>{e.preventDefault();const p=rel(e);zoomAt(p.x,p.y,zk*Math.exp(-e.deltaY*.0015));$('zhint').style.opacity=0},{passive:false});
+$('zreset').addEventListener('click',()=>{zk=1;ZX=(SW-bw)/2;ZY=0;clampZ();applyZ()});
+new ResizeObserver(layoutMap).observe(stage);new ResizeObserver(layoutMap).observe(abar);
+setTimeout(()=>{$('zhint').style.opacity=0},4500);
+if(!matchMedia('(pointer:coarse)').matches)$('zhint').textContent='Role para aproximar · arraste com zoom';
+
+/* ---------- tarde e noite ---------- */
+const ramp=(a,b)=>clamp((now-toMin(a))/(toMin(b)-toMin(a)),0,1);
+let PB=1,lastPart="";
+function skyTick(){
+  const t=ramp("15:30","17:00")*(1-ramp("17:45","19:00")),n=ramp("17:45","19:00");
+  $('skyT').style.opacity=t;$('skyN').style.opacity=n;
+  PB=1-.28*n;
+  const part=n>.5?"Noite":t>.5?"Tarde":"Dia";
+  if(part!==lastPart){lastPart=part;const el=document.querySelector('.wind small');if(el)el.dataset.p=part;dirty=true}
+}
+
+/* ---------- laço ---------- */
+let last=performance.now();
+function tick(t){
+  const dt=Math.min(.25,(t-last)/1000);last=t;
+  if(started)now+=dt*speed/60;
+  if(now>=toMin("23:59")){reset();rowsTab=null;drawLights();toast('Fim do dia · novo dia no Galeão');dirty=true}
+  skyTick();
+  flipTick(t);
+  step();
+  const w=activeRwy();if(w!==lastWind){if(lastWind!==-1)toast(`O vento mudou · pista ${w} em uso`);lastWind=w;drawLights();dirty=true}
+  const q=Math.floor(now*4);if(q!==lastQ){lastQ=q;dirty=true}
+  if(dirty){dirty=false;drawUI()}
+  drawPlanes();
+  if(mapOpen)drawFM(t);
+  requestAnimationFrame(tick);
+}
+$('abtg').addEventListener('click',()=>{const a=$('abar');a.classList.toggle('min');$('abtg').setAttribute('aria-expanded',!a.classList.contains('min'));drawBar()});
+$('closeSide').addEventListener('click',()=>{side.classList.remove('open');sel=null;side.classList.remove('showDetail');setTabs();dirty=true});
+$('snd1').addEventListener('click',()=>setSound(!soundOn));
+const mixer=$('mixer');
+mixer.querySelectorAll('input').forEach(inp=>{
+  const k=inp.dataset.k;inp.value=MIX[k];inp.nextElementSibling.textContent=MIX[k];
+  inp.addEventListener('input',()=>{MIX[k]=+inp.value;inp.nextElementSibling.textContent=inp.value;audioInit();applyMix();
+    try{localStorage.setItem('departure_mix',JSON.stringify(MIX))}catch(e){}});
+});
+$('mixBtn').addEventListener('click',()=>{audioInit();mixer.hidden=false});
+$('mixClose').addEventListener('click',()=>{mixer.hidden=true});
+mixer.addEventListener('click',e=>{
+  if(e.target===mixer)mixer.hidden=true;
+  const b=e.target.closest('[data-test]');if(!b)return;audioInit();
+  if(!soundOn)setSound(true);
+  const k=b.dataset.test;
+  if(k==="flap"){for(let i=0;i<14;i++)setTimeout(clack,i*60)}
+  else if(k==="brake"){jet("touchdown");jet("brake")}
+  else jet(k);
+});
+$('snd2').addEventListener('click',()=>setSound(!soundOn));
+/* capa */
+let started=false;
+const cvTitle=$('cvTitle'),cvSub=$('cvSub');
+cvTitle.innerHTML=flapRow(9);cvSub.innerHTML=flapRow(22);
+setTimeout(()=>setFlaps(cvTitle.firstChild,"DEPARTURE"),300);
+if(!ROT)ROT=genWave(toMin("11:58"),20);
+const promo=ROT.map(r=>norm(`${r[5]} ${(SHORTCITY[CITY[r[3]]]||CITY[r[3]])}`,16)+norm(r[0]+r[1],6));
+let pi=0;const cycle=()=>{if(started)return;setFlaps(cvSub.firstChild,promo[pi++%promo.length]);setTimeout(cycle,3200)};setTimeout(cycle,900);
+$('play').addEventListener('click',()=>{
+  audioInit();$('cover').classList.add('gone');started=true;
+  setTimeout(()=>{$('cover').hidden=true},800);
+  rowsTab=null;dirty=true;
+});
+reset();setTabs();requestAnimationFrame(tick);
+}
+</script>
+</body>
+</html>
