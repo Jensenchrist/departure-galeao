@@ -421,12 +421,12 @@ const SC=135/615;
 const GROUND=[20,30,40,55,70,90,120];
 const MODELS=["A220 / 737-700","A320 / 737-800","A321neo / 737 MAX","767-300 / A330-200","787-9 / A330-900","777-300ER / A350-1000","A380 / 747-8"];
 // país de cada companhia (bandeira)
-const NAT={LA:"CL",G3:"BR",AD:"BR",RG:"BR",VP:"BR",TR:"BR",TP:"PT",EK:"AE",AF:"FR",BA:"GB",AA:"US",DL:"US",UA:"US",PA:"US",AR:"AR",CM:"PA",QR:"QA",LH:"DE",IB:"ES",KL:"NL",AV:"CO",AZ:"IT",JL:"JP",QF:"AU",SA:"ZA",CA:"CN",SQ:"SG"};
+const NAT={DT:"AO",ET:"ET",AT:"MA",MS:"EG",VR:"CV",LA:"CL",G3:"BR",AD:"BR",RG:"BR",VP:"BR",TR:"BR",TP:"PT",EK:"AE",AF:"FR",BA:"GB",AA:"US",DL:"US",UA:"US",PA:"US",AR:"AR",CM:"PA",QR:"QA",LH:"DE",IB:"ES",KL:"NL",AV:"CO",AZ:"IT",JL:"JP",QF:"AU",SA:"ZA",CA:"CN",SQ:"SG"};
 const flag=al=>{const c=NAT[al];return c?String.fromCodePoint(...[...c].map(ch=>127397+ch.charCodeAt(0))):""};
-const AIRLINES={RG:"Varig",VP:"Vasp",TR:"Transbrasil",QF:"Qantas",SA:"South African",CA:"Air China",SQ:"Singapore Airlines",AZ:"Alitalia",PA:"Pan Am",JL:"Japan Airlines",LA:"LATAM",G3:"GOL",AD:"Azul",TP:"TAP Air Portugal",EK:"Emirates",AF:"Air France",BA:"British Airways",AA:"American Airlines",AR:"Aerolíneas Argentinas",CM:"Copa Airlines",QR:"Qatar Airways",LH:"Lufthansa",IB:"Iberia",KL:"KLM",AV:"Avianca",DL:"Delta",UA:"United"};
-const CITY={NRT:"Tóquio",SYD:"Sydney",JNB:"Joanesburgo",PEK:"Pequim",SIN:"Singapura",POA:"Porto Alegre",MAO:"Manaus",FCO:"Roma",JFK:"Nova York",LAX:"Los Angeles",GRU:"São Paulo",BSB:"Brasília",REC:"Recife",LIS:"Lisboa",DXB:"Dubai",CDG:"Paris",LHR:"Londres",MIA:"Miami",EZE:"Buenos Aires",PTY:"Cidade do Panamá",SCL:"Santiago",DOH:"Doha",FRA:"Frankfurt",MAD:"Madri",AMS:"Amsterdã",BOG:"Bogotá",ATL:"Atlanta",SSA:"Salvador",IAH:"Houston"};
+const AIRLINES={DT:"TAAG Angola",ET:"Ethiopian",AT:"Royal Air Maroc",MS:"EgyptAir",VR:"Cabo Verde Airlines",RG:"Varig",VP:"Vasp",TR:"Transbrasil",QF:"Qantas",SA:"South African",CA:"Air China",SQ:"Singapore Airlines",AZ:"Alitalia",PA:"Pan Am",JL:"Japan Airlines",LA:"LATAM",G3:"GOL",AD:"Azul",TP:"TAP Air Portugal",EK:"Emirates",AF:"Air France",BA:"British Airways",AA:"American Airlines",AR:"Aerolíneas Argentinas",CM:"Copa Airlines",QR:"Qatar Airways",LH:"Lufthansa",IB:"Iberia",KL:"KLM",AV:"Avianca",DL:"Delta",UA:"United"};
+const CITY={LAD:"Luanda",ADD:"Adis Abeba",CMN:"Casablanca",CAI:"Cairo",SID:"Ilha do Sal",NRT:"Tóquio",SYD:"Sydney",JNB:"Joanesburgo",PEK:"Pequim",SIN:"Singapura",POA:"Porto Alegre",MAO:"Manaus",FCO:"Roma",JFK:"Nova York",LAX:"Los Angeles",GRU:"São Paulo",BSB:"Brasília",REC:"Recife",LIS:"Lisboa",DXB:"Dubai",CDG:"Paris",LHR:"Londres",MIA:"Miami",EZE:"Buenos Aires",PTY:"Cidade do Panamá",SCL:"Santiago",DOH:"Doha",FRA:"Frankfurt",MAD:"Madri",AMS:"Amsterdã",BOG:"Bogotá",ATL:"Atlanta",SSA:"Salvador",IAH:"Houston"};
 // tempos de voo aproximados de/para o Galeão (GIG)
-const DUR={NRT:1330,SYD:1000,JNB:540,PEK:1250,SIN:1220,POA:115,MAO:250,FCO:705,JFK:600,LAX:725,GRU:60,BSB:110,REC:165,LIS:570,DXB:870,CDG:665,LHR:695,MIA:510,EZE:175,PTY:405,SCL:255,DOH:885,FRA:700,MAD:610,AMS:695,BOG:375,ATL:590,SSA:120,IAH:615};
+const DUR={LAD:485,ADD:725,CMN:600,CAI:745,SID:420,NRT:1330,SYD:1000,JNB:540,PEK:1250,SIN:1220,POA:115,MAO:250,FCO:705,JFK:600,LAX:725,GRU:60,BSB:110,REC:165,LIS:570,DXB:870,CDG:665,LHR:695,MIA:510,EZE:175,PTY:405,SCL:255,DOH:885,FRA:700,MAD:610,AMS:695,BOG:375,ATL:590,SSA:120,IAH:615};
 // [cia, voo chegada, voo partida, origem/destino, classe, hora prevista de pouso, atraso de origem]
 // rotas possíveis: [cia, origem, classes possíveis]
 const ROUTES=[["LA","GRU",[2,3]],["LA","SCL",[3,5]],["LA","BSB",[2,3]],["LA","REC",[2,3]],["G3","BSB",[1,2]],["G3","SSA",[1,2]],["G3","GRU",[1,2]],["G3","EZE",[2]],
@@ -434,7 +434,8 @@ const ROUTES=[["LA","GRU",[2,3]],["LA","SCL",[3,5]],["LA","BSB",[2,3]],["LA","RE
  ["AR","EZE",[1,2]],["CM","PTY",[2,3]],["QR","DOH",[6,5]],["LH","FRA",[7,6]],["IB","MAD",[5]],["KL","AMS",[5,6]],["AV","BOG",[2,3]],["DL","ATL",[4,5]],
  ["UA","IAH",[5]],["AZ","FCO",[6,5,4]],["PA","JFK",[7,4]],["PA","MIA",[4,7]],["JL","NRT",[7,6]],["QF","SYD",[7,6]],["SA","JNB",[5,6]],["CA","PEK",[6]],["SQ","SIN",[7,6]],["PA","LAX",[7]],
  ["RG","LIS",[6,5]],["RG","FRA",[6,7]],["RG","MIA",[5,4]],["RG","NRT",[7]],["RG","POA",[2,3]],["VP","GRU",[1,2]],["VP","BSB",[2,3]],["VP","MAO",[3,4]],["VP","MIA",[4]],
- ["TR","GRU",[1,2]],["TR","BSB",[2,3]],["TR","REC",[2,3]],["TR","MIA",[4]]];
+ ["TR","GRU",[1,2]],["TR","BSB",[2,3]],["TR","REC",[2,3]],["TR","MIA",[4]],
+ ["DT","LAD",[5,6]],["ET","ADD",[5,6]],["AT","CMN",[4,5]],["MS","CAI",[5,6]],["VR","SID",[3,4]]];
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 function genWave(start,n){
   const pool=[...ROUTES].sort(()=>Math.random()-.5).slice(0,n);
@@ -720,7 +721,7 @@ function drawStats(){
 /* ---------- painel split-flap ---------- */
 const CH=" ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:.-";
 const COLS=[5,9,6,2,10];
-const SHORTCITY={"Joanesburgo":"JOANESBRG","Porto Alegre":"P. ALEGRE","Los Angeles":"L.ANGELES","Buenos Aires":"B. AIRES","Cidade do Panamá":"PANAMA","São Paulo":"SAO PAULO","Amsterdã":"AMSTERDA"};
+const SHORTCITY={"Adis Abeba":"ADIS ABEBA","Casablanca":"CASABLANC","Ilha do Sal":"ILHA SAL","Joanesburgo":"JOANESBRG","Porto Alegre":"P. ALEGRE","Los Angeles":"L.ANGELES","Buenos Aires":"B. AIRES","Cidade do Panamá":"PANAMA","São Paulo":"SAO PAULO","Amsterdã":"AMSTERDA"};
 const SHORTST={"APROXIMAÇÃO":"APROXIMA.","NA CABECEIRA":"CABECEIRA","PORTÃO FECHADO":"FECHADO","ÚLTIMA CHAMADA":"ULT.CHAM."};
 const norm=(t,n)=>t.normalize('NFD').replace(/[̀-ͯ]/g,'').toUpperCase().replace(/[^A-Z0-9:.\- ]/g,' ').slice(0,n).padEnd(n,' ');
 const flips=new Map();
@@ -906,7 +907,7 @@ Object.assign(ICONS,{
   pin:'<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>'
 });
 // aeroportos: [lat, lon, nome do aeroporto, cidade]
-const APT={NRT:[35.77,140.39,"Narita","Tóquio"],SYD:[-33.95,151.18,"Kingsford Smith","Sydney"],JNB:[-26.14,28.25,"O. R. Tambo","Joanesburgo"],PEK:[40.08,116.58,"Capital International","Pequim"],SIN:[1.36,103.99,"Changi","Singapura"],POA:[-29.99,-51.17,"Salgado Filho","Porto Alegre"],MAO:[-3.04,-60.05,"Eduardo Gomes","Manaus"],FCO:[41.80,12.25,"Leonardo da Vinci – Fiumicino","Roma"],JFK:[40.64,-73.78,"John F. Kennedy","Nova York"],LAX:[33.94,-118.41,"Los Angeles International","Los Angeles"],GIG:[-22.81,-43.25,"Galeão – Antonio Carlos Jobim","Rio de Janeiro"],GRU:[-23.43,-46.47,"Guarulhos","São Paulo"],BSB:[-15.87,-47.92,"Presidente Juscelino Kubitschek","Brasília"],
+const APT={LAD:[-8.86,13.23,"Quatro de Fevereiro","Luanda"],ADD:[8.98,38.80,"Bole International","Adis Abeba"],CMN:[33.37,-7.59,"Mohammed V","Casablanca"],CAI:[30.12,31.41,"Cairo International","Cairo"],SID:[16.74,-22.95,"Amílcar Cabral","Ilha do Sal"],NRT:[35.77,140.39,"Narita","Tóquio"],SYD:[-33.95,151.18,"Kingsford Smith","Sydney"],JNB:[-26.14,28.25,"O. R. Tambo","Joanesburgo"],PEK:[40.08,116.58,"Capital International","Pequim"],SIN:[1.36,103.99,"Changi","Singapura"],POA:[-29.99,-51.17,"Salgado Filho","Porto Alegre"],MAO:[-3.04,-60.05,"Eduardo Gomes","Manaus"],FCO:[41.80,12.25,"Leonardo da Vinci – Fiumicino","Roma"],JFK:[40.64,-73.78,"John F. Kennedy","Nova York"],LAX:[33.94,-118.41,"Los Angeles International","Los Angeles"],GIG:[-22.81,-43.25,"Galeão – Antonio Carlos Jobim","Rio de Janeiro"],GRU:[-23.43,-46.47,"Guarulhos","São Paulo"],BSB:[-15.87,-47.92,"Presidente Juscelino Kubitschek","Brasília"],
  REC:[-8.13,-34.92,"Guararapes – Gilberto Freyre","Recife"],SSA:[-12.91,-38.33,"Dep. Luís Eduardo Magalhães","Salvador"],LIS:[38.77,-9.13,"Humberto Delgado","Lisboa"],
  DXB:[25.25,55.36,"Dubai International","Dubai"],CDG:[49.01,2.55,"Charles de Gaulle","Paris"],LHR:[51.47,-.45,"Heathrow","Londres"],MIA:[25.79,-80.29,"Miami International","Miami"],
  EZE:[-34.82,-58.54,"Ministro Pistarini (Ezeiza)","Buenos Aires"],PTY:[9.07,-79.38,"Tocumen","Cidade do Panamá"],SCL:[-33.39,-70.79,"Arturo Merino Benítez","Santiago"],
