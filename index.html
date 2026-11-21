@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>Departure · Galeão</title>
 <link rel="apple-touch-icon" href="icon-180.png">
@@ -471,6 +472,11 @@ if(!window.PointerEvent){(function(){
   document.addEventListener('touchcancel',each('pointercancel'),{passive:true});
   document.addEventListener('gesturestart',function(e){e.preventDefault()});
 })()}
+</script>
+<script>
+var APPV='1795284911';
+(function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
+chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
 </head>
 <body>
