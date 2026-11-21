@@ -93,7 +93,7 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
 .top{padding:14px 16px 8px;display:flex;align-items:center;justify-content:space-between;gap:10px}
 .top h1{margin:0;font-size:18px;font-weight:800;letter-spacing:-.02em}
 .clock{font-family:Doto,monospace;font-weight:900;color:var(--y);font-size:30px;line-height:1}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0 16px 10px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:0 16px 10px}
 .stats div{background:var(--k3);border-radius:8px;padding:6px 8px}
 .stats small{display:block;font-size:10px;color:var(--g)}.stats b{font-size:17px}
 .speed{display:flex;gap:4px;padding:0 16px 10px;flex-wrap:wrap}
@@ -274,6 +274,30 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
 .sl em{font-style:normal;font-size:12px;font-weight:800;color:var(--y)}
 .sl.empty b{color:#777}
 .sl:disabled{opacity:.45;cursor:not-allowed}
+#diffDlg,#dayDlg{z-index:125}
+.campl{display:flex;justify-content:space-between;gap:8px;padding:0 16px 8px;font-size:12px;font-weight:800;color:var(--y)}
+.stats b.bad{color:var(--r)}
+.goals{margin:0 16px 10px;background:var(--k3);border-radius:8px;padding:8px 10px;font-size:12px}
+.goals>small{display:block;color:var(--g);font-size:10px;font-weight:700;margin-bottom:3px}
+.goals div{display:flex;gap:6px;align-items:center;padding:2px 0;color:#ddd}
+.goals div i{font-style:normal;width:14px;color:var(--g)}.goals div b{margin-left:auto;font-variant-numeric:tabular-nums}
+.goals div.ok{color:var(--gr)}.goals div.ok i{color:var(--gr)}
+.sv.wait .b{background:repeating-linear-gradient(90deg,#3a2a00 0 6px,#2a2a2a 6px 12px)}.sv.wait .p{color:#ffb020}
+.crews{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11px;color:var(--g);margin-top:10px;padding-top:8px;border-top:1px solid #2a2a2a}
+.crews b{color:var(--w)}
+.tg.emerg .tg-h{border-left-color:var(--r);animation:mayday .8s infinite}
+.tg.emerg .tg-h small{color:#fff;background:var(--r);border-radius:3px;padding:0 4px}
+@keyframes mayday{50%{background:#3a0b08}}
+#storm{position:absolute;inset:0;z-index:9;pointer-events:none;opacity:0;transition:opacity 2.5s;
+  background:linear-gradient(rgba(12,18,34,.5),rgba(12,18,34,.5)),repeating-linear-gradient(105deg,rgba(210,225,255,.28) 0 1px,transparent 1px 13px);
+  background-size:auto,70px 70px;animation:rain .35s linear infinite}
+#storm.on{opacity:1}
+@keyframes rain{to{background-position:0 0,-24px 70px}}
+.day-st{font-size:46px;letter-spacing:6px;color:var(--y);text-align:center;margin:6px 0}
+.day-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #222;font-size:14px}
+.day-row b{font-variant-numeric:tabular-nums}
+.day-go{margin-top:14px;width:100%;min-height:50px;border-radius:10px;background:var(--y);color:var(--k);font-weight:800;font-size:17px}
+@media(prefers-reduced-motion:reduce){#storm,.tg.emerg .tg-h{animation:none}}
 .mx-t{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
 .mx-t button{flex:1 1 30%;background:var(--k3);border-radius:8px;min-height:40px;font-size:12px;font-weight:700}
 .close{display:none;width:44px;height:44px;border-radius:50%;background:var(--k3);align-items:center;justify-content:center}
@@ -366,6 +390,7 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
       <div class="sky" id="skyT"></div><div class="sky" id="skyN"></div><div id="lights"></div><div id="fixed"></div>
       <div id="planes"></div>
     </div>
+    <div id="storm"></div>
     <div id="windBox"></div>
     <div class="rail" id="rail" aria-label="Voos chegando e prontos"></div>
     <div class="abar" id="abar" style="display:none"><div class="abh"><h2 id="abt"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 19h19v2h-19zM9.2 13.7l4.3 1.2 5.3 1.4c.8.2 1.6-.3 1.8-1.1.2-.8-.3-1.6-1.1-1.8l-5.3-1.4-2.8-9-1.9-.5v8.3L4.5 9.4l-.9-2.4-1.4-.4v5.2z"/></svg></span>Em aproximação · toque no avião, depois na posição</h2><button id="abtg" aria-expanded="true">Ocultar ▾</button></div><div class="cards" id="cards"></div></div>
@@ -374,7 +399,9 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
 
   <aside class="side" id="side">
     <div class="top"><h1>DEPARTURE <span class="apt">GIG · Galeão</span></h1><div class="clock" id="clock">--:--</div><button class="close" id="closeSide" aria-label="Fechar painel"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
+    <div class="campl" id="campl"></div>
     <div class="stats" id="stats"></div>
+    <div class="goals" id="goals"></div>
     <div class="speed" id="speed"><button data-s="0">Pausar</button><button data-s="1">1×</button><button data-s="10" class="on">10×</button><button data-s="60">60×</button><button id="snd2" class="on ib"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></span>Som</button><button id="mixBtn" class="ib"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg></span>Mixer</button><button id="saveBtn" class="ib"><span class="ico"><svg viewBox="0 0 24 24"><path d="M17 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7l-4-4zm-5 16a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm3-10H5V5h10v4z"/></svg></span>Salvar</button><button id="loadBtn" class="ib"><span class="ico"><svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg></span>Carregar</button><button id="homeBtn" class="ib"><span class="ico"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></span>Início</button><button class="rs" id="restart">Reiniciar</button></div>
     <div class="tabs">
       <button class="tab on" data-t="arr"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 19h19v2h-19zM9.2 13.7l4.3 1.2 5.3 1.4c.8.2 1.6-.3 1.8-1.1.2-.8-.3-1.6-1.1-1.8l-5.3-1.4-2.8-9-1.9-.5v8.3L4.5 9.4l-.9-2.4-1.4-.4v5.2z"/></svg></span>Chegadas</button>
@@ -385,7 +412,18 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
     <div class="detail" id="detail"></div>
   </aside>
 
-  <div class="mixer" id="slots" hidden>
+  <div class="mixer" id="diffDlg" hidden>
+  <div class="mx-card sl-card" role="dialog" aria-label="Dificuldade">
+    <div class="mx-h"><b>Novo jogo · dificuldade</b><button id="diffClose" aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
+    <button class="sl df" data-d="facil"><span class="n">1</span><span><b>Fácil</b><small>Menos voos, equipes à vontade, céu limpo. Combustível para 60 min de espera.</small></span><em>Jogar</em></button>
+    <button class="sl df" data-d="normal"><span class="n">2</span><span><b>Normal</b><small>4 equipes de cada serviço, 1 tempestade por dia. 40 min de combustível.</small></span><em>Jogar</em></button>
+    <button class="sl df" data-d="dificil"><span class="n">3</span><span><b>Difícil</b><small>Pico às 18h, equipes reduzidas, 2 tempestades. Só 28 min de combustível.</small></span><em>Jogar</em></button>
+  </div>
+</div>
+<div class="mixer" id="dayDlg" hidden>
+  <div class="mx-card sl-card" role="dialog" aria-label="Fim do dia" id="dayCard"></div>
+</div>
+<div class="mixer" id="slots" hidden>
   <div class="mx-card sl-card" role="dialog" aria-label="Jogos salvos">
     <div class="mx-h"><b id="slTitle">Salvar jogo</b><button id="slClose" aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
     <div id="slList"></div>
@@ -470,7 +508,7 @@ let ROT=null;
 // vento: [hora, direção de onde sopra (graus), intensidade kt]
 const WIND=[["00:00",100,12],["13:25",280,16],["15:05",110,9]];
 // serviços em solo: [nome, início, fim] como fração do tempo em solo
-const SERV=[["Desembarque",0,.22,"out"],["Bagagem (descarga)",.04,.3,"bagdown"],["Limpeza",.22,.52,"clean"],["Catering",.28,.58,"food"],["Abastecimento",.22,.62,"fuel"],["Bagagem (carga)",.6,.92,"bagup"],["Embarque",.6,.95,"in"]];
+const SERV=[["Desembarque",0,.22,"out"],["Bagagem (descarga)",.04,.3,"bagdown"],["Limpeza",.22,.52,"clean"],["Catering",.28,.58,"food"],["Abastecimento",.22,.56,"fuel"],["Bagagem (carga)",.6,.92,"bagup"],["Embarque",.6,.95,"in"]];
 
 const toMin=s=>{const[h,m]=s.split(':').map(Number);return h*60+m};
 const fmt=m=>{m=((Math.floor(m)%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')};
@@ -480,18 +518,29 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const lerp=(a,b,k)=>a+(b-a)*k;
 const EASE={lin:k=>k,out:k=>1-(1-k)**2,in:k=>k*k,io:k=>k<.5?2*k*k:1-((-2*k+2)**2)/2};
 
+const DIFFS={
+  facil:{name:"Fácil",fuel:60,crews:{fuel:9,cat:9,clean:9},waves:[14,12,12],storms:0,goal:.75},
+  normal:{name:"Normal",fuel:40,crews:{fuel:4,cat:4,clean:4},waves:[17,15,16],storms:1,goal:.8},
+  dificil:{name:"Difícil",fuel:28,crews:{fuel:3,cat:2,clean:2},waves:[19,19,26],storms:2,goal:.85}};
+let DIFF="normal",camp={day:1,stars:0,rep:70,money:0},storms=[],dayOver=false;
+const D=()=>DIFFS[DIFF];
+const newCamp=()=>({day:1,stars:0,rep:70,money:0});
 let flights,now,speed=10,tab="arr",sel=null,assignFor=null,runwayFree,score,lastWind=-1;
 const $=id=>document.getElementById(id);
 const map=$('map'),fixed=$('fixed'),planesEl=$('planes'),board=$('board'),detail=$('detail'),side=$('side'),cards=$('cards');
 
 function reset(){
-  if(flights||!ROT)ROT=genWave(toMin("11:58"),20);
-  const DAY=[...ROT,...genWave(toMin("14:55"),18),...genWave(toMin("17:55"),16)];
+  const wv=D().waves;
+  if(flights||!ROT)ROT=genWave(toMin("11:58"),wv[0]);
+  const DAY=[...ROT,...genWave(toMin("14:55"),wv[1]),...genWave(toMin("17:55"),wv[2])];
+  storms=[];for(let k=0;k<D().storms;k++){let st;do{st=toMin("13:00")+Math.floor(Math.random()*450)}while(storms.some(x=>Math.abs(x.s-st)<90));
+    storms.push({s:st,e:st+20+Math.floor(Math.random()*16),warned:false,on:false})}
+  storms.sort((a,b)=>a.s-b.s);dayOver=false;
   flights=DAY.map(([al,a,d,ap,cls,t,dl],i)=>{const sched=toMin(t),g=GROUND[cls-1];
     return {i,al,arrNo:al+a,depNo:al+d,ap,cls,sched,eta:sched+dl,ground:g,depSched:sched+g,dur:DUR[ap],state:"inbound",stand:null,path:null}});
   STANDS.forEach(s=>s.res=null);
   now=toMin("11:52");runwayFree=0;sel=null;assignFor=null;lastWind=-1;
-  score={landed:0,departed:0,onTime:0,lateMin:0};
+  score={landed:0,departed:0,onTime:0,lateMin:0,diverted:0,emerg:0};
   planeEls.forEach(e=>e.remove());planeEls.clear();
   side.classList.remove('showDetail');
 }
@@ -564,8 +613,32 @@ function pose(f){
 
 /* ---------- simulação ---------- */
 function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),2600)}
-const servProg=f=>f.tPark==null?0:clamp((now-f.tPark)/f.ground,0,1);
-const isReady=f=>f.state==="parked"&&servProg(f)>=.95;
+/* serviços em solo com equipes limitadas */
+const CREW=[null,null,"clean","cat","fuel",null,null];
+const CREWNAME={fuel:"Combustível",cat:"Catering",clean:"Limpeza"};
+function initSvc(f){f.svs=SERV.map(([n,a,b])=>({s:null,d:(b-a)*f.ground,e0:f.tPark+a*f.ground}))}
+const svDone=(f,i)=>f.svs&&f.svs[i].s!=null&&now>=f.svs[i].s+f.svs[i].d;
+const svP=(f,i)=>{const v=f.svs&&f.svs[i];return !v||v.s==null?0:clamp((now-v.s)/v.d,0,1)};
+const depsOk=(f,i)=>i<5||[2,3,4].every(j=>svDone(f,j));
+function crewBusy(){const b={fuel:0,cat:0,clean:0};
+  for(const f of flights)if(f.state==="parked"&&f.svs)f.svs.forEach((v,i)=>{const c=CREW[i];if(c&&v.s!=null&&now<v.s+v.d)b[c]++});return b}
+function svcStep(){
+  const busy=crewBusy(),cap=D().crews;
+  const parked=flights.filter(f=>f.state==="parked").sort((a,b)=>a.tPark-b.tPark);
+  for(const f of parked){if(!f.svs)initSvc(f);
+    f.svs.forEach((v,i)=>{if(v.s!=null||now<v.e0||!depsOk(f,i))return;const c=CREW[i];
+      if(c){if(busy[c]>=cap[c]){v.wait=true;return}busy[c]++}v.wait=false;v.s=now;dirty=true})}
+}
+const waitingCrew=(f,i)=>{const v=f.svs&&f.svs[i];return v&&v.s==null&&v.wait};
+const servProg=f=>!f.svs?0:f.svs.reduce((a,_,i)=>a+svP(f,i),0)/f.svs.length;
+const isReady=f=>f.state==="parked"&&!!f.svs&&f.svs.every((_,i)=>svDone(f,i));
+const stormNow=()=>storms.find(x=>now>=x.s&&now<x.e);
+function divert(f){
+  if(f.stand!=null&&STANDS[f.stand-1].res===f.i)STANDS[f.stand-1].res=null;
+  f.state="diverted";score.diverted++;camp.rep=clamp(camp.rep-6,0,100);camp.money-=8000;
+  if(assignFor===f.i)assignFor=null;
+  toast(`${f.arrNo} sem combustível · desviado para Guarulhos`);dirty=true;
+}
 
 function step(){
   const r=activeRwy();
@@ -573,12 +646,20 @@ function step(){
   for(const f of flights){
     if(f.state==="inbound"&&now>=f.eta-20){f.state="approach";dirty=true}
     if((f.state==="approach"||f.state==="holding")&&now>=f.eta-1.3){
-      if(f.stand==null){f.eta+=4;if(f.state!=="holding")toast(`${f.arrNo} entrou em espera: falta posição`);f.state="holding";dirty=true}
+      const stm=stormNow();
+      if(f.stand==null||stm){
+        f.eta+=4;f.holds=(f.holds||0)+1;f.holdMin=(f.holdMin||0)+4;
+        if(f.state!=="holding")toast(`${f.arrNo} entrou em espera: ${stm?'tempestade sobre a pista':'falta posição'}`);
+        f.state="holding";
+        if(!f.emerg&&f.holdMin>=D().fuel){f.emerg=true;score.emerg++;toast(`MAYDAY · ${f.arrNo} com pouco combustível!`)}
+        else if(f.emerg&&f.holdMin>=D().fuel+12)divert(f);
+        dirty=true}
       else if(now<runwayFree){f.eta=runwayFree+1.3}
       else{f.rwy=r;f.path=landingPath(f,r,STANDS[f.stand-1]);f.state="arriving";runwayFree=f.path.offRwy+.2;jet("approach");dirty=true}
     }
     if(f.state==="arriving"&&!f.tdSnd&&now>=f.path.segs[1].t){f.tdSnd=true;jet("touchdown");jet("brake");smoke(f)}
-    if(f.state==="arriving"&&now>=f.path.end){f.state="parked";f.tPark=now;f.path=null;score.landed++;dirty=true}
+    if(f.state==="arriving"&&now>=f.path.end){f.state="parked";f.tPark=now;f.path=null;score.landed++;initSvc(f);
+      if(f.emerg){camp.rep=clamp(camp.rep+2,0,100);toast(`${f.arrNo} pousou em segurança · emergência resolvida`)}dirty=true}
     if(f.state==="parked"&&!f.readyNotified&&isReady(f)){f.readyNotified=true;toast(`${f.depNo} pronto para partir · posição ${pad(f.stand)}`);dirty=true}
   }
   // partidas
@@ -588,19 +669,29 @@ function step(){
       if(s.res===f.i&&now>=f.path.segs[0].t+f.path.segs[0].d){s.res=null;dirty=true}
       if(now>=f.path.end){f.state="lineup";dirty=true}
     }
-    if(f.state==="lineup"&&now>=runwayFree){
+    if(f.state==="lineup"&&now>=runwayFree&&!stormNow()){
       const incoming=flights.some(o=>o.state==="arriving"&&now<o.path.segs[1].t+o.path.segs[1].d);
       if(!incoming){f.path=takeoffPath(f,f.rwy);f.state="takeoff";runwayFree=now+2;dirty=true}
     }
     if(f.state==="takeoff"&&!f.toSnd&&now>=f.path.segs[2].t){f.toSnd=true;jet("takeoff")}
     if(f.state==="takeoff"&&now>=f.path.end){
-      f.state="gone";f.tOff=now;score.departed++;const late=Math.max(0,Math.round(now-f.depSched));
-      if(late<=5)score.onTime++;else score.lateMin+=late;dirty=true}
+      f.state="gone";f.tOff=now;score.departed++;const late=Math.max(0,Math.round((f.tPush??now)-f.depSched));
+      if(late<=15){score.onTime++;camp.rep=clamp(camp.rep+1,0,100)}else{score.lateMin+=late;camp.rep=clamp(camp.rep-(late>40?2:1),0,100)}
+      camp.money+=f.cls*1500-Math.max(0,late-15)*40;dirty=true}
   }
+  svcStep();stormStep();
+}
+function stormStep(){
+  for(const x of storms){
+    if(!x.warned&&now>=x.s-15&&now<x.s){x.warned=true;toast(`⛈ Tempestade chegando em ${Math.ceil(x.s-now)} min`);dirty=true}
+    const on=now>=x.s&&now<x.e;
+    if(on!==x.on){x.on=on;toast(on?`⛈ Tempestade · pista fechada até ${fmt(x.e)}`:'Tempestade passou · pista reaberta');drawLights();dirty=true}
+  }
+  $('storm').classList.toggle('on',!!stormNow());
 }
 function depart(f){
   if(!isReady(f))return;
-  f.rwy=activeRwy();f.state="departing";f.path=taxiOutPath(f,f.rwy,STANDS[f.stand-1]);
+  f.tPush=now;f.rwy=activeRwy();f.state="departing";f.path=taxiOutPath(f,f.rwy,STANDS[f.stand-1]);
   toast(`${f.depNo} liberado · taxiando para a cabeceira ${f.rwy}`);dirty=true;
 }
 function assign(f,s){
@@ -616,25 +707,32 @@ function arrStatus(f){
   switch(f.state){
     case"inbound":return now<f.eta-f.dur?(f.eta>f.sched?["ATRASADO","bad"]:["PREVISTO",""]):(f.eta>f.sched?["ATRASADO","bad"]:["EM VOO","ok"]);
     case"approach":return["APROXIMAÇÃO","hot"];
-    case"holding":return["EM ESPERA","bad"];
+    case"holding":return f.emerg?["EMERGÊNCIA","bad"]:["EM ESPERA","bad"];
+    case"diverted":return["DESVIADO","bad"];
     case"arriving":return now<f.path.segs[1].t?["POUSANDO","hot"]:["TAXIANDO","ok"];
     default:return["NO PORTÃO","ok"];
   }
 }
 function depEst(f){
-  if(f.state==="parked")return Math.max(f.depSched,f.tPark+f.ground*.95);
+  if(f.state==="parked"&&f.svs){
+    const end=i=>{const v=f.svs[i];return v.s!=null?v.s+v.d:Math.max(now,v.e0)+v.d};
+    const p1=Math.max(...[0,1,2,3,4].map(end));
+    const p2=Math.max(...[5,6].map(i=>{const v=f.svs[i];return v.s!=null?v.s+v.d:Math.max(p1,v.e0,now)+v.d}));
+    return Math.max(f.depSched,p2)}
+  if(f.state==="parked")return Math.max(f.depSched,f.tPark+f.ground);
   if(["inbound","approach","holding","arriving"].includes(f.state))return Math.max(f.depSched,f.eta+5+f.ground*.95);
   return f.depSched;
 }
 function depStatus(f){
   switch(f.state){
     case"gone":return["DECOLOU",""];
+    case"diverted":return["CANCELADO","bad"];
     case"takeoff":return["DECOLANDO","hot"];
     case"lineup":return["NA CABECEIRA","hot"];
     case"departing":return["TAXIANDO","ok"];
-    case"parked":if(isReady(f))return["PRONTO","ok"];if(servProg(f)>=.6)return["EMBARQUE","hot"];
+    case"parked":if(isReady(f))return["PRONTO","ok"];if(svP(f,6)>0)return["EMBARQUE","hot"];
   }
-  return depEst(f)>f.depSched+5?["ATRASADO","bad"]:["NO HORÁRIO",""];
+  return depEst(f)>f.depSched+15?["ATRASADO","bad"]:["NO HORÁRIO",""];
 }
 
 /* ---------- desenho do mapa ---------- */
@@ -642,7 +740,7 @@ function drawLights(){
   const r=activeRwy(),w=windNow();let h='';
   // luzes de cabeceira: verde na cabeceira de pouso, vermelha no fim da pista
   for(const end of ["10","28"]){
-    const y=TH[end],on=end===r;
+    const y=TH[end],on=end===r&&!stormNow();
     for(let i=0;i<9;i++)h+=`<i class="lt ${on?'g':'r'}" style="left:${(181+i*9)/W*100}%;top:${y/H*100}%"></i>`;
     if(on){
       const ys=end==="10"?[4,18,32,46]:[1604,1618,1632,1646,1660];
@@ -650,12 +748,12 @@ function drawLights(){
       ord.forEach((yy,k)=>h+=`<i class="lt w" style="left:${RX/W*100}%;top:${yy/H*100}%;animation-delay:${(k*.12).toFixed(2)}s"></i>`);
       h+=`<i class="lt reil" style="left:${172/W*100}%;top:${y/H*100}%"></i><i class="lt reil" style="left:${263/W*100}%;top:${y/H*100}%"></i>`;
     }
-    h+=`<div class="rwy ${on?'on':'off'}" style="left:${140/W*100}%;top:${(end==="10"?y+40:y-40)/H*100}%">${end}<br>${on?'POUSO':'FIM'}</div>`;
+    h+=`<div class="rwy ${on?'on':'off'}" style="left:${140/W*100}%;top:${(end==="10"?y+40:y-40)/H*100}%">${end}<br>${stormNow()?'FECHADA':on?'POUSO':'FIM'}</div>`;
   }
   $('lights').innerHTML=h;h='';
   // indicador de vento (seta = para onde o vento sopra, no referencial do mapa)
   const ang=w[1]+260;
-  $('windBox').innerHTML=`<div class="wind"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="#555"/><g transform="rotate(${ang} 20 20)"><path d="M20 5 L26 16 H22 V33 H18 V16 H14 Z" fill="#FDE934"/></g></svg><div><b>Vento ${String(w[1]).padStart(3,'0')}° · ${w[2]} kt</b><small>Pista ${r} em uso</small><span class="daypart" id="dpart"></span></div></div>`;
+  $('windBox').innerHTML=`<div class="wind"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="#555"/><g transform="rotate(${ang} 20 20)"><path d="M20 5 L26 16 H22 V33 H18 V16 H14 Z" fill="#FDE934"/></g></svg><div><b>Vento ${String(w[1]).padStart(3,'0')}° · ${w[2]} kt</b><small>${stormNow()?`⛈ Pista fechada até ${fmt(stormNow().e)}`:`Pista ${r} em uso`}</small><span class="daypart" id="dpart"></span></div></div>`;
 }
 function drawFixed(){
   // plaquinhas e áreas de clique
@@ -717,14 +815,14 @@ function drawBar(){
   const rd=flights.filter(isReady);
   const tab=(f,kind)=>{
     const hold=f.state==="holding",m=Math.max(0,Math.ceil(f.eta-now)),on=assignFor===f.i;
-    const cls=`tg${hold?' hold':''}${kind==='rd'?' rd':''}${on?' sel':''}`;
+    const cls=`tg${hold?' hold':''}${f.emerg?' emerg':''}${kind==='rd'?' rd':''}${on?' sel':''}`;
     const model=MODELS[f.cls-1].split(' / ')[0];
     if(kind==='rd')return `<div class="${cls}"><div class="tg-h" data-f="${f.i}" data-k="rd" role="button" tabindex="0">
       <span class="tg-fl">${flag(f.al)}</span><img src="p${f.cls}.png" alt=""><b>${f.depNo}</b><small>PRONTO</small>
       <span class="tg-c">→ ${CITY[f.ap]}</span><span class="tg-m">${model} · C${f.cls}</span><span class="tg-p">POS <em>${pad(f.stand)}</em></span>
       <button class="tg-go" data-act="go" data-f="${f.i}">Partir</button></div></div>`;
     return `<div class="${cls}"><button class="tg-h" data-f="${f.i}" data-k="arr" aria-pressed="${on}">
-      <span class="tg-fl">${flag(f.al)}</span><img src="p${f.cls}.png" alt=""><b>${f.arrNo}</b><small>${hold?'ESPERA':m+' min'}</small>
+      <span class="tg-fl">${flag(f.al)}</span><img src="p${f.cls}.png" alt=""><b>${f.arrNo}</b><small>${f.emerg?'MAYDAY':hold?`COMB ${Math.max(0,D().fuel-(f.holdMin||0))} min`:m+' min'}</small>
       <span class="tg-c">${CITY[f.ap]}</span><span class="tg-m">${model} · C${f.cls}</span>
       ${on?'<span class="tg-p tg-now">Toque na posição</span>':`<span class="tg-p">POS <em>${f.stand?pad(f.stand):'—'}</em></span>`}</button></div>`;
   };
@@ -732,9 +830,18 @@ function drawBar(){
 }
 
 /* ---------- painel ---------- */
+const money=v=>(v<0?'-':'')+'R$ '+(Math.abs(v)>=1e6?(Math.abs(v)/1e6).toFixed(1).replace('.',',')+' mi':Math.round(Math.abs(v)/1000)+' mil');
+function goals(){
+  const tot=flights.length,G=Math.round(tot*D().goal),pct=score.departed?score.onTime/score.departed*100:0;
+  return [{t:`Pousar ${G} aviões`,v:`${score.landed}/${G}`,ok:score.landed>=G},
+          {t:'Pontualidade de 80%',v:score.departed?Math.round(pct)+'%':'--',ok:score.departed>=5&&pct>=80},
+          {t:'Nenhum desvio',v:score.diverted?score.diverted+' desvio'+(score.diverted>1?'s':''):'ok',ok:score.diverted===0}];
+}
 function drawStats(){
   const pct=score.departed?Math.round(score.onTime/score.departed*100)+'%':'--';
-  $('stats').innerHTML=`<div><small>Pousos</small><b>${score.landed}</b></div><div><small>Decolagens</small><b>${score.departed}</b></div><div><small>Pontualidade</small><b>${pct}</b></div>`;
+  $('campl').innerHTML=`<span>Dia ${camp.day} · ${D().name}</span><span>★ ${camp.stars}</span><span>${money(camp.money)}</span>`;
+  $('stats').innerHTML=`<div><small>Pousos</small><b>${score.landed}</b></div><div><small>Decolagens</small><b>${score.departed}</b></div><div><small>Pontualidade</small><b>${pct}</b></div><div><small>Reputação</small><b class="${camp.rep<40?'bad':''}">${camp.rep}</b></div>`;
+  $('goals').innerHTML='<small>Metas do dia</small>'+goals().map(g=>`<div class="${g.ok?'ok':''}"><i>${g.ok?'✓':'○'}</i>${g.t}<b>${g.v}</b></div>`).join('');
   $('clock').textContent=$('clock2').textContent=fmt(now);
 }
 /* ---------- painel split-flap ---------- */
@@ -877,11 +984,12 @@ function drawDetail(){
     extra=`<button class="link" id="pick">${ic('arr','dk')}${f.stand?'Trocar posição de desembarque':'Escolher posição de desembarque'}</button>`;
   }
   if(f.state==="parked"){
-    const sp=servProg(f),ready=isReady(f);
-    const rows=SERV.map(([n,a,b,k])=>{const v=clamp((sp-a)/(b-a),0,1);return `<div class="sv${v>=1?' done':''}"><span class="svn">${ic(k)}${n}</span><div class="b"><i style="width:${v*100}%"></i></div><span class="p">${v>=1?'✓':Math.round(v*100)+'%'}</span></div>`}).join('');
+    const ready=isReady(f),busy=crewBusy(),cap=D().crews;
+    const rows=SERV.map(([n,a,b,k],i)=>{const v=svP(f,i),w=waitingCrew(f,i);return `<div class="sv${v>=1?' done':''}${w?' wait':''}"><span class="svn">${ic(k)}${n}</span><div class="b"><i style="width:${v*100}%"></i></div><span class="p">${v>=1?'✓':w?'fila':Math.round(v*100)+'%'}</span></div>`}).join('')
+      +`<div class="crews">Equipes livres: ${Object.keys(CREWNAME).map(c=>`<span>${CREWNAME[c]} <b>${cap[c]>8?'∞':Math.max(0,cap[c]-busy[c])+'/'+cap[c]}</b></span>`).join('')}</div>`;
     const est=depEst(f),late=Math.round(est-f.depSched);
     extra=`<div class="svc"><h3>Serviços em solo <span>Posição ${pad(f.stand)} · ${f.ground} min</span></h3>${rows}
-      <div class="depinfo"><span>Partida prevista <b>${fmt(f.depSched)}</b></span><span>${late>5?`Atraso estimado <b style="color:var(--r)">+${late} min</b>`:'<b style="color:var(--gr)">No horário</b>'}</span></div>
+      <div class="depinfo"><span>Partida prevista <b>${fmt(f.depSched)}</b></span><span>${late>15?`Atraso estimado <b style="color:var(--r)">+${late} min</b>`:'<b style="color:var(--gr)">No horário</b>'}</span></div>
       <button class="go" id="go" ${ready?'':'disabled'}>${ic('dep','dk')}${ready?'Partir · pista '+activeRwy():'Aguardando serviços'}</button></div>`;
   }
   detail.innerHTML=`
@@ -1212,8 +1320,8 @@ function skyTick(){
 let last=performance.now();
 function tick(t){
   const dt=Math.min(.25,(t-last)/1000);last=t;
-  if(started)now+=dt*speed/60;
-  if(now>=toMin("23:59")){reset();rowsTab=null;drawLights();toast('Fim do dia · novo dia no Galeão');dirty=true}
+  if(started&&!dayOver)now+=dt*speed/60;
+  if(now>=toMin("23:59")&&!dayOver)endDay();
   skyTick();
   flipTick(t);
   step();
@@ -1229,7 +1337,7 @@ $('closeSide').addEventListener('click',()=>{side.classList.remove('open');sel=n
 $('snd1').addEventListener('click',()=>setSound(!soundOn));
 /* ---------- salvar campanha: 5 posições + automático ---------- */
 const AUTO_KEY='departure_save_v1',SLOT_KEY=n=>'departure_slot_'+n;
-function snapshot(){return {v:1,now,speed,ROT,runwayFree,score,stands:STANDS.map(x=>x.res),flights:flights.map(f=>({...f})),at:Date.now()}}
+function snapshot(){return {v:1,diff:DIFF,camp,storms,dayOver,now,speed,ROT,runwayFree,score,stands:STANDS.map(x=>x.res),flights:flights.map(f=>({...f})),at:Date.now()}}
 function writeKey(k,manual){
   try{localStorage.setItem(k,JSON.stringify(snapshot()));return true}
   catch(e){if(manual)toast('Não foi possível salvar neste aparelho');return false}
@@ -1237,6 +1345,7 @@ function writeKey(k,manual){
 function readKey(k){try{const d=JSON.parse(localStorage.getItem(k)||'null');return d&&d.v===1?d:null}catch(e){return null}}
 const readSave=()=>readKey(AUTO_KEY);
 function loadGame(d){
+  DIFF=d.diff||'normal';camp=d.camp||newCamp();storms=d.storms||[];dayOver=false;
   ROT=d.ROT;flights=d.flights;now=d.now;runwayFree=d.runwayFree;score=d.score;
   STANDS.forEach((x,i)=>x.res=d.stands[i]);
   speed=d.speed??10;document.querySelectorAll('#speed button[data-s]').forEach(x=>x.classList.toggle('on',+x.dataset.s===speed));
@@ -1250,7 +1359,7 @@ function slotRow(key,label,auto){
   const d=readKey(key),dis=slMode==='load'&&!d;
   return `<button class="sl${d?'':' empty'}${auto?' auto':''}" data-k="${key}" ${dis?'disabled':''}>
     <span class="n">${label}</span>
-    <span>${d?`<b>Dia às ${fmt(d.now)} · ${d.score.landed} pousos · ${d.score.departed} decolagens</b><small>Salvo em ${when(d.at)}</small>`:`<b>${auto?'Sem salvamento automático':'Vazio'}</b><small>${slMode==='save'?'Toque para salvar aqui':'—'}</small>`}</span>
+    <span>${d?`<b>Dia ${d.camp?d.camp.day:1} · ${(DIFFS[d.diff]||DIFFS.normal).name} · ${fmt(d.now)}</b><small>${d.score.landed} pousos · ${d.score.departed} decolagens · ★ ${d.camp?d.camp.stars:0}</small><small>Salvo em ${when(d.at)}</small>`:`<b>${auto?'Sem salvamento automático':'Vazio'}</b><small>${slMode==='save'?'Toque para salvar aqui':'—'}</small>`}</span>
     <em>${slMode==='save'?(d?'Substituir':'Salvar'):(d?'Carregar':'')}</em></button>`;
 }
 function openSlots(mode){
@@ -1275,7 +1384,7 @@ $('slots').addEventListener('click',e=>{if(e.target.id==='slots')$('slots').hidd
 ['loadBtn','loadBtn2','loadCv'].forEach(id=>$(id).addEventListener('click',()=>openSlots('load')));
 function refreshCover(){
   const d=readSave(),b=$('cont');
-  if(d){b.hidden=false;b.innerHTML=`Continuar<small>Dia às ${fmt(d.now)} · ${d.score.landed} pousos</small>`;$('play').textContent='Novo jogo'}
+  if(d){b.hidden=false;b.innerHTML=`Continuar<small>Dia ${d.camp?d.camp.day:1} · ${(DIFFS[d.diff]||DIFFS.normal).name} · ${fmt(d.now)} · ★ ${d.camp?d.camp.stars:0}</small>`;$('play').textContent='Novo jogo'}
   else{b.hidden=true;$('play').textContent='Jogar'}
 }
 function goHome(){
@@ -1321,7 +1430,29 @@ function startGame(){
   setTimeout(()=>{$('cover').hidden=true},800);
   rowsTab=null;dirty=true;
 }
-$('play').addEventListener('click',e=>{if(e.isTrusted&&playedOnce){reset();rowsTab=null;drawLights()}startGame()});
+$('play').addEventListener('click',e=>{if(e.isTrusted){$('diffDlg').hidden=false;return}startGame()});
+$('diffClose').addEventListener('click',()=>$('diffDlg').hidden=true);
+$('diffDlg').addEventListener('click',e=>{
+  if(e.target.id==='diffDlg'){$('diffDlg').hidden=true;return}
+  const b=e.target.closest('.df');if(!b)return;
+  DIFF=b.dataset.d;camp=newCamp();reset();rowsTab=null;drawLights();$('diffDlg').hidden=true;startGame();
+  toast(`Dia 1 · ${D().name} · bom trabalho na torre!`);
+});
+function endDay(){
+  dayOver=true;const gs=goals(),st=gs.filter(g=>g.ok).length;if(camp.scored!==camp.day){camp.scored=camp.day;camp.stars+=st}
+  const pct=score.departed?Math.round(score.onTime/score.departed*100)+'%':'--';
+  $('dayCard').innerHTML=`<div class="mx-h"><b>Dia ${camp.day} concluído</b></div>
+    <div class="day-st">${'★'.repeat(st)}${'☆'.repeat(3-st)}</div>
+    ${gs.map(g=>`<div class="day-row"><span>${g.ok?'✓':'✗'} ${g.t}</span><b>${g.v}</b></div>`).join('')}
+    <div class="day-row"><span>Pousos / decolagens</span><b>${score.landed} / ${score.departed}</b></div>
+    <div class="day-row"><span>Pontualidade</span><b>${pct}</b></div>
+    <div class="day-row"><span>Emergências · desvios</span><b>${score.emerg} · ${score.diverted}</b></div>
+    <div class="day-row"><span>Reputação · caixa</span><b>${camp.rep} · ${money(camp.money)}</b></div>
+    <button class="day-go" id="nextDay">Começar dia ${camp.day+1}</button>`;
+  $('dayDlg').hidden=false;
+}
+$('dayDlg').addEventListener('click',e=>{if(!e.target.closest('#nextDay'))return;
+  camp.day++;reset();rowsTab=null;drawLights();$('dayDlg').hidden=true;writeKey(AUTO_KEY,false);toast(`Dia ${camp.day} · ${D().name}`);dirty=true});
 reset();setTabs();requestAnimationFrame(tick);
 }
 </script>
