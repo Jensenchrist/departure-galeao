@@ -162,6 +162,10 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
 .tg-h img{width:32px;height:32px;object-fit:contain;flex:none;margin-bottom:2px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.6))}
 .tg-h{position:relative}
 .tg-fl{position:absolute;left:6px;top:4px;font-size:18px;line-height:1}
+.lg{object-fit:contain;background:#fff;border-radius:50%}
+.tg-lg{position:absolute;right:4px;top:4px;width:19px;height:19px}
+.hd-lg{width:28px;height:28px;vertical-align:middle;margin-right:8px}
+.pass .air{display:flex;align-items:center}
 .tg-h b{display:block;font-size:16px;line-height:1.05;font-weight:800;letter-spacing:-.01em}
 .tg-h small{display:block;font-size:12px;color:var(--y);font-weight:700;font-variant-numeric:tabular-nums}
 .tg-c{font-size:11px;font-weight:700;margin-top:2px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -480,6 +484,9 @@ const MODELS=["A220 / 737-700","A320 / 737-800","A321neo / 737 MAX","767-300 / A
 // país de cada companhia (bandeira)
 const NAT={DT:"AO",ET:"ET",AT:"MA",MS:"EG",VR:"CV",LA:"CL",G3:"BR",AD:"BR",RG:"BR",VP:"BR",TR:"BR",TP:"PT",EK:"AE",AF:"FR",BA:"GB",AA:"US",DL:"US",UA:"US",PA:"US",AR:"AR",CM:"PA",QR:"QA",LH:"DE",IB:"ES",KL:"NL",AV:"CO",AZ:"IT",JL:"JP",QF:"AU",SA:"ZA",CA:"CN",SQ:"SG"};
 const flag=al=>{const c=NAT[al];return c?String.fromCodePoint(...[...c].map(ch=>127397+ch.charCodeAt(0))):""};
+// logos opcionais: coloque logos/XX.png (código da companhia) no repositório
+const LOGO={};
+const logo=(al,c='')=>LOGO[al]?`<img class="lg ${c}" src="logos/${al}.png" alt="">`:'';
 const AIRLINES={DT:"TAAG Angola",ET:"Ethiopian",AT:"Royal Air Maroc",MS:"EgyptAir",VR:"Cabo Verde Airlines",RG:"Varig",VP:"Vasp",TR:"Transbrasil",QF:"Qantas",SA:"South African",CA:"Air China",SQ:"Singapore Airlines",AZ:"Alitalia",PA:"Pan Am",JL:"Japan Airlines",LA:"LATAM",G3:"GOL",AD:"Azul",TP:"TAP Air Portugal",EK:"Emirates",AF:"Air France",BA:"British Airways",AA:"American Airlines",AR:"Aerolíneas Argentinas",CM:"Copa Airlines",QR:"Qatar Airways",LH:"Lufthansa",IB:"Iberia",KL:"KLM",AV:"Avianca",DL:"Delta",UA:"United"};
 const CITY={LAD:"Luanda",ADD:"Adis Abeba",CMN:"Casablanca",CAI:"Cairo",SID:"Ilha do Sal",NRT:"Tóquio",SYD:"Sydney",JNB:"Joanesburgo",PEK:"Pequim",SIN:"Singapura",POA:"Porto Alegre",MAO:"Manaus",FCO:"Roma",JFK:"Nova York",LAX:"Los Angeles",GRU:"São Paulo",BSB:"Brasília",REC:"Recife",LIS:"Lisboa",DXB:"Dubai",CDG:"Paris",LHR:"Londres",MIA:"Miami",EZE:"Buenos Aires",PTY:"Cidade do Panamá",SCL:"Santiago",DOH:"Doha",FRA:"Frankfurt",MAD:"Madri",AMS:"Amsterdã",BOG:"Bogotá",ATL:"Atlanta",SSA:"Salvador",IAH:"Houston"};
 // tempos de voo aproximados de/para o Galeão (GIG)
@@ -818,11 +825,11 @@ function drawBar(){
     const cls=`tg${hold?' hold':''}${f.emerg?' emerg':''}${kind==='rd'?' rd':''}${on?' sel':''}`;
     const model=MODELS[f.cls-1].split(' / ')[0];
     if(kind==='rd')return `<div class="${cls}"><div class="tg-h" data-f="${f.i}" data-k="rd" role="button" tabindex="0">
-      <span class="tg-fl">${flag(f.al)}</span><img src="p${f.cls}.png" alt=""><b>${f.depNo}</b><small>PRONTO</small>
+      <span class="tg-fl">${flag(f.al)}</span>${logo(f.al,"tg-lg")}<img src="p${f.cls}.png" alt=""><b>${f.depNo}</b><small>PRONTO</small>
       <span class="tg-c">→ ${CITY[f.ap]}</span><span class="tg-m">${model} · C${f.cls}</span><span class="tg-p">POS <em>${pad(f.stand)}</em></span>
       <button class="tg-go" data-act="go" data-f="${f.i}">Partir</button></div></div>`;
     return `<div class="${cls}"><button class="tg-h" data-f="${f.i}" data-k="arr" aria-pressed="${on}">
-      <span class="tg-fl">${flag(f.al)}</span><img src="p${f.cls}.png" alt=""><b>${f.arrNo}</b><small>${f.emerg?'MAYDAY':hold?`COMB ${Math.max(0,D().fuel-(f.holdMin||0))} min`:m+' min'}</small>
+      <span class="tg-fl">${flag(f.al)}</span>${logo(f.al,"tg-lg")}<img src="p${f.cls}.png" alt=""><b>${f.arrNo}</b><small>${f.emerg?'MAYDAY':hold?`COMB ${Math.max(0,D().fuel-(f.holdMin||0))} min`:m+' min'}</small>
       <span class="tg-c">${CITY[f.ap]}</span><span class="tg-m">${model} · C${f.cls}</span>
       ${on?'<span class="tg-p tg-now">Toque na posição</span>':`<span class="tg-p">POS <em>${f.stand?pad(f.stand):'—'}</em></span>`}</button></div>`;
   };
@@ -995,7 +1002,7 @@ function drawDetail(){
   detail.innerHTML=`
   <button class="back" id="back">← Voltar ao painel</button>
   <div class="pass">
-    <div class="hd"><span class="air">${flag(f.al)} ${AIRLINES[f.al]}</span><span class="code">${arr?f.arrNo:f.depNo}</span></div>
+    <div class="hd"><span class="air">${logo(f.al,"hd-lg")}${flag(f.al)} ${AIRLINES[f.al]}</span><span class="code">${arr?f.arrNo:f.depNo}</span></div>
     <div class="route">
       <div><small>${arr?'Origem':'Saída'}</small><span class="c">${arr?f.ap:'GIG'}</span><small>${arr?CITY[f.ap]:'Rio · Galeão'}</small></div>
       <svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" transform="rotate(90 12 12)"/></svg>
@@ -1182,7 +1189,7 @@ function drawFMPanel(){
   const st=o.leg==="arr"?arrStatus(f):["EM ROTA","ok"],stTxt=f.state==="holding"?"EM ESPERA":(o.leg==="arr"&&f.state==="inbound"?"EM ROTA":st[0]);
   const remH=Math.floor(o.rem/60),remM=Math.round(o.rem%60);
   $('fmCard').innerHTML=`
-    <div class="fm-h">${ic('dep')}<b>${flag(f.al)} ${AIRLINES[f.al]}</b><span>${o.leg==="arr"?f.arrNo:f.depNo}</span></div>
+    <div class="fm-h">${ic('dep')}<b>${logo(f.al,'hd-lg')}${flag(f.al)} ${AIRLINES[f.al]}</b><span>${o.leg==="arr"?f.arrNo:f.depNo}</span></div>
     <div class="fm-leg">
       <div class="frail">${ic('dep')}<em></em>${ic('pin')}</div>
       <div class="fm-ap"><small>Partida · ${A[3]}</small><div class="nm">${A[2]}</div><div class="cd">${A[3]==='Rio de Janeiro'?'Rio':A[3]} <span>${o.from}</span></div></div>
@@ -1454,6 +1461,7 @@ function endDay(){
 $('dayDlg').addEventListener('click',e=>{if(!e.target.closest('#nextDay'))return;
   camp.day++;reset();rowsTab=null;drawLights();$('dayDlg').hidden=true;writeKey(AUTO_KEY,false);toast(`Dia ${camp.day} · ${D().name}`);dirty=true});
 reset();setTabs();requestAnimationFrame(tick);
+Object.keys(AIRLINES).forEach(al=>{const im=new Image();im.onload=()=>{LOGO[al]=true;dirty=true};im.src=`logos/${al}.png`});
 }
 </script>
 </body>
