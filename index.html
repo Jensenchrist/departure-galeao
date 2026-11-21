@@ -367,6 +367,7 @@ body.land .rail{top:84px}
 .pk{display:grid;grid-template-columns:1fr 44px;gap:3px 8px;margin:10px 0;align-items:end}
 .pk span{grid-column:1/-1;font-size:12px;color:var(--g)}
 .pk select{width:100%;min-height:40px;font:inherit;font-size:14px;background:var(--k3);color:var(--w);border:1px solid #3a3a3a;border-radius:8px;padding:0 8px}
+.pk input[type=range]{width:100%;accent-color:var(--y);height:24px}.pk output{text-align:right;font-size:12px;color:var(--y);font-variant-numeric:tabular-nums}
 .pk button{height:40px;border-radius:8px;background:var(--y);color:var(--k);font-weight:900}
 .mx-t{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
 .mx-t button{flex:1 1 30%;background:var(--k3);border-radius:8px;min-height:40px;font-size:12px;font-weight:700}
@@ -759,7 +760,7 @@ function step(){
         if(f.state!=="holding")toast(`${f.arrNo} entrou em espera: ${stm?'tempestade sobre a pista':'falta posição'}`);
         f.state="holding";
         const left=(f.fuelPlan??D().fuel+10)-f.holdMin;
-        if(!f.emerg&&left<=8){f.emerg=true;score.emerg++;toast(`MAYDAY · ${f.arrNo} com pouco combustível!`);play('mayday')}
+        if(!f.emerg&&left<=8){f.emerg=true;score.emerg++;toast(`MAYDAY · ${f.arrNo} com pouco combustível!`);if(pk('mayday')!=='off')play(pk('mayday'))}
         else if(f.emerg&&left<=-4)divert(f);
         dirty=true}
       else if(now<runwayFree){f.eta=runwayFree+1.3}
@@ -791,9 +792,9 @@ function step(){
 }
 function stormStep(){
   for(const x of storms){
-    if(!x.warned&&now>=x.s-15&&now<x.s){x.warned=true;toast(`⛈ Tempestade chegando em ${Math.ceil(x.s-now)} min`);play('trovao_longe');dirty=true}
+    if(!x.warned&&now>=x.s-15&&now<x.s){x.warned=true;toast(`⛈ Tempestade chegando em ${Math.ceil(x.s-now)} min`);if(pk('chuva')!=='off')play('trovao_longe');dirty=true}
     const on=now>=x.s&&now<x.e;
-    if(on!==x.on){x.on=on;loop('tempestade',on,1);toast(on?`⛈ Tempestade · pista fechada até ${fmt(x.e)}`:'Tempestade passou · pista reaberta');drawLights();dirty=true}
+    if(on!==x.on){x.on=on;loop('tempestade',on&&pk('chuva')!=='off',1);toast(on?`⛈ Tempestade · pista fechada até ${fmt(x.e)}`:'Tempestade passou · pista reaberta');drawLights();dirty=true}
   }
   $('storm').classList.toggle('on',!!stormNow());
 }
@@ -807,7 +808,7 @@ function assign(f,s){
   if(s.res!=null&&s.res!==f.i)return toast(`Posição ${pad(s.n)} está ocupada`);
   if(f.stand!=null)STANDS[f.stand-1].res=null;
   s.res=f.i;f.stand=s.n;assignFor=null;openTab=null;
-  toast(`${f.arrNo} vai desembarcar na posição ${pad(s.n)}`);play('bipe',{vol:.6});dirty=true;
+  toast(`${f.arrNo} vai desembarcar na posição ${pad(s.n)}`);if(pk('bipe')!=='off')play('bipe',{vol:.6});dirty=true;
 }
 
 /* ---------- status ---------- */
@@ -1060,14 +1061,14 @@ function loadSounds(){for(const k in SFX)fetch(`sons/${k}.mp3`).then(r=>r.ok?r.a
 function play(k,o={}){
   if(!soundOn||!AC||AC.state!=="running"||!SB[k])return false;
   const src=AC.createBufferSource();src.buffer=SB[k];src.playbackRate.value=o.rate||1;
-  const g=AC.createGain(),t=AC.currentTime;g.gain.setValueAtTime(o.vol??1,t);
-  if(o.dur){g.gain.setValueAtTime(o.vol??1,t+Math.max(0,o.dur-1.2));g.gain.linearRampToValueAtTime(0,t+o.dur)}
+  const g=AC.createGain(),t=AC.currentTime,vv=(o.vol??1)*slotVol(k);g.gain.setValueAtTime(vv,t);
+  if(o.dur){g.gain.setValueAtTime(vv,t+Math.max(0,o.dur-1.2));g.gain.linearRampToValueAtTime(0,t+o.dur)}
   src.connect(g).connect(BUS[SFX[k]]);src.start(t,o.off||0,o.dur);return true;
 }
 function loop(k,on,vol=1){
   if(!AC||!SB[k])return;
   if(on&&!LOOPS[k]){const src=AC.createBufferSource();src.buffer=SB[k];src.loop=true;const g=AC.createGain();g.gain.value=0;
-    g.gain.linearRampToValueAtTime(vol,AC.currentTime+2.5);src.connect(g).connect(BUS[SFX[k]]);src.start();LOOPS[k]={src,g}}
+    g.gain.linearRampToValueAtTime(vol*slotVol(k),AC.currentTime+2.5);src.connect(g).connect(BUS[SFX[k]]);src.start();LOOPS[k]={src,g}}
   if(!on&&LOOPS[k]){const L=LOOPS[k];L.g.gain.cancelScheduledValues(AC.currentTime);L.g.gain.setValueAtTime(L.g.gain.value,AC.currentTime);L.g.gain.linearRampToValueAtTime(0,AC.currentTime+2.5);L.src.stop(AC.currentTime+2.6);delete LOOPS[k]}
 }
 // escolha de som por evento (mixer)
@@ -1080,7 +1081,13 @@ const SLOTS=[
   {k:'ambiente',n:'Ambiente de fundo',o:[['ambiente_patio','Pátio com turbinas'],['terminal','Saguão movimentado'],['terminal_2','Saguão grande, murmúrio'],['off','Desligado']]},
   {k:'aviso',n:'Aviso (voo pronto)',o:[['ding','Ding dong'],['ding_2','Carrilhão suave'],['off','Desligado']]},
   {k:'clique',n:'Clique dos botões',o:[['clique','Clique digital'],['clique_2','Clique macio'],['off','Desligado']]},
-  {k:'painel',n:'Painel de plaquinhas',o:[['plaquinha','Clique real'],['synth','Sintetizado'],['off','Desligado']]}];
+  {k:'painel',n:'Painel de plaquinhas',o:[['plaquinha','Clique real'],['synth','Sintetizado'],['off','Desligado']]},
+  {k:'mayday',n:'Sirene de MAYDAY',o:[['mayday','Alarme de emergência'],['bipe','Bipe curto de cabine'],['off','Desligado']]},
+  {k:'bipe',n:'Bipe ao escolher posição',o:[['bipe','Bipe de cabine'],['off','Desligado']]},
+  {k:'chuva',n:'Tempestade (chuva e trovão)',o:[['tempestade','Chuva forte com trovões'],['off','Desligado']]}];
+let SVOL={};try{SVOL=JSON.parse(localStorage.getItem('departure_svol')||'{}')||{}}catch(e){}
+const slotVol=k=>{for(const x of SLOTS)if(x.o.some(o=>o[0]===k)&&PICK[x.k]===k)return (SVOL[x.k]??100)/100;
+  if(k==='trovao_longe')return (SVOL.chuva??100)/100;return 1};
 let PICK={};SLOTS.forEach(x=>PICK[x.k]=x.o[0][0]);
 try{const m=JSON.parse(localStorage.getItem('departure_pick')||'null');if(m)PICK={...PICK,...m}}catch(e){}
 const pk=k=>PICK[k];
@@ -1610,14 +1617,17 @@ refreshCover();
 $('cont').addEventListener('click',()=>{const d=readSave();if(d)loadGame(d);startGame()});
 const mixer=$('mixer');
 const PREV={pouso:()=>jet('approach'),frenagem:()=>jet('brake'),decolagem:()=>jet('takeoff'),painel:()=>{for(let i=0;i<14;i++)setTimeout(clack,i*60)}};
-function drawPicks(){$('picks').innerHTML=SLOTS.map(x=>`<label class="pk"><span>${x.n}</span><select data-pk="${x.k}">${x.o.map(([v,t])=>`<option value="${v}"${PICK[x.k]===v?' selected':''}>${t}</option>`).join('')}</select><button type="button" data-pv="${x.k}" aria-label="Ouvir">▶</button></label>`).join('')}
+function drawPicks(){$('picks').innerHTML=SLOTS.map(x=>`<label class="pk"><span>${x.n}</span><select data-pk="${x.k}">${x.o.map(([v,t])=>`<option value="${v}"${PICK[x.k]===v?' selected':''}>${t}</option>`).join('')}</select><button type="button" data-pv="${x.k}" aria-label="Ouvir">▶</button><input type="range" min="0" max="100" data-sv="${x.k}" value="${SVOL[x.k]??100}" aria-label="Volume ${x.n}"><output>${SVOL[x.k]??100}</output></label>`).join('')}
 drawPicks();
 $('picks').addEventListener('change',e=>{const sl=e.target.closest('select');if(!sl)return;PICK[sl.dataset.pk]=sl.value;
   try{localStorage.setItem('departure_pick',JSON.stringify(PICK))}catch(_){}
   if(sl.dataset.pk==='ambiente')ambStart()});
+$('picks').addEventListener('input',e=>{const r=e.target.closest('[data-sv]');if(!r)return;SVOL[r.dataset.sv]=+r.value;r.nextElementSibling.textContent=r.value;
+  try{localStorage.setItem('departure_svol',JSON.stringify(SVOL))}catch(_){}
+  for(const k in LOOPS)LOOPS[k].g.gain.setTargetAtTime(.8*slotVol(k),AC.currentTime,.1)});
 $('picks').addEventListener('click',e=>{const b=e.target.closest('[data-pv]');if(!b)return;audioInit();if(!soundOn)setSound(true);
   const k=b.dataset.pv,v=PICK[k];if(PREV[k])return PREV[k]();if(v!=='off')play(v,{dur:8})});
-mixer.querySelectorAll('input').forEach(inp=>{
+mixer.querySelectorAll('input[data-k]').forEach(inp=>{
   const k=inp.dataset.k;inp.value=MIX[k];inp.nextElementSibling.textContent=MIX[k];
   inp.addEventListener('input',()=>{MIX[k]=+inp.value;inp.nextElementSibling.textContent=inp.value;audioInit();applyMix();
     try{localStorage.setItem('departure_mix',JSON.stringify(MIX))}catch(e){}});
