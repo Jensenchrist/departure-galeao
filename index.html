@@ -548,9 +548,7 @@ const ic=(n,c='')=>`<span class="ico ${c}"><svg viewBox="0 0 24 24" aria-hidden=
 // pista: cabeceira 10 em cima, 28 embaixo
 const TH={"10":60,"28":1590};
 const STANDS=[
- {n:1,x:535,y:295,max:4},{n:2,x:525,y:420,max:4},{n:3,x:535,y:545,max:5},{n:4,x:495,y:660,max:6},
- {n:5,x:455,y:765,max:7},{n:6,x:465,y:890,max:7},{n:7,x:510,y:1000,max:6},{n:8,x:535,y:1120,max:5},
- {n:9,x:535,y:1250,max:4},{n:10,x:540,y:1365,max:4}];
+ {n:1,x:568,y:290,max:4},{n:2,x:568,y:412,max:4},{n:3,x:568,y:539,max:5},{n:4,x:530,y:659,max:6},{n:5,x:490,y:770,max:7},{n:6,x:508,y:895,max:7},{n:7,x:563,y:1006,max:6},{n:8,x:583,y:1118,max:5},{n:9,x:583,y:1247,max:4},{n:10,x:578,y:1367,max:4}];
 const SPR=[[192,246],[197,294],[238,338],[226,416],[348,491],[357,546],[515,615]];
 const SC=135/615;
 const GROUND=[20,30,40,55,70,90,120];
@@ -642,7 +640,7 @@ function mkPath(start,segs,t0,startH=0){
   return {segs:out,end:t};
 }
 const dist=(a,b)=>Math.hypot(b[0]-a[0],b[1]-a[1]);
-const parkPos=(f,s)=>[s.x-SPR[f.cls-1][1]*SC/2-2,s.y];
+const parkPos=(f,s)=>[s.x-SPR[f.cls-1][1]*SC/2,s.y];
 
 /* rede de pistas de táxi, seguindo as linhas amarelas do mapa */
 const TWY=318;                                  // taxiway paralela (entre a grama e o pátio)
@@ -874,7 +872,7 @@ function drawFixed(){
     else if(f&&f.state!=="parked")c=' reserved';
     const pk=f&&f.state==="parked"&&f.svs?f:null;
     const pc=pk?Math.round(pk.svs.reduce((a,v,i)=>a+svP(pk,i)*v.d,0)/pk.svs.reduce((a,v)=>a+v.d,0)*100):null;
-    h+=`<div class="sign${c}" style="left:${(s.x+14)/W*100}%;top:${(s.y+30)/H*100}%">${pc!=null?`<div class="pct${pc>=100?' full':''}">${pc}%</div>`:''}<div class="plate">${s.n}</div><div class="cls">MAX ${s.max}</div></div>`;
+    h+=`<div class="sign${c}" style="left:${(s.x+14)/W*100}%;top:${(s.y+62)/H*100}%">${pc!=null?`<div class="pct${pc>=100?' full':''}">${pc}%</div>`:''}<div class="plate">${s.n}</div><div class="cls">MAX ${s.max}</div></div>`;
     h+=`<button class="hit${c.includes('ok')?' ok':''}" data-stand="${s.n}" aria-label="Posição ${s.n}" style="left:${(s.x-62)/W*100}%;top:${s.y/H*100}%"></button>`;
   });
   map.classList.toggle('assign',!!af);
