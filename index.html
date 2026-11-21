@@ -55,7 +55,7 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
 .hit{position:absolute;transform:translate(-50%,-50%);width:17%;height:6.8%;border-radius:10px;z-index:4}
 .hit:hover{background:rgba(253,233,52,.12)}
 .assign .hit.ok{background:rgba(70,224,122,.18);outline:2px dashed var(--gr)}
-.tag{position:absolute;transform:translate(-50%,-100%);background:var(--k);color:var(--w);font-size:clamp(9px,1.2vh,12px);font-weight:700;padding:2px 6px;border-radius:3px;white-space:nowrap;border-left:3px solid var(--y);pointer-events:none;z-index:5}
+.tag{position:absolute;transform:translate(-50%,0);background:rgba(0,0,0,.82);color:var(--w);font-size:clamp(7px,.85vh,9px);font-weight:700;padding:1px 4px;border-radius:2px;line-height:1.2;white-space:nowrap;border-left:2px solid var(--y);pointer-events:none;z-index:5}
 
 /* luzes de cabeceira */
 .lt{position:absolute;width:.75%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);z-index:2}
@@ -401,7 +401,8 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
   .close{display:flex}
   .side.showDetail .stats,.side.showDetail .goals,.side.showDetail .speed,.side.showDetail .campl{display:none}
   .sign .pct{font-size:2.3vw}
-  .sign .plate{font-size:4.2vw}.sign .cls{font-size:1.9vw}.tag,.rwy{font-size:2.4vw}
+  .tag{font-size:2vw}
+  .sign .plate{font-size:4.2vw}.sign .cls{font-size:1.9vw}.rwy{font-size:2.4vw}
   .toast{position:fixed;top:auto;bottom:18px;max-width:calc(100% - 150px);left:calc(50% - 30px)}
 }
 @media(prefers-reduced-motion:reduce){.sign.ok .plate,.lt{animation:none!important}.lt.w,.lt.reil{opacity:.6}}
@@ -870,7 +871,7 @@ function drawPlanes(){
     el.style.filter=`drop-shadow(${-4-34*p.al}px ${5+46*p.al}px ${3+9*p.al}px rgba(0,0,0,${.45-.25*p.al})) brightness(${PB})`;
     el.firstChild.style.transform=`rotate(${p.h}deg) scale(${p.s})`;
     const tg=el.lastChild,show=sel&&sel.i===f.i;
-    tg.hidden=!show;if(show){tg.textContent=`${f.state==="arriving"?f.arrNo:f.depNo}`;const [sw,sl]=SPR[f.cls-1];tg.style.cssText=`left:50%;top:${50-50*sw/sl-2}%`}
+    tg.hidden=!show;if(show){tg.textContent=`${f.state==="arriving"?f.arrNo:f.depNo}`;const [sw,sl]=SPR[f.cls-1],hr=p.h*Math.PI/180,half=(Math.abs(Math.cos(hr))*sl+Math.abs(Math.sin(hr))*sw)/2*p.s;tg.style.cssText=`left:50%;top:${50+half/sl*100+3}%`}
   }
   for(const [i,el] of planeEls)if(!live.has(i)){el.remove();planeEls.delete(i)}
 }
