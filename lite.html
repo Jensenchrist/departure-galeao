@@ -700,7 +700,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795358106';
+var APPV='1795358411';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -911,12 +911,15 @@ var LINES=[];
 function buildLines(){
   const r=rng(camp.seed||1),K=D().keep||[1,1],used=new Set(),out=[];
   const num=al=>{let a;do{const b=["LA","G3","AD","VP","TR","RG"].includes(al)?1000+Math.floor(r()*8000):10+Math.floor(r()*890);a=b%2?b:b+1}while(used.has(al+a));used.add(al+a);return a};
+  // nacionais: cada acordo = 1 avião fazendo vai e volta o dia todo (solo aqui + voo + solo lá + volta)
   for(const [ap,als,cls] of DOMF){
-    const by={};als.forEach((al,i)=>(by[al]=by[al]||[]).push(i));
-    for(const al in by){const c=by[al].length,sp=880/c,off=r()*Math.max(1,sp-30);
-      for(let j=0;j<c;j++){const ns=j===0&&by[al][0]===0&&NIGHT.includes(ap);
-        const ln={k:al+ap,al,ap,cls,days:"1111111",arr:ns?1300+Math.round(r()*100):400+Math.round(off+j*sp),dep:ns?350+Math.round(r()*80):null,no:num(al)};
-        ln.kp=r()<K[0];out.push(ln)}}
+    for(const al of [...new Set(als)]){
+      const c=cls[Math.floor(r()*cls.length)],g=GROUND[c-1],gA=Math.round(g*.9),dur=DUR[ap],cyc=2*dur+gA+g;
+      const home=r()<.5,j=Math.round(r()*50),kp=r()<K[0],arrs=[];let dep0=null;
+      if(home){dep0=360+j;for(let a=dep0+2*dur+gA;a<=1395;a+=cyc)arrs.push(a)}      // dorme no Galeão, sai cedo
+      else{for(let a=390+j;a+g<=1320;a+=cyc)arrs.push(a)}                          // dorme no destino, chega cedo
+      arrs.forEach((a,i)=>out.push({k:al+ap,al,ap,cls:[c],days:"1111111",arr:a,dep:home&&i===arrs.length-1?dep0:null,no:num(al),kp}));
+    }
   }
   for(const [al,ap,cls,days,t] of INTL){const ln={k:al+ap,al,ap,cls,days,arr:toMin(t),dep:null,no:num(al)};ln.kp=al==='SU'||r()<K[1];out.push(ln)}
   ALL_LINES=out;
@@ -2080,7 +2083,7 @@ function dealList(){
   return Object.values(by).map(ls=>{const l=ls[0],dom=DOMAP.has(l.ap),cat=dom?'nac':DUR[l.ap]<=420?'reg':'long';
     const wk=ls.reduce((a,x)=>a+(x.days==='q3'?7/3:x.days.split('').filter(c=>c==='1').length),0);
     const ca=l.cls.reduce((a,b)=>a+b,0)/l.cls.length,rev=wk*ca*4000*(dom?1:1.6);
-    return {k:l.k,al:l.al,ap:l.ap,ls,dom,cat,wk,cls:l.cls,rev,price:nice(Math.max(25000,rev*(cat==='nac'?1.2:cat==='reg'?1.6:2.5)))}});
+    return {k:l.k,al:l.al,ap:l.ap,ls,dom,cat,wk,cls:l.cls,rev,price:nice(Math.max(25000,rev*(cat==='nac'?.8:cat==='reg'?1.6:2.5)))}});
 }
 var DIAS=['D','S','T','Q','Q','S','S'];
 function freqTxt(d){const l=d.ls[0];
