@@ -233,7 +233,29 @@ body.land .rail{top:84px}
 .fm-chip b{display:block;font-size:13px}.fm-chip small{display:block;font-size:10px;color:var(--g)}
 .fm-chip i{display:block;height:3px;background:#333;border-radius:2px;margin-top:5px;overflow:hidden}.fm-chip i em{display:block;height:100%;background:var(--y)}
 .fm-chip.on{border-color:var(--y);background:#1d1b06}
-.fm-card{border:1px solid var(--y);border-radius:12px;padding:14px;background:#0b0b0b}
+.fm-card{border:1px solid var(--y);border-radius:16px;padding:14px 16px;background:#0b0b0b;position:relative}
+.fm-no{font-family:Doto,monospace;font-weight:900;color:var(--y);font-size:18px}
+.fmt-r{display:flex;align-items:center;margin-top:14px}
+.fmt-r>div:first-child,.fmt-r>.r{flex:0 0 auto;min-width:0}
+.fmt-r small{display:block;font-size:10px;color:var(--g);white-space:nowrap;max-width:110px;overflow:hidden;text-overflow:ellipsis}
+.fmt-r b{display:block;font-size:26px;font-weight:800;color:#fff;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.1}
+.fmt-r em{display:block;font-style:normal;font-family:Doto,monospace;font-weight:900;color:var(--y);font-size:17px}
+.fmt-r .r{text-align:right}.fmt-r .r small{margin-left:auto}
+.fmt-mid{flex:1;display:flex;flex-direction:column;align-items:center;margin:0 10px;min-width:0}
+.fmt-ln{position:relative;width:100%;height:2px;background:#3a3a3a;margin:12px 0 10px}
+.fmt-ln i{position:absolute;left:0;top:0;bottom:0;background:var(--y);box-shadow:0 0 6px var(--y)}
+.fmt-ln svg{position:absolute;top:50%;width:20px;height:20px;margin:-10px 0 0 -10px;fill:var(--y);stroke:#000;stroke-width:1.5}
+.fmt-d{background:var(--y);color:var(--k);font-size:11px;font-weight:800;border-radius:10px;padding:3px 9px;white-space:nowrap}
+.fmt-ap{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:#bbb}
+.fmt-ap span{max-width:48%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.fmt-ap span+span{text-align:right}
+.fm-perf{margin:14px -6px 12px}.fm-perf::before,.fm-perf::after{background:#050505;border:1px solid var(--y)}
+.fm-perf::before{left:-26px;border-left-color:transparent;border-bottom-color:transparent;transform:rotate(45deg)}
+.fm-perf::after{right:-26px;border-right-color:transparent;border-top-color:transparent;transform:rotate(45deg)}
+.fmt-g{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px}
+.fmt-g small{display:block;font-size:10px;color:var(--g);text-transform:uppercase;letter-spacing:.04em}
+.fmt-g b{display:block;font-size:17px;color:#fff;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fmt-g .w{grid-column:span 2;border-top:1px solid #222;padding-top:10px;display:flex;justify-content:space-between;align-items:baseline}
+.fmt-g b.y{color:var(--y);font-size:22px}
 .fm-h{display:flex;align-items:center;gap:10px;padding-bottom:10px;border-bottom:1px solid #2a2a2a}
 .fm-h .ico{width:30px;height:30px;border-radius:6px}
 .fm-h b{font-size:16px;flex:1}.fm-h span{font-family:Doto,monospace;font-weight:900;color:var(--y);font-size:18px}
@@ -483,6 +505,49 @@ body.land #hud .mclock{transform:none}
 #rainVid.on{opacity:1}
 #storm{background:rgba(12,18,34,.35)!important;animation:none!important}
 #fltPg{display:none}
+body.two .rail{display:none!important}
+body.two #fltPg{background:#0d0d0d;padding:0}
+.fp-top{display:flex;align-items:center;padding:max(14px,env(safe-area-inset-top)) 16px 18px;background:#141414}
+.fp-top>*+*{margin-left:14px}
+#fpBack{width:44px;height:44px;border-radius:12px;background:var(--y);color:var(--k);font-size:28px;font-weight:900;line-height:1}
+.fp-route{flex:1}.fp-c{display:block;font-size:34px;font-weight:800;letter-spacing:-.02em;color:#fff;line-height:1}
+.fp-route small{display:block;font-family:Doto,monospace;font-weight:900;color:var(--y);font-size:11px;letter-spacing:.06em;margin-top:3px}
+.fp-clock{font-family:Doto,monospace;font-weight:900;color:var(--y);font-size:22px}
+.fp-sheet{flex:1;min-height:0;background:#1b1b1b;border-radius:20px 20px 0 0;padding:8px 12px 12px;display:flex;flex-direction:column}
+.fp-grab{display:block;width:44px;height:4px;border-radius:2px;background:#444;margin:0 auto 8px}
+.fp-sheet h3{margin:0 0 8px;text-align:center;font-size:16px;color:var(--g);font-weight:700}
+#fltList{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y;padding-bottom:20px}
+.tk-sec{font-size:12px;font-weight:800;color:var(--g);margin:12px 4px 6px;text-transform:uppercase;letter-spacing:.04em}
+.tk-sec span{color:var(--y);margin-left:4px}
+.tk{background:#000;border:1px solid #2c2c2c;border-radius:16px;padding:12px 14px;margin-bottom:10px;position:relative}
+.tk.sel{border-color:var(--y);box-shadow:0 0 0 2px var(--y) inset}
+.tk.bad{border-color:#5a1a14}
+.tk-h{display:flex;align-items:center;justify-content:space-between}
+.tk-al{display:flex;align-items:center;font-size:13px;color:var(--g);min-width:0}
+.tk-al>*+*{margin-left:8px}
+.tk-al em{font-style:normal;font-family:Doto,monospace;font-weight:900;color:var(--y);font-size:14px}
+.tk-lg{height:20px;max-width:84px;display:inline-block;border-radius:4px;padding:1px 4px;background:#fff;object-fit:contain}
+.tk-fl{font-size:18px}
+.tk-pill{font-size:11px;font-weight:800;padding:4px 8px;border-radius:7px;background:#2a2a10;color:var(--y);white-space:nowrap}
+.tk-pill.ok{background:#0f2a18;color:var(--gr)}.tk-pill.bad{background:#3a0b08;color:#ff8a80}
+.tk-r{display:flex;align-items:center;margin-top:12px}
+.tk-r b{display:block;font-size:24px;font-weight:800;color:#fff;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.tk-r small{display:block;font-size:11px;color:var(--g);white-space:nowrap}
+.tk-r .r{text-align:right}
+.tk-line{flex:1;display:flex;align-items:center;margin:0 8px}
+.tk-line i{flex:1;height:1px;background:#555}
+.tk-line span{background:var(--y);color:var(--k);font-size:11px;font-weight:800;border-radius:10px;padding:3px 8px;margin:0 6px;white-space:nowrap}
+.tk-perf{border-top:1px dashed #3a3a3a;margin:12px -4px 10px;position:relative}
+.tk-perf::before,.tk-perf::after{content:"";position:absolute;top:-9px;width:16px;height:16px;border-radius:50%;background:#1b1b1b}
+.tk-perf::before{left:-24px}.tk-perf::after{right:-24px}
+.tk-f{display:flex;justify-content:space-between;align-items:flex-end}
+.tk-f b{display:block;font-size:16px;color:#fff}.tk-f small{display:block;font-size:11px;color:var(--g)}
+.tk-pos{text-align:right}.tk-pos b{font-size:26px;color:var(--y);font-weight:800;line-height:1}
+.tk-a{display:flex;margin-top:10px}.tk-a>*+*{margin-left:8px}
+.tk-a button{flex:1;min-height:42px;border-radius:10px;background:var(--y);color:var(--k);font-weight:800;font-size:14px}
+.tk-a button.go{background:var(--gr)}.tk-a button.ghost{flex:.6;background:#222;color:#fff}
+.tk.bad .tk-a button{background:var(--r);color:#fff}
+
 body.fltOpen .mobileBar,body.fltOpen #hud{display:none!important}
 body.two #fltPg{display:flex;flex-direction:column;position:fixed;top:0;right:0;bottom:0;left:0;z-index:50;background:rgba(0,0,0,.94);transform:translateX(102%);transition:transform .28s ease;padding:max(10px,env(safe-area-inset-top)) 12px 12px 12px}
 body.two #fltPg.open{transform:none}
@@ -515,7 +580,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795310720';
+var APPV='1795310985';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -542,7 +607,7 @@ chk();document.addEventListener('visibilitychange',function(){if(!document.hidde
     <div id="storm"></div><video id="rainVid" src="chuva.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
     <div class="pop" id="pop" hidden><span class="pop-t"></span><div><button data-pm="svc" aria-label="Serviços"><span class="ico"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span><small>Serviços</small></button><button data-pm="data" aria-label="Dados do voo"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></span><small>Voo</small></button></div></div>
     <div id="hud"><div class="mclock" id="mclock"><b id="mcT">11:52<i>:00</i></b><small id="mcS">10×</small></div><div id="windBox"></div></div>
-    <div id="fltPg"><div class="fp-h"><button id="fpBack">‹ Mapa</button><b>Voos</b><small>Arraste para a direita para voltar</small></div></div>
+    <div id="fltPg"><div class="fp-top"><button id="fpBack" aria-label="Voltar ao mapa">‹</button><div class="fp-route"><span class="fp-c">GIG</span><small>RIO DE JANEIRO · GALEÃO</small></div><span class="fp-clock" id="fpClock">--:--</span></div><div class="fp-sheet"><i class="fp-grab"></i><h3 id="fpCount">Voos ativos</h3><div id="fltList"></div></div></div>
     <button id="fltTab" hidden><span>✈</span><b id="fltN">0</b><i>‹</i></button>
     <div class="rail" id="rail" aria-label="Voos chegando e prontos"></div>
     <div class="abar" id="abar" style="display:none"><div class="abh"><h2 id="abt"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 19h19v2h-19zM9.2 13.7l4.3 1.2 5.3 1.4c.8.2 1.6-.3 1.8-1.1.2-.8-.3-1.6-1.1-1.8l-5.3-1.4-2.8-9-1.9-.5v8.3L4.5 9.4l-.9-2.4-1.4-.4v5.2z"/></svg></span>Em aproximação · toque no avião, depois na posição</h2><button id="abtg" aria-expanded="true">Ocultar ▾</button></div><div class="cards" id="cards"></div></div>
@@ -1046,6 +1111,7 @@ function drawBar(){
       ${on?'<span class="tg-p tg-now">Toque na posição</span>':`<span class="tg-p">POS <em>${f.stand?sn(f.stand):'—'}</em></span>`}</button></div>`;
   };
   {const n=bk.length+ap.length+rd.length,t=$('fltTab');$('fltN').textContent=n;t.classList.toggle('alert',bk.length>0||ap.some(f=>f.state==='holding'))}
+  if(TWO)drawFlt(ap,rd,bk);
   $('rail').innerHTML=bk.map(f=>`<div class="tg hold${assignFor===f.i?' sel':''}"><button class="tg-h" data-f="${f.i}" data-k="blk"><span class="tg-fl">${flag(f.al)}</span><img src="${pimg(f)}" alt=""><b>${f.depNo}</b><small>SEM VAGA</small><span class="tg-c">Pos ${sn(f.stand)} provisória</span><span class="tg-m">${model(f)} · C${f.cls}</span><span class="tg-p ${assignFor===f.i?'tg-now':''}">${assignFor===f.i?'Toque na vaga certa':'Toque p/ mover'}</span></button></div>`).join('')+ap.map(f=>tab(f,'arr')).join('')+rd.map(f=>tab(f,'rd')).join('');
 }
 
@@ -1492,20 +1558,26 @@ function drawFMPanel(){
   const f=o.f,A=APT[o.from],B=APT[o.to],pr=profile(o),km=Math.round(gcDist(A,B)*6371/10)*10;
   const st=o.leg==="arr"?arrStatus(f):["EM ROTA","ok"],stTxt=f.state==="holding"?"EM ESPERA":(o.leg==="arr"&&f.state==="inbound"?"EM ROTA":st[0]);
   const remH=Math.floor(o.rem/60),remM=Math.round(o.rem%60);
+  const t2=now+o.rem,t1=t2-f.dur,bad=f.state==='holding';
+  const cty=x=>x[3]==='Rio de Janeiro'?'Rio de Janeiro':x[3];
   $('fmCard').innerHTML=`
-    <div class="fm-h">${ic('dep')}<b>${logo(f.al,'hd-lg')}${flag(f.al)} ${AIRLINES[f.al]}</b><span>${o.leg==="arr"?f.arrNo:f.depNo}</span></div>
-    <div class="fm-leg">
-      <div class="frail">${ic('dep')}<em></em>${ic('pin')}</div>
-      <div class="fm-ap"><small>Partida · ${A[3]}</small><div class="nm">${A[2]}</div><div class="cd">${A[3]==='Rio de Janeiro'?'Rio':A[3]} <span>${o.from}</span></div></div>
-      <div class="fm-ap" style="margin-top:12px"><small>Chegada · ${B[3]}</small><div class="nm">${B[2]}</div><div class="cd">${B[3]==='Rio de Janeiro'?'Rio':B[3]} <span>${o.to}</span></div></div>
+    <div class="tk-h"><span class="tk-al">${logo(f.al,'tk-lg')||''}<span class="tk-fl">${flag(f.al)}</span><span>${AIRLINES[f.al]}</span></span><span class="fm-no">${o.leg==="arr"?f.arrNo:f.depNo}</span></div>
+    <div class="fmt-r">
+      <div><small>Partida</small><b>${fmt(t1)}</b><em>${o.from}</em><small>${cty(A)}</small></div>
+      <div class="fmt-mid"><span class="tk-pill ${bad?'bad':'ok'}">${stTxt}</span>
+        <div class="fmt-ln"><i style="width:${o.p*100}%"></i><svg style="left:${o.p*100}%" viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" transform="rotate(90 12 12)"/></svg></div>
+        <span class="fmt-d">${fmtDur(f.dur).replace('h','h ')}m</span></div>
+      <div class="r"><small>Chegada</small><b>${fmt(t2)}</b><em>${o.to}</em><small>${cty(B)}</small></div>
     </div>
-    <div class="fm-row">${ic('route')}<span>Distância</span><b>${fmtKm(km)}</b></div>
-    <div class="fm-row">${ic('clock')}<span>Tempo de voo</span><b>${fmtDur(f.dur).replace('h','h ')} min</b></div>
-    <div class="fm-row">${ic('plane')}<span>Aeronave</span><b>${model(f)}</b></div>
-    <div class="fm-row">${ic('alt')}<span>Altitude</span><b>${pr.alt.toLocaleString('pt-BR')} pés</b></div>
-    <div class="fm-row">${ic('speed')}<span>Velocidade</span><b>${pr.spd} km/h</b></div>
-    <div class="fm-row">${ic('clock')}<span>Chega em</span><b>${remH?remH+'h ':''}${remM} min · ${fmt(now+o.rem)}</b></div>
-    <div class="fm-row">${ic('check')}<span>Situação</span><b class="${f.state==='holding'?'bad':'ok'}">${stTxt}</b></div>`;
+    <div class="fmt-ap"><span>${A[2]}</span><span>${B[2]}</span></div>
+    <div class="tk-perf fm-perf"></div>
+    <div class="fmt-g">
+      <div><small>Aeronave</small><b>${model(f)}</b></div>
+      <div><small>Distância</small><b>${fmtKm(km)}</b></div>
+      <div><small>Altitude</small><b>${pr.alt.toLocaleString('pt-BR')} pés</b></div>
+      <div><small>Velocidade</small><b>${pr.spd} km/h</b></div>
+      <div class="w"><small>Chega em</small><b class="y">${remH?remH+'h ':''}${remM} min</b></div>
+    </div>`;
   const w=windNow();
   $('fmWx').innerHTML=`<div><b>${pr.phase}</b>Vento no Galeão ${String(w[1]).padStart(3,'0')}° · ${w[2]} kt · pista ${activeRwy()} em uso</div>
     <div class="trk"><i class="ln"></i><i class="dn" id="trkDone"></i><span class="ep l">${o.from}</span><span class="ep r">${o.to}</span><svg id="trkPl" viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" transform="rotate(90 12 12)"/></svg></div>`;
@@ -1637,10 +1709,43 @@ stage.addEventListener('pointerup',up);stage.addEventListener('pointercancel',up
 stage.addEventListener('click',e=>{if(dragged){e.stopPropagation();e.preventDefault();dragged=false}},true);
 stage.addEventListener('wheel',e=>{e.preventDefault();const p=rel(e);zoomAt(p.x,p.y,zk*Math.exp(-e.deltaY*.0015));$('zhint').style.opacity=0},{passive:false});
 $('zreset').addEventListener('click',()=>{zk=1;laidOut=false;layoutMap()});
+/* segunda tela: voos (cartões de embarque) */
+function drawFlt(ap,rd,bk){
+  const durF=m=>`${Math.floor(m/60)}h ${String(Math.round(m%60)).padStart(2,'0')}m`;
+  const card=(f,kind)=>{
+    const arr=kind!=='rd'&&kind!=='blk';
+    const from=arr?f.ap:'GIG',to=arr?'GIG':f.ap;
+    const t1=arr?fmt(f.eta-f.dur):fmt(f.depSched),t2=arr?fmt(f.eta):fmt(f.depSched+f.dur);
+    let pill='',pc='',act='';
+    if(kind==='blk'){pill='SEM VAGA';pc='bad';act=`<button data-a="move" data-f="${f.i}">${assignFor===f.i?'Toque na vaga certa':'Mover para vaga certa'}</button>`}
+    else if(kind==='rd'){pill='PRONTO';pc='ok';act=`<button class="go" data-a="go" data-f="${f.i}">Partir · pista ${activeRwy()}</button><button class="ghost" data-a="svc" data-f="${f.i}">Serviços</button>`}
+    else{const m=Math.max(0,Math.ceil(f.eta-now));pill=f.emerg?'MAYDAY':f.state==='holding'?`ESPERA · COMB ${Math.max(0,Math.round(nz(f.fuelPlan,D().fuel+10)-(f.holdMin||0)))} MIN`:`POUSA EM ${m} MIN`;pc=f.emerg||f.state==='holding'?'bad':'';
+      act=`<button data-a="pick" data-f="${f.i}">${f.stand?'Trocar vaga':'Escolher vaga'}</button>`}
+    return `<div class="tk ${pc}${assignFor===f.i?' sel':''}">
+      <div class="tk-h"><span class="tk-al">${logo(f.al,'tk-lg')||`<span class="tk-fl">${flag(f.al)}</span>`}<span>${AIRLINES[f.al]}</span><em>${arr?f.arrNo:f.depNo}</em></span><span class="tk-pill ${pc}">${pill}</span></div>
+      <div class="tk-r"><div><b>${t1}</b><small>${from} · ${(APT[from]||[])[3]||''}</small></div>
+        <div class="tk-line"><i></i><span>${durF(f.dur)}</span><i></i></div>
+        <div class="r"><b>${t2}</b><small>${to} · ${(APT[to]||[])[3]||''}</small></div></div>
+      <div class="tk-perf"></div>
+      <div class="tk-f"><div><b>${model(f)}</b><small>${mkName(f)} · classe ${f.cls}</small></div><div class="tk-pos"><small>Posição</small><b>${f.stand?sn(f.stand):'—'}</b></div></div>
+      <div class="tk-a">${act}</div></div>`;
+  };
+  const sec=(t,arr,kind)=>arr.length?`<div class="tk-sec">${t} <span>${arr.length}</span></div>`+arr.map(f=>card(f,kind)).join(''):'';
+  const n=ap.length+rd.length+bk.length;
+  $('fpCount').textContent=n?`${n} voo${n>1?'s':''} ativo${n>1?'s':''}`:'Nenhum voo ativo agora';
+  $('fltList').innerHTML=sec('Sem vaga',bk,'blk')+sec('Chegando',ap,'arr')+sec('Prontos para partir',rd,'rd');
+  $('fpClock').textContent=fmt(now);
+}
+$('fltList').addEventListener('click',e=>{
+  const b=e.target.closest('[data-a]');if(!b)return;const f=flights[+b.dataset.f],a=b.dataset.a;
+  if(a==='go'){depart(f);dirty=true;return}
+  if(a==='svc'){openFlt(false);detailMode="svc";openFlight(f,"dep");return}
+  assignFor=f.i;sel=f;openFlt(false);dirty=true;
+});
 /* segunda tela: voos */
 var TWO=matchMedia('(pointer:coarse)').matches;
 function openFlt(on){const pg=$('fltPg');pg.classList.toggle('open',on);document.body.classList.toggle('fltOpen',on)}
-if(TWO){document.body.classList.add('two');$('fltPg').appendChild($('rail'));$('fltTab').hidden=false}
+if(TWO){document.body.classList.add('two');$('fltTab').hidden=false}
 $('fltTab').addEventListener('click',()=>openFlt(true));
 $('fpBack').addEventListener('click',()=>openFlt(false));
 (function(){let sx=0,sy=0;const pg=$('fltPg');
