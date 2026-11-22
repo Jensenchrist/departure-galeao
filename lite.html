@@ -199,6 +199,8 @@ body.l2 .stage::before{background-image:url(lite_map2.jpg)}
 #glow{position:absolute;top:0;right:0;bottom:0;left:0;background:url(glow1.png) center/100% 100% no-repeat;opacity:var(--nt,.2);pointer-events:none;mix-blend-mode:screen;z-index:1}
 body.l2 #glow{background-image:url(glow2.png)}body.rot #glow{display:none}
 .lt.e{background:#fff7d6;box-shadow:0 0 calc(var(--mk,1)*7px) calc(var(--mk,1)*2px) rgba(255,240,190,.9);opacity:calc(.55 + .45*var(--nt,.2));animation:ewave 2.2s linear infinite}
+.lgr{position:absolute;top:0;right:0;bottom:0;left:0;pointer-events:none}
+.lgr:not(.act) .lt.e{animation:none;filter:brightness(.55)}.lgr:not(.act) .lt.w{animation:none;opacity:0}
 @keyframes ewave{0%{filter:brightness(2.2);transform:translate(-50%,-50%) scale(1.5)}10%{filter:brightness(1);transform:translate(-50%,-50%) scale(1)}100%{filter:brightness(.45);transform:translate(-50%,-50%) scale(1)}}
 .tlab{position:absolute;display:flex;align-items:center;justify-content:center;background:#000;color:var(--y);font-weight:900;letter-spacing:.08em;border-radius:calc(var(--mk,1)*10px);z-index:3;pointer-events:none;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.5)}
 .expb{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding:10px;border:1px dashed var(--y);border-radius:10px}
@@ -724,7 +726,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795380370';
+var APPV='1795381390';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1297,10 +1299,19 @@ function depStatus(f){
 }
 
 /* ---------- desenho do mapa ---------- */
+// as luzes piscam só quando tem avião chegando para pousar naquela pista
+var rwAct={};
+function rwActStep(){const a={};
+  for(const f of flights){
+    if(f.state==="arriving"&&f.path&&now<f.path.segs[0].t+f.path.segs[0].d+.3)a[f.g||'A']=1;
+    else if((f.state==="approach"||f.state==="holding")&&f.stand!=null&&f.eta-now<6&&STANDS[f.stand-1])a[grpOf(STANDS[f.stand-1]).id]=1;
+  }
+  for(const g of LAY.G){const on=!!a[g.id];if(!!rwAct[g.id]!==on){rwAct[g.id]=on;const el=document.querySelector(`.lgr[data-g="${g.id}"]`);if(el)el.classList.toggle('act',on)}}
+}
 function drawLights(){
   const r=activeRwy(),w=windNow();let h='';
   // luzes de cabeceira (verde = pouso, vermelha = fim), luzes de borda piscando, sequenciais de aproximação
-  for(const g of LAY.G){
+  for(const g of LAY.G){h+=`<div class="lgr${rwAct[g.id]?' act':''}" data-g="${g.id}">`;
     // luzes de borda em onda, no sentido do pouso
     {const ys=[];for(let y=g.th["10"]+40;y<g.th["28"]-20;y+=88)ys.push(y);const n=ys.length,down=r==="10";
      ys.forEach((y,k)=>{const d=((down?k:n-1-k)/n*2.2).toFixed(2);for(const x of g.edge)h+=`<i class="lt e" style="left:${x/W*100}%;top:${y/H*100}%;animation-delay:${d}s"></i>`})}
@@ -1314,6 +1325,7 @@ function drawLights(){
       }
       h+=`<div class="rwy ${on?'on':'off'}" style="left:${g.lbx/W*100}%;top:${(end==="10"?y+40:y-40)/H*100}%">${g.nm[end]}<br>${stormNow()?'FECHADA':on?'POUSO':'FIM'}</div>`;
     }
+    h+='</div>';
   }
   $('lights').innerHTML=h;h='';
   // indicador de vento (seta = para onde o vento sopra, no referencial do mapa)
@@ -2274,6 +2286,7 @@ function tick(t){
   const dt=Math.min(.25,(t-last)/1000);last=t;
   {const w=Date.now(),gap=w-lastWall;lastWall=w;if(gap>3000&&camp.auto&&started&&!dayOver&&speed)catchLeft+=Math.min(4320,gap/1000*speed/60)}
   if(catchLeft>0)catchUp();
+  if(started&&flights)rwActStep();
   if(yardOn&&dirty)drawYard();if(dealsOn&&dirty&&!dealAsk){$('dlMoney').textContent=money(camp.money);if(dealTab==='fin'&&Date.now()-(drawFin.t||0)>1000){drawFin.t=Date.now();const st=$('dlList').scrollTop;drawFin();$('dlList').scrollTop=st}}
   if(started&&!dayOver)now+=dt*speed/60;
   if(!dayOver&&started&&dayOf(now)>camp.cur){if(camp.auto)autoDay();else endDay()}
