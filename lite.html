@@ -482,6 +482,23 @@ body.land #hud .mclock{transform:none}
 @media(max-width:820px){#hud .mclock b{font-size:16px}#hud .mclock{padding:3px 7px}}
 #rainVid.on{opacity:1}
 #storm{background:rgba(12,18,34,.35)!important;animation:none!important}
+#fltPg{display:none}
+body.fltOpen .mobileBar,body.fltOpen #hud{display:none!important}
+body.two #fltPg{display:flex;flex-direction:column;position:fixed;top:0;right:0;bottom:0;left:0;z-index:50;background:rgba(0,0,0,.94);transform:translateX(102%);transition:transform .28s ease;padding:max(10px,env(safe-area-inset-top)) 12px 12px 12px}
+body.two #fltPg.open{transform:none}
+.fp-h{display:flex;align-items:center;margin-bottom:10px}
+.fp-h>*+*{margin-left:12px}
+.fp-h button{background:var(--y);color:var(--k);font-weight:800;border-radius:8px;min-height:40px;padding:0 14px}
+.fp-h b{font-size:20px;color:var(--y)}.fp-h small{color:var(--g);font-size:11px;margin-left:auto}
+body.two #fltPg .rail{position:static;flex:1;display:flex;flex-direction:row;flex-wrap:wrap;align-content:flex-start;justify-content:flex-start;padding:0;overflow-y:auto}
+body.two #fltPg .rail .tg{margin:0 8px 8px 0}
+body.two #fltPg .tg-h{width:150px;border-radius:12px}
+body.two #fltPg .tg-h img{width:40px;height:40px}
+body.two #fltPg .tg-h b{font-size:19px}
+#fltTab{position:absolute;right:0;top:50%;transform:translateY(-50%);z-index:11;background:var(--k);color:var(--y);border:2px solid var(--y);border-right:0;border-radius:12px 0 0 12px;padding:10px 6px 10px 8px;display:flex;flex-direction:column;align-items:center;font-weight:800}
+#fltTab[hidden]{display:none}
+#fltTab span{font-size:18px}#fltTab b{font-size:16px;color:#fff}#fltTab i{font-style:normal;font-size:20px;line-height:1}
+#fltTab.alert{border-color:var(--r);color:var(--r);animation:mayday .8s infinite}
 /* LITE */
 .lt.w,.lt.reil{animation:none!important;opacity:.7}
 #storm{animation:none!important;background:rgba(12,18,34,.45)!important}
@@ -506,7 +523,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795293403';
+var APPV='1795310720';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -534,6 +551,8 @@ chk();document.addEventListener('visibilitychange',function(){if(!document.hidde
     <div id="storm"></div><video id="rainVid" src="chuva.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
     <div class="pop" id="pop" hidden><span class="pop-t"></span><div><button data-pm="svc" aria-label="Serviços"><span class="ico"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span><small>Serviços</small></button><button data-pm="data" aria-label="Dados do voo"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></span><small>Voo</small></button></div></div>
     <div id="hud"><div class="mclock" id="mclock"><b id="mcT">11:52<i>:00</i></b><small id="mcS">10×</small></div><div id="windBox"></div></div>
+    <div id="fltPg"><div class="fp-h"><button id="fpBack">‹ Mapa</button><b>Voos</b><small>Arraste para a direita para voltar</small></div></div>
+    <button id="fltTab" hidden><span>✈</span><b id="fltN">0</b><i>‹</i></button>
     <div class="rail" id="rail" aria-label="Voos chegando e prontos"></div>
     <div class="abar" id="abar" style="display:none"><div class="abh"><h2 id="abt"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 19h19v2h-19zM9.2 13.7l4.3 1.2 5.3 1.4c.8.2 1.6-.3 1.8-1.1.2-.8-.3-1.6-1.1-1.8l-5.3-1.4-2.8-9-1.9-.5v8.3L4.5 9.4l-.9-2.4-1.4-.4v5.2z"/></svg></span>Em aproximação · toque no avião, depois na posição</h2><button id="abtg" aria-expanded="true">Ocultar ▾</button></div><div class="cards" id="cards"></div></div>
     <div class="toast" id="toast"></div>
@@ -1035,6 +1054,7 @@ function drawBar(){
       <span class="tg-c">${CITY[f.ap]}</span><span class="tg-m">${mdl} · C${f.cls}</span>
       ${on?'<span class="tg-p tg-now">Toque na posição</span>':`<span class="tg-p">POS <em>${f.stand?sn(f.stand):'—'}</em></span>`}</button></div>`;
   };
+  {const n=bk.length+ap.length+rd.length,t=$('fltTab');$('fltN').textContent=n;t.classList.toggle('alert',bk.length>0||ap.some(f=>f.state==='holding'))}
   $('rail').innerHTML=bk.map(f=>`<div class="tg hold${assignFor===f.i?' sel':''}"><button class="tg-h" data-f="${f.i}" data-k="blk"><span class="tg-fl">${flag(f.al)}</span><img src="${pimg(f)}" alt=""><b>${f.depNo}</b><small>SEM VAGA</small><span class="tg-c">Pos ${sn(f.stand)} provisória</span><span class="tg-m">${model(f)} · C${f.cls}</span><span class="tg-p ${assignFor===f.i?'tg-now':''}">${assignFor===f.i?'Toque na vaga certa':'Toque p/ mover'}</span></button></div>`).join('')+ap.map(f=>tab(f,'arr')).join('')+rd.map(f=>tab(f,'rd')).join('');
 }
 
@@ -1541,6 +1561,7 @@ $('rail').addEventListener('click',e=>{
   const act=e.target.closest('[data-act]');
   if(act){depart(flights[+act.dataset.f]);dirty=true;return}
   const h=e.target.closest('.tg-h');if(!h)return;const f=flights[+h.dataset.f];
+  if(TWO)openFlt(false);
   if(h.dataset.k==="rd"){detailMode="svc";openFlight(f,"dep");return}
   if(h.dataset.k==="blk"){if(assignFor===f.i){assignFor=null}else{assignFor=f.i;sel=f}dirty=true;return}
   if(assignFor===f.i){assignFor=null;dirty=true;return}
@@ -1608,7 +1629,7 @@ var ptrs=new Map();var pinch=null,dragged=false,moved=0;
 var rel=e=>{const r=stage.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}};
 stage.addEventListener('pointerdown',e=>{
   if(e.target.closest('.abar,.zreset,.rail'))return;
-  ptrs.set(e.pointerId,rel(e));if(ptrs.size===1){dragged=false;moved=0}
+  ptrs.set(e.pointerId,rel(e));if(ptrs.size===1){dragged=false;moved=0;swp={x:e.clientX,y:e.clientY,t:Date.now(),ok:true}}else swp=null;
   if(ptrs.size===2){const[a,b]=[...ptrs.values()],m={x:(a.x+b.x)/2,y:(a.y+b.y)/2};
     pinch={d:Math.hypot(a.x-b.x,a.y-b.y)||1,k:zk,u:(m.x-ZX)/zk,v:(m.y-ZY)/zk}}
 });
@@ -1619,11 +1640,23 @@ stage.addEventListener('pointermove',e=>{
     zk=clamp(pinch.k*Math.hypot(a.x-b.x,a.y-b.y)/pinch.d,1,4);ZX=m.x-pinch.u*zk;ZY=m.y-pinch.v*zk;clampZ();applyZ();dragged=true;$('zhint').style.opacity=0}
   else if(ptrs.size===1&&canPan()){moved+=Math.abs(cur.x-prev.x)+Math.abs(cur.y-prev.y);if(moved>6)dragged=true;ZX+=cur.x-prev.x;ZY+=cur.y-prev.y;clampZ();applyZ()}
 });
-var up=e=>{ptrs.delete(e.pointerId);if(ptrs.size<2)pinch=null};
-stage.addEventListener('pointerup',up);stage.addEventListener('pointercancel',up);stage.addEventListener('pointerleave',up);
+var swp=null;
+var up=e=>{if(swp&&ptrs.size===1&&e.type==='pointerup'){const dx=e.clientX-swp.x,dy=e.clientY-swp.y;if(TWO&&zk<=1.02&&dx<-60&&Math.abs(dy)<Math.abs(dx)*.7&&Date.now()-swp.t<800){dragged=true;openFlt(true)}}if(e.type==='pointerup')swp=null;ptrs.delete(e.pointerId);if(ptrs.size<2)pinch=null};
+stage.addEventListener('pointerup',up);stage.addEventListener('pointercancel',up);
 stage.addEventListener('click',e=>{if(dragged){e.stopPropagation();e.preventDefault();dragged=false}},true);
 stage.addEventListener('wheel',e=>{e.preventDefault();const p=rel(e);zoomAt(p.x,p.y,zk*Math.exp(-e.deltaY*.0015));$('zhint').style.opacity=0},{passive:false});
 $('zreset').addEventListener('click',()=>{zk=1;laidOut=false;layoutMap()});
+/* segunda tela: voos */
+var TWO=matchMedia('(pointer:coarse)').matches;
+function openFlt(on){const pg=$('fltPg');pg.classList.toggle('open',on);document.body.classList.toggle('fltOpen',on)}
+if(TWO){document.body.classList.add('two');$('fltPg').appendChild($('rail'));$('fltTab').hidden=false}
+$('fltTab').addEventListener('click',()=>openFlt(true));
+$('fpBack').addEventListener('click',()=>openFlt(false));
+(function(){let sx=0,sy=0;const pg=$('fltPg');
+  pg.addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY});
+  pg.addEventListener('pointerup',e=>{const dx=e.clientX-sx,dy=e.clientY-sy;if(dx>70&&Math.abs(dy)<Math.abs(dx)*.7)openFlt(false)})})();
+document.addEventListener('gesturestart',e=>e.preventDefault());
+document.addEventListener('touchmove',e=>{if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});
 checkLand();
 if(window.ResizeObserver){new ResizeObserver(layoutMap).observe(stage);new ResizeObserver(layoutMap).observe(abar)}else{addEventListener('resize',()=>setTimeout(layoutMap,60));addEventListener('orientationchange',()=>setTimeout(layoutMap,300));setTimeout(layoutMap,50)}
 setTimeout(()=>{$('zhint').style.opacity=0},4500);
