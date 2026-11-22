@@ -236,7 +236,7 @@ body.l2 #glow{background-image:url(glow2.png)}body.rot #glow{display:none}
 .tg-h:focus-visible{outline:2px solid var(--y)}
 /* mapa de voos */
 .fmap{position:fixed;top:0;right:0;bottom:0;left:0;z-index:85;background:#050505;}
-.fm-mapwrap{background:#BCD7EB}
+.fm-mapwrap{background:#DDEBF6}
 .fmap{display:flex;flex-direction:column}
 .fmap[hidden]{display:none}
 .fm-top{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid #222}
@@ -738,7 +738,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795387601';
+var APPV='1795387725';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1803,19 +1803,19 @@ function buildBase(w,h,dpr,RR){
   baseCv=document.createElement('canvas');baseCv.width=w*dpr;baseCv.height=h*dpr;
   const b=baseCv.getContext('2d');b.scale(dpr,dpr);
   // oceano
-  b.fillStyle="#BCD7EB";b.fillRect(Math.max(0,r.x),Math.max(0,r.y),Math.min(w,r.x+r.w)-Math.max(0,r.x),Math.min(h,r.y+r.h)-Math.max(0,r.y));
+  b.fillStyle="#DDEBF6";b.fillRect(Math.max(0,r.x),Math.max(0,r.y),Math.min(w,r.x+r.w)-Math.max(0,r.x),Math.min(h,r.y+r.h)-Math.max(0,r.y));
   // grade de coordenadas
-  b.strokeStyle="rgba(255,255,255,.28)";b.lineWidth=1;
+  b.strokeStyle="rgba(120,160,200,.18)";b.lineWidth=1;
   for(let lon=-120;lon<=60;lon+=20){const[x1,y1]=projF(VIEW.lat1,lon,r),[x2,y2]=projF(VIEW.lat0,lon,r);b.beginPath();b.moveTo(x1,y1);b.lineTo(x2,y2);b.stroke()}
   for(let lat=-40;lat<=60;lat+=20){const[x1,y1]=projF(lat,VIEW.lon0,r),[x2,y2]=projF(lat,VIEW.lon1,r);b.beginPath();b.moveTo(x1,y1);b.lineTo(x2,y2);b.stroke()}
-  b.setLineDash([4,6]);b.strokeStyle="rgba(255,255,255,.45)";{const[x1,y1]=projF(0,VIEW.lon0,r),[x2,y2]=projF(0,VIEW.lon1,r);b.beginPath();b.moveTo(x1,y1);b.lineTo(x2,y2);b.stroke()}b.setLineDash([]);
+  b.setLineDash([4,6]);b.strokeStyle="rgba(120,160,200,.35)";{const[x1,y1]=projF(0,VIEW.lon0,r),[x2,y2]=projF(0,VIEW.lon1,r);b.beginPath();b.moveTo(x1,y1);b.lineTo(x2,y2);b.stroke()}b.setLineDash([]);
   if(world){
     // países em azul claro com fronteiras brancas (estilo mapa de infográfico)
     const ring=pts=>{let shift=false;for(let i=1;i<pts.length;i++)if(Math.abs(pts[i][0]-pts[i-1][0])>180){shift=true;break}
       const once=off=>{pts.forEach((q,i)=>{const lon=(shift&&q[0]<0?q[0]+360:q[0])+off;const[x,y]=projF(q[1],lon,r);i?b.lineTo(x,y):b.moveTo(x,y)});b.closePath()};
       once(0);if(shift)once(-360)};
-    b.fillStyle="#E4EEF7";b.strokeStyle="rgba(255,255,255,.95)";b.lineWidth=Math.max(.6,Math.min(1.6,r.w/1800));b.lineJoin="round";
-    b.shadowColor="rgba(40,80,120,.18)";b.shadowBlur=6;
+    b.fillStyle="#B3CFE6";b.strokeStyle="#FFFFFF";b.lineWidth=Math.max(.9,Math.min(2,r.w/1100));b.lineJoin="round";
+    b.shadowColor="rgba(40,80,120,.25)";b.shadowBlur=4;
     for(const ft of world.features){const g=ft.geometry;if(!g)continue;b.beginPath();
       if(g.type==="Polygon")g.coordinates.forEach(ring);else if(g.type==="MultiPolygon")g.coordinates.forEach(pl=>pl.forEach(ring));
       b.fill("evenodd")}
@@ -1828,7 +1828,7 @@ function buildBase(w,h,dpr,RR){
     $('fmNote').textContent=worldState==="loading"?"Carregando continentes…":"Sem contorno dos continentes (sem conexão)";
   }
   // borda do mapa
-  b.strokeStyle="rgba(255,255,255,.5)";b.lineWidth=1;b.strokeRect(r.x+.5,r.y+.5,r.w-1,r.h-1);
+
 }
 var fmZC=null;
 var LOGOIMG={};
