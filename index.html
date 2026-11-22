@@ -729,7 +729,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795387818';
+var APPV='1795390109';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1168,7 +1168,7 @@ function toggleX(f,i){const v=f.svs&&f.svs[i],c=CREW[i];if(!v||!c||v.skip||svDon
   const b=crewBusy();if(b[c]>=crewCap()[c])return toast(`Sem equipe de ${CREWNAME[c].toLowerCase()} livre`);
   const r=v.s+v.d-now;v.d=(now-v.s)+r*XK;v.x=true;toast(`2ª equipe de ${CREWNAME[c].toLowerCase()} no ${f.depNo}`);dirty=true}
 var waitingCrew=(f,i)=>{const v=f.svs&&f.svs[i];return v&&v.s==null&&v.wait};
-var servProg=f=>!f.svs?0:f.svs.reduce((a,_,i)=>a+svP(f,i),0)/f.svs.length;
+var servProg=f=>!f.svs?0:f.svs.reduce((a,v,i)=>a+svP(f,i)*v.d,0)/Math.max(1e-6,f.svs.reduce((a,v)=>a+v.d,0));   // mesmo cálculo da placa do portão
 var isReady=f=>f.state==="parked"&&!!f.svs&&f.svs.every((_,i)=>svDone(f,i));
 function fuelNow(f){
   const cap=capF(f),plan=nz(f.fuelPlan,D().fuel+10),hm=f.holdMin||0;
@@ -1356,7 +1356,7 @@ function drawFixed(){
     else if(f&&isReady(f))c=' ready';
     else if(f&&f.state!=="parked")c=' reserved';
     const pk=f&&f.state==="parked"&&f.svs?f:null;
-    const pc=pk?Math.round(pk.svs.reduce((a,v,i)=>a+svP(pk,i)*v.d,0)/pk.svs.reduce((a,v)=>a+v.d,0)*100):null;
+    const pc=pk?Math.round(servProg(pk)*100):null;
     h+=`<div class="sign${c}" style="left:${s.sx/W*100}%;top:${s.sy/H*100}%">${pc!=null?`<div class="pct${pc>=100?' full':''}">${pc}%</div>`:''}<div class="plate">${s.lab||s.n}</div><div class="cls">${s.remote?'REMOTA · ':''}MAX ${s.max}</div></div>`;
     h+=`<button class="hit${c.includes('ok')?' ok':c.includes('tmp')?' tmp':''}" data-stand="${s.n}" aria-label="Posição ${s.n}" style="left:${(s.x-grpOf(s).sg*62)/W*100}%;top:${s.y/H*100}%;width:${160/W*100}%;height:${114/H*100}%"></button>`;
   });
@@ -2184,6 +2184,7 @@ function drawYard(){
   $('ydSum').textContent=`${busyN}/${STANDS.length} ocupados`;
 }
 $('ydX').addEventListener('click',()=>openYard(false));
+['touchstart','mousedown'].forEach(ev=>$('yard').addEventListener(ev,()=>{drawYard.touch=Date.now()},{passive:true}));
 $('yard').addEventListener('click',e=>{if(e.target.id==='yard')return openYard(false);const c=e.target.closest('.yc');if(!c||c.disabled)return;
   const st=STANDS[+c.dataset.st-1],f=flights[st.res];if(!f)return;openYard(false);if(TWO)openFlt(false);detailMode="svc";openFlight(f,"dep")});
 /* ---------- acordos comerciais ---------- */
@@ -2342,7 +2343,7 @@ function tick(t){
   {const w=Date.now(),gap=w-lastWall;lastWall=w;if(gap>3000&&camp.auto&&started&&!dayOver&&speed)catchLeft+=Math.min(4320,gap/1000*speed/60)}
   if(catchLeft>0)catchUp();
   if(started&&flights)rwActStep();
-  if(yardOn&&dirty)drawYard();if(wxOn&&dirty&&Date.now()-(drawWx.t||0)>1500){drawWx.t=Date.now();drawWx()}if(dealsOn&&dirty&&!dealAsk){$('dlMoney').textContent=money(camp.money);if(dealTab==='fin'&&Date.now()-(drawFin.t||0)>1000){drawFin.t=Date.now();const st=$('dlList').scrollTop;drawFin();$('dlList').scrollTop=st}}
+  if(yardOn&&Date.now()-(drawYard.touch||0)>700&&(dirty||Date.now()-(drawYard.t||0)>400)){drawYard.t=Date.now();drawYard()}if(wxOn&&dirty&&Date.now()-(drawWx.t||0)>1500){drawWx.t=Date.now();drawWx()}if(dealsOn&&dirty&&!dealAsk){$('dlMoney').textContent=money(camp.money);if(dealTab==='fin'&&Date.now()-(drawFin.t||0)>1000){drawFin.t=Date.now();const st=$('dlList').scrollTop;drawFin();$('dlList').scrollTop=st}}
   if(started&&!dayOver)now+=dt*speed/60;
   if(!dayOver&&started&&dayOf(now)>camp.cur){if(camp.auto)autoDay();else endDay()}
   if(camp.auto&&started&&!dayOver)autoStep();
