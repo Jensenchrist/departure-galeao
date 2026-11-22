@@ -581,6 +581,33 @@ body.two #fltPg{background:#0d0d0d;padding:0}
 
 body.fltOpen .mobileBar,body.fltOpen #hud,body.fltOpen #edge{display:none!important}
 body.two .mobileBar{display:none!important}
+#yard{position:fixed;top:0;right:0;bottom:0;left:0;z-index:40;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;padding:max(14px,env(safe-area-inset-top)) 12px max(14px,env(safe-area-inset-bottom))}
+#yard[hidden]{display:none}
+.yd-box{background:rgba(0,0,0,.85);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:2px solid var(--y);border-radius:18px;padding:14px;width:min(560px,100%);max-height:100%;overflow-y:auto;color:#fff}
+.yd-h{display:flex;align-items:center}.yd-h b{font-size:20px;color:var(--y);flex:1}.yd-h span{font-size:12px;color:var(--g);margin-right:10px}
+#ydX{width:36px;height:36px;border-radius:10px;background:var(--y);color:var(--k);font-size:24px;font-weight:900;line-height:1}
+.yd-crew{display:flex;flex-wrap:wrap;margin:10px 0 4px}.yd-crew span{display:flex;align-items:center;font-size:12px;color:var(--g);margin:0 12px 6px 0}.yd-crew b{color:#fff;margin-left:4px}
+.yd-crew .ico{width:20px;height:20px;border-radius:5px;margin-right:5px}
+.yd-g{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:6px}
+.yc{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;padding:8px 4px 10px;border-radius:12px;background:#151515;border:2px solid #2a2a2a;color:#fff;min-height:96px}
+.yc .yc-n{position:absolute;left:6px;top:4px;font-family:Doto,monospace;font-weight:900;font-size:16px;color:var(--y)}
+.yc .ico{width:30px;height:30px;border-radius:7px;margin:12px 0 4px}
+.yc b{font-size:12px;font-weight:800}.yc small{font-size:10px;color:var(--g);margin-top:1px}
+.yc i{position:absolute;left:0;bottom:0;height:4px;background:var(--y)}
+.yc.empty{opacity:.35}.yc.empty .ico{background:#444}
+.yc.in{opacity:.7}.yc.in .ico{background:#666}.yc.go{opacity:.6}
+.yc.ok{border-color:var(--gr);box-shadow:0 0 10px rgba(93,255,143,.35)}.yc.ok .ico{background:var(--gr)}.yc.ok small{color:var(--gr)}
+.yc.run{border-color:var(--y)}.yc.run small{color:var(--y)}
+.yc.idle{border-color:#ff9f1a}.yc.idle .ico{background:#ff9f1a}.yc.idle small{color:#ff9f1a}
+.yc.bad{border-color:var(--r)}.yc.bad .ico{background:var(--r)}.yc.bad small{color:#ff8a80}
+.yd-lg{display:flex;flex-wrap:wrap;align-items:center;margin-top:10px;font-size:10px;color:var(--g)}.yd-lg i{display:inline-block;width:9px;height:9px;border-radius:2px;margin:0 4px 0 10px}
+.yd-lg i.ok{background:var(--gr)}.yd-lg i.run{background:var(--y)}.yd-lg i.idle{background:#ff9f1a}.yd-lg i.bad{background:var(--r)}.yd-lg i.in{background:#666}
+.xrow{margin:10px 0 4px;padding:10px;border:1px dashed #444;border-radius:10px}.xrow small{display:block;color:var(--g);font-size:11px;margin-bottom:8px}
+.xrow>div{display:flex}.xrow>div>*+*{margin-left:6px}
+.xrow button{flex:1;display:flex;flex-direction:column;align-items:center;padding:6px 2px;border-radius:9px;background:#1b1b1b;border:1px solid #333;color:#fff;font-size:11px;font-weight:700}
+.xrow button .ico{width:24px;height:24px;border-radius:6px;margin-bottom:3px}
+.xrow button.on{background:var(--y);color:var(--k);border-color:var(--y)}.xrow button.on .ico{background:var(--k)}.xrow button.on .ico svg{fill:var(--y)}
+.xrow button:disabled{opacity:.4}
 #autoBan{display:none;position:absolute;left:50%;top:76px;transform:translateX(-50%);z-index:14;background:var(--y);color:var(--k);font-weight:900;font-size:13px;padding:9px 14px;border-radius:10px;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.5);animation:abl 2s ease-in-out infinite}
 @keyframes abl{50%{opacity:.75}}
 body.auto #autoBan{display:block}
@@ -641,7 +668,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795316737';
+var APPV='1795351739';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -668,7 +695,7 @@ chk();document.addEventListener('visibilitychange',function(){if(!document.hidde
     </div>
     <div id="storm"></div><video id="rainVid" src="chuva.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
     <div class="pop" id="pop" hidden><span class="pop-t"></span><div><button data-pm="svc" aria-label="Serviços"><span class="ico"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span><small>Serviços</small></button><button data-pm="data" aria-label="Dados do voo"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></span><small>Voo</small></button></div></div>
-    <div id="autoBan">PILOTO AUTOMÁTICO · toque para desligar</div><div id="hud"><div class="mclock" id="mclock"><b id="mcT">11:52<i>:00</i></b><small id="mcS">10×</small></div><div id="windBox"></div></div>
+    <div id="yard" hidden><div class="yd-box"><div class="yd-h"><b>Pátio</b><span id="ydSum"></span><button id="ydX" aria-label="Fechar">×</button></div><div class="yd-crew" id="ydCrew"></div><div class="yd-g" id="ydG"></div><small class="yd-lg"><i class="ok"></i>pronto <i class="run"></i>em serviço <i class="idle"></i>parado <i class="bad"></i>provisória <i class="in"></i>chegando</small></div></div><div id="autoBan">PILOTO AUTOMÁTICO · toque para desligar</div><div id="hud"><div class="mclock" id="mclock"><b id="mcT">11:52<i>:00</i></b><small id="mcS">10×</small></div><div id="windBox"></div></div>
     <div id="fltPg"><div class="fp-top"><button id="fpBack" aria-label="Voltar ao mapa">‹</button><div class="fp-route"><span class="fp-c">GIG</span><small>RIO DE JANEIRO · GALEÃO</small></div><span class="fp-clock" id="fpClock">--:--</span></div><div class="fp-sheet"><i class="fp-grab"></i><h3 id="fpCount">Voos ativos</h3><div id="fltList"></div></div></div>
     <button id="fltTab" hidden><span>✈</span><b id="fltN">0</b><i>‹</i></button>
     <div class="rail" id="rail" aria-label="Voos chegando e prontos"></div>
@@ -749,7 +776,7 @@ chk();document.addEventListener('visibilitychange',function(){if(!document.hidde
 var nz=(a,b)=>a==null?b:a;
 var W=941,H=1672,RX=217,LANE=362,SIGNX=642;
 var ICONS={"dep": "<path d=\"M2.5 19h19v2h-19zM22.1 9.5c-.2-.8-1-1.3-1.8-1.1l-5.3 1.4L8.1 3.4l-1.9.5 4.1 7.2-5 1.3-2-1.5-1.5.4 1.8 3.2.8 1.3 1.6-.4 5.3-1.4 4.3-1.2 5.3-1.4c.8-.3 1.3-1.1 1.1-1.9z\"/>", "arr": "<path d=\"M2.5 19h19v2h-19zM9.2 13.7l4.3 1.2 5.3 1.4c.8.2 1.6-.3 1.8-1.1.2-.8-.3-1.6-1.1-1.8l-5.3-1.4-2.8-9-1.9-.5v8.3L4.5 9.4l-.9-2.4-1.4-.4v5.2z\"/>", "bag": "<path d=\"M17 6h-2V3c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v3H7c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2 0 .55.45 1 1 1s1-.45 1-1h6c0 .55.45 1 1 1s1-.45 1-1c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM9.5 18H8V9h1.5v9zm3.25 0h-1.5V9h1.5v9zm.75-12h-3V3.5h3V6zM16 18h-1.5V9H16v9z\"/>", "walk": "<path d=\"M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9 7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7z\"/>", "fuel": "<path d=\"M19.77 7.23l.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33 0 1.38 1.12 2.5 2.5 2.5.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77zM12 10H6V5h6v5z\"/>", "food": "<path d=\"M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z\"/>", "clean": "<path d=\"M13 2h2v8h-2z\"/><path d=\"M8.5 11h11l1 3h-13z\"/><path d=\"M7.5 15h13l1.5 7H6zm2.5 1.5-.7 4h1.4l.6-4zm3.3 0-.3 4h1.4l.2-4zm3.4 0 .1 4h1.4l-.3-4z\" fill-rule=\"evenodd\"/>", "spk": "<path d=\"M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z\"/>", "tune": "<path d=\"M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z\"/>", "out": "<path d=\"M2 3h6v18H2zm1.6 1.6v14.8h2.8V4.6z\" fill-rule=\"evenodd\"/><g transform=\"translate(5 1) scale(.85)\"><path d=\"M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9 7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7z\"/></g>", "in": "<path d=\"M16 3h6v18h-6zm1.6 1.6v14.8h2.8V4.6z\" fill-rule=\"evenodd\"/><g transform=\"translate(-2 1) scale(.85)\"><path d=\"M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9 7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7z\"/></g>", "bagdown": "<g transform=\"translate(-2 2) scale(.82)\"><path d=\"M17 6h-2V3c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v3H7c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2 0 .55.45 1 1 1s1-.45 1-1h6c0 .55.45 1 1 1s1-.45 1-1c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM9.5 18H8V9h1.5v9zm3.25 0h-1.5V9h1.5v9zm.75-12h-3V3.5h3V6zM16 18h-1.5V9H16v9z\"/></g><path d=\"M18 3h2v10h3l-4 6-4-6h3z\"/>", "bagup": "<g transform=\"translate(-2 2) scale(.82)\"><path d=\"M17 6h-2V3c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v3H7c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2 0 .55.45 1 1 1s1-.45 1-1h6c0 .55.45 1 1 1s1-.45 1-1c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM9.5 18H8V9h1.5v9zm3.25 0h-1.5V9h1.5v9zm.75-12h-3V3.5h3V6zM16 18h-1.5V9H16v9z\"/></g><path d=\"M18 21h2V11h3l-4-6-4 6h3z\"/>"};
-ICONS.auto='<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2.2a7.8 7.8 0 0 1 7.6 6.1h-4.4a3.4 3.4 0 0 0-6.4 0H4.4A7.8 7.8 0 0 1 12 4.2zm0 6.2a1.6 1.6 0 1 1 0 3.2 1.6 1.6 0 0 1 0-3.2zM4.4 13.7h4.4a3.4 3.4 0 0 0 2.1 2.3v3.7a7.8 7.8 0 0 1-6.5-6zm8.7 6v-3.7a3.4 3.4 0 0 0 2.1-2.3h4.4a7.8 7.8 0 0 1-6.5 6z"/>';ICONS.pause='<path d="M6 4h4v16H6zM14 4h4v16h-4z"/>';ICONS.playI='<path d="M7 4v16l13-8z"/>';
+ICONS.auto='<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2.2a7.8 7.8 0 0 1 7.6 6.1h-4.4a3.4 3.4 0 0 0-6.4 0H4.4A7.8 7.8 0 0 1 12 4.2zm0 6.2a1.6 1.6 0 1 1 0 3.2 1.6 1.6 0 0 1 0-3.2zM4.4 13.7h4.4a3.4 3.4 0 0 0 2.1 2.3v3.7a7.8 7.8 0 0 1-6.5-6zm8.7 6v-3.7a3.4 3.4 0 0 0 2.1-2.3h4.4a7.8 7.8 0 0 1-6.5 6z"/>';ICONS.yard='<path d="M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm10 0h8v8h-8z"/>';ICONS.pause='<path d="M6 4h4v16H6zM14 4h4v16h-4z"/>';ICONS.playI='<path d="M7 4v16l13-8z"/>';
 var ic=(n,c='')=>`<span class="ico ${c}"><svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]}</svg></span>`;
 
 // pista: cabeceira 10 em cima, 28 embaixo
@@ -1014,6 +1041,7 @@ var CAPF=[330,380,450,720,1000,1450,1450],FULLT=[20,25,30,40,50,60,70];
 var SVF=[.22,.26,.30,.30,0,.32,.35];
 var SDEP={2:[0],3:[0],5:[1],6:[2,3]};
 var needF=f=>f.dur+45;
+var XK=.62,canX=f=>f.cls>=4;   // 2ª equipe: ~38% mais rápido; só para aviões classe 4+
 var capF=f=>CAPF[f.cls-1];
 function initSvc(f){
   if(f.fuelArr==null)f.fuelArr=clamp((nz(f.fuelPlan,D().fuel+10))-(f.holdMin||0),5,capF(f));
@@ -1026,14 +1054,20 @@ var svDone=(f,i)=>f.svs&&f.svs[i].s!=null&&now>=f.svs[i].s+f.svs[i].d;
 var svP=(f,i)=>{const v=f.svs&&f.svs[i];return !v||v.s==null?0:clamp((now-v.s)/v.d,0,1)};
 var depsOk=(f,i)=>(SDEP[i]||[]).every(j=>svDone(f,j));
 function crewBusy(){const b={fuel:0,cat:0,clean:0};
-  for(const f of flights)if(f.state==="parked"&&f.svs)f.svs.forEach((v,i)=>{const c=CREW[i];if(c&&v.s!=null&&!v.skip&&now<v.s+v.d)b[c]++});return b}
+  for(const f of flights)if(f.state==="parked"&&f.svs)f.svs.forEach((v,i)=>{const c=CREW[i];if(c&&v.s!=null&&!v.skip&&now<v.s+v.d)b[c]+=v.x?2:1});return b}
 function svcStep(){
   const busy=crewBusy(),cap=D().crews;
   const parked=flights.filter(f=>f.state==="parked").sort((a,b)=>a.tPark-b.tPark);
   for(const f of parked){if(!f.svs)initSvc(f);if(f.blk)continue;
     f.svs.forEach((v,i)=>{if(v.s!=null||!v.q||!depsOk(f,i)){v.wait=false;return}const c=CREW[i];
-      if(c){if(busy[c]>=cap[c]){v.wait=true;return}busy[c]++}v.wait=false;v.s=now;if(i===4&&!v.skip&&pk('comb')!=='off')play('combustivel',{vol:.7});if((i===1||i===5)&&pk('bag')!=='off')play('bagagem',{vol:.6,dur:10});dirty=true})}
+      if(c){if(busy[c]>=cap[c]){v.wait=true;return}busy[c]++;if(v.x){if(busy[c]<cap[c]){busy[c]++;v.d*=XK}else v.x=false}}v.wait=false;v.s=now;if(i===4&&!v.skip&&pk('comb')!=='off')play('combustivel',{vol:.7});if((i===1||i===5)&&pk('bag')!=='off')play('bagagem',{vol:.6,dur:10});dirty=true})}
 }
+// liga/desliga a 2ª equipe num serviço (só antes de terminar; em andamento ela só pode entrar)
+function toggleX(f,i){const v=f.svs&&f.svs[i],c=CREW[i];if(!v||!c||v.skip||svDone(f,i)||!canX(f))return;
+  if(v.s==null){v.x=!v.x;dirty=true;return}
+  if(v.x)return toast('A 2ª equipe já está trabalhando');
+  const b=crewBusy();if(b[c]>=D().crews[c])return toast(`Sem equipe de ${CREWNAME[c].toLowerCase()} livre`);
+  const r=v.s+v.d-now;v.d=(now-v.s)+r*XK;v.x=true;toast(`2ª equipe de ${CREWNAME[c].toLowerCase()} no ${f.depNo}`);dirty=true}
 var waitingCrew=(f,i)=>{const v=f.svs&&f.svs[i];return v&&v.s==null&&v.wait};
 var servProg=f=>!f.svs?0:f.svs.reduce((a,_,i)=>a+svP(f,i),0)/f.svs.length;
 var isReady=f=>f.state==="parked"&&!!f.svs&&f.svs.every((_,i)=>svDone(f,i));
@@ -1505,6 +1539,7 @@ function drawSvcView(f){
   ${f.blk?`<div class="blkmsg">Posição provisória: nenhum serviço até o avião ir para uma vaga classe ${f.cls}+. Toque no avião no mapa para mover.</div>`:""}
   <div class="svgrid">${tiles}</div>
   <button class="link ghost" id="svAll">Iniciar todos na ordem</button>
+  ${canX(f)?`<div class="xrow"><small>Reforço · 2ª equipe (${Math.round((1-XK)*100)}% mais rápido)</small><div>${[2,3,4].map(i=>{const v=f.svs[i],dn=v.skip||svDone(f,i);return `<button data-x="${i}" class="${v.x?'on':''}" ${dn||(v.x&&v.s!=null)?'disabled':''}>${ic(SERV[i][3])}${CREWNAME[CREW[i]]}${v.x?' ×2':''}</button>`}).join('')}</div></div>`:''}
   <div class="crews">Equipes livres: ${Object.keys(CREWNAME).map(c=>`<span>${CREWNAME[c]} <b>${cap[c]>8?'∞':Math.max(0,cap[c]-busy[c])+'/'+cap[c]}</b></span>`).join('')}</div>
   <div class="auto"><div class="auto-h"><span>Autonomia até ${f.ap}</span><b class="${fu>=need?'ok':'bad'}">${Math.round(fu)} / ${need} min</b></div>${fuelBar(f,true)}
     <small>${fu>=need?'Combustível suficiente para o voo + reserva':'Faltam '+Math.ceil(need-fu)+' min de voo · abasteça antes de partir'}</small></div>
@@ -1828,6 +1863,7 @@ detail.addEventListener('click',e=>{
   if(e.target.closest('#go')){depart(sel)}
   if(e.target.closest('#openSvc')){detailMode="svc";dirty=true}
   const sv=e.target.closest('.svt');if(sv&&sel&&sel.svs){const v=sel.svs[+sv.dataset.sv];if(v.s==null){v.q=!v.q;svcStep()}dirty=true}
+  {const xb=e.target.closest('[data-x]');if(xb&&sel&&sel.svs){toggleX(sel,+xb.dataset.x);return}}
   if(e.target.closest('#svAll')&&sel&&sel.svs){sel.svs.forEach(v=>{if(v.s==null)v.q=true});svcStep();dirty=true}
   if(e.target.closest('#onmap')){openMap(sel)}
 });
@@ -1979,6 +2015,27 @@ $('fltList').addEventListener('click',e=>{
 });
 /* segunda tela: voos */
 var TWO=matchMedia('(pointer:coarse)').matches;
+var yardOn=false;
+function openYard(on){yardOn=on;$('yard').hidden=!on;if(on)drawYard()}
+function drawYard(){
+  const b=crewBusy(),cap=D().crews;
+  $('ydCrew').innerHTML=Object.keys(CREWNAME).map(c=>`<span>${ic(c==='fuel'?'fuel':c==='cat'?'food':'clean')}${CREWNAME[c]} <b>${cap[c]>8?'∞':Math.max(0,cap[c]-b[c])+'/'+cap[c]}</b></span>`).join('');
+  let busyN=0;
+  $('ydG').innerHTML=STANDS.map(s=>{
+    const f=s.res!=null?flights[s.res]:null;let st='empty',t='livre',pc='';
+    if(f&&f.state==='parked'){busyN++;
+      if(f.blk){st='bad';t='provisória'}
+      else if(isReady(f)){st='ok';t='pronto'}
+      else if(f.svs&&f.svs.some(v=>v.s!=null&&!v.skip)){st='run';pc=Math.round(servProg(f)*100)+'%';t=f.svs.some(v=>v.x&&v.s!=null&&!v.skip&&now<v.s+v.d)?'reforço':'serviço'}
+      else{st='idle';t='parado'}}
+    else if(f&&['inbound','approach','holding','arriving','moving'].includes(f.state)){st='in';t=f.state==='arriving'||f.state==='moving'?'taxiando':Math.max(0,Math.ceil(f.eta-now))+' min'}
+    else if(f&&['departing','lineup'].includes(f.state)){st='go';t='saindo'}
+    return `<button class="yc ${st}" data-st="${s.n}" ${f&&f.state==='parked'?'':'disabled'}><span class="yc-n">${sn(s.n)}</span>${ic('plane')}<b>${f?f.depNo:'—'}</b><small>${pc?pc+' · ':''}${t}</small>${pc?`<i style="width:${pc}"></i>`:''}</button>`}).join('');
+  $('ydSum').textContent=`${busyN}/${STANDS.length} ocupados`;
+}
+$('ydX').addEventListener('click',()=>openYard(false));
+$('yard').addEventListener('click',e=>{if(e.target.id==='yard')return openYard(false);const c=e.target.closest('.yc');if(!c||c.disabled)return;
+  const st=STANDS[+c.dataset.st-1],f=flights[st.res];if(!f)return;openYard(false);if(TWO)openFlt(false);detailMode="svc";openFlight(f,"dep")});
 function openFlt(on){const pg=$('fltPg');pg.classList.toggle('open',on);document.body.classList.toggle('fltOpen',on)}
 if(TWO){document.body.classList.add('two');$('fltTab').hidden=false}
 $('fltTab').querySelector('span').outerHTML=ic('plane');
@@ -1990,6 +2047,8 @@ if(TWO){
   const q=sel=>document.querySelector(sel);
   mk('edCtl',ic('dep'),'Controle de voos',[q('.mobileBar .tab[data-t="arr"]'),q('.mobileBar .tab[data-t="dep"]'),$('mapBtn2')]);
   mk('edOpt',`<span class="ico"><svg viewBox="0 0 24 24"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg></span>`,'Opções',[(()=>{const b=document.createElement('button');b.id='pauseBtn';b.setAttribute('aria-label','Pausar');b.className='mb';b.innerHTML=ic('pause');b.addEventListener('click',togglePause);return b})(),(()=>{const b=document.createElement('button');b.id='autoBtn';b.setAttribute('aria-label','Piloto automático');b.className='mb autob';b.innerHTML=ic('auto')+'<small>AUTO</small>';b.addEventListener('click',()=>setAuto(!camp.auto));return b})(),$('clockBtn'),$('mixBtn2'),$('saveBtn2'),$('loadBtn2'),$('homeBtn2')]);
+  {const w=document.createElement('div');w.className='edw';w.innerHTML=`<button class="edt" id="edYard" aria-label="Pátio e serviços">${ic('yard')}<i>‹</i></button>`;edge.appendChild(w);
+   w.querySelector('.edt').addEventListener('click',e=>{e.stopPropagation();edge.querySelectorAll('.edw').forEach(x=>x.classList.remove('open'));openYard(!yardOn)})}
   document.addEventListener('click',e=>{if(!e.target.closest('#edge'))edge.querySelectorAll('.edw').forEach(x=>x.classList.remove('open'))});
 }
 $('fltTab').addEventListener('click',()=>openFlt(true));
@@ -2021,6 +2080,7 @@ function tick(t){
   const dt=Math.min(.25,(t-last)/1000);last=t;
   {const w=Date.now(),gap=w-lastWall;lastWall=w;if(gap>3000&&camp.auto&&started&&!dayOver&&speed)catchLeft+=Math.min(4320,gap/1000*speed/60)}
   if(catchLeft>0)catchUp();
+  if(yardOn&&dirty)drawYard();
   if(started&&!dayOver)now+=dt*speed/60;
   if(!dayOver&&started&&dayOf(now)>camp.cur){if(camp.auto)autoDay();else endDay()}
   if(camp.auto&&started&&!dayOver)autoStep();
@@ -2186,7 +2246,7 @@ function autoStep(){
       const s=fr.filter(x=>x.max>=f.cls).sort((a,b)=>(pref?(a.g===pref?0:1)-(b.g===pref?0:1):0)||(a.remote?1:0)-(b.remote?1:0)||a.max-b.max)[0]||fr.filter(x=>!x.remote&&x.max>=f.cls-2).sort((a,b)=>b.max-a.max)[0];
       if(s)assign(f,s)}
     if(f.state==="parked"&&f.blk){const s=STANDS.filter(x=>x.res==null&&x.max>=f.cls).sort((a,b)=>a.max-b.max)[0];if(s)moveTo(f,s)}
-    if(f.state==="parked"&&f.svs&&!f.blk)f.svs.forEach(v=>{if(v.s==null)v.q=true});
+    if(f.state==="parked"&&f.svs&&!f.blk){f.svs.forEach(v=>{if(v.s==null)v.q=true});if(canX(f)&&depEst(f)>f.depSched+10){const b=crewBusy();for(const i of [4,2,3]){const v=f.svs[i],c=CREW[i];if(!v.x&&!v.skip&&!svDone(f,i)&&v.s!=null&&b[c]<D().crews[c]-1){toggleX(f,i);b[c]++}}}}
     if(isReady(f)&&!f.blk)depart(f);
   }
 }
@@ -2206,6 +2266,7 @@ function setAuto(on){camp.auto=!!on;document.body.classList.toggle('auto',camp.a
     toast(`Piloto automático desligado · ${l} pousos e ${d} decolagens${L.days?` em ${L.days+1} dias`:''}`);camp.alog=null}
   writeKey(AUTO_KEY,false);dirty=true}
 $('autoBan').addEventListener('click',()=>setAuto(false));
+if(!TWO){const y=document.createElement('button');y.className='ib';y.innerHTML=ic('yard')+'Pátio';y.addEventListener('click',()=>openYard(!yardOn));$('speed').insertBefore(y,$('restart'))}
 if(!TWO){const b=document.createElement('button');b.id='autoBtn';b.className='ib autob';b.innerHTML=ic('auto')+'Piloto automático';b.addEventListener('click',()=>setAuto(!camp.auto));$('speed').insertBefore(b,$('restart'))}
 reset();setTabs();requestAnimationFrame(tick);
 function loadLogos(){Object.keys(AIRLINES).forEach(al=>{if(LOGO[al])return;const im=new Image();im.onload=()=>{LOGO[al]=true;dirty=true};im.src=`logos/${al}.png?t=${Math.floor(Date.now()/60000)}`})}
