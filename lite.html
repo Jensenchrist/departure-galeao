@@ -95,6 +95,13 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
 .side{background:var(--k);display:flex;flex-direction:column;height:100vh;height:100dvh;border-left:3px solid var(--y)}
 .top{padding:14px 16px 8px;display:flex;align-items:center;justify-content:space-between;gap:10px}
 .top h1{margin:0;font-size:18px;font-weight:800;letter-spacing:-.02em}
+.top{background:#000;border-bottom:2px solid #1f1f1f;padding:16px 16px 14px!important;align-items:center}
+.top h1{font-size:min(28px,7.4vw)!important;font-weight:900!important;letter-spacing:.02em!important;line-height:1;flex:1;min-width:0}
+.top h1 .apt{display:block;margin:6px 0 0;font-size:14px;letter-spacing:.04em;font-family:Doto,monospace;font-weight:900;text-transform:uppercase}
+.tclk{display:flex;flex-direction:column;align-items:flex-end;margin-right:4px}
+.tclk .clock{font-size:min(30px,7.6vw);letter-spacing:-.02em;background:#111;border:1px solid #2a2a2a;border-radius:10px;padding:6px 10px}
+.tclk .clock i{font-style:normal;font-size:.55em;color:#c9b72a}
+.tclk small{font-size:11px;color:var(--g);margin-top:4px;font-weight:700}
 .clock{font-family:Doto,monospace;font-weight:900;color:var(--y);font-size:30px;line-height:1}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:0 16px 10px}
 .stats div{background:var(--k3);border-radius:8px;padding:6px 8px}
@@ -167,7 +174,7 @@ body.land .mobileBar .tab.on{background:var(--y)}
 body.land .mobileBar .mb.clockb{flex-direction:column;font-family:Doto,monospace;font-weight:900;color:var(--y)}
 body.land .mobileBar .mb.clockb .clock{font-size:15px;padding:0;letter-spacing:-.04em}
 body.land .mobileBar .mb.clockb small{font:700 9px "Inter Tight",sans-serif;color:var(--g);margin-top:2px}
-body.land .top .clock{display:none}
+
 body.land .close{display:flex}
 body.land .side.showDetail .stats,body.land .side.showDetail .goals,body.land .side.showDetail .speed,body.land .side.showDetail .campl{display:none}
 body.land .toast{position:fixed;top:auto;bottom:18px;max-width:calc(100% - 150px);left:calc(50% - 30px)}
@@ -488,7 +495,7 @@ body.l2 #glow{background-image:url(glow2.png)}body.rot #glow{display:none}
   .mobileBar .mb.clockb{flex-direction:column;font-family:Doto,monospace;font-weight:900;color:var(--y)}
   .mobileBar .mb.clockb .clock{font-size:15px;padding:0;letter-spacing:-.04em}
   .mobileBar .mb.clockb small{font:700 9px "Inter Tight",sans-serif;color:var(--g);margin-top:2px}
-  .top .clock{display:none}
+
   .close{display:flex}
   .side.showDetail .stats,.side.showDetail .goals,.side.showDetail .speed,.side.showDetail .campl{display:none}
   .sign .pct{font-size:2.3vw}
@@ -599,6 +606,16 @@ body.two #speed{display:none!important}
 .dl-p{display:flex;justify-content:space-between;align-items:baseline;margin-top:10px;padding:10px;border-radius:10px;background:#1b1b1b;font-weight:800;color:#aaa}.dl-p small{color:#777;font-weight:600}
 .dl-own{display:flex;flex-wrap:wrap}.dl-own span{font-size:11px;background:#1b1b1b;border-radius:6px;padding:4px 7px;margin:0 6px 6px 0;color:#ccc}
 .dl-empty{padding:20px;text-align:center;color:var(--y);font-weight:800}
+.dl-tabs{display:flex;margin-top:10px;background:#1b1b1b;border-radius:10px;padding:3px}.dl-tabs button{flex:1;min-height:34px;border-radius:8px;color:#bbb;font-weight:800;font-size:14px}.dl-tabs button.on{background:var(--y);color:var(--k)}
+.gs{background:#111;border:1px solid #2c2c2c;border-radius:14px;padding:12px;margin-bottom:8px}
+.gs-h{font-weight:800;font-size:14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:baseline}.gs-h span{font-size:11px;color:var(--g);font-weight:600}
+.gs-cr{display:flex;align-items:center;margin:6px 0}.gs-cr .ico{width:26px;height:26px;border-radius:6px;margin-right:8px}.gs-cr b{flex:1;font-size:13px}
+.gs-cr button{width:36px;height:36px;border-radius:9px;background:#222;color:var(--y);font-size:20px;font-weight:900}.gs-cr em{font-style:normal;font-family:Doto,monospace;font-weight:900;font-size:20px;color:#fff;width:34px;text-align:center}
+.gs-tot,.gs-row{display:flex;justify-content:space-between;font-size:13px;margin-top:6px}.gs-tot{border-top:1px solid #222;padding-top:8px}.gs-tot b,.gs-row b.n{color:var(--r)}.gs-row b.p{color:var(--gr)}
+.gs-s{display:block;font-size:11px;color:var(--g);margin-top:6px}
+.gs-pol{display:flex;margin-top:8px}.gs-pol button{flex:1;min-height:36px;border-radius:9px;background:#222;color:#ddd;font-weight:800}.gs-pol button+button{margin-left:6px}.gs-pol button.on{background:var(--y);color:var(--k)}
+.gs-al{display:grid;grid-template-columns:1fr auto;align-items:center;margin:8px 0}.gs-al small{display:block;font-size:10px;color:var(--g)}.gs-al em{font-style:normal;font-family:Doto,monospace;font-weight:900;font-size:18px}
+.gs-al i{grid-column:1/-1;height:4px;background:#222;border-radius:2px;margin-top:4px;overflow:hidden}.gs-al i b{display:block;height:100%}
 .dl-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .dl-al{display:flex;flex-direction:column;background:#111;border:1px solid #2c2c2c;border-radius:14px;overflow:hidden;padding:0;text-align:left;color:#fff}
 .dl-cv{position:relative;padding:10px 10px 12px;color:#fff}
@@ -700,7 +717,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795358411';
+var APPV='1795359167';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -727,7 +744,7 @@ chk();document.addEventListener('visibilitychange',function(){if(!document.hidde
     </div>
     <div id="storm"></div><video id="rainVid" src="chuva.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
     <div class="pop" id="pop" hidden><span class="pop-t"></span><div><button data-pm="svc" aria-label="Serviços"><span class="ico"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span><small>Serviços</small></button><button data-pm="data" aria-label="Dados do voo"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></span><small>Voo</small></button></div></div>
-    <div id="deals" hidden><div class="yd-box"><div class="yd-h"><b>Acordos comerciais</b><span id="dlMoney"></span><button id="dlX" aria-label="Fechar">×</button></div><small class="dl-sub">Traga novas rotas para o Galeão. Do mais barato ao mais caro.</small><div id="dlList"></div></div></div><div id="yard" hidden><div class="yd-box"><div class="yd-h"><b>Pátio</b><span id="ydSum"></span><button id="ydX" aria-label="Fechar">×</button></div><div class="yd-crew" id="ydCrew"></div><div class="yd-g" id="ydG"></div><small class="yd-lg"><i class="ok"></i>pronto <i class="run"></i>em serviço <i class="idle"></i>parado <i class="bad"></i>provisória <i class="in"></i>chegando</small></div></div><div id="autoBan">PILOTO AUTOMÁTICO · toque para desligar</div><div id="hud"><div class="mclock" id="mclock"><b id="mcT">11:52<i>:00</i></b><small id="mcS">10×</small></div><div id="windBox"></div></div>
+    <div id="deals" hidden><div class="yd-box"><div class="yd-h"><b>Negócios</b><span id="dlMoney"></span><button id="dlX" aria-label="Fechar">×</button></div><div class="dl-tabs"><button data-dt="deals" class="on">Acordos</button><button data-dt="gest">Gestão</button></div><small class="dl-sub" id="dlSub">Traga novas rotas para o Galeão. Do mais barato ao mais caro.</small><div id="dlList"></div></div></div><div id="yard" hidden><div class="yd-box"><div class="yd-h"><b>Pátio</b><span id="ydSum"></span><button id="ydX" aria-label="Fechar">×</button></div><div class="yd-crew" id="ydCrew"></div><div class="yd-g" id="ydG"></div><small class="yd-lg"><i class="ok"></i>pronto <i class="run"></i>em serviço <i class="idle"></i>parado <i class="bad"></i>provisória <i class="in"></i>chegando</small></div></div><div id="autoBan">PILOTO AUTOMÁTICO · toque para desligar</div><div id="hud"><div class="mclock" id="mclock"><b id="mcT">11:52<i>:00</i></b><small id="mcS">10×</small></div><div id="windBox"></div></div>
     <div id="fltPg"><div class="fp-top"><button id="fpBack" aria-label="Voltar ao mapa">‹</button><div class="fp-route"><span class="fp-c">GIG</span><small>RIO DE JANEIRO · GALEÃO</small></div><span class="fp-clock" id="fpClock">--:--</span></div><div class="fp-sheet"><i class="fp-grab"></i><h3 id="fpCount">Voos ativos</h3><div id="fltList"></div></div></div>
     <button id="fltTab" hidden><span>✈</span><b id="fltN">0</b><i>‹</i></button>
     <div class="rail" id="rail" aria-label="Voos chegando e prontos"></div>
@@ -736,7 +753,7 @@ chk();document.addEventListener('visibilitychange',function(){if(!document.hidde
   </div>
 
   <aside class="side" id="side">
-    <div class="top"><h1>DEPARTURE <span class="apt">LITE · GIG · Galeão</span></h1><div class="clock" id="clock">--:--</div><button class="close" id="closeSide" aria-label="Fechar painel"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
+    <div class="top"><h1><span id="topT">PARTIDAS</span> <span class="apt">LITE · GIG · Galeão</span></h1><div class="tclk"><div class="clock" id="clock">--:--</div><small id="clockD"></small></div><button class="close" id="closeSide" aria-label="Fechar painel"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
     <div class="campl" id="campl"></div>
     <div class="stats" id="stats"></div>
     <div class="goals" id="goals"></div>
@@ -972,8 +989,8 @@ var EASE={lin:k=>k,out:k=>1-(1-k)**2,in:k=>k*k,io:k=>k<.5?2*k*k:1-((-2*k+2)**2)/
 
 var DIFFS={
   facil:{name:"Fácil",auto:true,fuel:60,crews:{fuel:9,cat:9,clean:9},keep:[.55,.7],storms:0,goal:.75},
-  normal:{name:"Normal",fuel:40,crews:{fuel:4,cat:4,clean:4},keep:[.75,.9],storms:1,goal:.8},
-  dificil:{name:"Difícil",fuel:28,crews:{fuel:3,cat:2,clean:2},keep:[1,1],storms:2,goal:.85}};
+  normal:{name:"Normal",eco:{wage:3000,sat:1,minSat:40,warn:50,fineSat:0,policy:false},fuel:40,crews:{fuel:4,cat:4,clean:4},keep:[.75,.9],storms:1,goal:.8},
+  dificil:{name:"Difícil",eco:{wage:5000,sat:1.4,minSat:50,warn:62,fineSat:1,policy:true},fuel:28,crews:{fuel:3,cat:2,clean:2},keep:[1,1],storms:2,goal:.85}};
 var DIFF="normal",camp={day:1,stars:0,rep:70,money:0},storms=[],dayOver=false;
 var D=()=>DIFFS[DIFF];
 var START_MONEY={facil:400000,normal:250000,dificil:150000};
@@ -1082,6 +1099,26 @@ var CAPF=[330,380,450,720,1000,1450,1450],FULLT=[20,25,30,40,50,60,70];
 var SVF=[.22,.26,.30,.30,0,.32,.35];
 var SDEP={2:[0],3:[0],5:[1],6:[2,3]};
 var needF=f=>f.dur+45;
+/* ---------- gestão: equipes com salário, satisfação das companhias, multas de atraso ---------- */
+var ECO=()=>D().eco||null;                       // Fácil: sem custos
+var crewCap=()=>{const d=D().crews;if(!ECO())return d;camp.crews=camp.crews||Object.assign({},d);return camp.crews};
+var RENEW=7;                                     // contrato renova a cada 7 dias
+var satOf=al=>{camp.sat=camp.sat||{};return camp.sat[al]==null?70:camp.sat[al]};
+function addSat(al,v){const e=ECO();if(!e||!al)return;camp.sat=camp.sat||{};const o=satOf(al);camp.sat[al]=clamp(o+v*(v<0?e.sat:1),0,100);if(o>=e.warn&&camp.sat[al]<e.warn)toast(`⚠ ${AIRLINES[al]} está insatisfeita com o Galeão`)}
+var revMul=al=>ECO()?.7+satOf(al)*.006:1;      // companhia satisfeita aceita taxa maior
+function chargeFine(f){const e=ECO();if(!e||!f.extLate||f.extLate<=15||f.fined)return;f.fined=1;
+  const v=Math.round(f.cls*(f.extLate-15)*60+(f.extLate>60?f.cls*2000:0));
+  if(e.policy&&camp.forgive){addSat(f.al,.6);score.forg=(score.forg||0)+v;return}
+  camp.money+=v;score.fine=(score.fine||0)+v;if(e.fineSat)addSat(f.al,-e.fineSat);
+  if(f.extLate>60)toast(`${f.arrNo} chegou fora do slot (+${Math.round(f.extLate)} min) · multa ${money(v)}`)}
+function payWages(){const e=ECO();if(!e)return 0;const c=crewCap(),n=c.fuel+c.cat+c.clean,v=n*e.wage;camp.money-=v;return v}
+// renovação semanal: companhia insatisfeita vai embora
+function renewals(){const e=ECO();if(!e||!camp.deals)return;camp.dealT=camp.dealT||{};const gone=[];
+  for(const k of [...camp.deals]){const t=camp.dealT[k]!=null?camp.dealT[k]:camp.cur;if(camp.dealT[k]==null)camp.dealT[k]=t;
+    if(camp.cur-t>=RENEW&&(camp.cur-t)%RENEW===0){const al=k.slice(0,2);
+      if(satOf(al)<e.minSat){camp.deals=camp.deals.filter(x=>x!==k);gone.push(k);
+        for(const f of flights)if(f.k===k&&f.state==="inbound"&&now<f.eta-f.dur)flights[f.i]={i:f.i,state:"old",sched:f.sched,depSched:f.depSched}}}}
+  if(gone.length){buildLines();const als=[...new Set(gone.map(k=>AIRLINES[k.slice(0,2)]))];score.lost=gone;toast(`Contrato não renovado: ${als.join(', ')} deixou o Galeão`)}}
 var XK=.62,canX=f=>f.cls>=4;   // 2ª equipe: ~38% mais rápido; só para aviões classe 4+
 var capF=f=>CAPF[f.cls-1];
 function initSvc(f){
@@ -1097,7 +1134,7 @@ var depsOk=(f,i)=>(SDEP[i]||[]).every(j=>svDone(f,j));
 function crewBusy(){const b={fuel:0,cat:0,clean:0};
   for(const f of flights)if(f.state==="parked"&&f.svs)f.svs.forEach((v,i)=>{const c=CREW[i];if(c&&v.s!=null&&!v.skip&&now<v.s+v.d)b[c]+=v.x?2:1});return b}
 function svcStep(){
-  const busy=crewBusy(),cap=D().crews;
+  const busy=crewBusy(),cap=crewCap();
   const parked=flights.filter(f=>f.state==="parked").sort((a,b)=>a.tPark-b.tPark);
   for(const f of parked){if(!f.svs)initSvc(f);if(f.blk)continue;
     f.svs.forEach((v,i)=>{if(v.s!=null||!v.q||!depsOk(f,i)){v.wait=false;return}const c=CREW[i];
@@ -1107,7 +1144,7 @@ function svcStep(){
 function toggleX(f,i){const v=f.svs&&f.svs[i],c=CREW[i];if(!v||!c||v.skip||svDone(f,i)||!canX(f))return;
   if(v.s==null){v.x=!v.x;dirty=true;return}
   if(v.x)return toast('A 2ª equipe já está trabalhando');
-  const b=crewBusy();if(b[c]>=D().crews[c])return toast(`Sem equipe de ${CREWNAME[c].toLowerCase()} livre`);
+  const b=crewBusy();if(b[c]>=crewCap()[c])return toast(`Sem equipe de ${CREWNAME[c].toLowerCase()} livre`);
   const r=v.s+v.d-now;v.d=(now-v.s)+r*XK;v.x=true;toast(`2ª equipe de ${CREWNAME[c].toLowerCase()} no ${f.depNo}`);dirty=true}
 var waitingCrew=(f,i)=>{const v=f.svs&&f.svs[i];return v&&v.s==null&&v.wait};
 var servProg=f=>!f.svs?0:f.svs.reduce((a,_,i)=>a+svP(f,i),0)/f.svs.length;
@@ -1129,7 +1166,7 @@ function fuelBar(f,mark){
 var stormNow=()=>storms.find(x=>now>=x.s&&now<x.e);
 function divert(f){
   if(f.stand!=null&&STANDS[f.stand-1].res===f.i)STANDS[f.stand-1].res=null;
-  f.state="diverted";score.diverted++;camp.rep=clamp(camp.rep-6,0,100);camp.money-=8000;
+  f.state="diverted";score.diverted++;camp.rep=clamp(camp.rep-6,0,100);camp.money-=8000;addSat(f.al,-6);
   if(assignFor===f.i)assignFor=null;
   toast(`${f.arrNo} sem combustível · desviado para Guarulhos`);dirty=true;
 }
@@ -1139,7 +1176,7 @@ function step(){
   const r=activeRwy();
   // chegadas
   for(const f of flights){
-    if(f.state==="inbound"&&now>=f.eta-20){f.state="approach";dirty=true}
+    if(f.state==="inbound"&&now>=f.eta-20){f.state="approach";f.extLate=Math.max(0,f.eta-f.sched);dirty=true}
     if((f.state==="approach"||f.state==="holding")&&now>=f.eta-1.3){
       const stm=stormNow();
       if(f.stand==null||stm){
@@ -1154,7 +1191,7 @@ function step(){
       else{f.rwy=r;f.path=landingPath(f,r,STANDS[f.stand-1]);f.state="arriving";runwayFree[f.g]=f.path.offRwy+.2;jet("approach");dirty=true}
     }
     if(f.state==="arriving"&&!f.tdSnd&&now>=f.path.segs[1].t){f.tdSnd=true;jet("touchdown");jet("brake");smoke(f)}
-    if(f.state==="arriving"&&now>=f.path.end){if(pk('estaciona')!=='off')play('turbina_desliga',{vol:.6,dur:14});f.state="parked";f.tPark=now;f.path=null;score.landed++;initSvc(f);
+    if(f.state==="arriving"&&now>=f.path.end){if(pk('estaciona')!=='off')play('turbina_desliga',{vol:.6,dur:14});f.state="parked";f.tPark=now;f.path=null;score.landed++;initSvc(f);chargeFine(f);
       if(f.emerg){camp.rep=clamp(camp.rep+2,0,100);toast(`${f.arrNo} pousou em segurança · emergência resolvida`)}dirty=true}
     if(f.state==="moving"&&now>=f.path.end){f.state="parked";f.path=null;f.tPark=now;initSvc(f);toast(`${f.depNo} na posição ${sn(f.stand)} · serviços liberados`);dirty=true}
     if(f.state==="parked"&&f.blk){const m=Math.floor((now-f.tPark)/5);if(m>(f.blkPen||0)){f.blkPen=m;camp.rep=clamp(camp.rep-1,0,100);camp.money-=500;dirty=true}}
@@ -1174,8 +1211,8 @@ function step(){
     if(f.state==="takeoff"&&!f.toSnd&&now>=f.path.segs[2].t){f.toSnd=true;jet("takeoff")}
     if(f.state==="takeoff"&&now>=f.path.end){
       f.state="gone";f.tOff=now;f.path=null;score.departed++;linkNext(f);const late=Math.max(0,Math.round(nz(f.tPush,now)-Math.max(f.depSched,nz(f.tPark,0)+f.ground)));
-      if(late<=15){score.onTime++;camp.rep=clamp(camp.rep+1,0,100)}else{score.lateMin+=late;camp.rep=clamp(camp.rep-(late>40?2:1),0,100)}
-      camp.money+=Math.round(f.cls*4000*(DOMAP.has(f.ap)?1:1.6))-Math.max(0,late-15)*40;dirty=true}
+      if(late<=15){score.onTime++;camp.rep=clamp(camp.rep+1,0,100);addSat(f.al,1)}else{score.lateMin+=late;camp.rep=clamp(camp.rep-(late>40?2:1),0,100);addSat(f.al,late>40?-3:-2)}
+      {const rv=Math.round(f.cls*4000*(DOMAP.has(f.ap)?1:1.6)*revMul(f.al))-Math.max(0,late-15)*40;camp.money+=rv;score.rev=(score.rev||0)+rv}dirty=true}
   }
   svcStep();stormStep();
 }
@@ -1198,7 +1235,7 @@ function assign(f,s){
   if(s.max<f.cls){
     if(f.cls-s.max>2||s.remote)return toast(`Posição ${sn(s.n)} é pequena demais para ${f.arrNo} (classe ${f.cls})`);
     if(f.stand!=null)STANDS[f.stand-1].res=null;
-    s.res=f.i;f.stand=s.n;f.blk=true;assignFor=null;openTab=null;
+    s.res=f.i;f.stand=s.n;f.blk=true;assignFor=null;openTab=null;addSat(f.al,-1);
     toast(`${f.arrNo} vai para a posição ${sn(s.n)} provisoriamente · sem serviços até a vaga certa`);dirty=true;return}
   f.blk=false;
   if(f.stand!=null)STANDS[f.stand-1].res=null;
@@ -1370,7 +1407,7 @@ function drawStats(){
   $('campl').innerHTML=`<span>${dateLbl(now)} · ${D().name}</span><span>★ ${camp.stars}</span><span>${money(camp.money)}</span>`;
   $('stats').innerHTML=`<div><small>Pousos</small><b>${score.landed}</b></div><div><small>Decolagens</small><b>${score.departed}</b></div><div><small>Pontualidade</small><b>${pct}</b></div><div><small>Reputação</small><b class="${camp.rep<40?'bad':''}">${camp.rep}</b></div>`;
   $('goals').innerHTML='<small>Metas do dia</small>'+goals().map(g=>`<div class="${g.ok?'ok':''}"><i>${g.ok?'✓':'○'}</i>${g.t}<b>${g.v}</b></div>`).join('');
-  $('clock').textContent=$('clock2').textContent=fmt(now);
+  $('clock2').textContent=fmt(now);
 }
 /* ---------- painel split-flap ---------- */
 var CH=" ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:.-";
@@ -1568,7 +1605,7 @@ var SVSTATE=(f,i)=>{const v=f.svs[i];
   return["idle","Toque para iniciar · "+Math.round(v.d)+" min"];
 };
 function drawSvcView(f){
-  const ready=isReady(f),busy=crewBusy(),cap=D().crews,est=depEst(f),late=Math.round(est-f.depSched);
+  const ready=isReady(f),busy=crewBusy(),cap=crewCap(),est=depEst(f),late=Math.round(est-f.depSched);
   const fu=fuelNow(f),need=needF(f);
   const tiles=SERV.map(([n,,,k],i)=>{const [st,t]=SVSTATE(f,i);
     return `<button class="svt ${st}" data-sv="${i}" ${st==='ok'?'disabled':''}><span class="svt-i">${ic(k)}</span><b>${n}</b><small>${t}</small><i style="width:${(st==='ok'?1:svP(f,i))*100}%"></i></button>`}).join('');
@@ -1601,7 +1638,7 @@ function drawDetail(){
     extra=`<button class="link" id="openSvc">${ic('tool','dk')}Abrir serviços em solo</button>`;
   }
   if(false){
-    const ready=isReady(f),busy=crewBusy(),cap=D().crews;
+    const ready=isReady(f),busy=crewBusy(),cap=crewCap();
     const rows=SERV.map(([n,a,b,k],i)=>{const v=svP(f,i),w=waitingCrew(f,i);return `<div class="sv${v>=1?' done':''}${w?' wait':''}"><span class="svn">${ic(k)}${n}</span><div class="b"><i style="width:${v*100}%"></i></div><span class="p">${v>=1?'✓':w?'fila':Math.round(v*100)+'%'}</span></div>`}).join('')
       +`<div class="crews">Equipes livres: ${Object.keys(CREWNAME).map(c=>`<span>${CREWNAME[c]} <b>${cap[c]>8?'∞':Math.max(0,cap[c]-busy[c])+'/'+cap[c]}</b></span>`).join('')}</div>`;
     const est=depEst(f),late=Math.round(est-f.depSched);
@@ -1886,7 +1923,7 @@ document.addEventListener('keydown',e=>{if(e.key==="Escape"&&mapOpen)closeMap()}
 
 /* ---------- interação ---------- */
 var mobile=()=>matchMedia('(max-width:820px)').matches||document.body.classList.contains('land');
-function setTabs(){document.querySelectorAll('.tab[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t===tab&&(!mobile()||side.classList.contains('open'))))}
+function setTabs(){if($('topT'))$('topT').textContent=tab==='arr'?'CHEGADAS':'PARTIDAS';document.querySelectorAll('.tab[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t===tab&&(!mobile()||side.classList.contains('open'))))}
 function openFlight(f,t){sel=f;tab=t;side.classList.add('open');setTabs();dirty=true}
 
 document.querySelectorAll('.tab[data-t]').forEach(b=>b.addEventListener('click',()=>{
@@ -2057,7 +2094,7 @@ var TWO=matchMedia('(pointer:coarse)').matches;
 var yardOn=false;
 function openYard(on){yardOn=on;$('yard').hidden=!on;if(on)drawYard()}
 function drawYard(){
-  const b=crewBusy(),cap=D().crews;
+  const b=crewBusy(),cap=crewCap();
   $('ydCrew').innerHTML=Object.keys(CREWNAME).map(c=>`<span>${ic(c==='fuel'?'fuel':c==='cat'?'food':'clean')}${CREWNAME[c]} <b>${cap[c]>8?'∞':Math.max(0,cap[c]-b[c])+'/'+cap[c]}</b></span>`).join('');
   let busyN=0;
   $('ydG').innerHTML=STANDS.map(s=>{
@@ -2092,6 +2129,7 @@ function freqTxt(d){const l=d.ls[0];
   if(l.days==='1111111')return d.ls.length>1?`${d.ls.length}× por dia`:'diário';
   return `${Math.round(d.wk)}× por semana · `+l.days.split('').map((c,i)=>c==='1'?DIAS[i]:'').filter(Boolean).join(' ')}
 function openDeals(on){dealsOn=on;$('deals').hidden=!on;dealAsk=null;dealsAl=null;if(on)drawDeals()}
+
 // cores de cada companhia: [principal, destaque]
 var BRAND={SR:['#E30613','#fff'],SK:['#0B1F5C','#C8102E'],DT:['#D7182A','#111'],ET:['#00843D','#FCDD09'],AT:['#C1272D','#006233'],MS:['#00265C','#C5A100'],VR:['#003893','#F7D116'],
  RG:['#00377A','#F2A900'],VP:['#1F3A93','#F5C400'],TR:['#D71920','#F7B500'],QF:['#E40000','#fff'],SA:['#00205B','#FFB81C'],CA:['#C8102E','#F2C200'],SQ:['#1A2B5E','#F5B335'],
@@ -2100,11 +2138,30 @@ var BRAND={SR:['#E30613','#fff'],SK:['#0B1F5C','#C8102E'],DT:['#D7182A','#111'],
  LH:['#05164D','#FFAD00'],IB:['#D7192D','#FFCC00'],KL:['#00A1DE','#fff'],AV:['#DA291C','#fff'],DL:['#003268','#C01933'],UA:['#005DAA','#7FB2E5'],AM:['#0B2343','#E31837'],
  PZ:['#D52B1E','#0038A8'],OB:['#003DA5','#E4002B'],PU:['#00A3E0','#FFD100'],TA:['#D52B1E','#00843D'],CU:['#002A8F','#CF142B'],V0:['#E5352D','#002F6C'],H2:['#3C1053','#00A3E0'],SU:['#02458D','#E5A00D']};
 var tint=(hex,k)=>{const n=parseInt(hex.slice(1),16),r=n>>16,g=n>>8&255,b=n&255,m=v=>Math.round(v+(255-v)*k);return `rgb(${m(r)},${m(g)},${m(b)})`};
-var dealsAl=null;
+var dealsAl=null,dealTab='deals';
 function alCover(al,big){const [c1,c2]=BRAND[al]||['#222','#FDE934'];
   const mark=LOGO[al]?`<img class="dl-lg" src="logos/${al}.png?t=${LOGOV}" alt="">`:`<span class="dl-wm" style="color:${c1}">${AIRLINES[al]}</span>`;
   return `<div class="dl-cv${big?' big':''}" style="background:${c1}"><div class="dl-plate" style="background:${tint(c1,.86)}">${mark}</div><div class="dl-cvb"><b>${AIRLINES[al]}</b><span>${flag(al)}</span></div><i style="background:${c2}"></i></div>`}
+function drawGest(){
+  const e=ECO();$('dlMoney').textContent=money(camp.money);
+  if(!e){$('dlList').innerHTML='<div class="dl-empty">No Fácil não há salários, multas nem contratos com prazo.<br><small style="color:var(--g);font-weight:600">Jogue no Normal ou no Difícil para gerenciar o aeroporto.</small></div>';return}
+  const c=crewCap(),n=c.fuel+c.cat+c.clean,L=camp.lastDay;
+  const own=camp.deals||[],als=[...new Set(own.map(k=>k.slice(0,2)))];camp.dealT=camp.dealT||{};
+  $('dlList').innerHTML=`<div class="gs">
+    <div class="gs-h">Equipes de solo <span>${money(e.wage)} por equipe/dia</span></div>
+    ${Object.keys(CREWNAME).map(k=>`<div class="gs-cr">${ic(k==='fuel'?'fuel':k==='cat'?'food':'clean')}<b>${CREWNAME[k]}</b><button data-cr="${k}" data-v="-1">−</button><em>${c[k]}</em><button data-cr="${k}" data-v="1">+</button></div>`).join('')}
+    <div class="gs-tot"><span>Folha diária · ${n} equipes</span><b>−${money(n*e.wage)}</b></div></div>
+    ${L?`<div class="gs"><div class="gs-h">Ontem</div><div class="gs-row"><span>Receita dos voos</span><b class="p">+${money(L.rev)}</b></div><div class="gs-row"><span>Multas recebidas</span><b class="p">+${money(L.fine)}</b></div><div class="gs-row"><span>Salários</span><b class="n">−${money(L.wage)}</b></div></div>`:''}
+    <div class="gs"><div class="gs-h">Multas de atraso <span>atraso que veio de fora</span></div>
+      <small class="gs-s">Avião que chega +15 min atrasado por culpa da companhia paga multa. Mais de 60 min = fora do slot, multa maior.</small>
+      ${e.policy?`<div class="gs-pol"><button data-pol="0" class="${camp.forgive?'':'on'}">Cobrar</button><button data-pol="1" class="${camp.forgive?'on':''}">Perdoar</button></div><small class="gs-s">${camp.forgive?'Perdoando: a companhia fica mais satisfeita, você não recebe.':'Cobrando: você recebe, mas a companhia fica um pouco irritada.'}</small>`:'<small class="gs-s">No Normal a multa é cobrada automaticamente.</small>'}</div>
+    <div class="gs"><div class="gs-h">Companhias <span>renovação a cada ${RENEW} dias · mínimo ${e.minSat}</span></div>
+      ${als.length?als.map(al=>{const v=Math.round(satOf(al)),ks=own.filter(k=>k.startsWith(al)),nx=Math.min(...ks.map(k=>{const t=camp.dealT[k]!=null?camp.dealT[k]:camp.cur;return RENEW-((camp.cur-t)%RENEW)})),col=v<e.minSat?'var(--r)':v<e.warn?'#ff9f1a':'var(--gr)';
+        return `<div class="gs-al"><span>${flag(al)} <b>${AIRLINES[al]}</b><small>${ks.length} rota${ks.length>1?'s':''} · renova em ${nx} dia${nx>1?'s':''} · taxa ×${revMul(al).toFixed(2)}</small></span><em style="color:${col}">${v}</em><i><b style="width:${v}%;background:${col}"></b></i></div>`}).join(''):'<small class="gs-s">Nenhuma companhia operando ainda.</small>'}
+      <small class="gs-s">Sobe com partida no horário e multa perdoada. Cai com atraso seu, desvio e vaga provisória.</small></div>`;
+}
 function drawDeals(){
+  if(dealTab==='gest')return drawGest();
   const own=new Set(camp.deals||ALL_LINES.filter(l=>l.kp).map(l=>l.k)),L=dealList();
   const btn=(id,p)=>camp.money>=p?`<button class="dl-b" data-buy="${id}">${dealAsk===id?'Confirmar':'Fechar acordo'} · ${money(p)}</button>`:`<span class="dl-p">${money(p)}<small>faltam ${money(p-camp.money)}</small></span>`;
   $('dlMoney').textContent=money(camp.money);
@@ -2125,13 +2182,17 @@ function buyDeal(k){
   if(k==='EXP'){buildExpansion();openDeals(false);return}
   const d=dealList().find(x=>x.k===k);if(!d||camp.money<d.price)return;
   if(!camp.deals)camp.deals=ALL_LINES.filter(l=>l.kp).map(l=>l.k);
-  camp.money-=d.price;camp.deals.push(k);buildLines();
+  camp.money-=d.price;camp.deals.push(k);camp.dealT=camp.dealT||{};camp.dealT[k]=dayOf(now);buildLines();
   let first=null;for(let dd=dayOf(now);dd<=camp.gen;dd++)for(const ln of LINES)if(ln.k===k&&runs(ln,dd)&&dd*1440+ln.arr>now+45){mkRot(ln,dd);const t=dd*1440+ln.arr;if(first==null||t<first)first=t}
   toast(`Acordo fechado: ${AIRLINES[d.al]} ⇄ ${CITY[d.ap]}${first!=null?' · 1º voo '+(dayOf(first)>dayOf(now)?dateLbl(first)+' ':'')+fmt(first):''}`);
   writeKey(AUTO_KEY,false);dirty=true;drawDeals();
 }
 $('dlX').addEventListener('click',()=>openDeals(false));
 $('deals').addEventListener('click',e=>{if(e.target.id==='deals')return openDeals(false);
+  const tb=e.target.closest('[data-dt]');if(tb){dealTab=tb.dataset.dt;dealsAl=null;document.querySelectorAll('.dl-tabs button').forEach(x=>x.classList.toggle('on',x===tb));$('dlSub').textContent=dealTab==='gest'?'Custos, equipes e a relação com as companhias.':'Traga novas rotas para o Galeão. Do mais barato ao mais caro.';drawDeals();$('dlList').scrollTop=0;return}
+  const cr=e.target.closest('[data-cr]');if(cr){const c=crewCap(),k=cr.dataset.cr,v=+cr.dataset.v;if(v<0&&c[k]<=1)return toast('Precisa de pelo menos 1 equipe');if(v>0&&c[k]>=10)return toast('Máximo de 10 equipes');
+    if(v<0&&crewBusy()[k]>=c[k])return toast('Essa equipe está trabalhando agora');c[k]+=v;toast(v>0?`Equipe de ${CREWNAME[k].toLowerCase()} contratada`:`Equipe de ${CREWNAME[k].toLowerCase()} dispensada`);drawDeals();return}
+  const po=e.target.closest('[data-pol]');if(po){camp.forgive=po.dataset.pol==='1';drawDeals();return}
   if(e.target.closest('#dlBack')){dealsAl=null;dealAsk=null;drawDeals();$('dlList').scrollTop=0;return}
   const ca=e.target.closest('[data-al]');if(ca){dealsAl=ca.dataset.al;dealAsk=null;drawDeals();$('dlList').scrollTop=0;return}
   const b=e.target.closest('[data-buy]');if(!b)return;
@@ -2194,7 +2255,7 @@ function tick(t){
   if(dirty){dirty=false;drawUI()}
   if((liteF=(liteF+1)%2)===0)drawPlanes();
   if(mapOpen)drawFM(t);
-  {const ss=Math.floor((now%1)*60),tx=fmt(now)+'|'+ss+'|'+speed;if(tx!==lastClk){lastClk=tx;$('mcT').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('mcS').textContent=dateLbl(now)+' · '+(speed?speed+'×':'PAUSA')}}
+  {const ss=Math.floor((now%1)*60),tx=fmt(now)+'|'+ss+'|'+speed;if(tx!==lastClk){lastClk=tx;$('mcT').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('mcS').textContent=dateLbl(now)+' · '+(speed?speed+'×':'PAUSA');$('clock').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('clockD').textContent=dateLbl(now)}}
   requestAnimationFrame(tick);
 }
 $('abtg').addEventListener('click',()=>{const a=$('abar');a.classList.toggle('min');$('abtg').setAttribute('aria-expanded',!a.classList.contains('min'));drawBar()});
@@ -2330,11 +2391,15 @@ function endDay(){
     <div class="day-row"><span>Pousos / decolagens</span><b>${score.landed} / ${score.departed}</b></div>
     <div class="day-row"><span>Pontualidade</span><b>${pct}</b></div>
     <div class="day-row"><span>Emergências · desvios</span><b>${score.emerg} · ${score.diverted}</b></div>
+    ${ECO()?`<div class="day-row"><span>Receita dos voos</span><b style="color:var(--gr)">+${money(score.rev||0)}</b></div>
+    <div class="day-row"><span>Multas de atraso das companhias</span><b style="color:var(--gr)">+${money(score.fine||0)}</b></div>
+    ${score.forg?`<div class="day-row"><span>Multas perdoadas</span><b>${money(score.forg)}</b></div>`:''}
+    <div class="day-row"><span>Salários das equipes (${(()=>{const c=crewCap();return c.fuel+c.cat+c.clean})()})</span><b style="color:var(--r)">−${money((()=>{const c=crewCap();return (c.fuel+c.cat+c.clean)*ECO().wage})())}</b></div>`:''}
     <div class="day-row"><span>Reputação · caixa</span><b>${camp.rep} · ${money(camp.money)}</b></div>
     <button class="day-go" id="nextDay">Continuar · ${dateLbl((camp.cur+1)*1440)}</button>`;
   $('dayDlg').hidden=false;
 }
-function rollDay(){camp.day++;camp.cur=dayOf(now);genUpTo(camp.cur+1);pruneWorld();score={landed:0,departed:0,onTime:0,lateMin:0,diverted:0,emerg:0};dayOver=false;rowsTab=null}
+function rollDay(){score.wage=payWages();camp.lastDay={rev:score.rev||0,fine:score.fine||0,forg:score.forg||0,wage:score.wage||0,lost:score.lost||null};camp.day++;camp.cur=dayOf(now);renewals();genUpTo(camp.cur+1);pruneWorld();score={landed:0,departed:0,onTime:0,lateMin:0,diverted:0,emerg:0};dayOver=false;rowsTab=null}
 $('dayDlg').addEventListener('click',e=>{if(!e.target.closest('#nextDay'))return;
   rollDay();$('dayDlg').hidden=true;writeKey(AUTO_KEY,false);toast(`${dateLbl(now)} · madrugada no Galeão`);dirty=true});
 /* ---------- piloto automático ---------- */
@@ -2348,7 +2413,7 @@ function autoStep(){
       const s=fr.filter(x=>x.max>=f.cls).sort((a,b)=>(pref?(a.g===pref?0:1)-(b.g===pref?0:1):0)||(a.remote?1:0)-(b.remote?1:0)||a.max-b.max)[0]||fr.filter(x=>!x.remote&&x.max>=f.cls-2).sort((a,b)=>b.max-a.max)[0];
       if(s)assign(f,s)}
     if(f.state==="parked"&&f.blk){const s=STANDS.filter(x=>x.res==null&&x.max>=f.cls).sort((a,b)=>a.max-b.max)[0];if(s)moveTo(f,s)}
-    if(f.state==="parked"&&f.svs&&!f.blk){f.svs.forEach(v=>{if(v.s==null)v.q=true});if(canX(f)&&depEst(f)>f.depSched+10){const b=crewBusy();for(const i of [4,2,3]){const v=f.svs[i],c=CREW[i];if(!v.x&&!v.skip&&!svDone(f,i)&&v.s!=null&&b[c]<D().crews[c]-1){toggleX(f,i);b[c]++}}}}
+    if(f.state==="parked"&&f.svs&&!f.blk){f.svs.forEach(v=>{if(v.s==null)v.q=true});if(canX(f)&&depEst(f)>f.depSched+10){const b=crewBusy();for(const i of [4,2,3]){const v=f.svs[i],c=CREW[i];if(!v.x&&!v.skip&&!svDone(f,i)&&v.s!=null&&b[c]<crewCap()[c]-1){toggleX(f,i);b[c]++}}}}
     if(isReady(f)&&!f.blk)depart(f);
   }
 }

@@ -14,7 +14,7 @@ R("url(maph_tarde.jpg)","url(lite_maph.jpg)");R("url(maph_noite.jpg)","url(lite_
 R("url(map_tarde.jpg)","url(lite_map.jpg)");R("url(map_noite.jpg)","url(lite_map_noite.jpg)")
 R("url(map2_dia.jpg)","url(lite_map2.jpg)");R("url(map2_tarde.jpg)","url(lite_map2.jpg)");R("url(map2_noite.jpg)","url(lite_map2_noite.jpg)")
 R("<title>Departure · Galeão</title>","<title>Departure Lite · Galeão</title>")
-R("<h1>DEPARTURE <span class=\"apt\">","<h1>DEPARTURE <span class=\"apt\">LITE · ")
+R('<span class="apt">GIG · Galeão</span></h1>','<span class="apt">LITE · GIG · Galeão</span></h1>')
 # sem sombras/filtros pesados nos aviões
 R("el.style.filter=`drop-shadow(${-4-34*p.al}px ${5+46*p.al}px ${3+9*p.al}px rgba(0,0,0,${.45-.25*p.al})) brightness(${PB})`;","")
 # desenha aviões a ~30 fps
