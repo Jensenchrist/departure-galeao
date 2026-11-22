@@ -53,17 +53,17 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
 .sign.ok .plate{background:var(--gr);color:var(--k);animation:pulse 1s infinite}
 .sign.no{opacity:.35}
 @keyframes pulse{50%{transform:scale(1.15)}}
-.hit{position:absolute;transform:translate(-50%,-50%);width:17%;height:6.8%;border-radius:10px;z-index:4}
+.hit{position:absolute;transform:translate(-50%,-50%);border-radius:10px;z-index:4}
 .hit:hover{background:rgba(253,233,52,.12)}
 .assign .hit.ok{background:rgba(70,224,122,.18);outline:2px dashed var(--gr)}
 .tag{position:absolute;transform:translate(-50%,0);background:rgba(0,0,0,.82);color:var(--w);font-size:max(7px,min(.85vh,9px));font-weight:700;padding:1px 4px;border-radius:2px;line-height:1.2;white-space:nowrap;border-left:2px solid var(--y);pointer-events:none;z-index:5}
 
 /* luzes de cabeceira */
-.lt{position:absolute;width:.75%;height:.42%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);z-index:2}
+.lt{position:absolute;width:calc(var(--mk,1)*7px);height:calc(var(--mk,1)*7px);border-radius:50%;transform:translate(-50%,-50%);z-index:2}
 .lt.g{background:#5dff8f;box-shadow:0 0 6px 2px #2cff6a}
 .lt.r{background:#ff3b30;box-shadow:0 0 6px 2px #ff1a0d}
 .lt.w{background:#fff;box-shadow:0 0 8px 3px #fff;opacity:0;animation:rabbit 1.2s infinite}
-.lt.reil{width:1.1%;background:#fff;box-shadow:0 0 10px 4px #fff;opacity:0;animation:strobe 1s infinite}
+.lt.reil{width:calc(var(--mk,1)*10px);height:calc(var(--mk,1)*10px);background:#fff;box-shadow:0 0 10px 4px #fff;opacity:0;animation:strobe 1s infinite}
 @keyframes rabbit{0%,12%{opacity:1}20%,100%{opacity:0}}
 @keyframes strobe{0%,8%{opacity:1}14%,100%{opacity:0}}
 .rwy{position:absolute;transform:translate(-50%,-50%);z-index:3;font-weight:800;font-size:max(9px,min(1.2vh,13px));padding:2px 5px;border-radius:3px;white-space:nowrap;text-align:center;line-height:1.1}
@@ -173,20 +173,31 @@ body.land .side.showDetail .stats,body.land .side.showDetail .goals,body.land .s
 body.land .toast{position:fixed;top:auto;bottom:18px;max-width:calc(100% - 150px);left:calc(50% - 30px)}
 body.land .side{top:0;right:0;bottom:0;left:auto;width:min(440px,100%);border-top:0;border-left:3px solid var(--y);transform:translateX(104%)}
 body.land .side.open{transform:none}
-body.land .map{background:none}
-body.land .sky{display:none}
-body.land .sign,body.land .rwy{transform:translate(-50%,-50%) rotate(90deg)}
+body.rot .map{background:none}
+body.rot .sky{display:none}
+body.rot .sign,body.rot .rwy{transform:translate(-50%,-50%) rotate(90deg)}
 body.land .mobileBar{top:50%;transform:translateY(-50%)}
 #bgH{position:absolute;left:0;top:0;transform-origin:0 0;background:url(lite_maph.jpg) center/100% 100% no-repeat;display:none;pointer-events:none}
 #bgH i{position:absolute;top:0;right:0;bottom:0;left:0;opacity:0;background:center/100% 100% no-repeat}
 #skyTh{background-image:url(lite_maph.jpg)!important}#skyNh{background-image:url(lite_maph_noite.jpg)!important}
-body.land #bgH{display:block}
+body.rot #bgH{display:block}
 body.land .rail{top:84px}
 
 @media(max-height:520px){body.land .mobileBar{gap:4px}body.land .mobileBar .tab,body.land .mobileBar .mb{width:40px;height:40px;border-radius:9px}body.land .mobileBar .tab .ico,body.land .mobileBar .mb .ico{width:24px;height:24px}body.land .mobileBar .mb.clockb .clock{font-size:11px}body.land .mobileBar .mb.clockb small{display:none}body.land .rail{top:70px}}
 
 .sky{position:absolute;top:0;right:0;bottom:0;left:0;background:center/100% 100% no-repeat;opacity:0;pointer-events:none}
 #skyT{background-image:url(lite_map.jpg)}#skyN{background-image:url(lite_map_noite.jpg)}
+body.l2 .map{background-image:url(lite_map2.jpg)}body.l2 #skyT{background-image:url(lite_map2.jpg)}body.l2 #skyN{background-image:url(lite_map2_noite.jpg)}
+body.l2 .stage::before{background-image:url(lite_map2.jpg)}
+#glow{position:absolute;top:0;right:0;bottom:0;left:0;background:url(glow1.png) center/100% 100% no-repeat;opacity:var(--nt,.2);pointer-events:none;mix-blend-mode:screen;z-index:1}
+body.l2 #glow{background-image:url(glow2.png)}body.rot #glow{display:none}
+.lt.e{background:#fff7d6;box-shadow:0 0 calc(var(--mk,1)*7px) calc(var(--mk,1)*2px) rgba(255,240,190,.9);opacity:calc(.25 + .75*var(--nt,.2));animation:twk 1.6s steps(1) infinite}
+@keyframes twk{0%{filter:brightness(1)}50%{filter:brightness(.25)}}
+.tlab{position:absolute;display:flex;align-items:center;justify-content:center;background:#000;color:var(--y);font-weight:900;letter-spacing:.08em;border-radius:calc(var(--mk,1)*10px);z-index:3;pointer-events:none;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.5)}
+.expb{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding:10px;border:1px dashed var(--y);border-radius:10px}
+.expb>span{flex:1}.expb small{display:block;color:var(--g);font-size:11px;margin-top:2px}
+.expb button{background:var(--y);color:var(--k);font-weight:800;border-radius:8px;padding:8px 10px;margin-left:8px;white-space:nowrap}
+.expb em{font-style:normal;font-weight:800;color:var(--y);text-align:right;margin-left:8px;font-size:13px}.expb.done{border-style:solid}
 .daypart{display:block;font-size:10px;color:var(--y);font-weight:700}
 /* linguetas laterais */
 .rail{position:absolute;right:0;top:86px;bottom:10px;z-index:11;display:flex;flex-direction:column;align-items:flex-end;gap:6px;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;touch-action:pan-y;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:0 0 12px 8px;pointer-events:auto}
@@ -479,7 +490,7 @@ body.land .rail{top:84px}
 }
 @media(prefers-reduced-motion:reduce){.sign.ok .plate,.lt{animation:none!important}.lt.w,.lt.reil{opacity:.6}}
 .stage::before{content:"";position:absolute;top:-40px;right:-40px;bottom:-40px;left:-40px;background:url(lite_map.jpg) center/cover no-repeat;filter:blur(22px) brightness(.75)}
-body.land .stage::before{background-image:url(lite_maph.jpg)}
+body.rot .stage::before{background-image:url(lite_maph.jpg)}
 /* capa: compatível com Safari antigo (sem gap em flex, altura explícita) */
 .cover{height:100vh;height:100dvh;grid-template-rows:auto minmax(0,1fr) auto}
 .signs>*+*{margin-top:8px}.sgn>*+*{margin-left:12px}.cv-act>*+*{margin-top:8px}
@@ -599,6 +610,7 @@ body.two #fltPg .tg-h b{font-size:19px}
 #fltTab.alert{border-color:var(--r);color:var(--r);animation:mayday .8s infinite}
 /* LITE */
 .lt.w,.lt.reil{animation:none!important;opacity:.7}
+.lt.e{animation:none!important}#glow{display:none}
 #storm{animation:none!important;background:rgba(12,18,34,.45)!important}
 .tg.emerg .tg-h,.sign.ok .plate,.sign.ready .plate,.tg-now{animation:none!important}
 .sign.ready .plate{box-shadow:0 0 0 3px #5dff8f!important}
@@ -621,7 +633,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795314206';
+var APPV='1795316382';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -643,7 +655,7 @@ chk();document.addEventListener('visibilitychange',function(){if(!document.hidde
   <div class="stage" id="stage">
     <button class="zreset" id="zreset" hidden>⤢ Tirar zoom</button><div class="zhint" id="zhint">Dois dedos para aproximar · arraste para os lados</div>
     <div class="map" id="map">
-      <div id="bgH"><i id="skyTh"></i><i id="skyNh"></i></div><div class="sky" id="skyT"></div><div class="sky" id="skyN"></div><div id="lights"></div><div id="fixed"></div>
+      <div id="bgH"><i id="skyTh"></i><i id="skyNh"></i></div><div class="sky" id="skyT"></div><div class="sky" id="skyN"></div><div id="glow"></div><div id="lights"></div><div id="fixed"></div>
       <div id="planes"></div>
     </div>
     <div id="storm"></div><video id="rainVid" src="chuva.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
@@ -734,9 +746,28 @@ var ic=(n,c='')=>`<span class="ico ${c}"><svg viewBox="0 0 24 24" aria-hidden="t
 
 // pista: cabeceira 10 em cima, 28 embaixo
 var TH={"10":60,"28":1590};
-var STANDS=[
- {n:1,x:568,y:290,max:4},{n:2,x:568,y:412,max:4},{n:3,x:568,y:539,max:5},{n:4,x:530,y:659,max:6},{n:5,x:490,y:770,max:7},{n:6,x:508,y:895,max:7},{n:7,x:563,y:1006,max:6},{n:8,x:583,y:1118,max:5},{n:9,x:583,y:1247,max:4},{n:10,x:578,y:1367,max:4},
- {n:11,x:620,y:232,max:4,remote:1,lab:'R1'},{n:12,x:640,y:1440,max:5,remote:1,lab:'R2'}];
+// layouts: 1 = Galeão original (1 pista), 2 = expansão (2 pistas, Terminal 1 e 2)
+var CN2=[224,584,1197,1595,1920];
+var LAYS={
+ 1:{id:1,W:941,H:1672,G:[{id:'A',rx:217,twy:318,lane:362,sg:1,conn:[195,482,975,1308,1560],entry:[330,482,640,845,1085,1257],th:{"10":60,"28":1590},nm:{"10":"10","28":"28"},lt:[181,9,9],reil:[172,263],lbx:140,ap:{"10":[4,18,32,46],"28":[1604,1618,1632,1646,1660]},edge:[181,253]}],
+   labels:[],
+   mk:()=>[{n:1,x:568,y:290,max:4},{n:2,x:568,y:412,max:4},{n:3,x:568,y:539,max:5},{n:4,x:530,y:659,max:6},{n:5,x:490,y:770,max:7},{n:6,x:508,y:895,max:7},{n:7,x:563,y:1006,max:6},{n:8,x:583,y:1118,max:5},{n:9,x:583,y:1247,max:4},{n:10,x:578,y:1367,max:4},
+     {n:11,x:620,y:232,max:4,remote:1,lab:'R1'},{n:12,x:640,y:1440,max:5,remote:1,lab:'R2'}].map(s=>Object.assign(s,{g:'A',sx:s.remote?s.x+14:642,sy:s.remote?s.y+(s.n===11?-46:62):s.y}))},
+ 2:{id:2,W:2006,H:2006,G:[
+   {id:'A',rx:664,twy:552,lane:530,sg:-1,conn:CN2,entry:null,th:{"10":136,"28":1856},nm:{"10":"10L","28":"28R"},lt:[622,10.5,9],reil:[610,718],lbx:578,ap:{"10":[40,64,88,112],"28":[1880,1904,1928,1952,1976]},edge:[620,708]},
+   {id:'B',rx:1067,twy:1200,lane:1228,sg:1,conn:CN2,entry:null,th:{"10":136,"28":1856},nm:{"10":"10R","28":"28L"},lt:[1025,10.5,9],reil:[1013,1121],lbx:1158,ap:{"10":[40,64,88,112],"28":[1880,1904,1928,1952,1976]},edge:[1023,1111]}],
+   labels:[{t:'TERMINAL 2',x:166,y:960,r:-90,w:250,h:74,fs:30},{t:'TERMINAL 1',x:1576,y:1708,r:0,w:250,h:58,fs:30}],
+   mk:()=>{const X=[1432,1432,1440,1424,1376,1392,1440,1472,1472,1488],Y=[371,509,648,784,912,1080,1208,1344,1488,1616],M=[4,4,5,6,7,7,6,5,4,4];
+     const t1=X.map((x,i)=>({n:i+1,x,y:Y[i],max:M[i],g:'B',sx:1576,sy:Y[i]}));
+     const t2=[576,704,832,960,1085,1211].map((y,i)=>({n:11+i,x:397,y,max:[4,4,5,5,4,4][i],g:'A',sx:275,sy:y}));
+     return t1.concat(t2)}}};
+var LAY=LAYS[1],ROTM=false;
+var STANDS=LAY.mk();
+var grpOf=s=>LAY.G.find(g=>g.id===(s&&s.g))||LAY.G[0];
+var gid=id=>LAY.G.find(g=>g.id===id)||LAY.G[0];
+var headOf=s=>grpOf(s).sg>0?90:270;
+var rwLbl=d=>(LAY.G.length>1?'Pistas ':'Pista ')+LAY.G.map(g=>g.nm[d]).join(' / ');
+var rwOf=f=>{const s=f.stand?STANDS[f.stand-1]:null;return (s?grpOf(s):LAY.G[0]).nm[activeRwy()]};
 var SPR=[[192,246],[197,294],[238,338],[226,416],[348,491],[357,546],[515,615]];
 var SC=135/615;
 var SPRB=[[184,251],[202,300],[211,358],[261,440],[322,496],[383,575],[536,641]];
@@ -795,6 +826,7 @@ var DOMF=[["GRU",["LA","G3","AD","LA","G3","AD","LA","G3"],[1,2,3]],["CGH",["LA"
  ["CNF",["AD","G3","LA"],[1,2]],["SSA",["G3","AD","LA"],[2,3]],["REC",["AD","TR","LA"],[2,3]],["POA",["RG","G3"],[2,3]],["CWB",["AD","G3"],[1,2]],["FOR",["LA","G3"],[2,3]],
  ["FLN",["AD","G3"],[1,2]],["VIX",["AD","LA"],[1,2]],["GYN",["AD"],[1,2]],["CGB",["G3"],[2]],["CGR",["AD"],[1,2]],["BEL",["LA"],[2,3]],["MAO",["VP"],[3,4]],["SLZ",["G3"],[2]],
  ["THE",["G3"],[2]],["NAT",["LA"],[2,3]],["JPA",["G3"],[2]],["MCZ",["AD"],[1,2]],["AJU",["G3"],[2]],["PMW",["AD"],[1]],["PVH",["LA"],[2]],["RBR",["LA"],[2]],["BVB",["G3"],[2]],["MCP",["G3"],[2]]];
+var DOMAP=new Set(DOMF.map(x=>x[0]));
 var NIGHT=["MAO","BEL","FOR","REC","SSA","POA","CWB","BSB","CNF"];
 // internacionais: [cia, aeroporto, classes, dias (Dom..Sáb) ou q3 = a cada 3 dias, chegada no Galeão]
 var INTL=[["TP","LIS",[5,6],"1111111","19:10"],["EK","DXB",[7,6],"1111111","17:40"],["QR","DOH",[6,5],"1111111","18:30"],["AF","CDG",[6,5],"1111111","20:05"],
@@ -879,7 +911,7 @@ var map=$('map'),fixed=$('fixed'),planesEl=$('planes'),board=$('board'),detail=$
 function reset(){
   const td=new Date();camp.t0=new Date(td.getFullYear(),td.getMonth(),td.getDate()).getTime();
   camp.seed=Math.floor(Math.random()*1e9);camp.gen=-2;camp.cur=0;camp.pend=[];
-  storms=[];dayOver=false;flights=[];STANDS.forEach(s=>s.res=null);
+  storms=[];dayOver=false;flights=[];setLayout(camp.lay||1);STANDS.forEach(s=>s.res=null);
   buildLines();now=toMin("05:52");genUpTo(1);
   // estado inicial: quem já partiu está voando; quem já chegou está no pátio (pernoite)
   for(const f of flights){
@@ -888,7 +920,7 @@ function reset(){
       if(!st){f.state="gone";f.tOff=now-f.dur-1;continue}
       st.res=f.i;f.stand=st.n;f.state="parked";f.tPark=now;f.pre=1;f.fuelArr=8+Math.round(Math.random()*10);initSvc(f)}
   }
-  runwayFree=0;sel=null;assignFor=null;lastWind=-1;document.body.classList.toggle('auto',!!camp.auto);
+  runwayFree={A:0,B:0};sel=null;assignFor=null;lastWind=-1;document.body.classList.toggle('auto',!!camp.auto);
   score={landed:0,departed:0,onTime:0,lateMin:0,diverted:0,emerg:0};
   planeEls.forEach(e=>e.remove());planeEls.clear();
   side.classList.remove('showDetail');
@@ -909,7 +941,7 @@ function mkPath(start,segs,t0,startH=0){
 }
 var dist=(a,b)=>Math.hypot(b[0]-a[0],b[1]-a[1]);
 var sn=n=>n==null?'--':((STANDS[n-1]&&STANDS[n-1].lab)||pad(n));
-var parkPos=(f,s)=>[s.x-spr(f)[f.cls-1][1]*SC/2,s.y];
+var parkPos=(f,s)=>[s.x-grpOf(s).sg*spr(f)[f.cls-1][1]*SC/2,s.y];
 
 /* rede de pistas de táxi, seguindo as linhas amarelas do mapa */
 var TWY=318;                                  // taxiway paralela (entre a grama e o pátio)
@@ -918,41 +950,43 @@ var ENTRY=[330,482,640,845,1085,1257];        // ligações taxiway ↔ faixa do
 var TD={"10":TH["10"]+200,"28":TH["28"]-200}; // ponto de toque
 var DEP={"10":195,"28":1560};                 // saída usada para decolar
 var nearest=(arr,y)=>arr.reduce((a,b)=>Math.abs(b-y)<Math.abs(a-y)?b:a);
-function viaApron(fromT,s){                     // da taxiway até a posição
-  const e=nearest(ENTRY,s.y);
-  return [[TWY,e],[LANE,e],[LANE,s.y]];
+function viaApron(g,s){                         // da taxiway até a posição
+  if(!g.entry)return [[g.twy,s.y],[g.lane,s.y]];
+  const e=nearest(g.entry,s.y);
+  return [[g.twy,e],[g.lane,e],[g.lane,s.y]];
 }
 function landingPath(f,r,s){
-  const down=r==="10",dir=down?1:-1,td=TD[r],minRoll=250+f.cls*40;
-  const ok=CONN.filter(c=>down?c>=td+minRoll:c<=td-minRoll&&c>TH["10"]+100);
+  const g=grpOf(s),CONN=g.conn,RX=g.rx;
+  const down=r==="10",dir=down?1:-1,td=g.th[r]+(down?200:-200),minRoll=250+f.cls*40;
+  const ok=CONN.filter(c=>down?c>=td+minRoll:c<=td-minRoll&&c>g.th["10"]+100);
   // aviões grandes (classe 5+) usam a pista toda e saem no fim; os médios saem no meio
   const endC=down?CONN[CONN.length-1]:CONN[0];
-  const c=f.cls>=5?endC:f.cls>=3?(down?975:482):(ok.length?ok.reduce((a,b)=>Math.abs(b-s.y)<Math.abs(a-s.y)?b:a):endC);
+  const c=f.cls>=5?endC:f.cls>=3?(down?CONN[2]:CONN[1]):(ok.length?ok.reduce((a,b)=>Math.abs(b-s.y)<Math.abs(a-s.y)?b:a):endC);
   const p=parkPos(f,s);
-  const pts=[[RX,c-dir*28],[262,c],[TWY,c],...viaApron([TWY,c],s)];
+  const pts=[[RX,c-dir*28],[RX+g.sg*45,c],[g.twy,c],...viaApron(g,s)];
   const segs=[{b:[RX,td],d:1.6,s0:1.9,s:1,a0:1,al:0},{b:pts[0],d:Math.max(.9,Math.abs(pts[0][1]-td)/480),e:'out'}];
   let prev=pts[0];
   for(const q of pts.slice(1)){const d=dist(prev,q);if(d>1)segs.push({b:q,d:Math.max(.08,d/280)});prev=q}
   segs.push({b:p,d:Math.max(.2,dist(prev,p)/180),e:'out'});
-  const P=mkPath([RX,down?-320:H+320],segs,now,down?180:0);
+  const P=mkPath([RX,down?-320:H+320],segs,now,down?180:0);f.g=g.id;
   P.offRwy=P.segs[2].t+P.segs[2].d;            // pista livre ao chegar na taxiway
   return P;
 }
 function taxiOutPath(f,r,s){
-  const p=parkPos(f,s),c=DEP[r],e=nearest(ENTRY,s.y);
-  const pts=[[LANE,s.y],[LANE,e],[TWY,e],[TWY,c],[285,c]];
-  const segs=[{b:pts[0],d:1,e:'io',h:90}];let prev=pts[0];
+  const g=grpOf(s),hd=headOf(s),p=parkPos(f,s),c=r==="10"?g.conn[0]:g.conn[g.conn.length-1];f.g=g.id;
+  const pts=g.entry?(()=>{const e=nearest(g.entry,s.y);return [[g.lane,s.y],[g.lane,e],[g.twy,e],[g.twy,c],[g.rx+g.sg*68,c]]})():[[g.lane,s.y],[g.twy,s.y],[g.twy,c],[g.rx+g.sg*68,c]];
+  const segs=[{b:pts[0],d:1,e:'io',h:hd}];let prev=pts[0];
   for(const q of pts.slice(1)){const d=dist(prev,q);if(d>1)segs.push({b:q,d:Math.max(.08,d/260)});prev=q}
-  return mkPath(p,segs,now,90);
+  return mkPath(p,segs,now,hd);
 }
 function takeoffPath(f,r){
-  const down=r==="10",c=DEP[r];
-  return mkPath([285,c],[
+  const g=gid(f.g),RX=g.rx,down=r==="10",c=down?g.conn[0]:g.conn[g.conn.length-1];
+  return mkPath([RX+g.sg*68,c],[
     {b:[RX,c],d:.5,e:'out'},
     {b:[RX,c+(down?2:-2)],d:.15,h:down?180:0},
-    {b:[RX,down?1000:650],d:1,e:'in'},
+    {b:[RX,down?c+810:c-900],d:1,e:'in'},
     {b:[RX,down?H+320:-320],d:.8,s:1.8,al:1}
-  ],now,270);
+  ],now,g.sg>0?270:90);
 }
 function pose(f){
   const P=f.path;if(!P)return null;
@@ -1033,8 +1067,8 @@ function step(){
         if(!f.emerg&&left<=8){f.emerg=true;score.emerg++;toast(`MAYDAY · ${f.arrNo} com pouco combustível!`);if(pk('mayday')!=='off'&&now-(lastMay||-99)>20){lastMay=now;play(pk('mayday'),{dur:2})}}
         else if(f.emerg&&left<=-4)divert(f);
         dirty=true}
-      else if(now<runwayFree){f.eta=runwayFree+1.3}
-      else{f.rwy=r;f.path=landingPath(f,r,STANDS[f.stand-1]);f.state="arriving";runwayFree=f.path.offRwy+.2;jet("approach");dirty=true}
+      else if(now<(runwayFree[grpOf(STANDS[f.stand-1]).id]||0)){f.eta=runwayFree[grpOf(STANDS[f.stand-1]).id]+1.3}
+      else{f.rwy=r;f.path=landingPath(f,r,STANDS[f.stand-1]);f.state="arriving";runwayFree[f.g]=f.path.offRwy+.2;jet("approach");dirty=true}
     }
     if(f.state==="arriving"&&!f.tdSnd&&now>=f.path.segs[1].t){f.tdSnd=true;jet("touchdown");jet("brake");smoke(f)}
     if(f.state==="arriving"&&now>=f.path.end){if(pk('estaciona')!=='off')play('turbina_desliga',{vol:.6,dur:14});f.state="parked";f.tPark=now;f.path=null;score.landed++;initSvc(f);
@@ -1050,9 +1084,9 @@ function step(){
       if(s.res===f.i&&now>=f.path.segs[0].t+f.path.segs[0].d){s.res=null;dirty=true}
       if(now>=f.path.end){f.state="lineup";dirty=true}
     }
-    if(f.state==="lineup"&&now>=runwayFree&&!stormNow()){
-      const incoming=flights.some(o=>o.state==="arriving"&&now<o.path.segs[1].t+o.path.segs[1].d);
-      if(!incoming){f.path=takeoffPath(f,f.rwy);f.state="takeoff";runwayFree=now+2;dirty=true}
+    if(f.state==="lineup"&&now>=(runwayFree[f.g]||0)&&!stormNow()){
+      const incoming=flights.some(o=>o.state==="arriving"&&(o.g||'A')===(f.g||'A')&&now<o.path.segs[1].t+o.path.segs[1].d);
+      if(!incoming){f.path=takeoffPath(f,f.rwy);f.state="takeoff";runwayFree[f.g||'A']=now+2;dirty=true}
     }
     if(f.state==="takeoff"&&!f.toSnd&&now>=f.path.segs[2].t){f.toSnd=true;jet("takeoff")}
     if(f.state==="takeoff"&&now>=f.path.end){
@@ -1073,7 +1107,7 @@ function stormStep(){
 function depart(f){
   if(!isReady(f))return;
   if(pk('partida')!=='off')play('motor_partida',{vol:.7,dur:16});f.tPush=now;f.rwy=activeRwy();f.state="departing";f.path=taxiOutPath(f,f.rwy,STANDS[f.stand-1]);
-  toast(`${f.depNo} liberado · taxiando para a cabeceira ${f.rwy}`);dirty=true;
+  toast(`${f.depNo} liberado · taxiando para a cabeceira ${gid(f.g).nm[f.rwy]}`);dirty=true;
 }
 function assign(f,s){
   if(f.state==="parked"){return moveTo(f,s)}
@@ -1094,8 +1128,12 @@ function moveTo(f,s){
   if(s.max<f.cls)return toast(`Posição ${sn(s.n)} não serve: ${f.depNo} é classe ${f.cls}`);
   if(s.res!=null)return toast(`Posição ${sn(s.n)} está ocupada`);
   const old=STANDS[f.stand-1];old.res=null;s.res=f.i;f.stand=s.n;f.blk=false;assignFor=null;
-  const a=parkPos(f,old),b=parkPos(f,s);
-  f.path=mkPath(a,[{b:[LANE,old.y],d:1,e:'io',h:90},{b:[LANE,s.y],d:Math.max(.2,Math.abs(s.y-old.y)/260)},{b,d:Math.max(.3,dist([LANE,s.y],b)/180),e:'out'}],now,90);
+  const a=parkPos(f,old),b=parkPos(f,s),gO=grpOf(old),gN=grpOf(s),hd=headOf(old);
+  let pts;if(gO===gN)pts=[[gO.lane,s.y]];else{const c=nearest(gO.conn,old.y);pts=[[gO.lane,c],[gO.twy,c],[gN.twy,c],[gN.lane,c],[gN.lane,s.y]]}
+  const segs=[{b:[gO.lane,old.y],d:1,e:'io',h:hd}];let prev=[gO.lane,old.y];
+  for(const q of pts){const d=dist(prev,q);if(d>1)segs.push({b:q,d:Math.max(.2,d/260)});prev=q}
+  segs.push({b,d:Math.max(.3,dist(prev,b)/180),e:'out'});
+  f.path=mkPath(a,segs,now,hd);
   f.state="moving";f.svs=null;toast(`${f.depNo} taxiando para a posição ${sn(s.n)}`);dirty=true;
 }
 
@@ -1134,22 +1172,24 @@ function depStatus(f){
 /* ---------- desenho do mapa ---------- */
 function drawLights(){
   const r=activeRwy(),w=windNow();let h='';
-  // luzes de cabeceira: verde na cabeceira de pouso, vermelha no fim da pista
-  for(const end of ["10","28"]){
-    const y=TH[end],on=end===r&&!stormNow();
-    for(let i=0;i<9;i++)h+=`<i class="lt ${on?'g':'r'}" style="left:${(181+i*9)/W*100}%;top:${y/H*100}%"></i>`;
-    if(on){
-      const ys=end==="10"?[4,18,32,46]:[1604,1618,1632,1646,1660];
-      const ord=end==="10"?ys:[...ys].reverse();
-      ord.forEach((yy,k)=>h+=`<i class="lt w" style="left:${RX/W*100}%;top:${yy/H*100}%;animation-delay:${(k*.12).toFixed(2)}s"></i>`);
-      h+=`<i class="lt reil" style="left:${172/W*100}%;top:${y/H*100}%"></i><i class="lt reil" style="left:${263/W*100}%;top:${y/H*100}%"></i>`;
+  // luzes de cabeceira (verde = pouso, vermelha = fim), luzes de borda piscando, sequenciais de aproximação
+  for(const g of LAY.G){
+    for(let y=g.th["10"]+40,k=0;y<g.th["28"]-20;y+=88,k++)for(const x of g.edge)h+=`<i class="lt e" style="left:${x/W*100}%;top:${y/H*100}%;animation-delay:${(k%2)*.8}s"></i>`;
+    for(const end of ["10","28"]){
+      const y=g.th[end],on=end===r&&!stormNow();
+      for(let i=0;i<g.lt[2];i++)h+=`<i class="lt ${on?'g':'r'}" style="left:${(g.lt[0]+i*g.lt[1])/W*100}%;top:${y/H*100}%"></i>`;
+      if(on){
+        const ys=g.ap[end],ord=end==="10"?ys:[...ys].reverse();
+        ord.forEach((yy,k)=>h+=`<i class="lt w" style="left:${g.rx/W*100}%;top:${yy/H*100}%;animation-delay:${(k*.12).toFixed(2)}s"></i>`);
+        h+=`<i class="lt reil" style="left:${g.reil[0]/W*100}%;top:${y/H*100}%"></i><i class="lt reil" style="left:${g.reil[1]/W*100}%;top:${y/H*100}%"></i>`;
+      }
+      h+=`<div class="rwy ${on?'on':'off'}" style="left:${g.lbx/W*100}%;top:${(end==="10"?y+40:y-40)/H*100}%">${g.nm[end]}<br>${stormNow()?'FECHADA':on?'POUSO':'FIM'}</div>`;
     }
-    h+=`<div class="rwy ${on?'on':'off'}" style="left:${140/W*100}%;top:${(end==="10"?y+40:y-40)/H*100}%">${end}<br>${stormNow()?'FECHADA':on?'POUSO':'FIM'}</div>`;
   }
   $('lights').innerHTML=h;h='';
   // indicador de vento (seta = para onde o vento sopra, no referencial do mapa)
-  const ang=w[1]+260-(LAND?90:0);
-  $('windBox').innerHTML=`<div class="wind"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="#555"/><g transform="rotate(${ang} 20 20)"><path d="M20 5 L26 16 H22 V33 H18 V16 H14 Z" fill="#FDE934"/></g></svg><div><b>Vento ${String(w[1]).padStart(3,'0')}° · ${w[2]} kt</b><small>${stormNow()?`⛈ Pista fechada até ${fmt(stormNow().e)}`:`Pista ${r} em uso`}</small><span class="daypart" id="dpart"></span></div></div>`;
+  const ang=w[1]+260-(ROTM?90:0);
+  $('windBox').innerHTML=`<div class="wind"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="#555"/><g transform="rotate(${ang} 20 20)"><path d="M20 5 L26 16 H22 V33 H18 V16 H14 Z" fill="#FDE934"/></g></svg><div><b>Vento ${String(w[1]).padStart(3,'0')}° · ${w[2]} kt</b><small>${stormNow()?`⛈ Pista fechada até ${fmt(stormNow().e)}`:`${rwLbl(r)} em uso`}</small><span class="daypart" id="dpart"></span></div></div>`;
 }
 function drawFixed(){
   // plaquinhas e áreas de clique
@@ -1164,9 +1204,10 @@ function drawFixed(){
     else if(f&&f.state!=="parked")c=' reserved';
     const pk=f&&f.state==="parked"&&f.svs?f:null;
     const pc=pk?Math.round(pk.svs.reduce((a,v,i)=>a+svP(pk,i)*v.d,0)/pk.svs.reduce((a,v)=>a+v.d,0)*100):null;
-    h+=`<div class="sign${c}" style="left:${(s.remote?s.x+14:SIGNX)/W*100}%;top:${(s.remote?s.y+(s.n===11?-46:62):s.y)/H*100}%">${pc!=null?`<div class="pct${pc>=100?' full':''}">${pc}%</div>`:''}<div class="plate">${s.lab||s.n}</div><div class="cls">${s.remote?'REMOTA · ':''}MAX ${s.max}</div></div>`;
-    h+=`<button class="hit${c.includes('ok')?' ok':c.includes('tmp')?' tmp':''}" data-stand="${s.n}" aria-label="Posição ${s.n}" style="left:${(s.x-62)/W*100}%;top:${s.y/H*100}%"></button>`;
+    h+=`<div class="sign${c}" style="left:${s.sx/W*100}%;top:${s.sy/H*100}%">${pc!=null?`<div class="pct${pc>=100?' full':''}">${pc}%</div>`:''}<div class="plate">${s.lab||s.n}</div><div class="cls">${s.remote?'REMOTA · ':''}MAX ${s.max}</div></div>`;
+    h+=`<button class="hit${c.includes('ok')?' ok':c.includes('tmp')?' tmp':''}" data-stand="${s.n}" aria-label="Posição ${s.n}" style="left:${(s.x-grpOf(s).sg*62)/W*100}%;top:${s.y/H*100}%;width:${160/W*100}%;height:${114/H*100}%"></button>`;
   });
+  LAY.labels.forEach(l=>h+=`<div class="tlab" style="left:${l.x/W*100}%;top:${l.y/H*100}%;width:calc(var(--mk)*${l.w}px);height:calc(var(--mk)*${l.h}px);font-size:calc(var(--mk)*${l.fs}px);transform:translate(-50%,-50%) rotate(${l.r}deg)">${l.t}</div>`);
   map.classList.toggle('assign',!!af);
   fixed.innerHTML=h;
 }
@@ -1191,7 +1232,7 @@ function drawPlanes(){
   for(const f of flights){
     let p=null;
     if(f.path)p=pose(f);
-    else if(f.state==="parked"){const q=parkPos(f,STANDS[f.stand-1]);p={x:q[0],y:q[1],h:90,s:1,al:0}}
+    else if(f.state==="parked"){const st=STANDS[f.stand-1];if(!st)continue;const q=parkPos(f,st);p={x:q[0],y:q[1],h:headOf(st),s:1,al:0}}
     if(!p||f.state==="gone")continue;
     live.add(f.i);
     let el=planeEls.get(f.i);
@@ -1203,7 +1244,7 @@ function drawPlanes(){
     
     el.firstChild.style.transform=`rotate(${p.h}deg) scale(${p.s})`;
     const tg=el.lastChild,show=sel&&sel.i===f.i;
-    tg.hidden=!show;if(show){tg.textContent=`${f.state==="arriving"?f.arrNo:f.depNo}`;const [sw,sl]=spr(f)[f.cls-1],hr=p.h*Math.PI/180,half=(Math.abs(Math.cos(hr))*sl+Math.abs(Math.sin(hr))*sw)/2*p.s;tg.style.cssText=LAND?(()=>{const hx=(Math.abs(Math.sin(hr))*sl+Math.abs(Math.cos(hr))*sw)/2*p.s;return `left:${50-hx/sw*100-6}%;top:50%;transform:translate(-50%,-50%) rotate(90deg)`})():`left:50%;top:${50+half/sl*100+3}%`}
+    tg.hidden=!show;if(show){tg.textContent=`${f.state==="arriving"?f.arrNo:f.depNo}`;const [sw,sl]=spr(f)[f.cls-1],hr=p.h*Math.PI/180,half=(Math.abs(Math.cos(hr))*sl+Math.abs(Math.sin(hr))*sw)/2*p.s;tg.style.cssText=ROTM?(()=>{const hx=(Math.abs(Math.sin(hr))*sl+Math.abs(Math.cos(hr))*sw)/2*p.s;return `left:${50-hx/sw*100-6}%;top:50%;transform:translate(-50%,-50%) rotate(90deg)`})():`left:50%;top:${50+half/sl*100+3}%`}
   }
   for(const [i,el] of planeEls)if(!live.has(i)){el.remove();planeEls.delete(i)}
 }
@@ -1239,11 +1280,15 @@ function goals(){
           {t:'Pontualidade de 80%',v:score.departed?Math.round(pct)+'%':'--',ok:score.departed>=5&&pct>=80},
           {t:'Nenhum desvio',v:score.diverted?score.diverted+' desvio'+(score.diverted>1?'s':''):'ok',ok:score.diverted===0}];
 }
+var expAsk=false;
+$('goals').addEventListener('click',e=>{if(!e.target.closest('#expGo'))return;if(!expAsk){expAsk=true;setTimeout(()=>{expAsk=false;dirty=true},4000);dirty=true;return}expAsk=false;buildExpansion()});
 function drawStats(){
   const pct=score.departed?Math.round(score.onTime/score.departed*100)+'%':'--';
   $('campl').innerHTML=`<span>${dateLbl(now)} · ${D().name}</span><span>★ ${camp.stars}</span><span>${money(camp.money)}</span>`;
   $('stats').innerHTML=`<div><small>Pousos</small><b>${score.landed}</b></div><div><small>Decolagens</small><b>${score.departed}</b></div><div><small>Pontualidade</small><b>${pct}</b></div><div><small>Reputação</small><b class="${camp.rep<40?'bad':''}">${camp.rep}</b></div>`;
-  $('goals').innerHTML='<small>Metas do dia</small>'+goals().map(g=>`<div class="${g.ok?'ok':''}"><i>${g.ok?'✓':'○'}</i>${g.t}<b>${g.v}</b></div>`).join('');
+  $('goals').innerHTML='<small>Metas do dia</small>'+goals().map(g=>`<div class="${g.ok?'ok':''}"><i>${g.ok?'✓':'○'}</i>${g.t}<b>${g.v}</b></div>`).join('')+
+    (LAY.id===1?`<div class="expb"><span><b>🏗 Expansão do Galeão</b><small>Terminal 2 com 6 portões + 2ª pista paralela (10L/28R)</small></span>${camp.money>=EXP_PRICE?`<button id="expGo">${expAsk?'Confirmar · ':'Construir · '}${money(EXP_PRICE)}</button>`:`<em>${money(EXP_PRICE)}<br><small>faltam ${money(EXP_PRICE-camp.money)}</small></em>`}</div>`
+      :`<div class="expb done"><span><b>Galeão ampliado</b><small>2 pistas · Terminal 1 (10 portões) e Terminal 2 (6 portões)</small></span></div>`);
   $('clock').textContent=$('clock2').textContent=fmt(now);
 }
 /* ---------- painel split-flap ---------- */
@@ -1455,7 +1500,7 @@ function drawSvcView(f){
   <div class="crews">Equipes livres: ${Object.keys(CREWNAME).map(c=>`<span>${CREWNAME[c]} <b>${cap[c]>8?'∞':Math.max(0,cap[c]-busy[c])+'/'+cap[c]}</b></span>`).join('')}</div>
   <div class="auto"><div class="auto-h"><span>Autonomia até ${f.ap}</span><b class="${fu>=need?'ok':'bad'}">${Math.round(fu)} / ${need} min</b></div>${fuelBar(f,true)}
     <small>${fu>=need?'Combustível suficiente para o voo + reserva':'Faltam '+Math.ceil(need-fu)+' min de voo · abasteça antes de partir'}</small></div>
-  <button class="go" id="go" ${ready?'':'disabled'}>${ic('dep','dk')}${ready?'Partir · pista '+activeRwy():'Aguardando serviços'}</button>`;
+  <button class="go" id="go" ${ready?'':'disabled'}>${ic('dep','dk')}${ready?'Partir · pista '+rwOf(f):'Aguardando serviços'}</button>`;
   side.classList.add('showDetail');
 }
 function drawDetail(){
@@ -1480,7 +1525,7 @@ function drawDetail(){
     const est=depEst(f),late=Math.round(est-f.depSched);
     extra=`<div class="svc"><h3>Serviços em solo <span>Posição ${sn(f.stand)} · ${f.ground} min</span></h3>${rows}
       <div class="depinfo"><span>Partida prevista <b>${fmt(f.depSched)}</b></span><span>${late>15?`Atraso estimado <b style="color:var(--r)">+${late} min</b>`:'<b style="color:var(--gr)">No horário</b>'}</span></div>
-      <button class="go" id="go" ${ready?'':'disabled'}>${ic('dep','dk')}${ready?'Partir · pista '+activeRwy():'Aguardando serviços'}</button></div>`;
+      <button class="go" id="go" ${ready?'':'disabled'}>${ic('dep','dk')}${ready?'Partir · pista '+rwOf(f):'Aguardando serviços'}</button></div>`;
   }
   detail.innerHTML=`
   <button class="back" id="back">← Voltar ao painel</button>
@@ -1717,7 +1762,7 @@ function drawFMPanel(){
       <div class="w"><small>Chega em</small><b class="y">${remH?remH+'h ':''}${remM} min</b></div>
     </div>`;
   const w=windNow();
-  $('fmWx').innerHTML=`<div><b>${pr.phase}</b>Vento no Galeão ${String(w[1]).padStart(3,'0')}° · ${w[2]} kt · pista ${activeRwy()} em uso</div>
+  $('fmWx').innerHTML=`<div><b>${pr.phase}</b>Vento no Galeão ${String(w[1]).padStart(3,'0')}° · ${w[2]} kt · ${rwLbl(activeRwy()).toLowerCase()} em uso</div>
     <div class="trk"><i class="ln"></i><i class="dn" id="trkDone"></i><span class="ep l">${o.from}</span><span class="ep r">${o.to}</span><svg id="trkPl" viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" transform="rotate(90 12 12)"/></svg></div>`;
 }
 function openMap(f){
@@ -1800,8 +1845,8 @@ map.addEventListener('click',e=>{
   detailMode='data';openFlight(f,"arr");
 });
 function showPop(f,s){
-  const q=parkPos(f,s),sc=bw/941*zk,[x,y]=toScreen(q[0],q[1]),pop=$('pop');
-  pop.style.left=x+'px';pop.style.top=(y-spr(f)[f.cls-1][LAND?1:0]*SC*sc*.5-8)+'px';pop.dataset.f=f.i;
+  const q=parkPos(f,s),sc=bw/W*zk,[x,y]=toScreen(q[0],q[1]),pop=$('pop');
+  pop.style.left=x+'px';pop.style.top=(y-spr(f)[f.cls-1][ROTM?1:0]*SC*sc*.5-8)+'px';pop.dataset.f=f.i;
   pop.querySelector('.pop-t').textContent=f.depNo;pop.hidden=false;
 }
 $('pop').addEventListener('click',e=>{const b=e.target.closest('[data-pm]');if(!b)return;const f=flights[+$('pop').dataset.f];$('pop').hidden=true;
@@ -1824,15 +1869,15 @@ var stage=$('stage'),abar=$('abar');
 var zk=1,ZX=0,ZY=0,bw=1,bh=1,SW=1,SH=1,barH=0,laidOut=false;
 // celular: o mapa cobre a tela inteira; computador: ocupa a altura toda
 var LAND=false;
-var dispW=()=>(LAND?bh:bw),dispH=()=>(LAND?bw:bh);
+var dispW=()=>(ROTM?bh:bw),dispH=()=>(ROTM?bw:bh);
 function layoutMap(){
   const r=stage.getBoundingClientRect();SW=r.width;SH=r.height;
   barH=0;
-  const sc=LAND?(SW/SH>1672/941*1.12?SW/1672:Math.min(SW/1672,SH/941)):(SW/SH<941/1672*1.15?Math.max(SW/941,SH/1672):SH/1672);
+  const sc=ROTM?(SW/SH>H/W*1.12?SW/H:Math.min(SW/H,SH/W)):(SW/SH<W/H*1.15?Math.max(SW/W,SH/H):SH/H);
   const cu=(SW/2-ZX)/(dispW()*zk),cv=(SH/2-ZY)/(dispH()*zk);
-  bw=941*sc;bh=1672*sc;map.style.width=bw+'px';map.style.height=bh+'px';
+  bw=W*sc;bh=H*sc;map.style.width=bw+'px';map.style.height=bh+'px';map.style.setProperty('--mk',(bw/W).toFixed(4));
   const bg=$('bgH');bg.style.width=bh+'px';bg.style.height=bw+'px';bg.style.transform=`translateX(${bw}px) rotate(90deg)`;
-  if(!laidOut){ZX=(SW-dispW())/2;ZY=LAND?(SH-dispH())/2:0;laidOut=true}else{ZX=SW/2-cu*dispW()*zk;ZY=SH/2-cv*dispH()*zk}
+  if(!laidOut){ZX=(SW-dispW())/2;ZY=ROTM?(SH-dispH())/2:0;laidOut=true}else{ZX=SW/2-cu*dispW()*zk;ZY=SH/2-cv*dispH()*zk}
   clampZ();applyZ();
 }
 function clampZ(){
@@ -1841,21 +1886,40 @@ function clampZ(){
   ZY=dh<=avail?(avail-dh)/2:clamp(ZY,avail-dh,0);
   $('zreset').hidden=zk<1.02;
 }
-var canPan=()=>zk>1.02;
-function applyZ(){map.style.transform=`translate(${ZX}px,${ZY}px) scale(${zk})`+(LAND?` translateY(${bw}px) rotate(-90deg)`:'')}
+var canPan=()=>zk>1.02||(LAY.id===2&&(dispW()*zk>SW+4||dispH()*zk>SH+4));
+function applyZ(){map.style.transform=`translate(${ZX}px,${ZY}px) scale(${zk})`+(ROTM?` translateY(${bw}px) rotate(-90deg)`:'')}
 function zoomAt(px,py,nk){const u=(px-ZX)/zk,v=(py-ZY)/zk;zk=clamp(nk,1,4);ZX=px-u*zk;ZY=py-v*zk;clampZ();applyZ()}
 // local (mapa vertical) → tela
-function toScreen(x,y){const s=bw/941*zk;return LAND?[ZX+y*s,ZY+(941-x)*s]:[ZX+x*s,ZY+y*s]}
+function toScreen(x,y){const s=bw/W*zk;return ROTM?[ZX+y*s,ZY+(W-x)*s]:[ZX+x*s,ZY+y*s]}
+function setLayout(id){
+  LAY=LAYS[id]||LAYS[1];W=LAY.W;H=LAY.H;STANDS=LAY.mk();
+  ROTM=LAND&&LAY.id===1;document.body.classList.toggle('rot',ROTM);document.body.classList.toggle('l2',LAY.id===2);
+  planeEls.forEach(e=>e.remove());planeEls.clear();laidOut=false;zk=1;layoutMap();drawLights();dirty=true;
+}
+// obra concluída: os aviões passam para o aeroporto novo (portões 1–10 no Terminal 1, remotas no Terminal 2)
+var EXP_PRICE=1500000;
+function buildExpansion(){
+  if(LAY.id===2||camp.money<EXP_PRICE)return;
+  camp.money-=EXP_PRICE;camp.lay=2;setLayout(2);
+  for(const f of flights){
+    if(f.stand!=null&&f.stand>STANDS.length)f.stand=null;
+    if(f.state==="arriving"||f.state==="moving"){if(f.state==="arriving")score.landed++;f.path=null;f.state="parked";f.tPark=now;f.svs=null;initSvc(f)}
+    if(["departing","lineup","takeoff"].includes(f.state)){f.path=null;f.state="gone";f.tOff=now;score.departed++;linkNext(f);f.stand=null}
+    if(f.stand!=null&&["parked","approach","holding","inbound"].includes(f.state)){const st=STANDS[f.stand-1];st.res=f.i;f.blk=st.max<f.cls;if(f.state==="parked")f.g=st.g}
+  }
+  runwayFree={A:0,B:0};rowsTab=null;writeKey(AUTO_KEY,false);
+  toast('🏗 Expansão inaugurada · Terminal 2 e pista 10L/28R em operação!');dirty=true;
+}
 function checkLand(){
   const l=innerWidth>=700&&innerWidth>innerHeight*1.15;
-  if(l!==LAND){LAND=l;document.body.classList.toggle('land',l);laidOut=false;zk=1;layoutMap();if(typeof drawLights==='function')drawLights();dirty=true}
+  if(l!==LAND){LAND=l;ROTM=LAND&&LAY.id===1;document.body.classList.toggle('land',l);document.body.classList.toggle('rot',ROTM);laidOut=false;zk=1;layoutMap();if(typeof drawLights==='function')drawLights();dirty=true}
 }
 addEventListener('resize',checkLand);
 var ptrs=new Map();var pinch=null,dragged=false,moved=0;
 var rel=e=>{const r=stage.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}};
 stage.addEventListener('pointerdown',e=>{
   if(e.target.closest('.abar,.zreset,.rail'))return;
-  ptrs.set(e.pointerId,rel(e));if(ptrs.size===1){dragged=false;moved=0;swp={x:e.clientX,y:e.clientY,t:Date.now(),ok:true}}else swp=null;
+  ptrs.set(e.pointerId,rel(e));if(ptrs.size===1){dragged=false;moved=0;swp={x:e.clientX,y:e.clientY,t:Date.now(),ok:true,edge:!canPan()||ZX<=SW-dispW()*zk+2}}else swp=null;
   if(ptrs.size===2){const[a,b]=[...ptrs.values()],m={x:(a.x+b.x)/2,y:(a.y+b.y)/2};
     pinch={d:Math.hypot(a.x-b.x,a.y-b.y)||1,k:zk,u:(m.x-ZX)/zk,v:(m.y-ZY)/zk}}
 });
@@ -1867,7 +1931,7 @@ stage.addEventListener('pointermove',e=>{
   else if(ptrs.size===1&&canPan()){moved+=Math.abs(cur.x-prev.x)+Math.abs(cur.y-prev.y);if(moved>6)dragged=true;ZX+=cur.x-prev.x;ZY+=cur.y-prev.y;clampZ();applyZ()}
 });
 var swp=null;
-var up=e=>{if(swp&&ptrs.size===1&&e.type==='pointerup'){const dx=e.clientX-swp.x,dy=e.clientY-swp.y;if(TWO&&zk<=1.02&&dx<-60&&Math.abs(dy)<Math.abs(dx)*.7&&Date.now()-swp.t<800){dragged=true;openFlt(true)}}if(e.type==='pointerup')swp=null;ptrs.delete(e.pointerId);if(ptrs.size<2)pinch=null};
+var up=e=>{if(swp&&ptrs.size===1&&e.type==='pointerup'){const dx=e.clientX-swp.x,dy=e.clientY-swp.y;if(TWO&&zk<=1.02&&swp.edge&&dx<-60&&Math.abs(dy)<Math.abs(dx)*.7&&Date.now()-swp.t<800){dragged=true;openFlt(true)}}if(e.type==='pointerup')swp=null;ptrs.delete(e.pointerId);if(ptrs.size<2)pinch=null};
 stage.addEventListener('pointerup',up);stage.addEventListener('pointercancel',up);
 stage.addEventListener('click',e=>{if(dragged){e.stopPropagation();e.preventDefault();dragged=false}},true);
 stage.addEventListener('wheel',e=>{e.preventDefault();const p=rel(e);zoomAt(p.x,p.y,zk*Math.exp(-e.deltaY*.0015));$('zhint').style.opacity=0},{passive:false});
@@ -1881,7 +1945,7 @@ function drawFlt(ap,rd,bk){
     const t1=arr?fmt(f.eta-f.dur):fmt(f.depSched),t2=arr?fmt(f.eta):fmt(f.depSched+f.dur);
     let pill='',pc='',act='';
     if(kind==='blk'){pill='SEM VAGA';pc='bad';act=`<button data-a="move" data-f="${f.i}">${assignFor===f.i?'Toque na vaga certa':'Mover para vaga certa'}</button>`}
-    else if(kind==='rd'){pill='PRONTO';pc='ok';act=`<button class="go" data-a="go" data-f="${f.i}">Partir · pista ${activeRwy()}</button><button class="ghost" data-a="svc" data-f="${f.i}">Serviços</button>`}
+    else if(kind==='rd'){pill='PRONTO';pc='ok';act=`<button class="go" data-a="go" data-f="${f.i}">Partir · pista ${rwOf(f)}</button><button class="ghost" data-a="svc" data-f="${f.i}">Serviços</button>`}
     else{const m=Math.max(0,Math.ceil(f.eta-now));pill=f.emerg?'MAYDAY':f.state==='holding'?`ESPERA · COMB ${Math.max(0,Math.round(nz(f.fuelPlan,D().fuel+10)-(f.holdMin||0)))} MIN`:`POUSA EM ${m} MIN`;pc=f.emerg||f.state==='holding'?'bad':'';
       act=`<button data-a="pick" data-f="${f.i}">${f.stand?'Trocar vaga':'Escolher vaga'}</button>`}
     return `<div class="tk ${pc}${assignFor===f.i?' sel':''}">
@@ -1938,7 +2002,7 @@ var PB=1,lastPart="";
 function skyTick(){
   const t=ramp("15:30","17:00")*(1-ramp("17:45","19:00")),n=Math.max(ramp("17:45","19:00"),1-ramp("05:10","06:30"));
   $('skyT').style.opacity=t;$('skyN').style.opacity=n;$('skyTh').style.opacity=t;$('skyNh').style.opacity=n;
-  PB=1-.28*n;
+  PB=1-.28*n;map.style.setProperty('--nt',(.12+.88*Math.max(n,t*.45)).toFixed(3));
   const part=n>.5?"Noite":t>.5?"Tarde":"Dia";
   if(part!==lastPart){lastPart=part;const el=document.querySelector('.wind small');if(el)el.dataset.p=part;dirty=true}
 }
@@ -1955,7 +2019,7 @@ function tick(t){
   skyTick();
   flipTick(t);
   step();
-  const w=activeRwy();if(w!==lastWind){if(lastWind!==-1)toast(`O vento mudou · pista ${w} em uso`);lastWind=w;drawLights();dirty=true}
+  const w=activeRwy();if(w!==lastWind){if(lastWind!==-1)toast(`O vento mudou · ${rwLbl(w).toLowerCase()} em uso`);lastWind=w;drawLights();dirty=true}
   const q=Math.floor(now*4);if(q!==lastQ){lastQ=q;dirty=true}
   if(dirty){dirty=false;drawUI()}
   if((liteF=(liteF+1)%2)===0)drawPlanes();
@@ -1978,8 +2042,8 @@ var readSave=()=>readKey(AUTO_KEY);
 function loadGame(d){
   if(d.v!==2){DIFF=d.diff||'normal';camp=Object.assign(newCamp(),d.camp||{});reset();rowsTab=null;drawLights();dirty=true;toast('Jogo antigo: o mundo recomeçou, sua campanha foi mantida');return}
   DIFF=d.diff||'normal';camp=d.camp||newCamp();storms=d.storms||[];dayOver=false;
-  ROT=d.ROT;flights=d.flights;now=d.now;buildLines();runwayFree=d.runwayFree;score=d.score;
-  STANDS.forEach((x,i)=>x.res=d.stands[i]);
+  ROT=d.ROT;flights=d.flights;now=d.now;buildLines();runwayFree=typeof d.runwayFree==='object'&&d.runwayFree?d.runwayFree:{A:0,B:0};score=d.score;
+  setLayout(camp.lay||1);STANDS.forEach((x,i)=>x.res=d.stands[i]==null?null:d.stands[i]);
   flights.forEach(f=>{if(f.svs)f.svs.forEach(v=>{if(v.q==null)v.q=true})});
   speed=nz(d.speed,10);document.querySelectorAll('#speed button[data-s]').forEach(x=>x.classList.toggle('on',+x.dataset.s===speed));
   $('spdLbl').textContent=speed?speed+'×':'pausa';
@@ -2110,7 +2174,8 @@ function autoStep(){
   for(const f of flights){
     if((f.state==="inbound"||f.state==="approach"||f.state==="holding")&&f.stand==null&&now>=f.eta-25){
       const fr=STANDS.filter(x=>x.res==null);
-      const s=fr.filter(x=>x.max>=f.cls).sort((a,b)=>(a.remote?1:0)-(b.remote?1:0)||a.max-b.max)[0]||fr.filter(x=>!x.remote&&x.max>=f.cls-2).sort((a,b)=>b.max-a.max)[0];
+      const pref=LAY.id===2?(DOMAP.has(f.ap)?'A':'B'):null;
+      const s=fr.filter(x=>x.max>=f.cls).sort((a,b)=>(pref?(a.g===pref?0:1)-(b.g===pref?0:1):0)||(a.remote?1:0)-(b.remote?1:0)||a.max-b.max)[0]||fr.filter(x=>!x.remote&&x.max>=f.cls-2).sort((a,b)=>b.max-a.max)[0];
       if(s)assign(f,s)}
     if(f.state==="parked"&&f.blk){const s=STANDS.filter(x=>x.res==null&&x.max>=f.cls).sort((a,b)=>a.max-b.max)[0];if(s)moveTo(f,s)}
     if(f.state==="parked"&&f.svs&&!f.blk)f.svs.forEach(v=>{if(v.s==null)v.q=true});

@@ -7,11 +7,12 @@ def R(a,b,n=1):
     global s
     assert s.count(a)>=1,(a[:60]); s=s.replace(a,b)
 # imagens menores (60%) e sem "fim de tarde" separado
-for src,dst in [('map.jpg','lite_map.jpg'),('map_noite.jpg','lite_map_noite.jpg'),('maph_dia.jpg','lite_maph.jpg'),('maph_noite.jpg','lite_maph_noite.jpg')]:
+for src,dst in [('map.jpg','lite_map.jpg'),('map_noite.jpg','lite_map_noite.jpg'),('maph_dia.jpg','lite_maph.jpg'),('maph_noite.jpg','lite_maph_noite.jpg'),('map2_dia.jpg','lite_map2.jpg'),('map2_noite.jpg','lite_map2_noite.jpg')]:
     im=Image.open(D+src).convert('RGB');im.resize((round(im.width*.6),round(im.height*.6)),Image.LANCZOS).save(D+dst,quality=72)
 R("url(map.jpg)","url(lite_map.jpg)");R("url(maph_dia.jpg)","url(lite_maph.jpg)")
 R("url(maph_tarde.jpg)","url(lite_maph.jpg)");R("url(maph_noite.jpg)","url(lite_maph_noite.jpg)")
 R("url(map_tarde.jpg)","url(lite_map.jpg)");R("url(map_noite.jpg)","url(lite_map_noite.jpg)")
+R("url(map2_dia.jpg)","url(lite_map2.jpg)");R("url(map2_tarde.jpg)","url(lite_map2.jpg)");R("url(map2_noite.jpg)","url(lite_map2_noite.jpg)")
 R("<title>Departure · Galeão</title>","<title>Departure Lite · Galeão</title>")
 R("<h1>DEPARTURE <span class=\"apt\">","<h1>DEPARTURE <span class=\"apt\">LITE · ")
 # sem sombras/filtros pesados nos aviões
@@ -26,6 +27,7 @@ R("var PICK={};SLOTS.forEach(x=>PICK[x.k]=x.o[0][0]);","var PICK={};SLOTS.forEac
 # sem animações contínuas
 R("</style>","""/* LITE */
 .lt.w,.lt.reil{animation:none!important;opacity:.7}
+.lt.e{animation:none!important}#glow{display:none}
 #storm{animation:none!important;background:rgba(12,18,34,.45)!important}
 .tg.emerg .tg-h,.sign.ok .plate,.sign.ready .plate,.tg-now{animation:none!important}
 .sign.ready .plate{box-shadow:0 0 0 3px #5dff8f!important}
