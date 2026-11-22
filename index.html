@@ -284,10 +284,22 @@ body.land .rail{top:84px}
 .trk .ep.l{left:0}.trk .ep.r{right:0}
 .trk svg{position:absolute;top:1px;width:30px;height:30px;fill:var(--y);transform:translateX(-50%);filter:drop-shadow(0 0 4px rgba(253,233,52,.6))}
 .fm-empty{color:#888;font-size:13px;padding:20px 4px}
+.fm-sh,.fm-tab{display:none}
+.fmap.mob .fm-body{display:block;position:relative;overflow:hidden}
+.fmap.mob .fm-mapwrap{position:absolute;top:0;right:0;bottom:0;left:0}
+.fmap.mob .fm-side{position:absolute;top:0;right:0;bottom:0;left:0;z-index:3;background:#050505;border:0;transform:translateX(100%);transition:transform .28s ease;padding-bottom:max(16px,env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch}
+.fmap.mob.det .fm-side{transform:none}
+.fmap.mob .fm-sh{display:flex;align-items:center;flex:none}
+.fm-sh>*+*{margin-left:12px}
+#fmBack{width:40px;height:40px;border-radius:10px;background:var(--y);color:var(--k);font-size:26px;font-weight:900;line-height:1}
+.fm-sh b{flex:1;font-size:17px}.fm-sh span{font-family:Doto,monospace;font-weight:900;color:var(--y);font-size:16px}
+.fmap.mob .fm-tab{display:flex;flex-direction:column;align-items:center;position:absolute;right:0;top:50%;transform:translateY(-50%);z-index:2;background:var(--k);border:2px solid var(--y);border-right:0;border-radius:12px 0 0 12px;padding:10px 6px 10px 8px;color:var(--y);font-weight:800}
+.fm-tab .ico{width:30px;height:30px;border-radius:7px;margin-bottom:4px}.fm-tab b{font-size:16px;color:#fff}.fm-tab i{font-style:normal;font-size:20px;line-height:1}
+.fmap.mob.det .fm-tab{display:none}
+.fmap.mob .fm-note{bottom:max(10px,env(safe-area-inset-bottom))}
 @media(max-width:820px){
   .fm-body{grid-template-columns:1fr;grid-template-rows:auto 1fr;overflow:hidden}
-  .fm-mapwrap{aspect-ratio:2.15/1;min-height:180px}
-  .fm-side{border-left:0;border-top:1px solid #222}
+
   .fm-coord{font-size:11px;padding:4px 6px}
   .fm-t small{display:none}
   .mobileBar .tab{font-size:13px;gap:5px}.mobileBar .tab .ico{width:22px;height:22px}
@@ -562,7 +574,7 @@ body.two #fltPg .tg-h img{width:40px;height:40px}
 body.two #fltPg .tg-h b{font-size:19px}
 #fltTab{position:absolute;right:0;top:50%;transform:translateY(-50%);z-index:11;background:var(--k);color:var(--y);border:2px solid var(--y);border-right:0;border-radius:12px 0 0 12px;padding:10px 6px 10px 8px;display:flex;flex-direction:column;align-items:center;font-weight:800}
 #fltTab[hidden]{display:none}
-#fltTab span{font-size:18px}#fltTab b{font-size:16px;color:#fff}#fltTab i{font-style:normal;font-size:20px;line-height:1}
+#fltTab .ico{width:30px;height:30px;border-radius:7px;margin-bottom:4px}#fltTab span{font-size:18px}#fltTab b{font-size:16px;color:#fff}#fltTab i{font-style:normal;font-size:20px;line-height:1}
 #fltTab.alert{border-color:var(--r);color:var(--r);animation:mayday .8s infinite}
 </style>
 <script>
@@ -580,7 +592,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795310985';
+var APPV='1795311344';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -667,7 +679,7 @@ chk();document.addEventListener('visibilitychange',function(){if(!document.hidde
   </div>
   <div class="fm-body">
     <div class="fm-mapwrap" id="fmWrap"><canvas id="fmCanvas"></canvas><div class="fm-note" id="fmNote"></div></div>
-    <aside class="fm-side"><div class="fm-chips" id="fmChips"></div><div class="fm-card" id="fmCard"></div><div class="fm-wx" id="fmWx"></div></aside>
+    <button id="fmTab" class="fm-tab" aria-label="Ver voos em rota"></button><aside class="fm-side"><div class="fm-sh"><button id="fmBack" aria-label="Voltar ao mapa">‹</button><b>Voos em rota</b><span id="fmN"></span></div><div class="fm-chips" id="fmChips"></div><div class="fm-card" id="fmCard"></div><div class="fm-wx" id="fmWx"></div></aside>
   </div>
 </div>
 <nav class="mobileBar">
@@ -1442,7 +1454,7 @@ function profile(o){
   if(el<cl){k=el/cl;phase="Subindo para a altitude de cruzeiro"}else if(rem<de){k=rem/de;phase=`Descendo para ${APT[o.to][3]}`}
   return{alt:Math.round((2500+(cr-2500)*k)/100)*100,spd:Math.round(290+(vs-290)*Math.min(1,k*1.25)),phase};
 }
-var mapOpen=false,mapSelId=null,world=null,worldState="idle",baseCv=null,baseKey="",fmRect=null,fmPlanes=[];
+var mapOpen=false,mapSelId=null,world=null,worldState="idle",baseCv=null,baseKey="",fmRect=null,fmPlanes=[],fmPan=null,fmBW=0;
 var fmap=$('fmap'),fcv=$('fmCanvas'),fctx=fcv.getContext('2d');
 $('fmIco').innerHTML=ic('radar');
 function decodeWorld(json){
@@ -1503,8 +1515,10 @@ function drawFM(t){
   const wr=$('fmWrap').getBoundingClientRect(),dpr=Math.min(2,window.devicePixelRatio||1);
   const w=Math.max(10,wr.width),h=Math.max(10,wr.height),key=`${w}x${h}x${dpr}x${worldState}`;
   if(fcv.width!==Math.round(w*dpr)||fcv.height!==Math.round(h*dpr)){fcv.width=Math.round(w*dpr);fcv.height=Math.round(h*dpr)}
-  if(key!==baseKey){baseKey=key;buildBase(w,h,dpr)}
-  const c=fctx,r=fmRect;c.setTransform(1,0,0,1,0,0);c.clearRect(0,0,fcv.width,fcv.height);c.drawImage(baseCv,0,0);c.setTransform(dpr,0,0,dpr,0,0);
+  const cov=fmap.classList.contains('mob'),ar=(VIEW.lon1-VIEW.lon0)/(VIEW.lat1-VIEW.lat0)*.86,bw=cov?Math.max(w,Math.round(h*ar)):w;
+  if(key+'x'+bw!==baseKey){baseKey=key+'x'+bw;buildBase(bw,h,dpr);fmBW=bw;if(fmPan==null||!cov)fmPan=cov?w/2-(-43.25-VIEW.lon0)/(VIEW.lon1-VIEW.lon0)*bw:0}
+  fmPan=Math.min(0,Math.max(w-fmBW,fmPan));
+  const c=fctx,r=Object.assign({},fmRect,{x:fmRect.x+fmPan});c.setTransform(1,0,0,1,0,0);c.clearRect(0,0,fcv.width,fcv.height);c.drawImage(baseCv,Math.round(fmPan*dpr),0);c.setTransform(dpr,0,0,dpr,0,0);
   const air=airborne();fmPlanes=[];
   const active=new Set(["GIG",...air.map(o=>o.f.ap)]);
   const sz=clamp(r.w/70,9,18);
@@ -1552,6 +1566,7 @@ var fmtKm=n=>n.toLocaleString('pt-BR')+' km';
 function drawFMPanel(){
   const air=airborne();
   if(mapSelId==null||!air.some(o=>o.f.i===mapSelId))mapSelId=air[0]?air[0].f.i:null;
+  $('fmTab').innerHTML=`${ic('plane')}<b>${air.length}</b><i>‹</i>`;$('fmN').textContent=air.length?air.length+' no ar':'';
   $('fmChips').innerHTML=air.map(o=>`<button class="fm-chip${o.f.i===mapSelId?' on':''}" data-f="${o.f.i}"><b>${o.leg==="arr"?o.f.arrNo:o.f.depNo}</b><small>${o.from} → ${o.to}</small><i><em style="width:${o.p*100}%"></em></i></button>`).join('')||'';
   const o=air.find(x=>x.f.i===mapSelId);
   if(!o){$('fmCard').innerHTML='<div class="fm-empty">Nenhum avião voando agora. Avance o relógio para ver os voos a caminho do Galeão.</div>';$('fmWx').innerHTML='';return}
@@ -1584,10 +1599,22 @@ function drawFMPanel(){
 }
 function openMap(f){
   audioInit();ensureWorld();mapOpen=true;fmap.hidden=false;
-  if(f)mapSelId=f.i;baseKey="";drawFMPanel();
+  fmMob();fmDet(false);if(f)mapSelId=f.i;baseKey="";drawFMPanel();
   if(mobile())side.classList.remove('open'),setTabs();
 }
-function closeMap(){mapOpen=false;fmap.hidden=true}
+function closeMap(){mapOpen=false;fmap.hidden=true;fmDet(false)}
+function fmMob(){fmap.classList.toggle('mob',mobile())}
+function fmDet(on){fmap.classList.toggle('det',!!on);baseKey="";}
+$('fmBack').addEventListener('click',()=>fmDet(false));
+$('fmTab').addEventListener('click',()=>{drawFMPanel();fmDet(true)});
+addEventListener('resize',()=>{if(mapOpen){fmMob();baseKey=""}});
+{let sx=0,sy=0;const ts=e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},
+  te=open=>e=>{const t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5&&fmap.classList.contains('mob')){if(open&&dx<0){drawFMPanel();fmDet(true)}if(!open&&dx>0)fmDet(false)}};
+ {let px=0,lx=0,mv=false;const W=$('fmWrap');
+  W.addEventListener('touchstart',e=>{if(e.touches.length!==1)return;px=lx=e.touches[0].clientX;mv=false},{passive:true});
+  W.addEventListener('touchmove',e=>{if(e.touches.length!==1||!fmap.classList.contains('mob'))return;const x=e.touches[0].clientX;if(Math.abs(x-px)>6)mv=true;fmPan+=x-lx;lx=x;e.preventDefault()},{passive:false});
+  W.addEventListener('click',e=>{if(mv){e.stopPropagation();e.preventDefault();mv=false}},true);}
+ document.querySelector('.fm-side').addEventListener('touchstart',ts,{passive:true});document.querySelector('.fm-side').addEventListener('touchend',te(false));}
 $('mapBtn').addEventListener('click',()=>openMap(null));
 $('mapBtn2').addEventListener('click',()=>openMap(null));
 $('fmClose').addEventListener('click',closeMap);
@@ -1595,7 +1622,7 @@ $('fmChips').addEventListener('click',e=>{const b=e.target.closest('.fm-chip');i
 fcv.addEventListener('click',e=>{
   const rc=fcv.getBoundingClientRect(),x=e.clientX-rc.left,y=e.clientY-rc.top;
   let best=null,bd=30;for(const q of fmPlanes){const d=Math.hypot(q.x-x,q.y-y);if(d<bd){bd=d;best=q}}
-  if(best){mapSelId=best.o.f.i;drawFMPanel()}
+  if(best){mapSelId=best.o.f.i;drawFMPanel();if(fmap.classList.contains('mob'))fmDet(true)}
 });
 document.addEventListener('keydown',e=>{if(e.key==="Escape"&&mapOpen)closeMap()});
 
@@ -1746,6 +1773,7 @@ $('fltList').addEventListener('click',e=>{
 var TWO=matchMedia('(pointer:coarse)').matches;
 function openFlt(on){const pg=$('fltPg');pg.classList.toggle('open',on);document.body.classList.toggle('fltOpen',on)}
 if(TWO){document.body.classList.add('two');$('fltTab').hidden=false}
+$('fltTab').querySelector('span').outerHTML=ic('plane');
 $('fltTab').addEventListener('click',()=>openFlt(true));
 $('fpBack').addEventListener('click',()=>openFlt(false));
 (function(){let sx=0,sy=0;const pg=$('fltPg');
