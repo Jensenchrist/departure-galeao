@@ -718,7 +718,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795382954';
+var APPV='1795383728';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -2154,12 +2154,12 @@ function freqTxt(d){const l=d.ls[0];
 function openDeals(on){dealsOn=on;$('deals').hidden=!on;dealAsk=null;dealsAl=null;if(on)drawDeals()}
 
 // cores de cada companhia: [principal, destaque]
-var BRAND={SR:['#E30613','#fff'],SK:['#0B1F5C','#C8102E'],DT:['#D7182A','#111'],ET:['#00843D','#FCDD09'],AT:['#C1272D','#006233'],MS:['#00265C','#C5A100'],VR:['#003893','#F7D116'],
- RG:['#00377A','#F2A900'],VP:['#1F3A93','#F5C400'],TR:['#2B3990','#F7B500'],QF:['#E40000','#fff'],SA:['#00205B','#FFB81C'],CA:['#C8102E','#F2C200'],SQ:['#1A2B5E','#F5B335'],
+var BRAND={SR:['#E30613','#fff'],SK:['#0B1F5C','#C8102E'],DT:['#FF1A00','#111'],ET:['#00843D','#FCDD09'],AT:['#C1272D','#006233'],MS:['#00265C','#C5A100'],VR:['#003893','#F7D116'],
+ RG:['#00377A','#F2A900'],VP:['#0A88B5','#F5C400'],TR:['#2B3990','#F7B500'],QF:['#E40000','#fff'],SA:['#00205B','#FFB81C'],CA:['#C8102E','#F2C200'],SQ:['#1A2B5E','#F5B335'],
  AZ:['#00843D','#D2232A'],PA:['#0A5BA8','#fff'],JL:['#CC0000','#fff'],LA:['#1B0088','#ED1650'],G3:['#FF6600','#fff'],AD:['#13306B','#27B4E6'],TP:['#D6001C','#00A859'],
  EK:['#C8102E','#C8A052'],AF:['#002157','#EF1A2D'],BA:['#01295F','#EB2226'],AA:['#2B3A4A','#C30019'],AR:['#0065B3','#A7CEEA'],CM:['#0032A0','#B5975A'],QR:['#5C0632','#B0B0B0'],
- LH:['#05164D','#FFAD00'],IB:['#D7192D','#FFCC00'],KL:['#00A1DE','#fff'],AV:['#DA291C','#fff'],DL:['#003268','#C01933'],UA:['#005DAA','#7FB2E5'],AM:['#0B2343','#E31837'],
- PZ:['#D52B1E','#0038A8'],OB:['#003DA5','#E4002B'],PU:['#00A3E0','#FFD100'],TA:['#D52B1E','#00843D'],CU:['#002A8F','#CF142B'],V0:['#EC6B19','#002F6C'],H2:['#3C1053','#00A3E0'],SU:['#02458D','#E5A00D'],TW:['#D20000','#fff'],WN:['#304CB2','#FFBF27']};
+ LH:['#05164D','#FFAD00'],IB:['#D7192D','#FFCC00'],KL:['#00A1DE','#fff'],AV:['#DA291C','#fff'],DL:['#003268','#C01933'],UA:['#005DAA','#7FB2E5'],AM:['#0B1A3E','#E31837'],
+ PZ:['#D52B1E','#0038A8'],OB:['#003DA5','#E4002B'],PU:['#00A3E0','#FFD100'],TA:['#D52B1E','#00843D'],CU:['#002A8F','#CF142B'],V0:['#EC6B19','#002F6C'],H2:['#6A1F7A','#3BD62C'],SU:['#02458D','#E5A00D'],TW:['#D20000','#fff'],WN:['#304CB2','#FFBF27']};
 var tint=(hex,k)=>{const n=parseInt(hex.slice(1),16),r=n>>16,g=n>>8&255,b=n&255,m=v=>Math.round(v+(255-v)*k);return `rgb(${m(r)},${m(g)},${m(b)})`};
 var dealsAl=null,dealTab='deals';
 var nPl=k=>(camp.deals||[]).filter(x=>x===k||x.startsWith(k+'#')).length;
