@@ -509,7 +509,7 @@ body.land .mclock{transform:translate(-50%,-50%) rotate(90deg)}
 #hud{position:absolute;top:8px;right:8px;z-index:12;display:flex;align-items:stretch;pointer-events:none}
 #hud>*+*{margin-left:6px}
 #hud .wind{position:static;height:100%}
-#hud .mclock{position:static;transform:none;display:flex;flex-direction:column;justify-content:center;border-width:1px;border-radius:8px;padding:4px 10px}
+#hud .mclock{position:static;transform:none;pointer-events:auto;cursor:pointer;display:flex;flex-direction:column;justify-content:center;border-width:1px;border-radius:8px;padding:4px 10px}
 body.land #hud .mclock{transform:none}
 
 #rainVid{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;z-index:9;pointer-events:none;opacity:0;transition:opacity 2.5s;filter:none}
@@ -616,7 +616,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795312240';
+var APPV='1795313307';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -724,6 +724,7 @@ chk();document.addEventListener('visibilitychange',function(){if(!document.hidde
 var nz=(a,b)=>a==null?b:a;
 var W=941,H=1672,RX=217,LANE=362,SIGNX=642;
 var ICONS={"dep": "<path d=\"M2.5 19h19v2h-19zM22.1 9.5c-.2-.8-1-1.3-1.8-1.1l-5.3 1.4L8.1 3.4l-1.9.5 4.1 7.2-5 1.3-2-1.5-1.5.4 1.8 3.2.8 1.3 1.6-.4 5.3-1.4 4.3-1.2 5.3-1.4c.8-.3 1.3-1.1 1.1-1.9z\"/>", "arr": "<path d=\"M2.5 19h19v2h-19zM9.2 13.7l4.3 1.2 5.3 1.4c.8.2 1.6-.3 1.8-1.1.2-.8-.3-1.6-1.1-1.8l-5.3-1.4-2.8-9-1.9-.5v8.3L4.5 9.4l-.9-2.4-1.4-.4v5.2z\"/>", "bag": "<path d=\"M17 6h-2V3c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v3H7c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2 0 .55.45 1 1 1s1-.45 1-1h6c0 .55.45 1 1 1s1-.45 1-1c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM9.5 18H8V9h1.5v9zm3.25 0h-1.5V9h1.5v9zm.75-12h-3V3.5h3V6zM16 18h-1.5V9H16v9z\"/>", "walk": "<path d=\"M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9 7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7z\"/>", "fuel": "<path d=\"M19.77 7.23l.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33 0 1.38 1.12 2.5 2.5 2.5.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77zM12 10H6V5h6v5z\"/>", "food": "<path d=\"M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z\"/>", "clean": "<path d=\"M13 2h2v8h-2z\"/><path d=\"M8.5 11h11l1 3h-13z\"/><path d=\"M7.5 15h13l1.5 7H6zm2.5 1.5-.7 4h1.4l.6-4zm3.3 0-.3 4h1.4l.2-4zm3.4 0 .1 4h1.4l-.3-4z\" fill-rule=\"evenodd\"/>", "spk": "<path d=\"M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z\"/>", "tune": "<path d=\"M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z\"/>", "out": "<path d=\"M2 3h6v18H2zm1.6 1.6v14.8h2.8V4.6z\" fill-rule=\"evenodd\"/><g transform=\"translate(5 1) scale(.85)\"><path d=\"M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9 7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7z\"/></g>", "in": "<path d=\"M16 3h6v18h-6zm1.6 1.6v14.8h2.8V4.6z\" fill-rule=\"evenodd\"/><g transform=\"translate(-2 1) scale(.85)\"><path d=\"M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9 7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7z\"/></g>", "bagdown": "<g transform=\"translate(-2 2) scale(.82)\"><path d=\"M17 6h-2V3c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v3H7c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2 0 .55.45 1 1 1s1-.45 1-1h6c0 .55.45 1 1 1s1-.45 1-1c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM9.5 18H8V9h1.5v9zm3.25 0h-1.5V9h1.5v9zm.75-12h-3V3.5h3V6zM16 18h-1.5V9H16v9z\"/></g><path d=\"M18 3h2v10h3l-4 6-4-6h3z\"/>", "bagup": "<g transform=\"translate(-2 2) scale(.82)\"><path d=\"M17 6h-2V3c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v3H7c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2 0 .55.45 1 1 1s1-.45 1-1h6c0 .55.45 1 1 1s1-.45 1-1c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM9.5 18H8V9h1.5v9zm3.25 0h-1.5V9h1.5v9zm.75-12h-3V3.5h3V6zM16 18h-1.5V9H16v9z\"/></g><path d=\"M18 21h2V11h3l-4-6-4 6h3z\"/>"};
+ICONS.pause='<path d="M6 4h4v16H6zM14 4h4v16h-4z"/>';ICONS.playI='<path d="M7 4v16l13-8z"/>';
 var ic=(n,c='')=>`<span class="ico ${c}"><svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]}</svg></span>`;
 
 // pista: cabeceira 10 em cima, 28 embaixo
@@ -753,9 +754,9 @@ var LOGO={};
 var logo=(al,c='')=>LOGO[al]?`<img class="lg ${c}" src="logos/${al}.png?t=${LOGOV}" alt="">`:'';
 var LOGOV=Math.floor(Date.now()/60000);
 var AIRLINES={SR:"Swissair",SK:"SAS Scandinavian",DT:"TAAG Angola",ET:"Ethiopian",AT:"Royal Air Maroc",MS:"EgyptAir",VR:"Cabo Verde Airlines",RG:"Varig",VP:"Vasp",TR:"Transbrasil",QF:"Qantas",SA:"South African",CA:"Air China",SQ:"Singapore Airlines",AZ:"Alitalia",PA:"Pan Am",JL:"Japan Airlines",LA:"LATAM",G3:"GOL",AD:"Azul",TP:"TAP Air Portugal",EK:"Emirates",AF:"Air France",BA:"British Airways",AA:"American Airlines",AR:"Aerolíneas Argentinas",CM:"Copa Airlines",QR:"Qatar Airways",LH:"Lufthansa",IB:"Iberia",KL:"KLM",AV:"Avianca",DL:"Delta",UA:"United",AM:"Aeroméxico",PZ:"Paranair",OB:"Boliviana de Aviación",PU:"Pluna",TA:"TACA",CU:"Cubana",V0:"Conviasa",H2:"Sky Airline",SU:"Aeroflot"};
-var CITY={ZRH:"Zurique",CPH:"Copenhague",LAD:"Luanda",ADD:"Adis Abeba",CMN:"Casablanca",CAI:"Cairo",SID:"Ilha do Sal",NRT:"Tóquio",SYD:"Sydney",JNB:"Joanesburgo",PEK:"Pequim",SIN:"Singapura",POA:"Porto Alegre",MAO:"Manaus",FCO:"Roma",JFK:"Nova York",LAX:"Los Angeles",GRU:"São Paulo",BSB:"Brasília",REC:"Recife",LIS:"Lisboa",DXB:"Dubai",CDG:"Paris",LHR:"Londres",MIA:"Miami",EZE:"Buenos Aires",PTY:"Cidade do Panamá",SCL:"Santiago",DOH:"Doha",FRA:"Frankfurt",MAD:"Madri",AMS:"Amsterdã",BOG:"Bogotá",ATL:"Atlanta",SSA:"Salvador",IAH:"Houston",MEX:"Cidade do México",ASU:"Assunção",VVI:"Santa Cruz de la Sierra",MVD:"Montevidéu",LIM:"Lima",HAV:"Havana",SAL:"San Salvador",SJO:"San José",CCS:"Caracas",UIO:"Quito",SVO:"Moscou"};
+var CITY={ZRH:"Zurique",CPH:"Copenhague",LAD:"Luanda",ADD:"Adis Abeba",CMN:"Casablanca",CAI:"Cairo",SID:"Ilha do Sal",NRT:"Tóquio",SYD:"Sydney",JNB:"Joanesburgo",PEK:"Pequim",SIN:"Singapura",POA:"Porto Alegre",MAO:"Manaus",FCO:"Roma",JFK:"Nova York",LAX:"Los Angeles",GRU:"São Paulo",BSB:"Brasília",REC:"Recife",LIS:"Lisboa",DXB:"Dubai",CDG:"Paris",LHR:"Londres",MIA:"Miami",EZE:"Buenos Aires",PTY:"Cidade do Panamá",SCL:"Santiago",DOH:"Doha",FRA:"Frankfurt",MAD:"Madri",AMS:"Amsterdã",BOG:"Bogotá",ATL:"Atlanta",SSA:"Salvador",IAH:"Houston",MEX:"Cidade do México",ASU:"Assunção",VVI:"Santa Cruz de la Sierra",MVD:"Montevidéu",LIM:"Lima",HAV:"Havana",SAL:"San Salvador",SJO:"San José",CCS:"Caracas",UIO:"Quito",SVO:"Moscou",CGH:"São Paulo",CNF:"Belo Horizonte",FOR:"Fortaleza",CWB:"Curitiba",FLN:"Florianópolis",VIX:"Vitória",GYN:"Goiânia",CGB:"Cuiabá",CGR:"Campo Grande",BEL:"Belém",SLZ:"São Luís",THE:"Teresina",NAT:"Natal",JPA:"João Pessoa",MCZ:"Maceió",AJU:"Aracaju",PMW:"Palmas",PVH:"Porto Velho",RBR:"Rio Branco",BVB:"Boa Vista",MCP:"Macapá"};
 // tempos de voo aproximados de/para o Galeão (GIG)
-var DUR={ZRH:705,CPH:760,LAD:485,ADD:725,CMN:600,CAI:745,SID:420,NRT:1330,SYD:1000,JNB:540,PEK:1250,SIN:1220,POA:115,MAO:250,FCO:705,JFK:600,LAX:725,GRU:60,BSB:110,REC:165,LIS:570,DXB:870,CDG:665,LHR:695,MIA:510,EZE:175,PTY:405,SCL:255,DOH:885,FRA:700,MAD:610,AMS:695,BOG:375,ATL:590,SSA:120,IAH:615,MEX:585,ASU:150,VVI:240,MVD:160,LIM:330,HAV:540,SAL:480,SJO:450,CCS:345,UIO:380,SVO:840};
+var DUR={ZRH:705,CPH:760,LAD:485,ADD:725,CMN:600,CAI:745,SID:420,NRT:1330,SYD:1000,JNB:540,PEK:1250,SIN:1220,POA:115,MAO:250,FCO:705,JFK:600,LAX:725,GRU:60,BSB:110,REC:165,LIS:570,DXB:870,CDG:665,LHR:695,MIA:510,EZE:175,PTY:405,SCL:255,DOH:885,FRA:700,MAD:610,AMS:695,BOG:375,ATL:590,SSA:120,IAH:615,MEX:585,ASU:150,VVI:240,MVD:160,LIM:330,HAV:540,SAL:480,SJO:450,CCS:345,UIO:380,SVO:840,CGH:55,CNF:60,FOR:190,CWB:80,FLN:95,VIX:55,GYN:110,CGB:155,CGR:130,BEL:215,SLZ:205,THE:185,NAT:185,JPA:175,MCZ:145,AJU:130,PMW:155,PVH:230,RBR:255,BVB:280,MCP:235};
 // [cia, voo chegada, voo partida, origem/destino, classe, hora prevista de pouso, atraso de origem]
 // rotas possíveis: [cia, origem, classes possíveis]
 var ROUTES=[["LA","GRU",[2,3]],["LA","SCL",[3,5]],["LA","BSB",[2,3]],["LA","REC",[2,3]],["G3","BSB",[1,2]],["G3","SSA",[1,2]],["G3","GRU",[1,2]],["G3","EZE",[2]],
@@ -778,23 +779,73 @@ function genWave(start,n){
   });
 }
 var ROT=null;
-// dia contínuo: nacionais de dia, internacionais à noite, partidas e chegadas alternadas
-var BRAP=["GRU","BSB","REC","SSA","POA","MAO"];
-var rcat=r=>BRAP.includes(r[1])?'nac':DUR[r[1]]<=420?'reg':'long';
-function genDay(n){
-  const R0=ROUTES.filter(r=>r[0]!=='SU'),pools={nac:R0.filter(r=>rcat(r)==='nac'),reg:R0.filter(r=>rcat(r)==='reg'),long:R0.filter(r=>rcat(r)==='long')};
-  const used=new Set(),out=[],usedNo=new Set();
-  const num=al=>{let a;do{const b=["LA","G3","AD","VP","TR"].includes(al)?1000+Math.floor(Math.random()*8000):10+Math.floor(Math.random()*890);a=b%2?b:b+1}while(usedNo.has(al+a));usedNo.add(al+a);return a};
-  const take=c=>{let pl=pools[c].filter(r=>c==='nac'||!used.has(r[0]+r[1]));if(!pl.length)pl=pools.nac;const r=pick(pl);used.add(r[0]+r[1]);return r};
-  const catAt=t=>{const h=t/60,x=Math.random();const w=h<17?[.65,.3]:h<19?[.35,.35]:[.15,.25];return x<w[0]?'nac':x<w[0]+w[1]?'reg':'long'};
-  // pernoite: aviões que dormiram no Galeão e só partem
-  const pre=Math.min(5,Math.round(n*.1));
-  for(let k=0;k<pre;k++){const r=take(Math.random()<.7?'nac':'reg'),a=num(r[0]);out.push([r[0],a,a+1,r[1],pick(r[2]),fmt(toMin("12:05")+k*Math.round(100/pre)+Math.floor(Math.random()*8)),0,1])}
-  // chegadas espalhadas de 12:00 às 22:40
-  const m=n-pre,st=toMin("12:00"),span=640;
-  for(let k=0;k<m;k++){const t=st+Math.round((k+.5)*span/m+(Math.random()*8-4)),r=take(catAt(t)),a=num(r[0]);
-    out.push([r[0],a,a+1,r[1],pick(r[2]),fmt(t),Math.random()<.25?5+Math.floor(Math.random()*20):0])}
-  return out;
+/* ---------- mundo contínuo: calendário, grade semanal e aviões em ciclo ---------- */
+var DOWS=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],MESES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+var tod=m=>((m%1440)+1440)%1440,dayOf=m=>Math.floor(m/1440);
+var dateOf=d=>new Date((camp.t0||Date.now())+d*864e5+432e5);
+var dateLbl=m=>{const dt=dateOf(dayOf(m));return `${DOWS[dt.getDay()]} ${dt.getDate()} ${MESES[dt.getMonth()]}`};
+function rng(seed){let a=seed>>>0;return()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+// nacionais: cada cia listada = 1 frequência diária; nas cidades de NIGHT o 1º voo da lista dorme no Galeão
+var DOMF=[["GRU",["LA","G3","AD","LA","G3","AD","LA","G3"],[1,2,3]],["CGH",["LA","G3","LA","G3","LA","G3"],[1,2]],["BSB",["LA","G3","AD","TR"],[2,3]],
+ ["CNF",["AD","G3","LA"],[1,2]],["SSA",["G3","AD","LA"],[2,3]],["REC",["AD","TR","LA"],[2,3]],["POA",["RG","G3"],[2,3]],["CWB",["AD","G3"],[1,2]],["FOR",["LA","G3"],[2,3]],
+ ["FLN",["AD","G3"],[1,2]],["VIX",["AD","LA"],[1,2]],["GYN",["AD"],[1,2]],["CGB",["G3"],[2]],["CGR",["AD"],[1,2]],["BEL",["LA"],[2,3]],["MAO",["VP"],[3,4]],["SLZ",["G3"],[2]],
+ ["THE",["G3"],[2]],["NAT",["LA"],[2,3]],["JPA",["G3"],[2]],["MCZ",["AD"],[1,2]],["AJU",["G3"],[2]],["PMW",["AD"],[1]],["PVH",["LA"],[2]],["RBR",["LA"],[2]],["BVB",["G3"],[2]],["MCP",["G3"],[2]]];
+var NIGHT=["MAO","BEL","FOR","REC","SSA","POA","CWB","BSB","CNF"];
+// internacionais: [cia, aeroporto, classes, dias (Dom..Sáb) ou q3 = a cada 3 dias, chegada no Galeão]
+var INTL=[["TP","LIS",[5,6],"1111111","19:10"],["EK","DXB",[7,6],"1111111","17:40"],["QR","DOH",[6,5],"1111111","18:30"],["AF","CDG",[6,5],"1111111","20:05"],
+ ["BA","LHR",[5,6],"0111111","21:15"],["LH","FRA",[7,6],"1110111","20:35"],["KL","AMS",[5,6],"1111111","19:45"],["IB","MAD",[5],"1011011","20:40"],["AZ","FCO",[6,5,4],"0101010","18:50"],
+ ["RG","LIS",[6,5],"1010101","22:10"],["RG","FRA",[6,7],"0101010","21:40"],["RG","MIA",[5,4],"1111111","06:10"],["RG","NRT",[7],"0010010","19:30"],
+ ["SR","ZRH",[6,5],"0101001","20:50"],["SK","CPH",[6,5],"0010100","18:10"],["SU","SVO",[6],"q3","20:20"],
+ ["AA","MIA",[4,5],"1111111","06:40"],["DL","ATL",[4,5],"1111111","07:20"],["UA","IAH",[5],"1011011","07:50"],["PA","JFK",[7,4],"1111111","08:15"],["PA","MIA",[4,7],"1010101","05:50"],["PA","LAX",[7],"0100101","08:45"],
+ ["JL","NRT",[7,6],"0101010","18:20"],["QF","SYD",[7,6],"0100101","16:50"],["CA","PEK",[6],"0010100","17:30"],["SQ","SIN",[7,6],"1000100","19:00"],
+ ["SA","JNB",[5,6],"0101011","16:20"],["DT","LAD",[5,6],"0100110","15:10"],["ET","ADD",[5,6],"1010100","14:30"],["AT","CMN",[4,5],"0010101","15:50"],["MS","CAI",[5,6],"0100010","17:10"],["VR","SID",[3,4],"1000100","13:20"],
+ ["AR","EZE",[1,2],"1111111","10:10"],["AR","EZE",[2],"1111111","18:40"],["G3","EZE",[2],"1111111","14:20"],["LA","SCL",[3,5],"1111111","11:30"],["H2","SCL",[2,3],"1011010","16:10"],
+ ["CM","PTY",[2,3],"1111111","12:40"],["CM","PTY",[3],"1111111","22:50"],["AV","BOG",[2,3],"1111111","13:50"],["AV","UIO",[2,3],"0101010","15:30"],["LA","LIM",[3,4],"1111111","09:40"],
+ ["AM","MEX",[5,4],"1010110","18:00"],["PZ","ASU",[1,2],"0111110","10:50"],["G3","ASU",[1,2],"1010101","17:20"],["OB","VVI",[2,3],"0101010","12:20"],["PU","MVD",[2,3],"0111110","09:10"],
+ ["G3","MVD",[2],"1111111","16:40"],["TA","SAL",[3,4],"0010101","14:40"],["TA","SJO",[3],"0100100","15:20"],["CU","HAV",[4,5],"0001001","20:10"],["V0","CCS",[3,4],"0100100","13:10"]];
+var LINES=[];
+function buildLines(){
+  const r=rng(camp.seed||1),K=D().keep||[1,1],used=new Set(),out=[];
+  const num=al=>{let a;do{const b=["LA","G3","AD","VP","TR","RG"].includes(al)?1000+Math.floor(r()*8000):10+Math.floor(r()*890);a=b%2?b:b+1}while(used.has(al+a));used.add(al+a);return a};
+  for(const [ap,als,cls] of DOMF){
+    const by={};als.forEach((al,i)=>(by[al]=by[al]||[]).push(i));
+    for(const al in by){const c=by[al].length,sp=880/c,off=r()*Math.max(1,sp-30);
+      for(let j=0;j<c;j++){const ns=j===0&&by[al][0]===0&&NIGHT.includes(ap);
+        const ln={k:al+ap,al,ap,cls,days:"1111111",arr:ns?1300+Math.round(r()*100):400+Math.round(off+j*sp),dep:ns?350+Math.round(r()*80):null,no:num(al)};
+        if(r()<K[0])out.push(ln)}}
+  }
+  for(const [al,ap,cls,days,t] of INTL){const ln={k:al+ap,al,ap,cls,days,arr:toMin(t),dep:null,no:num(al)};if(al==='SU'||r()<K[1])out.push(ln)}
+  LINES=out;
+}
+var runs=(ln,d)=>ln.days==='q3'?((d%3)+3)%3===0:ln.days[dateOf(d).getDay()]==='1';
+function mkRot(ln,d){
+  const cls=pick(ln.cls),g=GROUND[cls-1],sched=d*1440+ln.arr;
+  let eta=sched+(Math.random()<.18?5+Math.floor(Math.random()*25):0);
+  const pi=camp.pend.findIndex(p=>p.k===ln.k&&sched>=p.min);
+  if(pi>=0){eta=Math.max(eta,camp.pend[pi].avail);camp.pend.splice(pi,1)}
+  const i=flights.length;
+  flights.push({i,k:ln.k,al:ln.al,arrNo:ln.al+ln.no,depNo:ln.al+(ln.no+1),ap:ln.ap,cls,sched,eta,ground:g,depSched:ln.dep!=null?(d+1)*1440+ln.dep:sched+g,
+    dur:DUR[ln.ap],state:"inbound",stand:null,path:null,fuelPlan:D().fuel+5+Math.round(Math.random()*.12*DUR[ln.ap]),mk:pickMk(ln.al,cls)});
+}
+function genUpTo(dEnd){
+  while(camp.gen<dEnd){const d=++camp.gen;
+    for(const ln of LINES)if(runs(ln,d))mkRot(ln,d);
+    for(let k=0;k<D().storms;k++){let st,n=0;do{st=d*1440+toMin("13:00")+Math.floor(Math.random()*450)}while(storms.some(x=>Math.abs(x.s-st)<90)&&++n<20);
+      storms.push({s:st,e:st+20+Math.floor(Math.random()*16),warned:false,on:false})}
+    storms.sort((a,b)=>a.s-b.s);
+  }
+}
+// avião decolou: voa ao destino, faz o solo lá (pode atrasar) e volta na próxima rotação possível
+function linkNext(f){
+  if(!f.k)return;
+  const gA=Math.round(f.ground*.9),dl=Math.random()<.15?15+Math.floor(Math.random()*55):0;
+  const avail=f.tOff+f.dur+gA+dl+f.dur,min=f.depSched+2*f.dur+gA-30;
+  let t=null;for(const o of flights)if(o.k===f.k&&o.state==="inbound"&&o.sched>=min&&now<o.eta-o.dur&&(!t||o.sched<t.sched))t=o;
+  if(t){t.eta=Math.max(t.eta,avail);if(dl)t.abroadDl=dl}else camp.pend.push({k:f.k,min,avail});
+}
+function pruneWorld(){
+  flights.forEach((f,i)=>{if((f.state==="gone"&&now>f.tOff+f.dur+1440)||(f.state==="diverted"&&now>f.eta+1440))flights[i]={i,state:"old",sched:f.sched,depSched:f.depSched}});
+  storms=storms.filter(x=>x.e>now-120);camp.pend=camp.pend.filter(p=>p.avail>now-2880);
 }
 // vento: [hora, direção de onde sopra (graus), intensidade kt]
 var WIND=[["00:00",100,12],["13:25",280,16],["15:05",110,9]];
@@ -810,9 +861,9 @@ var lerp=(a,b,k)=>a+(b-a)*k;
 var EASE={lin:k=>k,out:k=>1-(1-k)**2,in:k=>k*k,io:k=>k<.5?2*k*k:1-((-2*k+2)**2)/2};
 
 var DIFFS={
-  facil:{name:"Fácil",auto:true,fuel:60,crews:{fuel:9,cat:9,clean:9},waves:[14,12,12],storms:0,goal:.75},
-  normal:{name:"Normal",fuel:40,crews:{fuel:4,cat:4,clean:4},waves:[17,15,16],storms:1,goal:.8},
-  dificil:{name:"Difícil",fuel:28,crews:{fuel:3,cat:2,clean:2},waves:[19,19,26],storms:2,goal:.85}};
+  facil:{name:"Fácil",auto:true,fuel:60,crews:{fuel:9,cat:9,clean:9},keep:[.55,.7],storms:0,goal:.75},
+  normal:{name:"Normal",fuel:40,crews:{fuel:4,cat:4,clean:4},keep:[.75,.9],storms:1,goal:.8},
+  dificil:{name:"Difícil",fuel:28,crews:{fuel:3,cat:2,clean:2},keep:[1,1],storms:2,goal:.85}};
 var DIFF="normal",camp={day:1,stars:0,rep:70,money:0},storms=[],dayOver=false;
 var D=()=>DIFFS[DIFF];
 var newCamp=()=>({day:1,stars:0,rep:70,money:0});
@@ -821,32 +872,25 @@ var $=id=>document.getElementById(id);
 var map=$('map'),fixed=$('fixed'),planesEl=$('planes'),board=$('board'),detail=$('detail'),side=$('side'),cards=$('cards');
 
 function reset(){
-  const wv=D().waves;
-  const tot=wv[0]+wv[1]+wv[2];
-  if(flights||!ROT||ROT.length<tot-6)ROT=genDay(tot);
-  const DAY=ROT.slice();
-  if((camp.day-1)%3===0)DAY.push(["SU",111,112,"SVO",6,fmt(toMin("20:20")+Math.floor(Math.random()*40)),Math.random()<.3?10:0]);
-  DAY.sort((x,y)=>toMin(x[5])-toMin(y[5]));
-  storms=[];for(let k=0;k<D().storms;k++){let st;do{st=toMin("13:00")+Math.floor(Math.random()*450)}while(storms.some(x=>Math.abs(x.s-st)<90));
-    storms.push({s:st,e:st+20+Math.floor(Math.random()*16),warned:false,on:false})}
-  storms.sort((a,b)=>a.s-b.s);dayOver=false;
-  flights=DAY.map(([al,a,d,ap,cls,t,dl,pre],i)=>{const sched=toMin(t),g=GROUND[cls-1];
-    if(pre)return {i,al,arrNo:al+a,depNo:al+d,ap,cls,sched:sched-g-90,eta:sched-g-90,ground:g,depSched:sched,dur:DUR[ap],state:"inbound",pre:1,stand:null,path:null,fuelPlan:8+Math.round(Math.random()*10),mk:pickMk(al,cls)};
-    return {i,al,arrNo:al+a,depNo:al+d,ap,cls,sched,eta:sched+dl,ground:g,depSched:sched+g,dur:DUR[ap],state:"inbound",stand:null,path:null,
-      fuelPlan:D().fuel+5+Math.round(Math.random()*.12*DUR[ap]),mk:pickMk(al,cls)}});
-  STANDS.forEach(s=>s.res=null);
-  now=toMin("11:52");
-  // estaciona os pernoites nas posições compatíveis
-  flights.filter(f=>f.pre).forEach(f=>{const s=STANDS.filter(x=>x.res==null&&x.max>=f.cls).sort((a,b)=>a.max-b.max||(a.remote?1:0)-(b.remote?1:0))[0];
-    if(!s){f.pre=0;f.sched=f.eta=f.depSched-f.ground;return}
-    s.res=f.i;f.stand=s.n;f.state="parked";f.tPark=now;f.fuelArr=f.fuelPlan;initSvc(f)});runwayFree=0;sel=null;assignFor=null;lastWind=-1;
+  const td=new Date();camp.t0=new Date(td.getFullYear(),td.getMonth(),td.getDate()).getTime();
+  camp.seed=Math.floor(Math.random()*1e9);camp.gen=-2;camp.cur=0;camp.pend=[];
+  storms=[];dayOver=false;flights=[];STANDS.forEach(s=>s.res=null);
+  buildLines();now=toMin("05:52");genUpTo(1);
+  // estado inicial: quem já partiu está voando; quem já chegou está no pátio (pernoite)
+  for(const f of flights){
+    if(f.depSched<=now){f.state="gone";f.tOff=f.depSched;continue}
+    if(f.eta<=now+2){const st=STANDS.filter(x=>x.res==null&&x.max>=f.cls).sort((a,b)=>a.max-b.max||(a.remote?1:0)-(b.remote?1:0))[0];
+      if(!st){f.state="gone";f.tOff=now-f.dur-1;continue}
+      st.res=f.i;f.stand=st.n;f.state="parked";f.tPark=now;f.pre=1;f.fuelArr=8+Math.round(Math.random()*10);initSvc(f)}
+  }
+  runwayFree=0;sel=null;assignFor=null;lastWind=-1;
   score={landed:0,departed:0,onTime:0,lateMin:0,diverted:0,emerg:0};
   planeEls.forEach(e=>e.remove());planeEls.clear();
   side.classList.remove('showDetail');
 }
 
 /* ---------- vento e pista em uso ---------- */
-function windNow(){let w=WIND[0];for(const x of WIND)if(now>=toMin(x[0]))w=x;return w}
+function windNow(){let w=WIND[0];for(const x of WIND)if(tod(now)>=toMin(x[0]))w=x;return w}
 function activeRwy(){const d=windNow()[1];const diff=a=>Math.abs(((d-a+540)%360)-180);return diff(100)<=diff(280)?"10":"28"}
 
 /* ---------- trajetórias ---------- */
@@ -968,6 +1012,7 @@ function divert(f){
 }
 
 function step(){
+  if(camp.gen<dayOf(now)+1)genUpTo(dayOf(now)+1);
   const r=activeRwy();
   // chegadas
   for(const f of flights){
@@ -1005,7 +1050,7 @@ function step(){
     }
     if(f.state==="takeoff"&&!f.toSnd&&now>=f.path.segs[2].t){f.toSnd=true;jet("takeoff")}
     if(f.state==="takeoff"&&now>=f.path.end){
-      f.state="gone";f.tOff=now;score.departed++;const late=Math.max(0,Math.round(nz(f.tPush,now)-f.depSched));
+      f.state="gone";f.tOff=now;f.path=null;score.departed++;linkNext(f);const late=Math.max(0,Math.round(nz(f.tPush,now)-Math.max(f.depSched,nz(f.tPark,0)+f.ground)));
       if(late<=15){score.onTime++;camp.rep=clamp(camp.rep+1,0,100)}else{score.lateMin+=late;camp.rep=clamp(camp.rep-(late>40?2:1),0,100)}
       camp.money+=f.cls*1500-Math.max(0,late-15)*40;dirty=true}
   }
@@ -1182,14 +1227,14 @@ function drawBar(){
 /* ---------- painel ---------- */
 var money=v=>(v<0?'-':'')+'R$ '+(Math.abs(v)>=1e6?(Math.abs(v)/1e6).toFixed(1).replace('.',',')+' mi':Math.round(Math.abs(v)/1000)+' mil');
 function goals(){
-  const tot=flights.filter(f=>!f.pre).length,G=Math.round(tot*D().goal),pct=score.departed?score.onTime/score.departed*100:0;
+  const d0=camp.cur*1440,tot=flights.filter(f=>!f.pre&&f.sched>=d0&&f.sched<d0+1440).length,G=Math.round(tot*D().goal),pct=score.departed?score.onTime/score.departed*100:0;
   return [{t:`Pousar ${G} aviões`,v:`${score.landed}/${G}`,ok:score.landed>=G},
           {t:'Pontualidade de 80%',v:score.departed?Math.round(pct)+'%':'--',ok:score.departed>=5&&pct>=80},
           {t:'Nenhum desvio',v:score.diverted?score.diverted+' desvio'+(score.diverted>1?'s':''):'ok',ok:score.diverted===0}];
 }
 function drawStats(){
   const pct=score.departed?Math.round(score.onTime/score.departed*100)+'%':'--';
-  $('campl').innerHTML=`<span>Dia ${camp.day} · ${D().name}</span><span>★ ${camp.stars}</span><span>${money(camp.money)}</span>`;
+  $('campl').innerHTML=`<span>${dateLbl(now)} · ${D().name}</span><span>★ ${camp.stars}</span><span>${money(camp.money)}</span>`;
   $('stats').innerHTML=`<div><small>Pousos</small><b>${score.landed}</b></div><div><small>Decolagens</small><b>${score.departed}</b></div><div><small>Pontualidade</small><b>${pct}</b></div><div><small>Reputação</small><b class="${camp.rep<40?'bad':''}">${camp.rep}</b></div>`;
   $('goals').innerHTML='<small>Metas do dia</small>'+goals().map(g=>`<div class="${g.ok?'ok':''}"><i>${g.ok?'✓':'○'}</i>${g.t}<b>${g.v}</b></div>`).join('');
   $('clock').textContent=$('clock2').textContent=fmt(now);
@@ -1197,7 +1242,7 @@ function drawStats(){
 /* ---------- painel split-flap ---------- */
 var CH=" ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:.-";
 var COLS=[5,9,6,2,10];
-var SHORTCITY={"Copenhague":"COPENHAGU","Adis Abeba":"ADIS ABEBA","Casablanca":"CASABLANC","Ilha do Sal":"ILHA SAL","Joanesburgo":"JOANESBRG","Porto Alegre":"P. ALEGRE","Los Angeles":"L.ANGELES","Buenos Aires":"B. AIRES","Cidade do Panamá":"PANAMA","São Paulo":"SAO PAULO","Amsterdã":"AMSTERDA"};
+var SHORTCITY={"Copenhague":"COPENHAGU","Adis Abeba":"ADIS ABEBA","Casablanca":"CASABLANC","Ilha do Sal":"ILHA SAL","Joanesburgo":"JOANESBRG","Porto Alegre":"P. ALEGRE","Los Angeles":"L.ANGELES","Buenos Aires":"B. AIRES","Cidade do Panamá":"PANAMA","São Paulo":"SAO PAULO","Amsterdã":"AMSTERDA","Belo Horizonte":"B.HORIZ","Florianópolis":"FLORIPA","Campo Grande":"C.GRANDE","João Pessoa":"J.PESSOA","Porto Velho":"P.VELHO","Rio Branco":"R.BRANCO","Boa Vista":"BOA VISTA","Cidade do México":"MEXICO","Santa Cruz de la Sierra":"STA CRUZ","San Salvador":"S.SALVADOR","Montevidéu":"MONTEVID"};
 var SHORTST={"APROXIMAÇÃO":"APROXIMA.","NA CABECEIRA":"CABECEIRA","PORTÃO FECHADO":"FECHADO","ÚLTIMA CHAMADA":"ULT.CHAM."};
 var norm=(t,n)=>t.normalize('NFD').replace(/[̀-ͯ]/g,'').toUpperCase().replace(/[^A-Z0-9:.\- ]/g,' ').slice(0,n).padEnd(n,' ');
 var flips=new Map();
@@ -1227,9 +1272,11 @@ function flipTick(t){
   }
 }
 var rows=[],rowsTab=null;
+var boardSig='';
+function boardList(arr){return flights.filter(f=>f.state!=="old"&&(arr?(f.sched>=now-240&&f.sched<=now+720&&!f.pre):(f.state!=="diverted"&&f.depSched>=now-180&&f.depSched<=now+720))).sort((a,b)=>arr?a.sched-b.sched:a.depSched-b.depSched).slice(0,45)}
 function buildBoard(){
   const arr=tab==="arr";rowsTab=tab;
-  const list=[...flights].sort((a,b)=>arr?a.sched-b.sched:a.depSched-b.depSched);
+  const list=boardList(arr);boardSig=list.map(f=>f.i).join(',');
   let h=`<div class="head"><span>HORA</span><span>${arr?'ORIGEM':'DESTINO'}</span><span>VOO</span><span>POS</span><span>SITUAÇÃO</span></div>`;
   list.forEach(f=>{h+=`<button class="row" data-f="${f.i}">${COLS.map(flapRow).join('')}</button>`});
   board.innerHTML=h;
@@ -1240,7 +1287,7 @@ function buildBoard(){
   updateBoard();
 }
 function updateBoard(){
-  if(rowsTab!==tab||rows.length!==flights.length||(rows[0]&&rows[0].f)!==flights[rows[0].f.i])return buildBoard();
+  if(rowsTab!==tab||boardList(tab==='arr').map(f=>f.i).join(',')!==boardSig||(rows[0]&&rows[0].f)!==flights[rows[0].f.i])return buildBoard();
   const arr=tab==="arr";
   for(const r of rows){
     const f=r.f;const [st,c]=arr?arrStatus(f):depStatus(f);
@@ -1480,7 +1527,8 @@ var APT={ZRH:[47.46,8.55,"Zurich Kloten","Zurique"],CPH:[55.62,12.65,"Kastrup","
  AMS:[52.31,4.76,"Schiphol","Amsterdã"],BOG:[4.7,-74.15,"El Dorado","Bogotá"],ATL:[33.64,-84.43,"Hartsfield-Jackson","Atlanta"],IAH:[29.98,-95.34,"George Bush Intercontinental","Houston"],
  MEX:[19.44,-99.07,"Benito Juárez","Cidade do México"],ASU:[-25.24,-57.52,"Silvio Pettirossi","Assunção"],VVI:[-17.64,-63.14,"Viru Viru","Santa Cruz de la Sierra"],MVD:[-34.84,-56.03,"Carrasco","Montevidéu"],
  LIM:[-12.02,-77.11,"Jorge Chávez","Lima"],HAV:[22.99,-82.41,"José Martí","Havana"],SAL:[13.44,-89.06,"Óscar Arnulfo Romero","San Salvador"],SJO:[9.99,-84.21,"Juan Santamaría","San José"],
- CCS:[10.60,-66.99,"Simón Bolívar (Maiquetía)","Caracas"],UIO:[-0.13,-78.36,"Mariscal Sucre","Quito"],SVO:[55.97,37.41,"Sheremetyevo","Moscou"]};
+ CCS:[10.60,-66.99,"Simón Bolívar (Maiquetía)","Caracas"],UIO:[-0.13,-78.36,"Mariscal Sucre","Quito"],SVO:[55.97,37.41,"Sheremetyevo","Moscou"],
+ CGH:[-23.63,-46.66,"Congonhas","São Paulo"],CNF:[-19.62,-43.97,"Confins – Tancredo Neves","Belo Horizonte"],FOR:[-3.78,-38.53,"Pinto Martins","Fortaleza"],CWB:[-25.53,-49.18,"Afonso Pena","Curitiba"],FLN:[-27.67,-48.55,"Hercílio Luz","Florianópolis"],VIX:[-20.26,-40.29,"Eurico de Aguiar Salles","Vitória"],GYN:[-16.63,-49.22,"Santa Genoveva","Goiânia"],CGB:[-15.65,-56.12,"Marechal Rondon","Cuiabá"],CGR:[-20.47,-54.67,"Campo Grande International","Campo Grande"],BEL:[-1.38,-48.48,"Val-de-Cans","Belém"],SLZ:[-2.59,-44.24,"Marechal Cunha Machado","São Luís"],THE:[-5.06,-42.82,"Senador Petrônio Portella","Teresina"],NAT:[-5.77,-35.37,"São Gonçalo do Amarante","Natal"],JPA:[-7.15,-34.95,"Castro Pinto","João Pessoa"],MCZ:[-9.51,-35.79,"Zumbi dos Palmares","Maceió"],AJU:[-10.98,-37.07,"Santa Maria","Aracaju"],PMW:[-10.29,-48.36,"Brigadeiro Lysias Rodrigues","Palmas"],PVH:[-8.71,-63.9,"Gov. Jorge Teixeira","Porto Velho"],RBR:[-9.87,-67.9,"Plácido de Castro","Rio Branco"],BVB:[2.85,-60.69,"Atlas Brasil Cantanhede","Boa Vista"],MCP:[0.05,-51.07,"Alberto Alcolumbre","Macapá"]};
 var VIEW={lon0:-180,lon1:180,lat0:-72,lat1:88};
 // posição do rótulo de cada aeroporto (evita sobreposição)
 var LBL={ZRH:[8,10],CPH:[8,-6],FCO:[8,12],JFK:[8,-6],LAX:[8,-6],GIG:[10,20],GRU:[-38,14],LHR:[-34,-4],AMS:[2,-9],CDG:[-10,15],FRA:[8,6],LIS:[-28,-4],MAD:[8,12],DOH:[-36,-6],DXB:[6,15],
@@ -1735,8 +1783,13 @@ $('speed').addEventListener('click',e=>{
   const b=e.target.closest('button');if(!b)return;
   if(b.id==="restart"){reset();rowsTab=null;drawLights();dirty=true;return}
   if(b.dataset.s==null)return;
-  speed=+b.dataset.s;$('spdLbl').textContent=speed?speed+'×':'pausa';document.querySelectorAll('#speed button[data-s]').forEach(x=>x.classList.toggle('on',x===b));
+  setSpeed(+b.dataset.s);
 });
+var lastSpd=10;
+function setSpeed(v){if(speed)lastSpd=speed;speed=v;$('spdLbl').textContent=speed?speed+'×':'pausa';document.querySelectorAll('#speed button[data-s]').forEach(x=>x.classList.toggle('on',+x.dataset.s===speed));
+  const pb=$('pauseBtn');if(pb){pb.classList.toggle('on',!speed);pb.innerHTML=ic(speed?'pause':'playI')}dirty=true}
+var togglePause=()=>setSpeed(speed?0:(lastSpd||10));
+$('mclock').addEventListener('click',togglePause);
 
 /* ---------- mapa fixo na tela: pinça para aproximar, arrastar só com zoom ---------- */
 var stage=$('stage'),abar=$('abar');
@@ -1836,7 +1889,7 @@ if(TWO){
     w.querySelector('.edt').addEventListener('click',e=>{e.stopPropagation();const o=!w.classList.contains('open');edge.querySelectorAll('.edw').forEach(x=>x.classList.remove('open'));w.classList.toggle('open',o)});};
   const q=sel=>document.querySelector(sel);
   mk('edCtl',ic('dep'),'Controle de voos',[q('.mobileBar .tab[data-t="arr"]'),q('.mobileBar .tab[data-t="dep"]'),$('mapBtn2')]);
-  mk('edOpt',`<span class="ico"><svg viewBox="0 0 24 24"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg></span>`,'Opções',[$('clockBtn'),$('mixBtn2'),$('saveBtn2'),$('loadBtn2'),$('homeBtn2')]);
+  mk('edOpt',`<span class="ico"><svg viewBox="0 0 24 24"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg></span>`,'Opções',[(()=>{const b=document.createElement('button');b.id='pauseBtn';b.setAttribute('aria-label','Pausar');b.className='mb';b.innerHTML=ic('pause');b.addEventListener('click',togglePause);return b})(),$('clockBtn'),$('mixBtn2'),$('saveBtn2'),$('loadBtn2'),$('homeBtn2')]);
   document.addEventListener('click',e=>{if(!e.target.closest('#edge'))edge.querySelectorAll('.edw').forEach(x=>x.classList.remove('open'))});
 }
 $('fltTab').addEventListener('click',()=>openFlt(true));
@@ -1852,10 +1905,10 @@ setTimeout(()=>{$('zhint').style.opacity=0},4500);
 if(!matchMedia('(pointer:coarse)').matches)$('zhint').textContent='Role para aproximar · arraste com zoom';
 
 /* ---------- tarde e noite ---------- */
-var ramp=(a,b)=>clamp((now-toMin(a))/(toMin(b)-toMin(a)),0,1);
+var ramp=(a,b)=>clamp((tod(now)-toMin(a))/(toMin(b)-toMin(a)),0,1);
 var PB=1,lastPart="";
 function skyTick(){
-  const t=ramp("15:30","17:00")*(1-ramp("17:45","19:00")),n=ramp("17:45","19:00");
+  const t=ramp("15:30","17:00")*(1-ramp("17:45","19:00")),n=Math.max(ramp("17:45","19:00"),1-ramp("05:10","06:30"));
   $('skyT').style.opacity=t;$('skyN').style.opacity=n;$('skyTh').style.opacity=t;$('skyNh').style.opacity=n;
   PB=1-.28*n;
   const part=n>.5?"Noite":t>.5?"Tarde":"Dia";
@@ -1867,7 +1920,7 @@ var last=performance.now();
 function tick(t){
   const dt=Math.min(.25,(t-last)/1000);last=t;
   if(started&&!dayOver)now+=dt*speed/60;
-  if(now>=toMin("23:59")&&!dayOver)endDay();
+  if(!dayOver&&started&&dayOf(now)>camp.cur)endDay();
   skyTick();
   flipTick(t);
   step();
@@ -1876,7 +1929,7 @@ function tick(t){
   if(dirty){dirty=false;drawUI()}
   if((liteF=(liteF+1)%2)===0)drawPlanes();
   if(mapOpen)drawFM(t);
-  {const ss=Math.floor((now%1)*60),tx=fmt(now)+'|'+ss;if(tx!==lastClk){lastClk=tx;$('mcT').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('mcS').textContent=speed?speed+'× · '+lastPart:'PAUSA'}}
+  {const ss=Math.floor((now%1)*60),tx=fmt(now)+'|'+ss+'|'+speed;if(tx!==lastClk){lastClk=tx;$('mcT').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('mcS').textContent=dateLbl(now)+' · '+(speed?speed+'×':'PAUSA')}}
   requestAnimationFrame(tick);
 }
 $('abtg').addEventListener('click',()=>{const a=$('abar');a.classList.toggle('min');$('abtg').setAttribute('aria-expanded',!a.classList.contains('min'));drawBar()});
@@ -1884,16 +1937,17 @@ $('closeSide').addEventListener('click',()=>{side.classList.remove('open');sel=n
 $('snd1').addEventListener('click',()=>setSound(!soundOn));
 /* ---------- salvar campanha: 5 posições + automático ---------- */
 var AUTO_KEY='departure_save_v1',SLOT_KEY=n=>'departure_slot_'+n;
-function snapshot(){return {v:1,diff:DIFF,camp,storms,dayOver,now,speed,ROT,runwayFree,score,stands:STANDS.map(x=>x.res),flights:flights.map(f=>({...f})),at:Date.now()}}
+function snapshot(){return {v:2,diff:DIFF,camp,storms,dayOver,now,speed,ROT,runwayFree,score,stands:STANDS.map(x=>x.res),flights:flights.map(f=>f.state==='gone'?{...f,path:null}:{...f}),at:Date.now()}}
 function writeKey(k,manual){
   try{localStorage.setItem(k,JSON.stringify(snapshot()));return true}
   catch(e){if(manual)toast('Não foi possível salvar neste aparelho');return false}
 }
-function readKey(k){try{const d=JSON.parse(localStorage.getItem(k)||'null');return d&&d.v===1?d:null}catch(e){return null}}
+function readKey(k){try{const d=JSON.parse(localStorage.getItem(k)||'null');return d&&(d.v===1||d.v===2)?d:null}catch(e){return null}}
 var readSave=()=>readKey(AUTO_KEY);
 function loadGame(d){
+  if(d.v!==2){DIFF=d.diff||'normal';camp=Object.assign(newCamp(),d.camp||{});reset();rowsTab=null;drawLights();dirty=true;toast('Jogo antigo: o mundo recomeçou, sua campanha foi mantida');return}
   DIFF=d.diff||'normal';camp=d.camp||newCamp();storms=d.storms||[];dayOver=false;
-  ROT=d.ROT;flights=d.flights;now=d.now;runwayFree=d.runwayFree;score=d.score;
+  ROT=d.ROT;flights=d.flights;now=d.now;buildLines();runwayFree=d.runwayFree;score=d.score;
   STANDS.forEach((x,i)=>x.res=d.stands[i]);
   flights.forEach(f=>{if(f.svs)f.svs.forEach(v=>{if(v.q==null)v.q=true})});
   speed=nz(d.speed,10);document.querySelectorAll('#speed button[data-s]').forEach(x=>x.classList.toggle('on',+x.dataset.s===speed));
@@ -1984,9 +2038,8 @@ var started=false;
 var cvTitle=$('cvTitle'),cvSub=$('cvSub');
 cvTitle.innerHTML=flapRow(9);cvSub.innerHTML=flapRow(22);
 setTimeout(()=>setFlaps(cvTitle.firstChild,"DEPARTURE"),300);
-if(!ROT)ROT=genDay(48);
-var promo=ROT.map(r=>norm(`${r[5]} ${(SHORTCITY[CITY[r[3]]]||CITY[r[3]])}`,16)+norm(r[0]+r[1],6));
-var pi=0;var cycle=()=>{if(started)return;setFlaps(cvSub.firstChild,promo[pi++%promo.length]);setTimeout(cycle,3200)};setTimeout(cycle,900);
+var promo=()=>{const l=(flights||[]).filter(f=>f.state==='inbound'||f.state==='parked').sort((a,b)=>a.depSched-b.depSched).slice(0,20).map(f=>norm(`${fmt(f.depSched)} ${(SHORTCITY[CITY[f.ap]]||CITY[f.ap])}`,16)+norm(f.depNo,6));return l.length?l:['DEPARTURE GALEAO']};
+var pi=0;var cycle=()=>{if(started)return;{const P=promo();setFlaps(cvSub.firstChild,P[pi++%P.length])};setTimeout(cycle,3200)};setTimeout(cycle,900);
 var playedOnce=false;
 function startGame(){
   audioInit();$('cover').classList.add('gone');started=true;playedOnce=true;
@@ -2002,20 +2055,20 @@ $('diffDlg').addEventListener('click',e=>{
   toast(`Dia 1 · ${D().name} · bom trabalho na torre!`);
 });
 function endDay(){
-  dayOver=true;const gs=goals(),st=gs.filter(g=>g.ok).length;if(camp.scored!==camp.day){camp.scored=camp.day;camp.stars+=st}
+  dayOver=true;const dl=dateLbl(camp.cur*1440);const gs=goals(),st=gs.filter(g=>g.ok).length;if(camp.scored!==camp.day){camp.scored=camp.day;camp.stars+=st}
   const pct=score.departed?Math.round(score.onTime/score.departed*100)+'%':'--';
-  $('dayCard').innerHTML=`<div class="mx-h"><b>Dia ${camp.day} concluído</b></div>
+  $('dayCard').innerHTML=`<div class="mx-h"><b>Dia ${camp.day} · ${dl} encerrado</b></div>
     <div class="day-st">${'★'.repeat(st)}${'☆'.repeat(3-st)}</div>
     ${gs.map(g=>`<div class="day-row"><span>${g.ok?'✓':'✗'} ${g.t}</span><b>${g.v}</b></div>`).join('')}
     <div class="day-row"><span>Pousos / decolagens</span><b>${score.landed} / ${score.departed}</b></div>
     <div class="day-row"><span>Pontualidade</span><b>${pct}</b></div>
     <div class="day-row"><span>Emergências · desvios</span><b>${score.emerg} · ${score.diverted}</b></div>
     <div class="day-row"><span>Reputação · caixa</span><b>${camp.rep} · ${money(camp.money)}</b></div>
-    <button class="day-go" id="nextDay">Começar dia ${camp.day+1}</button>`;
+    <button class="day-go" id="nextDay">Continuar · ${dateLbl((camp.cur+1)*1440)}</button>`;
   $('dayDlg').hidden=false;
 }
 $('dayDlg').addEventListener('click',e=>{if(!e.target.closest('#nextDay'))return;
-  camp.day++;reset();rowsTab=null;drawLights();$('dayDlg').hidden=true;writeKey(AUTO_KEY,false);toast(`Dia ${camp.day} · ${D().name}`);dirty=true});
+  camp.day++;camp.cur=dayOf(now);genUpTo(camp.cur+1);pruneWorld();score={landed:0,departed:0,onTime:0,lateMin:0,diverted:0,emerg:0};dayOver=false;rowsTab=null;$('dayDlg').hidden=true;writeKey(AUTO_KEY,false);toast(`${dateLbl(now)} · madrugada no Galeão`);dirty=true});
 reset();setTabs();requestAnimationFrame(tick);
 function loadLogos(){Object.keys(AIRLINES).forEach(al=>{if(LOGO[al])return;const im=new Image();im.onload=()=>{LOGO[al]=true;dirty=true};im.src=`logos/${al}.png?t=${Math.floor(Date.now()/60000)}`})}
 loadLogos();setInterval(loadLogos,60000);
