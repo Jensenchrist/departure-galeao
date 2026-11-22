@@ -616,7 +616,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795311972';
+var APPV='1795312240';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -778,6 +778,24 @@ function genWave(start,n){
   });
 }
 var ROT=null;
+// dia contínuo: nacionais de dia, internacionais à noite, partidas e chegadas alternadas
+var BRAP=["GRU","BSB","REC","SSA","POA","MAO"];
+var rcat=r=>BRAP.includes(r[1])?'nac':DUR[r[1]]<=420?'reg':'long';
+function genDay(n){
+  const R0=ROUTES.filter(r=>r[0]!=='SU'),pools={nac:R0.filter(r=>rcat(r)==='nac'),reg:R0.filter(r=>rcat(r)==='reg'),long:R0.filter(r=>rcat(r)==='long')};
+  const used=new Set(),out=[],usedNo=new Set();
+  const num=al=>{let a;do{const b=["LA","G3","AD","VP","TR"].includes(al)?1000+Math.floor(Math.random()*8000):10+Math.floor(Math.random()*890);a=b%2?b:b+1}while(usedNo.has(al+a));usedNo.add(al+a);return a};
+  const take=c=>{let pl=pools[c].filter(r=>c==='nac'||!used.has(r[0]+r[1]));if(!pl.length)pl=pools.nac;const r=pick(pl);used.add(r[0]+r[1]);return r};
+  const catAt=t=>{const h=t/60,x=Math.random();const w=h<17?[.65,.3]:h<19?[.35,.35]:[.15,.25];return x<w[0]?'nac':x<w[0]+w[1]?'reg':'long'};
+  // pernoite: aviões que dormiram no Galeão e só partem
+  const pre=Math.min(5,Math.round(n*.1));
+  for(let k=0;k<pre;k++){const r=take(Math.random()<.7?'nac':'reg'),a=num(r[0]);out.push([r[0],a,a+1,r[1],pick(r[2]),fmt(toMin("12:05")+k*Math.round(100/pre)+Math.floor(Math.random()*8)),0,1])}
+  // chegadas espalhadas de 12:00 às 22:40
+  const m=n-pre,st=toMin("12:00"),span=640;
+  for(let k=0;k<m;k++){const t=st+Math.round((k+.5)*span/m+(Math.random()*8-4)),r=take(catAt(t)),a=num(r[0]);
+    out.push([r[0],a,a+1,r[1],pick(r[2]),fmt(t),Math.random()<.25?5+Math.floor(Math.random()*20):0])}
+  return out;
+}
 // vento: [hora, direção de onde sopra (graus), intensidade kt]
 var WIND=[["00:00",100,12],["13:25",280,16],["15:05",110,9]];
 // serviços em solo: [nome, início, fim] como fração do tempo em solo
@@ -804,18 +822,24 @@ var map=$('map'),fixed=$('fixed'),planesEl=$('planes'),board=$('board'),detail=$
 
 function reset(){
   const wv=D().waves;
-  if(flights||!ROT)ROT=genWave(toMin("11:58"),wv[0]);
-  const DAY=[...ROT,...genWave(toMin("14:55"),wv[1]),...genWave(toMin("17:55"),wv[2])];
-  if((camp.day-1)%3===0)DAY.push(["SU",111,112,"SVO",6,fmt(toMin("15:40")+Math.floor(Math.random()*40)),Math.random()<.3?10:0]);
+  const tot=wv[0]+wv[1]+wv[2];
+  if(flights||!ROT||ROT.length<tot-6)ROT=genDay(tot);
+  const DAY=ROT.slice();
+  if((camp.day-1)%3===0)DAY.push(["SU",111,112,"SVO",6,fmt(toMin("20:20")+Math.floor(Math.random()*40)),Math.random()<.3?10:0]);
   DAY.sort((x,y)=>toMin(x[5])-toMin(y[5]));
   storms=[];for(let k=0;k<D().storms;k++){let st;do{st=toMin("13:00")+Math.floor(Math.random()*450)}while(storms.some(x=>Math.abs(x.s-st)<90));
     storms.push({s:st,e:st+20+Math.floor(Math.random()*16),warned:false,on:false})}
   storms.sort((a,b)=>a.s-b.s);dayOver=false;
-  flights=DAY.map(([al,a,d,ap,cls,t,dl],i)=>{const sched=toMin(t),g=GROUND[cls-1];
+  flights=DAY.map(([al,a,d,ap,cls,t,dl,pre],i)=>{const sched=toMin(t),g=GROUND[cls-1];
+    if(pre)return {i,al,arrNo:al+a,depNo:al+d,ap,cls,sched:sched-g-90,eta:sched-g-90,ground:g,depSched:sched,dur:DUR[ap],state:"inbound",pre:1,stand:null,path:null,fuelPlan:8+Math.round(Math.random()*10),mk:pickMk(al,cls)};
     return {i,al,arrNo:al+a,depNo:al+d,ap,cls,sched,eta:sched+dl,ground:g,depSched:sched+g,dur:DUR[ap],state:"inbound",stand:null,path:null,
       fuelPlan:D().fuel+5+Math.round(Math.random()*.12*DUR[ap]),mk:pickMk(al,cls)}});
   STANDS.forEach(s=>s.res=null);
-  now=toMin("11:52");runwayFree=0;sel=null;assignFor=null;lastWind=-1;
+  now=toMin("11:52");
+  // estaciona os pernoites nas posições compatíveis
+  flights.filter(f=>f.pre).forEach(f=>{const s=STANDS.filter(x=>x.res==null&&x.max>=f.cls).sort((a,b)=>a.max-b.max||(a.remote?1:0)-(b.remote?1:0))[0];
+    if(!s){f.pre=0;f.sched=f.eta=f.depSched-f.ground;return}
+    s.res=f.i;f.stand=s.n;f.state="parked";f.tPark=now;f.fuelArr=f.fuelPlan;initSvc(f)});runwayFree=0;sel=null;assignFor=null;lastWind=-1;
   score={landed:0,departed:0,onTime:0,lateMin:0,diverted:0,emerg:0};
   planeEls.forEach(e=>e.remove());planeEls.clear();
   side.classList.remove('showDetail');
@@ -1158,7 +1182,7 @@ function drawBar(){
 /* ---------- painel ---------- */
 var money=v=>(v<0?'-':'')+'R$ '+(Math.abs(v)>=1e6?(Math.abs(v)/1e6).toFixed(1).replace('.',',')+' mi':Math.round(Math.abs(v)/1000)+' mil');
 function goals(){
-  const tot=flights.length,G=Math.round(tot*D().goal),pct=score.departed?score.onTime/score.departed*100:0;
+  const tot=flights.filter(f=>!f.pre).length,G=Math.round(tot*D().goal),pct=score.departed?score.onTime/score.departed*100:0;
   return [{t:`Pousar ${G} aviões`,v:`${score.landed}/${G}`,ok:score.landed>=G},
           {t:'Pontualidade de 80%',v:score.departed?Math.round(pct)+'%':'--',ok:score.departed>=5&&pct>=80},
           {t:'Nenhum desvio',v:score.diverted?score.diverted+' desvio'+(score.diverted>1?'s':''):'ok',ok:score.diverted===0}];
@@ -1960,7 +1984,7 @@ var started=false;
 var cvTitle=$('cvTitle'),cvSub=$('cvSub');
 cvTitle.innerHTML=flapRow(9);cvSub.innerHTML=flapRow(22);
 setTimeout(()=>setFlaps(cvTitle.firstChild,"DEPARTURE"),300);
-if(!ROT)ROT=genWave(toMin("11:58"),20);
+if(!ROT)ROT=genDay(48);
 var promo=ROT.map(r=>norm(`${r[5]} ${(SHORTCITY[CITY[r[3]]]||CITY[r[3]])}`,16)+norm(r[0]+r[1],6));
 var pi=0;var cycle=()=>{if(started)return;setFlaps(cvSub.firstChild,promo[pi++%promo.length]);setTimeout(cycle,3200)};setTimeout(cycle,900);
 var playedOnce=false;
