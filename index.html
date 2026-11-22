@@ -606,12 +606,18 @@ body.two #speed{display:none!important}
 .dl-p{display:flex;justify-content:space-between;align-items:baseline;margin-top:10px;padding:10px;border-radius:10px;background:#1b1b1b;font-weight:800;color:#aaa}.dl-p small{color:#777;font-weight:600}
 .dl-own{display:flex;flex-wrap:wrap}.dl-own span{font-size:11px;background:#1b1b1b;border-radius:6px;padding:4px 7px;margin:0 6px 6px 0;color:#ccc}
 .dl-empty{padding:20px;text-align:center;color:var(--y);font-weight:800}
+#dlBk{width:36px;height:36px;border-radius:10px;background:#1b1b1b;color:var(--y);font-size:26px;font-weight:900;line-height:1;margin-right:10px}
+.fin-k{font-size:11px;font-weight:800;color:var(--g);text-transform:uppercase;letter-spacing:.04em;margin-top:10px}
+.fin-ch{display:flex;align-items:flex-end;height:120px;margin:6px 0 10px}.fc{flex:1;display:flex;flex-direction:column;align-items:center;height:100%}
+.fc-b{flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center}.fc-b i{width:34%;max-width:14px;border-radius:3px 3px 0 0;margin:0 1px;min-height:2px}
+.fc-b i.r,.fl-r{background:var(--gr)}.fc-b i.x,.fl-x{background:var(--r)}.fc small{font-size:9px;color:var(--g);margin-top:4px;white-space:nowrap}.fc.now small{color:var(--y);font-weight:800}
+.fl-r,.fl-x{display:inline-block;width:8px;height:8px;border-radius:2px;margin:0 3px 0 8px}
 .dl-tabs{display:flex;margin-top:10px;background:#1b1b1b;border-radius:10px;padding:3px}.dl-tabs button{flex:1;min-height:34px;border-radius:8px;color:#bbb;font-weight:800;font-size:14px}.dl-tabs button.on{background:var(--y);color:var(--k)}
 .gs{background:#111;border:1px solid #2c2c2c;border-radius:14px;padding:12px;margin-bottom:8px}
 .gs-h{font-weight:800;font-size:14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:baseline}.gs-h span{font-size:11px;color:var(--g);font-weight:600}
 .gs-cr{display:flex;align-items:center;margin:6px 0}.gs-cr .ico{width:26px;height:26px;border-radius:6px;margin-right:8px}.gs-cr b{flex:1;font-size:13px}
 .gs-cr button{width:36px;height:36px;border-radius:9px;background:#222;color:var(--y);font-size:20px;font-weight:900}.gs-cr em{font-style:normal;font-family:Doto,monospace;font-weight:900;font-size:20px;color:#fff;width:34px;text-align:center}
-.gs-tot,.gs-row{display:flex;justify-content:space-between;font-size:13px;margin-top:6px}.gs-tot{border-top:1px solid #222;padding-top:8px}.gs-tot b,.gs-row b.n{color:var(--r)}.gs-row b.p{color:var(--gr)}
+.gs-tot,.gs-row{display:flex;justify-content:space-between;font-size:13px;margin-top:6px}.gs-tot{border-top:1px solid #222;padding-top:8px}.gs-tot b,.gs-row b.n{color:var(--r)}.gs-row b.p{color:var(--gr)}.gs-row b{white-space:nowrap;margin-left:8px}
 .gs-s{display:block;font-size:11px;color:var(--g);margin-top:6px}
 .gs-pol{display:flex;margin-top:8px}.gs-pol button{flex:1;min-height:36px;border-radius:9px;background:#222;color:#ddd;font-weight:800}.gs-pol button+button{margin-left:6px}.gs-pol button.on{background:var(--y);color:var(--k)}
 .gs-al{display:grid;grid-template-columns:1fr auto;align-items:center;margin:8px 0}.gs-al small{display:block;font-size:10px;color:var(--g)}.gs-al em{font-style:normal;font-family:Doto,monospace;font-weight:900;font-size:18px}
@@ -708,7 +714,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795359167';
+var APPV='1795359697';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -734,7 +740,7 @@ chk();document.addEventListener('visibilitychange',function(){if(!document.hidde
     </div>
     <div id="storm"></div><video id="rainVid" src="chuva.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
     <div class="pop" id="pop" hidden><span class="pop-t"></span><div><button data-pm="svc" aria-label="Serviços"><span class="ico"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span><small>Serviços</small></button><button data-pm="data" aria-label="Dados do voo"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></span><small>Voo</small></button></div></div>
-    <div id="deals" hidden><div class="yd-box"><div class="yd-h"><b>Negócios</b><span id="dlMoney"></span><button id="dlX" aria-label="Fechar">×</button></div><div class="dl-tabs"><button data-dt="deals" class="on">Acordos</button><button data-dt="gest">Gestão</button></div><small class="dl-sub" id="dlSub">Traga novas rotas para o Galeão. Do mais barato ao mais caro.</small><div id="dlList"></div></div></div><div id="yard" hidden><div class="yd-box"><div class="yd-h"><b>Pátio</b><span id="ydSum"></span><button id="ydX" aria-label="Fechar">×</button></div><div class="yd-crew" id="ydCrew"></div><div class="yd-g" id="ydG"></div><small class="yd-lg"><i class="ok"></i>pronto <i class="run"></i>em serviço <i class="idle"></i>parado <i class="bad"></i>provisória <i class="in"></i>chegando</small></div></div><div id="autoBan">PILOTO AUTOMÁTICO · toque para desligar</div><div id="hud"><div class="mclock" id="mclock"><b id="mcT">11:52<i>:00</i></b><small id="mcS">10×</small></div><div id="windBox"></div></div>
+    <div id="deals" hidden><div class="yd-box"><div class="yd-h"><button id="dlBk" aria-label="Voltar">‹</button><b>Negócios</b><span id="dlMoney"></span><button id="dlX" aria-label="Fechar">×</button></div><div class="dl-tabs"><button data-dt="deals" class="on">Acordos</button><button data-dt="gest">Gestão</button><button data-dt="fin">Finanças</button></div><small class="dl-sub" id="dlSub">Traga novas rotas para o Galeão. Do mais barato ao mais caro.</small><div id="dlList"></div></div></div><div id="yard" hidden><div class="yd-box"><div class="yd-h"><b>Pátio</b><span id="ydSum"></span><button id="ydX" aria-label="Fechar">×</button></div><div class="yd-crew" id="ydCrew"></div><div class="yd-g" id="ydG"></div><small class="yd-lg"><i class="ok"></i>pronto <i class="run"></i>em serviço <i class="idle"></i>parado <i class="bad"></i>provisória <i class="in"></i>chegando</small></div></div><div id="autoBan">PILOTO AUTOMÁTICO · toque para desligar</div><div id="hud"><div class="mclock" id="mclock"><b id="mcT">11:52<i>:00</i></b><small id="mcS">10×</small></div><div id="windBox"></div></div>
     <div id="fltPg"><div class="fp-top"><button id="fpBack" aria-label="Voltar ao mapa">‹</button><div class="fp-route"><span class="fp-c">GIG</span><small>RIO DE JANEIRO · GALEÃO</small></div><span class="fp-clock" id="fpClock">--:--</span></div><div class="fp-sheet"><i class="fp-grab"></i><h3 id="fpCount">Voos ativos</h3><div id="fltList"></div></div></div>
     <button id="fltTab" hidden><span>✈</span><b id="fltN">0</b><i>‹</i></button>
     <div class="rail" id="rail" aria-label="Voos chegando e prontos"></div>
@@ -984,7 +990,7 @@ var DIFFS={
 var DIFF="normal",camp={day:1,stars:0,rep:70,money:0},storms=[],dayOver=false;
 var D=()=>DIFFS[DIFF];
 var START_MONEY={facil:400000,normal:250000,dificil:150000};
-var newCamp=()=>({day:1,stars:0,rep:70,money:START_MONEY[DIFF]||250000,deals:[]});
+var newCamp=()=>({day:1,stars:0,rep:70,money:START_MONEY[DIFF]||250000,deals:[],crews:DIFF==='facil'?undefined:{fuel:2,cat:2,clean:2}});
 var flights,now,speed=10,tab="arr",sel=null,assignFor=null,runwayFree,score,lastWind=-1;
 var $=id=>document.getElementById(id);
 var map=$('map'),fixed=$('fixed'),planesEl=$('planes'),board=$('board'),detail=$('detail'),side=$('side'),cards=$('cards');
@@ -1156,7 +1162,7 @@ function fuelBar(f,mark){
 var stormNow=()=>storms.find(x=>now>=x.s&&now<x.e);
 function divert(f){
   if(f.stand!=null&&STANDS[f.stand-1].res===f.i)STANDS[f.stand-1].res=null;
-  f.state="diverted";score.diverted++;camp.rep=clamp(camp.rep-6,0,100);camp.money-=8000;addSat(f.al,-6);
+  f.state="diverted";score.diverted++;camp.rep=clamp(camp.rep-6,0,100);camp.money-=8000;score.pen=(score.pen||0)+8000;addSat(f.al,-6);
   if(assignFor===f.i)assignFor=null;
   toast(`${f.arrNo} sem combustível · desviado para Guarulhos`);dirty=true;
 }
@@ -1184,7 +1190,7 @@ function step(){
     if(f.state==="arriving"&&now>=f.path.end){if(pk('estaciona')!=='off')play('turbina_desliga',{vol:.6,dur:14});f.state="parked";f.tPark=now;f.path=null;score.landed++;initSvc(f);chargeFine(f);
       if(f.emerg){camp.rep=clamp(camp.rep+2,0,100);toast(`${f.arrNo} pousou em segurança · emergência resolvida`)}dirty=true}
     if(f.state==="moving"&&now>=f.path.end){f.state="parked";f.path=null;f.tPark=now;initSvc(f);toast(`${f.depNo} na posição ${sn(f.stand)} · serviços liberados`);dirty=true}
-    if(f.state==="parked"&&f.blk){const m=Math.floor((now-f.tPark)/5);if(m>(f.blkPen||0)){f.blkPen=m;camp.rep=clamp(camp.rep-1,0,100);camp.money-=500;dirty=true}}
+    if(f.state==="parked"&&f.blk){const m=Math.floor((now-f.tPark)/5);if(m>(f.blkPen||0)){f.blkPen=m;camp.rep=clamp(camp.rep-1,0,100);camp.money-=500;score.pen=(score.pen||0)+500;dirty=true}}
     if(f.state==="parked"&&!f.readyNotified&&isReady(f)){f.readyNotified=true;toast(`${f.depNo} pronto para partir · posição ${sn(f.stand)}`);if(pk('aviso')!=='off')play(pk('aviso'));dirty=true}
   }
   // partidas
@@ -1202,7 +1208,7 @@ function step(){
     if(f.state==="takeoff"&&now>=f.path.end){
       f.state="gone";f.tOff=now;f.path=null;score.departed++;linkNext(f);const late=Math.max(0,Math.round(nz(f.tPush,now)-Math.max(f.depSched,nz(f.tPark,0)+f.ground)));
       if(late<=15){score.onTime++;camp.rep=clamp(camp.rep+1,0,100);addSat(f.al,1)}else{score.lateMin+=late;camp.rep=clamp(camp.rep-(late>40?2:1),0,100);addSat(f.al,late>40?-3:-2)}
-      {const rv=Math.round(f.cls*4000*(DOMAP.has(f.ap)?1:1.6)*revMul(f.al))-Math.max(0,late-15)*40;camp.money+=rv;score.rev=(score.rev||0)+rv}dirty=true}
+      {const rv=Math.round(fareOf(f.cls,DOMAP.has(f.ap))*revMul(f.al))-Math.max(0,late-15)*40;camp.money+=rv;score.rev=(score.rev||0)+rv}dirty=true}
   }
   svcStep();stormStep();
 }
@@ -2010,7 +2016,7 @@ function setLayout(id){
 var EXP_PRICE=1500000;
 function buildExpansion(){
   if(LAY.id===2||camp.money<EXP_PRICE)return;
-  camp.money-=EXP_PRICE;camp.lay=2;setLayout(2);
+  camp.money-=EXP_PRICE;score.inv=(score.inv||0)+EXP_PRICE;camp.lay=2;setLayout(2);
   for(const f of flights){
     if(f.stand!=null&&f.stand>STANDS.length)f.stand=null;
     if(f.state==="arriving"||f.state==="moving"){if(f.state==="arriving")score.landed++;f.path=null;f.state="parked";f.tPark=now;f.svs=null;initSvc(f)}
@@ -2104,12 +2110,13 @@ $('yard').addEventListener('click',e=>{if(e.target.id==='yard')return openYard(f
   const st=STANDS[+c.dataset.st-1],f=flights[st.res];if(!f)return;openYard(false);if(TWO)openFlt(false);detailMode="svc";openFlight(f,"dep")});
 /* ---------- acordos comerciais ---------- */
 var dealsOn=false,dealAsk=null;
+var fareOf=(cls,dom)=>(5000+cls*3000)*(dom?1:1.6);   // receita por partida
 var nice=v=>v<100000?Math.round(v/5000)*5000:v<1000000?Math.round(v/10000)*10000:Math.round(v/50000)*50000;
 function dealList(){
   const by={};for(const l of ALL_LINES)(by[l.k]=by[l.k]||[]).push(l);
   return Object.values(by).map(ls=>{const l=ls[0],dom=DOMAP.has(l.ap),cat=dom?'nac':DUR[l.ap]<=420?'reg':'long';
     const wk=ls.reduce((a,x)=>a+(x.days==='q3'?7/3:x.days.split('').filter(c=>c==='1').length),0);
-    const ca=l.cls.reduce((a,b)=>a+b,0)/l.cls.length,rev=wk*ca*4000*(dom?1:1.6);
+    const ca=l.cls.reduce((a,b)=>a+b,0)/l.cls.length,rev=wk*fareOf(ca,dom);
     return {k:l.k,al:l.al,ap:l.ap,ls,dom,cat,wk,cls:l.cls,rev,price:nice(Math.max(25000,rev*(cat==='nac'?.8:cat==='reg'?1.6:2.5)))}});
 }
 var DIAS=['D','S','T','Q','Q','S','S'];
@@ -2150,8 +2157,28 @@ function drawGest(){
         return `<div class="gs-al"><span>${flag(al)} <b>${AIRLINES[al]}</b><small>${ks.length} rota${ks.length>1?'s':''} · renova em ${nx} dia${nx>1?'s':''} · taxa ×${revMul(al).toFixed(2)}</small></span><em style="color:${col}">${v}</em><i><b style="width:${v}%;background:${col}"></b></i></div>`}).join(''):'<small class="gs-s">Nenhuma companhia operando ainda.</small>'}
       <small class="gs-s">Sobe com partida no horário e multa perdoada. Cai com atraso seu, desvio e vaga provisória.</small></div>`;
 }
+function drawFin(){
+  $('dlMoney').textContent=money(camp.money);
+  const e=ECO(),c=crewCap(),wageT=e?(c.fuel+c.cat+c.clean)*e.wage:0;
+  const recT=(score.rev||0)+(score.fine||0),depT=wageT+(score.pen||0)+(score.inv||0),res=recT-depT,opr=recT-wageT-(score.pen||0);
+  const H=(camp.hist||[]).slice(-7).map(h=>({l:dateLbl(h.d*1440).split(' ').slice(0,2).join(' '),r:h.rev+h.fine,x:h.wage+h.pen+h.inv,inv:h.inv}));
+  H.push({l:'Hoje',r:recT,x:depT,inv:score.inv||0,now:1});
+  const mx=Math.max(1,...H.map(h=>Math.max(h.r,h.x)));
+  const tr=H.reduce((a,h)=>a+h.r,0),tx=H.reduce((a,h)=>a+h.x,0);
+  const row=(t,v,cl)=>`<div class="gs-row"><span>${t}</span><b class="${cl}">${cl==='n'?'−':cl==='p'?'+':''}${money(Math.abs(v))}</b></div>`;
+  $('dlList').innerHTML=`<div class="gs"><div class="gs-h">Hoje <span>${dateLbl(now)} · até ${fmt(now)}</span></div>
+    <div class="fin-k">Receitas</div>${row('Voos (taxas de pouso e embarque)',score.rev||0,'p')}${row('Multas de atraso recebidas',score.fine||0,'p')}
+    <div class="fin-k">Despesas</div>${e?row('Salários das equipes (pago à meia-noite)',wageT,'n'):''}${row('Penalidades (desvios, vaga provisória)',score.pen||0,'n')}${row('Investimentos (acordos e obras)',score.inv||0,'n')}
+    <div class="gs-tot"><span>Resultado do dia</span><b style="color:${res>=0?'var(--gr)':'var(--r)'}">${res>=0?'+':'−'}${money(Math.abs(res))}</b></div>
+    <small class="gs-s">Sem investimentos, a operação dá ${opr>=0?'+':'−'}${money(Math.abs(opr))} hoje.</small></div>
+    <div class="gs"><div class="gs-h">Últimos dias <span><i class="fl-r"></i>receitas <i class="fl-x"></i>despesas</span></div>
+    <div class="fin-ch">${H.map(h=>`<div class="fc${h.now?' now':''}"><div class="fc-b"><i class="r" style="height:${h.r/mx*100}%"></i><i class="x" style="height:${h.x/mx*100}%"></i></div><small>${h.l}</small></div>`).join('')}</div>
+    ${row(`Receitas · ${H.length} dias`,tr,'p')}${row(`Despesas · ${H.length} dias`,tx,'n')}
+    <div class="gs-tot"><span>Saldo do período</span><b style="color:${tr-tx>=0?'var(--gr)':'var(--r)'}">${tr-tx>=0?'+':'−'}${money(Math.abs(tr-tx))}</b></div></div>`;
+}
 function drawDeals(){
   if(dealTab==='gest')return drawGest();
+  if(dealTab==='fin')return drawFin();
   const own=new Set(camp.deals||ALL_LINES.filter(l=>l.kp).map(l=>l.k)),L=dealList();
   const btn=(id,p)=>camp.money>=p?`<button class="dl-b" data-buy="${id}">${dealAsk===id?'Confirmar':'Fechar acordo'} · ${money(p)}</button>`:`<span class="dl-p">${money(p)}<small>faltam ${money(p-camp.money)}</small></span>`;
   $('dlMoney').textContent=money(camp.money);
@@ -2172,14 +2199,15 @@ function buyDeal(k){
   if(k==='EXP'){buildExpansion();openDeals(false);return}
   const d=dealList().find(x=>x.k===k);if(!d||camp.money<d.price)return;
   if(!camp.deals)camp.deals=ALL_LINES.filter(l=>l.kp).map(l=>l.k);
-  camp.money-=d.price;camp.deals.push(k);camp.dealT=camp.dealT||{};camp.dealT[k]=dayOf(now);buildLines();
+  camp.money-=d.price;score.inv=(score.inv||0)+d.price;camp.deals.push(k);camp.dealT=camp.dealT||{};camp.dealT[k]=dayOf(now);buildLines();
   let first=null;for(let dd=dayOf(now);dd<=camp.gen;dd++)for(const ln of LINES)if(ln.k===k&&runs(ln,dd)&&dd*1440+ln.arr>now+45){mkRot(ln,dd);const t=dd*1440+ln.arr;if(first==null||t<first)first=t}
   toast(`Acordo fechado: ${AIRLINES[d.al]} ⇄ ${CITY[d.ap]}${first!=null?' · 1º voo '+(dayOf(first)>dayOf(now)?dateLbl(first)+' ':'')+fmt(first):''}`);
   writeKey(AUTO_KEY,false);dirty=true;drawDeals();
 }
 $('dlX').addEventListener('click',()=>openDeals(false));
+$('dlBk').addEventListener('click',()=>{if(dealsAl){dealsAl=null;dealAsk=null;drawDeals();$('dlList').scrollTop=0}else if(dealTab!=='deals'){const b=document.querySelector('.dl-tabs [data-dt="deals"]');b.click()}else openDeals(false)});
 $('deals').addEventListener('click',e=>{if(e.target.id==='deals')return openDeals(false);
-  const tb=e.target.closest('[data-dt]');if(tb){dealTab=tb.dataset.dt;dealsAl=null;document.querySelectorAll('.dl-tabs button').forEach(x=>x.classList.toggle('on',x===tb));$('dlSub').textContent=dealTab==='gest'?'Custos, equipes e a relação com as companhias.':'Traga novas rotas para o Galeão. Do mais barato ao mais caro.';drawDeals();$('dlList').scrollTop=0;return}
+  const tb=e.target.closest('[data-dt]');if(tb){dealTab=tb.dataset.dt;dealsAl=null;document.querySelectorAll('.dl-tabs button').forEach(x=>x.classList.toggle('on',x===tb));$('dlSub').textContent=dealTab==='gest'?'Custos, equipes e a relação com as companhias.':dealTab==='fin'?'Receitas x despesas do aeroporto.':'Traga novas rotas para o Galeão. Do mais barato ao mais caro.';drawDeals();$('dlList').scrollTop=0;return}
   const cr=e.target.closest('[data-cr]');if(cr){const c=crewCap(),k=cr.dataset.cr,v=+cr.dataset.v;if(v<0&&c[k]<=1)return toast('Precisa de pelo menos 1 equipe');if(v>0&&c[k]>=10)return toast('Máximo de 10 equipes');
     if(v<0&&crewBusy()[k]>=c[k])return toast('Essa equipe está trabalhando agora');c[k]+=v;toast(v>0?`Equipe de ${CREWNAME[k].toLowerCase()} contratada`:`Equipe de ${CREWNAME[k].toLowerCase()} dispensada`);drawDeals();return}
   const po=e.target.closest('[data-pol]');if(po){camp.forgive=po.dataset.pol==='1';drawDeals();return}
@@ -2233,7 +2261,7 @@ function tick(t){
   const dt=Math.min(.25,(t-last)/1000);last=t;
   {const w=Date.now(),gap=w-lastWall;lastWall=w;if(gap>3000&&camp.auto&&started&&!dayOver&&speed)catchLeft+=Math.min(4320,gap/1000*speed/60)}
   if(catchLeft>0)catchUp();
-  if(yardOn&&dirty)drawYard();if(dealsOn&&dirty&&!dealAsk)$('dlMoney').textContent=money(camp.money);
+  if(yardOn&&dirty)drawYard();if(dealsOn&&dirty&&!dealAsk){$('dlMoney').textContent=money(camp.money);if(dealTab==='fin'&&Date.now()-(drawFin.t||0)>1000){drawFin.t=Date.now();const st=$('dlList').scrollTop;drawFin();$('dlList').scrollTop=st}}
   if(started&&!dayOver)now+=dt*speed/60;
   if(!dayOver&&started&&dayOf(now)>camp.cur){if(camp.auto)autoDay();else endDay()}
   if(camp.auto&&started&&!dayOver)autoStep();
@@ -2389,7 +2417,8 @@ function endDay(){
     <button class="day-go" id="nextDay">Continuar · ${dateLbl((camp.cur+1)*1440)}</button>`;
   $('dayDlg').hidden=false;
 }
-function rollDay(){score.wage=payWages();camp.lastDay={rev:score.rev||0,fine:score.fine||0,forg:score.forg||0,wage:score.wage||0,lost:score.lost||null};camp.day++;camp.cur=dayOf(now);renewals();genUpTo(camp.cur+1);pruneWorld();score={landed:0,departed:0,onTime:0,lateMin:0,diverted:0,emerg:0};dayOver=false;rowsTab=null}
+function rollDay(){score.wage=payWages();camp.lastDay={rev:score.rev||0,fine:score.fine||0,forg:score.forg||0,wage:score.wage||0,lost:score.lost||null};
+  camp.hist=(camp.hist||[]).concat([{d:camp.cur,rev:score.rev||0,fine:score.fine||0,wage:score.wage||0,pen:score.pen||0,inv:score.inv||0}]).slice(-14);camp.day++;camp.cur=dayOf(now);renewals();genUpTo(camp.cur+1);pruneWorld();score={landed:0,departed:0,onTime:0,lateMin:0,diverted:0,emerg:0};dayOver=false;rowsTab=null}
 $('dayDlg').addEventListener('click',e=>{if(!e.target.closest('#nextDay'))return;
   rollDay();$('dayDlg').hidden=true;writeKey(AUTO_KEY,false);toast(`${dateLbl(now)} · madrugada no Galeão`);dirty=true});
 /* ---------- piloto automático ---------- */
