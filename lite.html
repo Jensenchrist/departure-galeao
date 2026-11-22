@@ -599,6 +599,20 @@ body.two #speed{display:none!important}
 .dl-p{display:flex;justify-content:space-between;align-items:baseline;margin-top:10px;padding:10px;border-radius:10px;background:#1b1b1b;font-weight:800;color:#aaa}.dl-p small{color:#777;font-weight:600}
 .dl-own{display:flex;flex-wrap:wrap}.dl-own span{font-size:11px;background:#1b1b1b;border-radius:6px;padding:4px 7px;margin:0 6px 6px 0;color:#ccc}
 .dl-empty{padding:20px;text-align:center;color:var(--y);font-weight:800}
+.dl-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dl-al{display:flex;flex-direction:column;background:#111;border:1px solid #2c2c2c;border-radius:14px;overflow:hidden;padding:0;text-align:left;color:#fff}
+.dl-cv{position:relative;padding:10px 10px 12px;color:#fff}
+.dl-cv>i{position:absolute;left:0;right:0;bottom:0;height:4px}
+.dl-plate{height:54px;border-radius:9px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.dl-lg{max-width:86%;max-height:40px;mix-blend-mode:multiply}
+.dl-wm{font-weight:900;font-size:15px;letter-spacing:-.01em;text-align:center;line-height:1.05;padding:0 6px}
+.dl-cvb{display:flex;align-items:center;justify-content:space-between;margin-top:8px}.dl-cvb b{font-size:13px;line-height:1.1}.dl-cvb span{font-size:16px;margin-left:4px}
+.dl-cv.big{border-radius:14px;margin:8px 0}.dl-cv.big .dl-plate{height:86px}.dl-cv.big .dl-lg{max-height:64px}.dl-cv.big .dl-wm{font-size:24px}.dl-cv.big .dl-cvb b{font-size:18px}
+.dl-alf{padding:8px 10px 10px;font-size:11px;color:var(--g);display:flex;flex-direction:column}.dl-alf b{color:#fff}.dl-alf b.on{color:var(--gr)}
+.dl-back{color:var(--y);font-weight:800;font-size:14px;padding:4px 0}
+.dl-sum{font-size:12px;color:var(--g);margin:0 0 8px}
+.dl .dl-r{display:flex;align-items:center;justify-content:space-between;margin-top:0}
+.dl-on{margin-top:10px;padding:10px;border-radius:10px;background:#0f2a18;color:var(--gr);font-weight:800;text-align:center}
 #yard{position:fixed;top:0;right:0;bottom:0;left:0;z-index:40;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;padding:max(14px,env(safe-area-inset-top)) 12px max(14px,env(safe-area-inset-bottom))}
 #yard[hidden]{display:none}
 .yd-box{background:rgba(0,0,0,.85);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:2px solid var(--y);border-radius:18px;padding:14px;width:min(560px,100%);max-height:100%;overflow-y:auto;color:#fff}
@@ -686,7 +700,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795354976';
+var APPV='1795358106';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -960,7 +974,7 @@ var DIFFS={
 var DIFF="normal",camp={day:1,stars:0,rep:70,money:0},storms=[],dayOver=false;
 var D=()=>DIFFS[DIFF];
 var START_MONEY={facil:400000,normal:250000,dificil:150000};
-var newCamp=()=>({day:1,stars:0,rep:70,money:START_MONEY[DIFF]||250000,deals:['ADGRU']});
+var newCamp=()=>({day:1,stars:0,rep:70,money:START_MONEY[DIFF]||250000,deals:[]});
 var flights,now,speed=10,tab="arr",sel=null,assignFor=null,runwayFree,score,lastWind=-1;
 var $=id=>document.getElementById(id);
 var map=$('map'),fixed=$('fixed'),planesEl=$('planes'),board=$('board'),detail=$('detail'),side=$('side'),cards=$('cards');
@@ -1403,7 +1417,7 @@ function buildBoard(){
   updateBoard();
 }
 function updateBoard(){
-  if(rowsTab!==tab||boardList(tab==='arr').map(f=>f.i).join(',')!==boardSig||(rows[0]&&rows[0].f)!==flights[rows[0].f.i])return buildBoard();
+  if(rowsTab!==tab||boardList(tab==='arr').map(f=>f.i).join(',')!==boardSig||(rows[0]&&rows[0].f!==flights[rows[0].f.i]))return buildBoard();
   const arr=tab==="arr";
   for(const r of rows){
     const f=r.f;const [st,c]=arr?arrStatus(f):depStatus(f);
@@ -2074,21 +2088,35 @@ function freqTxt(d){const l=d.ls[0];
   if(d.dom)return d.ls.length>1?`${d.ls.length}× por dia`:'diário';
   if(l.days==='1111111')return d.ls.length>1?`${d.ls.length}× por dia`:'diário';
   return `${Math.round(d.wk)}× por semana · `+l.days.split('').map((c,i)=>c==='1'?DIAS[i]:'').filter(Boolean).join(' ')}
-function openDeals(on){dealsOn=on;$('deals').hidden=!on;dealAsk=null;if(on)drawDeals()}
+function openDeals(on){dealsOn=on;$('deals').hidden=!on;dealAsk=null;dealsAl=null;if(on)drawDeals()}
+// cores de cada companhia: [principal, destaque]
+var BRAND={SR:['#E30613','#fff'],SK:['#0B1F5C','#C8102E'],DT:['#D7182A','#111'],ET:['#00843D','#FCDD09'],AT:['#C1272D','#006233'],MS:['#00265C','#C5A100'],VR:['#003893','#F7D116'],
+ RG:['#00377A','#F2A900'],VP:['#1F3A93','#F5C400'],TR:['#D71920','#F7B500'],QF:['#E40000','#fff'],SA:['#00205B','#FFB81C'],CA:['#C8102E','#F2C200'],SQ:['#1A2B5E','#F5B335'],
+ AZ:['#00843D','#D2232A'],PA:['#0A5BA8','#fff'],JL:['#CC0000','#fff'],LA:['#1B0088','#ED1650'],G3:['#FF6600','#fff'],AD:['#0033A0','#27B4E6'],TP:['#D6001C','#00A859'],
+ EK:['#C8102E','#C8A052'],AF:['#002157','#EF1A2D'],BA:['#01295F','#EB2226'],AA:['#2B3A4A','#C30019'],AR:['#0065B3','#A7CEEA'],CM:['#0032A0','#B5975A'],QR:['#5C0632','#B0B0B0'],
+ LH:['#05164D','#FFAD00'],IB:['#D7192D','#FFCC00'],KL:['#00A1DE','#fff'],AV:['#DA291C','#fff'],DL:['#003268','#C01933'],UA:['#005DAA','#7FB2E5'],AM:['#0B2343','#E31837'],
+ PZ:['#D52B1E','#0038A8'],OB:['#003DA5','#E4002B'],PU:['#00A3E0','#FFD100'],TA:['#D52B1E','#00843D'],CU:['#002A8F','#CF142B'],V0:['#E5352D','#002F6C'],H2:['#3C1053','#00A3E0'],SU:['#02458D','#E5A00D']};
+var tint=(hex,k)=>{const n=parseInt(hex.slice(1),16),r=n>>16,g=n>>8&255,b=n&255,m=v=>Math.round(v+(255-v)*k);return `rgb(${m(r)},${m(g)},${m(b)})`};
+var dealsAl=null;
+function alCover(al,big){const [c1,c2]=BRAND[al]||['#222','#FDE934'];
+  const mark=LOGO[al]?`<img class="dl-lg" src="logos/${al}.png?t=${LOGOV}" alt="">`:`<span class="dl-wm" style="color:${c1}">${AIRLINES[al]}</span>`;
+  return `<div class="dl-cv${big?' big':''}" style="background:${c1}"><div class="dl-plate" style="background:${tint(c1,.86)}">${mark}</div><div class="dl-cvb"><b>${AIRLINES[al]}</b><span>${flag(al)}</span></div><i style="background:${c2}"></i></div>`}
 function drawDeals(){
   const own=new Set(camp.deals||ALL_LINES.filter(l=>l.kp).map(l=>l.k)),L=dealList();
-  const avail=L.filter(d=>!own.has(d.k)),mine=L.filter(d=>own.has(d.k));
-  const items=avail.map(d=>({t:'d',p:d.price,d}));
-  if(LAY.id===1)items.push({t:'x',p:EXP_PRICE});
-  items.sort((a,b)=>a.p-b.p);
-  const btn=(id,p)=>camp.money>=p?`<button class="dl-b" data-buy="${id}">${dealAsk===id?'Confirmar':'Fechar'} · ${money(p)}</button>`:`<span class="dl-p">${money(p)}<small>faltam ${money(p-camp.money)}</small></span>`;
-  const card=d=>`<div class="dl"><div class="dl-h">${logo(d.al,'tk-lg')||''}<span class="tk-fl">${flag(d.al)}</span><b>${AIRLINES[d.al]}</b><em class="dl-c ${d.cat}">${d.cat==='nac'?'Nacional':d.cat==='reg'?'Américas':'Longa distância'}</em></div>
-    <div class="dl-r"><span class="dl-ap">GIG ⇄ <b>${d.ap}</b> ${CITY[d.ap]}</span></div>
-    <div class="dl-i"><span>${freqTxt(d)}</span><span>classe ${Math.min(...d.cls)}${d.cls.length>1?'–'+Math.max(...d.cls):''}</span><span>~${money(Math.round(d.rev))}/sem</span></div>
-    ${btn(d.k,d.price)}</div>`;
-  $('dlList').innerHTML=(items.length?items.map(it=>it.t==='x'?`<div class="dl exp"><div class="dl-h"><span class="tk-fl">🏗</span><b>Expansão do Galeão</b><em class="dl-c long">Obra</em></div><div class="dl-r">Terminal 2 com 6 portões + 2ª pista paralela (10L/28R)</div>${btn('EXP',EXP_PRICE)}</div>`:card(it.d)).join(''):'<div class="dl-empty">Todos os acordos fechados. O Galeão é um hub mundial! ✈</div>')
-    +(mine.length?`<div class="tk-sec">Em operação <span>${mine.length}</span></div><div class="dl-own">${mine.map(d=>`<span>${flag(d.al)} ${d.al} · ${d.ap}</span>`).join('')}</div>`:'');
+  const btn=(id,p)=>camp.money>=p?`<button class="dl-b" data-buy="${id}">${dealAsk===id?'Confirmar':'Fechar acordo'} · ${money(p)}</button>`:`<span class="dl-p">${money(p)}<small>faltam ${money(p-camp.money)}</small></span>`;
   $('dlMoney').textContent=money(camp.money);
+  if(dealsAl){
+    const al=dealsAl,ds=L.filter(d=>d.al===al).sort((a,b)=>a.price-b.price),av=ds.filter(d=>!own.has(d.k)),mi=ds.filter(d=>own.has(d.k));
+    const card=d=>`<div class="dl"><div class="dl-r"><span class="dl-ap">GIG ⇄ <b>${d.ap}</b> ${CITY[d.ap]}</span><em class="dl-c ${d.cat}">${d.cat==='nac'?'Nacional':d.cat==='reg'?'Américas':'Longa distância'}</em></div>
+      <div class="dl-i"><span>${freqTxt(d)}</span><span>classe ${Math.min(...d.cls)}${d.cls.length>1?'–'+Math.max(...d.cls):''}</span><span>~${money(Math.round(d.rev))}/sem</span></div>
+      ${own.has(d.k)?'<div class="dl-on">✓ Em operação</div>':btn(d.k,d.price)}</div>`;
+    $('dlList').innerHTML=`<button class="dl-back" id="dlBack">‹ Companhias</button>${alCover(al,true)}<div class="dl-sum">${mi.length} de ${ds.length} destinos em operação</div>`+av.map(card).join('')+mi.map(card).join('');
+    return;
+  }
+  const als=[...new Set(L.map(d=>d.al))].map(al=>{const ds=L.filter(d=>d.al===al),av=ds.filter(d=>!own.has(d.k));
+    return {al,n:ds.length,on:ds.length-av.length,min:av.length?Math.min(...av.map(d=>d.price)):null}}).sort((a,b)=>(a.min==null?1e12:a.min)-(b.min==null?1e12:b.min));
+  $('dlList').innerHTML=(LAY.id===1?`<div class="dl exp"><div class="dl-h"><span class="tk-fl">🏗</span><b>Expansão do Galeão</b><em class="dl-c long">Obra</em></div><div class="dl-r">Terminal 2 com 6 portões + 2ª pista paralela (10L/28R)</div>${btn('EXP',EXP_PRICE)}</div>`:'')
+    +`<div class="dl-grid">${als.map(a=>`<button class="dl-al" data-al="${a.al}">${alCover(a.al)}<div class="dl-alf"><span>${a.on?`<b class="on">${a.on}/${a.n} rotas</b>`:`${a.n} destino${a.n>1?'s':''}`}</span><span>${a.min!=null?'a partir de <b>'+money(a.min)+'</b>':'<b class="on">todas em operação</b>'}</span></div></button>`).join('')}</div>`;
 }
 function buyDeal(k){
   if(k==='EXP'){buildExpansion();openDeals(false);return}
@@ -2100,7 +2128,10 @@ function buyDeal(k){
   writeKey(AUTO_KEY,false);dirty=true;drawDeals();
 }
 $('dlX').addEventListener('click',()=>openDeals(false));
-$('deals').addEventListener('click',e=>{if(e.target.id==='deals')return openDeals(false);const b=e.target.closest('[data-buy]');if(!b)return;
+$('deals').addEventListener('click',e=>{if(e.target.id==='deals')return openDeals(false);
+  if(e.target.closest('#dlBack')){dealsAl=null;dealAsk=null;drawDeals();$('dlList').scrollTop=0;return}
+  const ca=e.target.closest('[data-al]');if(ca){dealsAl=ca.dataset.al;dealAsk=null;drawDeals();$('dlList').scrollTop=0;return}
+  const b=e.target.closest('[data-buy]');if(!b)return;
   const k=b.dataset.buy;if(dealAsk!==k){dealAsk=k;drawDeals();setTimeout(()=>{if(dealAsk===k){dealAsk=null;if(dealsOn)drawDeals()}},4000);return}dealAsk=null;buyDeal(k)});
 function openFlt(on){const pg=$('fltPg');pg.classList.toggle('open',on);document.body.classList.toggle('fltOpen',on)}
 if(TWO){document.body.classList.add('two');$('fltTab').hidden=false}
