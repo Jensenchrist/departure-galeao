@@ -613,7 +613,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795313611';
+var APPV='1795314206';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1555,7 +1555,7 @@ function profile(o){
   if(el<cl){k=el/cl;phase="Subindo para a altitude de cruzeiro"}else if(rem<de){k=rem/de;phase=`Descendo para ${APT[o.to][3]}`}
   return{alt:Math.round((2500+(cr-2500)*k)/100)*100,spd:Math.round(290+(vs-290)*Math.min(1,k*1.25)),phase};
 }
-var mapOpen=false,mapSelId=null,world=null,worldState="idle",baseCv=null,baseKey="",fmRect=null,fmPlanes=[],fmPan=null,fmBW=0;
+var mapOpen=false,mapSelId=null,world=null,worldState="idle",baseCv=null,baseKey="",fmRect=null,fmPlanes=[],fmPan=null,fmBW=0,fmZ=1,fmPanY=0,fmTouchT=0,fmRB=null;
 var fmap=$('fmap'),fcv=$('fmCanvas'),fctx=fcv.getContext('2d');
 $('fmIco').innerHTML=ic('radar');
 function decodeWorld(json){
@@ -1582,8 +1582,8 @@ function fitRect(w,h){
   return {x:(w-rw)/2,y:(h-rh)/2,w:rw,h:rh};
 }
 var projF=(lat,lon,r)=>[r.x+(lon-VIEW.lon0)/(VIEW.lon1-VIEW.lon0)*r.w,r.y+(VIEW.lat1-lat)/(VIEW.lat1-VIEW.lat0)*r.h];
-function buildBase(w,h,dpr){
-  const r=fitRect(w,h);fmRect=r;
+function buildBase(w,h,dpr,RR){
+  const r=RR||fitRect(w,h);if(!RR)fmRect=r;
   baseCv=document.createElement('canvas');baseCv.width=w*dpr;baseCv.height=h*dpr;
   const b=baseCv.getContext('2d');b.scale(dpr,dpr);
   // grade de coordenadas
@@ -1600,9 +1600,10 @@ function buildBase(w,h,dpr){
     for(const ft of world.features){const g=ft.geometry;if(!g)continue;mc.beginPath();
       if(g.type==="Polygon")g.coordinates.forEach(ring);else if(g.type==="MultiPolygon")g.coordinates.forEach(pl=>pl.forEach(ring));
       mc.fill("evenodd")}
-    const img=mc.getImageData(0,0,m.width,m.height).data,step=Math.max(4,Math.round(r.w/150)),rad=step*.32;
+    const img=mc.getImageData(0,0,m.width,m.height).data,step=RR?clamp(Math.round(r.w/150),5,11):Math.max(4,Math.round(r.w/150)),rad=step*.32;
     b.fillStyle="rgba(253,233,52,.5)";
-    for(let y=Math.floor(r.y);y<r.y+r.h;y+=step)for(let x=Math.floor(r.x);x<r.x+r.w;x+=step){
+    const y0=r.y+Math.max(0,Math.ceil(-r.y/step))*step,x0=r.x+Math.max(0,Math.ceil(-r.x/step))*step;
+    for(let y=Math.floor(y0);y<Math.min(h,r.y+r.h);y+=step)for(let x=Math.floor(x0);x<Math.min(w,r.x+r.w);x+=step){
       if(img[(y*m.width+x)*4+3]>100){b.beginPath();b.arc(x,y,rad,0,7);b.fill()}}
     $('fmNote').textContent="";
   }else{
@@ -1611,6 +1612,7 @@ function buildBase(w,h,dpr){
   // borda do mapa
   b.strokeStyle="rgba(253,233,52,.35)";b.lineWidth=1;b.strokeRect(r.x+.5,r.y+.5,r.w-1,r.h-1);
 }
+var fmZC=null;
 var PLANE=new Path2D("M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z");
 function drawFM(t){
   const wr=$('fmWrap').getBoundingClientRect(),dpr=Math.min(2,window.devicePixelRatio||1);
@@ -1618,8 +1620,19 @@ function drawFM(t){
   if(fcv.width!==Math.round(w*dpr)||fcv.height!==Math.round(h*dpr)){fcv.width=Math.round(w*dpr);fcv.height=Math.round(h*dpr)}
   const cov=fmap.classList.contains('mob'),ar=(VIEW.lon1-VIEW.lon0)/(VIEW.lat1-VIEW.lat0)*.86,bw=cov?Math.max(w,Math.round(h*ar)):w;
   if(key+'x'+bw!==baseKey){baseKey=key+'x'+bw;buildBase(bw,h,dpr);fmBW=bw;if(fmPan==null||!cov)fmPan=cov?w/2-(-43.25-VIEW.lon0)/(VIEW.lon1-VIEW.lon0)*bw:0}
-  fmPan=Math.min(0,Math.max(w-fmBW,fmPan));
-  const c=fctx,r=Object.assign({},fmRect,{x:fmRect.x+fmPan});c.setTransform(1,0,0,1,0,0);c.clearRect(0,0,fcv.width,fcv.height);c.drawImage(baseCv,Math.round(fmPan*dpr),0);c.setTransform(dpr,0,0,dpr,0,0);
+  let r;const c=fctx;c.setTransform(1,0,0,1,0,0);c.clearRect(0,0,fcv.width,fcv.height);
+  if(cov&&fmZ>1.01){
+    const rw=fmBW*fmZ,rh=h*fmZ;fmPan=Math.min(0,Math.max(w-rw,fmPan));fmPanY=Math.min(0,Math.max(h-rh,fmPanY));
+    r={x:fmPan,y:fmPanY,w:rw,h:rh};
+    const same=fmRB&&Math.abs(fmRB.x-r.x)<.5&&Math.abs(fmRB.y-r.y)<.5&&Math.abs(fmRB.w-r.w)<.5;
+    if(!fmRB||(!same&&Date.now()-fmTouchT>160)){fmRB=Object.assign({},r);const keep=baseCv;buildBase(w,h,dpr,fmRB);fmZC=baseCv;baseCv=keep}
+    const k=r.w/fmRB.w;c.setTransform(k,0,0,k,(r.x-fmRB.x*k)*dpr,(r.y-fmRB.y*k)*dpr);c.drawImage(fmZC,0,0);
+  }else{
+    if(fmRB){fmRB=null;fmZ=1;fmPanY=0}
+    fmPan=Math.min(0,Math.max(w-fmBW,fmPan));
+    r=Object.assign({},fmRect,{x:fmRect.x+fmPan});c.drawImage(baseCv,Math.round(fmPan*dpr),0);
+  }
+  c.setTransform(dpr,0,0,dpr,0,0);
   const air=airborne();fmPlanes=[];
   const active=new Set(["GIG",...air.map(o=>o.f.ap)]);
   const sz=clamp(r.w/70,9,18);
@@ -1712,8 +1725,16 @@ addEventListener('resize',()=>{if(mapOpen){fmMob();baseKey=""}});
 {let sx=0,sy=0;const ts=e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},
   te=open=>e=>{const t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5&&fmap.classList.contains('mob')){if(open&&dx<0){drawFMPanel();fmDet(true)}if(!open&&dx>0)fmDet(false)}};
  {let px=0,lx=0,mv=false;const W=$('fmWrap');
-  W.addEventListener('touchstart',e=>{if(e.touches.length!==1)return;px=lx=e.touches[0].clientX;mv=false},{passive:true});
-  W.addEventListener('touchmove',e=>{if(e.touches.length!==1||!fmap.classList.contains('mob'))return;const x=e.touches[0].clientX;if(Math.abs(x-px)>6)mv=true;fmPan+=x-lx;lx=x;e.preventDefault()},{passive:false});
+  let ly=0,py=0,pz=null;
+  const two=e=>{const a=e.touches[0],b=e.touches[1],rc=W.getBoundingClientRect();return{d:Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY),x:(a.clientX+b.clientX)/2-rc.left,y:(a.clientY+b.clientY)/2-rc.top}};
+  W.addEventListener('touchstart',e=>{if(e.touches.length===2){const g=two(e);pz={d:g.d,z:fmZ,x:g.x,y:g.y,px:fmPan,py:fmPanY};mv=true;return}
+    if(e.touches.length!==1)return;px=lx=e.touches[0].clientX;py=ly=e.touches[0].clientY;mv=false;pz=null},{passive:true});
+  W.addEventListener('touchmove',e=>{if(!fmap.classList.contains('mob'))return;e.preventDefault();fmTouchT=Date.now();
+    if(e.touches.length===2&&pz){const g=two(e),z=clamp(pz.z*g.d/pz.d,1,8),k=z/pz.z;
+      fmPan=g.x-(pz.x-pz.px)*k;fmPanY=g.y-(pz.y-pz.py)*k;fmZ=z;return}
+    if(e.touches.length!==1||pz)return;const x=e.touches[0].clientX,y=e.touches[0].clientY;if(Math.abs(x-px)+Math.abs(y-py)>6)mv=true;fmPan+=x-lx;fmPanY+=y-ly;lx=x;ly=y},{passive:false});
+  W.addEventListener('touchend',e=>{if(e.touches.length===0)pz=null},{passive:true});
+  W.addEventListener('dblclick',()=>{fmZ=1;fmPanY=0});
   W.addEventListener('click',e=>{if(mv){e.stopPropagation();e.preventDefault();mv=false}},true);}
  document.querySelector('.fm-side').addEventListener('touchstart',ts,{passive:true});document.querySelector('.fm-side').addEventListener('touchend',te(false));}
 $('mapBtn').addEventListener('click',()=>openMap(null));
