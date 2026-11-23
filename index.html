@@ -778,6 +778,17 @@ body.neo #autoBan{border-radius:16px;box-shadow:var(--glow)}
 body.neo .fp-top{background:var(--nb)}body.neo .fp-sheet{background:var(--nb);box-shadow:inset 0 10px 20px rgba(0,0,0,.35)}
 body.neo .fmap .fm-h,body.neo .fm-sh{background:var(--nb)}
 body.neo .tk-pill,body.neo .dl-c{border-radius:10px}
+
+/* relógio de fora a fora embaixo do mapa */
+#cbar{display:none;position:absolute;left:0;right:0;bottom:0;z-index:11;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(180deg,#1f2023,#16171a);border-radius:26px 26px 0 0;box-shadow:0 -8px 20px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.05);cursor:pointer;padding-bottom:env(safe-area-inset-bottom)}
+body.cbar #cbar{display:flex}body.cbar .toast{bottom:calc(var(--barh,0px) + 12px)!important;left:50%!important;max-width:calc(100% - 40px)!important}body.cbar .zhint{top:auto;bottom:calc(var(--barh,0px) + 14px)}body.cbar #hud .mclock{display:none}
+#cbar b{font-family:Doto,monospace;font-weight:900;color:var(--y);font-size:min(17vw,9vh,74px);line-height:.95;letter-spacing:-.02em;font-variant-numeric:tabular-nums;text-shadow:0 0 18px rgba(253,233,52,.35)}
+#cbar b i{font-style:normal;opacity:.75;font-size:.6em}
+#cbar small{margin-top:4px;font-size:min(4vw,15px);font-weight:800;color:#c8c8c8;letter-spacing:.02em}
+/* vento numa lingueta: toque e ele corre para dentro */
+#windBox{transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+#windBox.tuck{transform:translateX(calc(100% - 38px))}
+#windBox.tuck .wind{border-radius:22px 0 0 22px!important}
 </style>
 <script>
 window.__errs=[];window.onerror=function(m,src,l,c){window.__errs.push(m+' @'+l+':'+c);var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:99999;background:#b00;color:#fff;font:14px/1.4 sans-serif;padding:10px;border-radius:8px;white-space:pre-wrap';(document.body||document.documentElement).appendChild(d)}d.textContent='Erro: '+window.__errs.join('\n')};
@@ -794,7 +805,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795473746';
+var APPV='1795473916';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -820,7 +831,7 @@ chk();document.addEventListener('visibilitychange',function(){if(!document.hidde
     </div>
     <div id="storm"></div><video id="rainVid" src="chuva.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
     <div class="pop" id="pop" hidden><span class="pop-t"></span><div><button data-pm="svc" aria-label="Serviços"><span class="ico"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span><small>Serviços</small></button><button data-pm="data" aria-label="Dados do voo"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></span><small>Voo</small></button></div></div>
-    <div id="deals" hidden><div class="yd-box"><div class="yd-h"><button id="dlBk" aria-label="Voltar">‹</button><b>Negócios</b><span id="dlMoney"></span><button id="dlX" aria-label="Fechar">×</button></div><div class="dl-tabs"><button data-dt="deals" class="on">Acordos</button><button data-dt="gest">Gestão</button><button data-dt="fin">Finanças</button></div><small class="dl-sub" id="dlSub">Traga novas rotas para o Galeão. Do mais barato ao mais caro.</small><div id="dlList"></div></div></div><div id="wxp" hidden><div class="yd-box"><div class="yd-h"><b>Tempo · Galeão</b><span id="wxD"></span><button id="wxX" aria-label="Fechar">×</button></div><div id="wxB"></div></div></div><div id="yard" hidden><div class="yd-box"><div class="yd-h"><b>Pátio</b><span id="ydSum"></span><button id="ydX" aria-label="Fechar">×</button></div><div class="yd-crew" id="ydCrew"></div><div class="yd-g" id="ydG"></div><small class="yd-lg"><i class="ok"></i>pronto <i class="run"></i>em serviço <i class="idle"></i>parado <i class="bad"></i>provisória <i class="in"></i>chegando</small></div></div><div id="autoBan">PILOTO AUTOMÁTICO · toque para desligar</div><div id="hud"><div class="mclock" id="mclock"><b id="mcT">11:52<i>:00</i></b><small id="mcS">10×</small></div><div id="windBox"></div></div>
+    <div id="deals" hidden><div class="yd-box"><div class="yd-h"><button id="dlBk" aria-label="Voltar">‹</button><b>Negócios</b><span id="dlMoney"></span><button id="dlX" aria-label="Fechar">×</button></div><div class="dl-tabs"><button data-dt="deals" class="on">Acordos</button><button data-dt="gest">Gestão</button><button data-dt="fin">Finanças</button></div><small class="dl-sub" id="dlSub">Traga novas rotas para o Galeão. Do mais barato ao mais caro.</small><div id="dlList"></div></div></div><div id="wxp" hidden><div class="yd-box"><div class="yd-h"><b>Tempo · Galeão</b><span id="wxD"></span><button id="wxX" aria-label="Fechar">×</button></div><div id="wxB"></div></div></div><div id="yard" hidden><div class="yd-box"><div class="yd-h"><b>Pátio</b><span id="ydSum"></span><button id="ydX" aria-label="Fechar">×</button></div><div class="yd-crew" id="ydCrew"></div><div class="yd-g" id="ydG"></div><small class="yd-lg"><i class="ok"></i>pronto <i class="run"></i>em serviço <i class="idle"></i>parado <i class="bad"></i>provisória <i class="in"></i>chegando</small></div></div><div id="autoBan">PILOTO AUTOMÁTICO · toque para desligar</div><div id="hud"><div class="mclock" id="mclock"><b id="mcT">11:52<i>:00</i></b><small id="mcS">10×</small></div><div id="windBox"></div></div><div id="cbar"><b id="cbT">--:--</b><small id="cbS"></small></div>
     <div id="fltPg"><div class="fp-top"><button id="fpBack" aria-label="Voltar ao mapa">‹</button><div class="fp-route"><span class="fp-c">GIG</span><small>RIO DE JANEIRO · GALEÃO</small></div><span class="fp-clock" id="fpClock">--:--</span></div><div class="fp-sheet"><i class="fp-grab"></i><h3 id="fpCount">Voos ativos</h3><div id="fltList"></div></div></div>
     <button id="fltTab" hidden><span>✈</span><b id="fltN">0</b><i>‹</i></button>
     <div class="rail" id="rail" aria-label="Voos chegando e prontos"></div>
@@ -991,6 +1002,7 @@ function genWave(start,n){
 var ROT=null;
 /* ---------- mundo contínuo: calendário, grade semanal e aviões em ciclo ---------- */
 var DOWS=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],MESES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+var dateLong=m=>{const d=dateOf(dayOf(m));return d.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'}).replace(/^./,c=>c.toUpperCase())};
 var tod=m=>((m%1440)+1440)%1440,dayOf=m=>Math.floor(m/1440);
 var dateOf=d=>new Date((camp.t0||Date.now())+d*864e5+432e5);
 var dateLbl=m=>{const dt=dateOf(dayOf(m));return `${DOWS[dt.getDay()]} ${dt.getDate()} ${MESES[dt.getMonth()]}`};
@@ -2138,7 +2150,7 @@ var lastSpd=10;
 function setSpeed(v){if(speed)lastSpd=speed;speed=v;document.querySelectorAll('.spdb').forEach(x=>x.classList.toggle('on',+x.dataset.sp===speed));$('spdLbl').textContent=speed?speed+'×':'pausa';document.querySelectorAll('#speed button[data-s]').forEach(x=>x.classList.toggle('on',+x.dataset.s===speed));
   const pb=$('pauseBtn');if(pb){pb.classList.toggle('on',!speed);pb.innerHTML=ic(speed?'pause':'playI')}dirty=true}
 var togglePause=()=>setSpeed(speed?0:(lastSpd||10));
-$('mclock').addEventListener('click',togglePause);
+$('mclock').addEventListener('click',togglePause);$('cbar').addEventListener('click',togglePause);
 
 /* ---------- mapa fixo na tela: pinça para aproximar, arrastar só com zoom ---------- */
 var stage=$('stage'),abar=$('abar');
@@ -2148,9 +2160,10 @@ var LAND=false;
 var dispW=()=>(ROTM?bh:bw),dispH=()=>(ROTM?bw:bh);
 function layoutMap(){
   const r=stage.getBoundingClientRect();SW=r.width;SH=r.height;
-  barH=0;
-  const sc=ROTM?(SW/SH>H/W*1.12?SW/H:Math.min(SW/H,SH/W)):(SW/SH<W/H*1.15?Math.max(SW/W,SH/H):SH/H);
+  const fitW=!ROTM&&LAY.id!==2&&SW/SH<W/H&&SH-SW/W*H>=70;
+  const sc=fitW?SW/W:ROTM?(SW/SH>H/W*1.12?SW/H:Math.min(SW/H,SH/W)):(SW/SH<W/H*1.15?Math.max(SW/W,SH/H):SH/H);
   const cu=(SW/2-ZX)/(dispW()*zk),cv=(SH/2-ZY)/(dispH()*zk);
+  barH=fitW?Math.floor(SH-H*sc):0;document.body.classList.toggle('cbar',fitW);$('cbar').style.height=barH+'px';document.body.style.setProperty('--barh',barH+'px');$('zhint').textContent=fitW?'Dois dedos para aproximar':'Dois dedos para aproximar · arraste para os lados';
   bw=W*sc;bh=H*sc;map.style.width=bw+'px';map.style.height=bh+'px';map.style.setProperty('--mk',(bw/W).toFixed(4));
   const bg=$('bgH');bg.style.width=bh+'px';bg.style.height=bw+'px';bg.style.transform=`translateX(${bw}px) rotate(90deg)`;
   if(!laidOut){ZX=(SW-dispW())/2;ZY=ROTM?(SH-dispH())/2:0;laidOut=true}else{ZX=SW/2-cu*dispW()*zk;ZY=SH/2-cv*dispH()*zk}
@@ -2272,7 +2285,8 @@ function drawWx(){
 }
 $('wxX').addEventListener('click',()=>openWx(false));
 $('wxp').addEventListener('click',e=>{if(e.target.id==='wxp')openWx(false)});
-$('windBox').addEventListener('click',()=>openWx(!wxOn));
+{const wb=$('windBox');try{if(localStorage.getItem('departure_wtuck')==='1')wb.classList.add('tuck')}catch(e){}
+ wb.addEventListener('click',()=>{const t=wb.classList.toggle('tuck');try{localStorage.setItem('departure_wtuck',t?'1':'0')}catch(e){}})}
 var yardOn=false;
 function openYard(on){yardOn=on;$('yard').hidden=!on;if(on)drawYard()}
 function drawYard(){
@@ -2487,7 +2501,7 @@ function tick(t){
   if(dirty){dirty=false;drawUI()}
   drawPlanes();
   if(mapOpen)drawFM(t);
-  {const ss=Math.floor((now%1)*60),tx=fmt(now)+'|'+ss+'|'+speed;if(tx!==lastClk){lastClk=tx;$('mcT').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('mcS').textContent=dateLbl(now)+' · '+(speed?speed+'×':'PAUSA');$('clock').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('clockD').textContent=dateLbl(now)}}
+  {const ss=Math.floor((now%1)*60),tx=fmt(now)+'|'+ss+'|'+speed;if(tx!==lastClk){lastClk=tx;$('mcT').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('mcS').textContent=dateLbl(now)+' · '+(speed?speed+'×':'PAUSA');$('cbT').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('cbS').textContent=dateLong(now)+' · '+(speed?speed+'×':'PAUSA');$('clock').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('clockD').textContent=dateLbl(now)}}
   requestAnimationFrame(tick);
 }
 $('abtg').addEventListener('click',()=>{const a=$('abar');a.classList.toggle('min');$('abtg').setAttribute('aria-expanded',!a.classList.contains('min'));drawBar()});
