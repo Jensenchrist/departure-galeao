@@ -797,8 +797,8 @@ body.cbar #cbar{display:flex}body.cbar #hud{top:calc(var(--barh,0px) + 8px)}body
 /* painel de botões estilo cabine (overhead) embaixo do mapa */
 #ovh{display:none;position:absolute;left:0;right:0;bottom:0;height:var(--panh,100px);z-index:11;box-sizing:border-box;padding:5px 18px calc(5px + env(safe-area-inset-bottom));
   background:linear-gradient(180deg,#4a4e54,#33363b 60%,#2b2e32);border-top:1px solid #5d6168;box-shadow:inset 0 2px 0 rgba(255,255,255,.06),0 -6px 16px rgba(0,0,0,.5);justify-content:space-around;align-items:center}
-body.cbar #ovh{display:flex}body.cbar #autoBan{display:none!important}
-#ovh::before,#ovh::after{content:"";position:absolute;top:50%;margin-top:-3px;width:6px;height:6px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#9aa0a8,#40444a);box-shadow:inset 0 0 0 1px #222}
+body.cbar #ovh{display:flex;align-items:flex-start;padding-top:9px}.ov-l{display:none}body.cbar #autoBan{display:none!important}
+#ovh::before,#ovh::after{content:"";position:absolute;top:30px;margin-top:-3px;width:6px;height:6px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#9aa0a8,#40444a);box-shadow:inset 0 0 0 1px #222}
 #ovh::before{left:8px}#ovh::after{right:8px}
 .ov-g{display:flex;flex-direction:column;align-items:center;gap:3px}
 .ov-l{font:800 9px/1 "Arial Narrow",Arial,sans-serif;letter-spacing:.06em;color:#e9ecef;text-shadow:0 1px 0 #000}
@@ -828,7 +828,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795476173';
+var APPV='1795476300';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1711,7 +1711,7 @@ function clack(){
 document.addEventListener('pointerdown',audioInit);
 document.addEventListener('click',e=>{if(e.target.closest('button')&&!e.target.closest('.ov-b')&&pk('clique')!=='off')play(pk('clique'),{vol:.5})},true);
 /* ---------- aviso de apertar os cintos (sintetizado: sino suave de cabine) ---------- */
-function chime(){if(!soundOn||!AC||AC.state!=="running"||pk('cabine')==='off')return;
+function chime(){if(!soundOn||!AC||AC.state!=="running"||pk('cabine')==='off')return;if(pk('cabine')!=='cinto'){loadSnd(pk('cabine'));play(pk('cabine'),{vol:.8});return}
   const t=AC.currentTime,out=AC.createGain(),lp=AC.createBiquadFilter();lp.type='lowpass';lp.frequency.value=5200;out.gain.value=.55*nz(SVOL.cabine,100)/100;lp.connect(out).connect(BUS.ui);
   [[1,1,1.9],[2,.32,1.1],[2.76,.12,.7],[4.07,.05,.4]].forEach(([m,a,d])=>{const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=932*m;
     g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(a*.5,t+.006);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(lp);o.start(t);o.stop(t+d+.05)})}
@@ -1752,7 +1752,7 @@ var SLOTS=[
   {k:'estaciona',n:'Turbina desligando (estacionou)',o:[['off','Desligado'],['turbina_desliga','Turbina parando (assobio)']]},
   {k:'ambiente',n:'Ambiente de fundo',o:[['ambiente_patio','Pátio com turbinas'],['terminal','Saguão movimentado'],['terminal_2','Saguão grande, murmúrio'],['off','Desligado']]},
   {k:'aviso',n:'Aviso (voo pronto)',o:[['ding','Ding dong'],['ding_2','Carrilhão suave'],['off','Desligado']]},
-  {k:'cabine',n:'Botões da cabine',o:[['cinto','Aviso de apertar os cintos'],['off','Desligado']]},
+  {k:'cabine',n:'Botões da cabine',o:[['ding','Ding dong (voo pronto)'],['ding_2','Carrilhão suave'],['cinto','Sino sintetizado'],['off','Desligado']]},
   {k:'clique',n:'Clique dos botões',o:[['clique','Clique digital'],['clique_2','Clique macio'],['off','Desligado']]},
   {k:'painel',n:'Painel de plaquinhas',o:[['plaquinha','Clique real'],['synth','Sintetizado'],['off','Desligado']]},
   {k:'mayday',n:'Sirene de MAYDAY',o:[['off','Desligado'],['bipe','Bipe curto de cabine'],['mayday','Alarme de emergência']]},
@@ -2647,7 +2647,7 @@ document.addEventListener('visibilitychange',()=>{if(!MUS.el)return;if(document.
 refreshCover();
 $('cont').addEventListener('click',()=>{const d=readSave();if(d)loadGame(d);startGame()});
 var mixer=$('mixer');
-var PREV={cabine:()=>chime(),pouso:()=>jet('approach'),frenagem:()=>jet('brake'),decolagem:()=>jet('takeoff'),painel:()=>{for(let i=0;i<14;i++)setTimeout(clack,i*60)}};
+var PREV={cabine:()=>{loadSnd(pk('cabine'));setTimeout(chime,SB[pk('cabine')]?0:400)},pouso:()=>jet('approach'),frenagem:()=>jet('brake'),decolagem:()=>jet('takeoff'),painel:()=>{for(let i=0;i<14;i++)setTimeout(clack,i*60)}};
 function drawPicks(){$('picks').innerHTML=SLOTS.map(x=>`<label class="pk"><span>${x.n}</span><select data-pk="${x.k}">${x.o.map(([v,t])=>`<option value="${v}"${PICK[x.k]===v?' selected':''}>${t}</option>`).join('')}</select><button type="button" data-pv="${x.k}" aria-label="Ouvir">▶</button><input type="range" min="0" max="100" data-sv="${x.k}" value="${nz(SVOL[x.k],100)}" aria-label="Volume ${x.n}"><output>${nz(SVOL[x.k],100)}</output></label>`).join('')}
 drawPicks();
 $('picks').addEventListener('change',e=>{const sl=e.target.closest('select');if(!sl)return;PICK[sl.dataset.pk]=sl.value;
