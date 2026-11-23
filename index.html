@@ -791,7 +791,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795436657';
+var APPV='1795436932';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -907,13 +907,13 @@ var TH={"10":60,"28":1590};
 var CN2=[224,584,1197,1595,1920];
 var LAYS={
  1:{id:1,W:941,H:1672,G:[{id:'A',rx:217,twy:318,lane:362,sg:1,conn:[195,482,975,1308,1560],entry:[330,482,640,845,1085,1257],th:{"10":60,"28":1590},nm:{"10":"10","28":"28"},lt:[181,9,9],reil:[172,263],lbx:140,ap:{"10":[4,18,32,46],"28":[1604,1618,1632,1646,1660]},edge:[181,253]}],
-   labels:[],q:{x:62,y:398,w:92},
+   labels:[],q:{x:62,y:400,w:110},
    mk:()=>[{n:1,x:568,y:290,max:4},{n:2,x:568,y:412,max:4},{n:3,x:568,y:539,max:5},{n:4,x:530,y:659,max:6},{n:5,x:490,y:770,max:7},{n:6,x:508,y:895,max:7},{n:7,x:563,y:1006,max:6},{n:8,x:583,y:1118,max:5},{n:9,x:583,y:1247,max:4},{n:10,x:578,y:1367,max:4},
      {n:11,x:620,y:232,max:4,remote:1,lab:'R1'},{n:12,x:640,y:1440,max:5,remote:1,lab:'R2'}].map(s=>Object.assign(s,{g:'A',sx:s.remote?s.x+14:642,sy:s.remote?s.y+(s.n===11?-46:62):s.y}))},
  2:{id:2,W:2006,H:2006,G:[
    {id:'A',rx:664,twy:552,lane:530,sg:-1,conn:CN2,entry:null,th:{"10":136,"28":1856},nm:{"10":"10L","28":"28R"},lt:[622,10.5,9],reil:[610,718],lbx:578,ap:{"10":[40,64,88,112],"28":[1880,1904,1928,1952,1976]},edge:[620,708]},
    {id:'B',rx:1067,twy:1200,lane:1228,sg:1,conn:CN2,entry:null,th:{"10":136,"28":1856},nm:{"10":"10R","28":"28L"},lt:[1025,10.5,9],reil:[1013,1121],lbx:1158,ap:{"10":[40,64,88,112],"28":[1880,1904,1928,1952,1976]},edge:[1023,1111]}],
-   q:{x:865,y:650,w:136},
+   q:{x:865,y:650,w:163},
    labels:[{t:'TERMINAL 2',x:166,y:960,r:-90,w:250,h:74,fs:30},{t:'TERMINAL 1',x:1576,y:1708,r:0,w:250,h:58,fs:30}],
    mk:()=>{const X=[1432,1432,1440,1424,1376,1392,1440,1472,1472,1488],Y=[371,509,648,784,912,1080,1208,1344,1488,1616],M=[4,4,5,6,7,7,6,5,4,4];
      const t1=X.map((x,i)=>({n:i+1,x,y:Y[i],max:M[i],g:'B',sx:1576,sy:Y[i]}));
@@ -1445,7 +1445,7 @@ function drawFixed(){
   LAY.labels.forEach(l=>h+=`<div class="tlab" style="left:${l.x/W*100}%;top:${l.y/H*100}%;width:calc(var(--mk)*${l.w}px);height:calc(var(--mk)*${l.h}px);font-size:calc(var(--mk)*${l.fs}px);transform:translate(-50%,-50%) rotate(${l.r}deg)">${l.t}</div>`);
   if(LAY.q){const q=LAY.q,k=q.w/80,u=v=>`calc(var(--mk,1)*${(v*k).toFixed(1)}px)`;
     const nx=(flights||[]).filter(f=>["inbound","approach","holding","arriving"].includes(f.state)).sort((a,b)=>a.eta-b.eta).slice(0,3);
-    let t='';for(let i=0;i<3;i++){const f=nx[i];t+=`<div class="aq-t${i===0&&f?' on':''}" style="height:${u(26)};border-radius:${u(7)};margin-top:${u(6.5)}">${f?(LOGO[f.al]?`<img src="logos/${f.al}.png?t=${LOGOV}" alt="${f.al}">`:`<b style="font-size:${u(11)}">${f.al}</b>`):''}</div>`}
+    let t='';for(let i=0;i<3;i++){const f=nx[i];t+=`<div class="aq-t${i===0&&f?' on':''}" style="height:${u(26)};border-radius:${u(7)};margin-top:${u(9)}">${f?(LOGO[f.al]?`<img src="logos/${f.al}.png?t=${LOGOV}" alt="${f.al}">`:`<b style="font-size:${u(11)}">${f.al}</b>`):''}</div>`}
     h+=`<div class="aq" style="left:${q.x/W*100}%;top:${q.y/H*100}%;width:${u(q.w/k)};padding:${u(6)};border-radius:${u(12)}"><div class="aq-h" style="font-size:${u(7.5)}">PRÓXIMOS</div>${t}</div>`}
   map.classList.toggle('assign',!!af);
   fixed.innerHTML=h;
