@@ -720,6 +720,52 @@ body.two #fltPg .tg-h b{font-size:19px}
 #fltTab[hidden]{display:none}
 #fltTab .ico{width:30px;height:30px;border-radius:7px;margin-bottom:4px}#fltTab span{font-size:18px}#fltTab b{font-size:16px;color:#fff}#fltTab i{font-style:normal;font-size:20px;line-height:1}
 #fltTab.alert{border-color:var(--r);color:var(--r);animation:mayday .8s infinite}
+
+/* ===== tema black & yellow neumorphism ===== */
+body.neo{--nb:#1d1e21;--nb2:#232428;--nbh:#2a2b30;
+  --ra:9px 9px 20px rgba(0,0,0,.62),-7px -7px 16px rgba(255,255,255,.035);
+  --ra2:5px 5px 12px rgba(0,0,0,.6),-4px -4px 10px rgba(255,255,255,.03);
+  --ri:inset 5px 5px 12px rgba(0,0,0,.65),inset -4px -4px 10px rgba(255,255,255,.03);
+  --glow:0 0 18px rgba(253,233,52,.35),0 6px 16px rgba(0,0,0,.5)}
+body.neo .side,body.neo .board,body.neo .head{background:var(--nb)!important}
+body.neo .top{background:var(--nb)!important;border-bottom:0!important;box-shadow:0 8px 18px rgba(0,0,0,.45)}
+body.neo .tclk .clock{background:var(--nb);border:0;border-radius:16px;box-shadow:var(--ri)}
+body.neo .yd-box,body.neo .mx-card{background:linear-gradient(145deg,#222327,#1a1b1e)!important;border:0!important;border-radius:28px!important;box-shadow:var(--ra),0 0 0 1px rgba(253,233,52,.06)!important;-webkit-backdrop-filter:none;backdrop-filter:none}
+body.neo .tk,body.neo .dl,body.neo .gs,body.neo .dl-al,body.neo .fm-card,body.neo .wx-h,body.neo .wx-g>div,body.neo .svt,body.neo .goals,body.neo .svc,body.neo .ac,body.neo .fm-chip,body.neo .sgn,body.neo .pop,body.neo .tg-h,body.neo .auto,body.neo .xrow,body.neo .dl-p{background:linear-gradient(145deg,#242529,#1c1d20)!important;border-color:transparent!important;border-radius:20px!important;box-shadow:var(--ra2)!important}
+body.neo .yc{background:linear-gradient(145deg,#242529,#1c1d20);border-color:transparent;border-radius:18px;box-shadow:var(--ra2)}
+body.neo .yc.empty{box-shadow:var(--ri);opacity:.55}
+body.neo .yc.ok{box-shadow:var(--ra2),0 0 0 2px var(--gr),0 0 16px rgba(70,224,122,.35)}
+body.neo .yc.run{box-shadow:var(--ra2),0 0 0 2px var(--y),0 0 14px rgba(253,233,52,.3)}
+body.neo .yc.idle{box-shadow:var(--ra2),0 0 0 2px #ff9f1a}
+body.neo .yc.bad{box-shadow:var(--ra2),0 0 0 2px var(--r)}
+body.neo .tk.sel,body.neo .fm-card{box-shadow:var(--ra2),0 0 0 2px var(--y),0 0 18px rgba(253,233,52,.25)!important}
+body.neo .fm-chip.on{box-shadow:var(--ri),0 0 0 2px var(--y)!important}
+/* botões */
+body.neo .tab,body.neo .ib,body.neo #speed button,body.neo .fm-x,body.neo .close,body.neo #ydX,body.neo #dlX,body.neo #wxX,body.neo #dlBk,body.neo #fpBack,body.neo .gs-cr button,body.neo .gs-pol button,body.neo .dl-tabs,body.neo .rcq button,body.neo .xrow button{background:var(--nb2)!important;border:0!important;border-radius:16px!important;box-shadow:var(--ra2)!important;color:#ddd}
+body.neo .tab.on,body.neo #speed button.on,body.neo .gs-pol button.on,body.neo .xrow button.on,body.neo .dl-tabs button.on{background:var(--y)!important;color:var(--k)!important;box-shadow:var(--glow)!important}
+body.neo .dl-tabs{padding:5px}body.neo .dl-tabs button{border-radius:12px}
+body.neo #ydX,body.neo #dlX,body.neo #wxX{color:var(--y)!important;border-radius:50%!important}
+body.neo .link,body.neo .dl-b,body.neo .day-go,body.neo .go,body.neo .tk-a button{border-radius:18px!important;box-shadow:var(--glow)!important}
+body.neo .link.ghost,body.neo .dl-more,body.neo .tk-a button.ghost{background:var(--nb2)!important;color:var(--y)!important;box-shadow:var(--ra2)!important;border:0!important}
+body.neo .dl-on{border-radius:16px;box-shadow:var(--ri)}
+/* abas laterais e menus */
+body.neo .edt,body.neo #fltTab,body.neo .fm-tab{background:linear-gradient(145deg,#25262a,#1b1c1f)!important;border:0!important;border-radius:20px 0 0 20px!important;box-shadow:-7px 7px 18px rgba(0,0,0,.6),-4px -4px 10px rgba(255,255,255,.035)!important}
+body.neo .edw.open .edt{background:var(--y)!important;box-shadow:var(--glow)!important}
+body.neo .edp{background:linear-gradient(145deg,#232428,#1a1b1e)!important;border:0!important;border-radius:22px 0 0 22px!important;box-shadow:-8px 8px 20px rgba(0,0,0,.6),-4px -4px 10px rgba(255,255,255,.03)!important;padding:8px!important}
+body.neo .edp button{background:var(--nb2)!important;border:0!important;border-radius:14px!important;box-shadow:var(--ra2)!important}
+body.neo .edp button.on{background:var(--y)!important;box-shadow:var(--glow)!important}
+/* ícones: quadrado escuro em relevo com desenho amarelo */
+body.neo .ico{background:linear-gradient(145deg,#2c2d32,#1e1f22);box-shadow:3px 3px 7px rgba(0,0,0,.55),-2px -2px 5px rgba(255,255,255,.04);border-radius:28%}
+body.neo .ico svg{fill:var(--y)}
+body.neo .tab.on .ico,body.neo .edw.open .edt .ico,body.neo .edp button.on .ico,body.neo .xrow button.on .ico{background:var(--k);box-shadow:none}
+/* relógio e vento no mapa */
+body.neo #hud .mclock,body.neo #windBox .wind{background:linear-gradient(145deg,rgba(36,37,41,.94),rgba(26,27,30,.94))!important;border:0!important;border-radius:22px!important;box-shadow:var(--ra2)!important}
+body.neo .toast{border-radius:18px;box-shadow:var(--glow)}
+body.neo #autoBan{border-radius:16px;box-shadow:var(--glow)}
+/* telas de voos e mapa */
+body.neo .fp-top{background:var(--nb)}body.neo .fp-sheet{background:var(--nb);box-shadow:inset 0 10px 20px rgba(0,0,0,.35)}
+body.neo .fmap .fm-h,body.neo .fm-sh{background:var(--nb)}
+body.neo .tk-pill,body.neo .dl-c{border-radius:10px}
 </style>
 <script>
 window.__errs=[];window.onerror=function(m,src,l,c){window.__errs.push(m+' @'+l+':'+c);var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:99999;background:#b00;color:#fff;font:14px/1.4 sans-serif;padding:10px;border-radius:8px;white-space:pre-wrap';(document.body||document.documentElement).appendChild(d)}d.textContent='Erro: '+window.__errs.join('\n')};
@@ -736,12 +782,12 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795393146';
+var APPV='1795431048';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
 </head>
-<body>
+<body class="neo">
 <div class="cover" id="cover">
   <div class="cv-top"><span>**</span><small>Rio de Janeiro · Galeão<br>GIG · SBGL · Torre de controle</small></div>
   <div class="cv-mid">
