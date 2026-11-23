@@ -783,7 +783,9 @@ body.neo .tk-pill,body.neo .dl-c{border-radius:10px}
 #cbar{display:none;position:absolute;left:0;right:0;bottom:0;z-index:11;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(180deg,#1f2023,#16171a);border-radius:26px 26px 0 0;box-shadow:0 -8px 20px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.05);cursor:pointer;padding-bottom:env(safe-area-inset-bottom)}
 body.cbar #cbar{display:flex}body.cbar .toast{bottom:calc(var(--barh,0px) + 12px)!important;left:50%!important;max-width:calc(100% - 40px)!important}body.cbar .zhint{top:auto;bottom:calc(var(--barh,0px) + 14px)}body.cbar #hud .mclock{display:none}
 #cbar b{font-family:Doto,monospace;font-weight:900;color:var(--y);font-size:min(17vw,9vh,74px);line-height:.95;letter-spacing:-.02em;font-variant-numeric:tabular-nums;text-shadow:0 0 18px rgba(253,233,52,.35)}
-#cbar b i{font-style:normal;opacity:.75;font-size:.6em}
+#cbar b{display:flex;align-items:flex-end;gap:min(1.6vw,8px);text-shadow:none}
+#cbar svg.dm{height:min(15vw,8vh,72px);width:auto}#cbar svg.ds{height:min(8vw,4.4vh,38px);width:auto;opacity:.85}
+#cbar svg .on{fill:var(--y);filter:drop-shadow(0 0 .25px rgba(253,233,52,.9))}#cbar svg .off{fill:#2c2c2e}#cbar svg .dt{fill:#111214}
 #cbar small{margin-top:4px;font-size:min(4vw,15px);font-weight:800;color:#c8c8c8;letter-spacing:.02em}
 /* vento numa lingueta: toque e ele corre para dentro */
 #windBox{transition:transform .35s cubic-bezier(.2,.8,.2,1)}
@@ -805,7 +807,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795473916';
+var APPV='1795474086';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1002,6 +1004,13 @@ function genWave(start,n){
 var ROT=null;
 /* ---------- mundo contínuo: calendário, grade semanal e aviões em ciclo ---------- */
 var DOWS=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],MESES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+// relógio de bolinhas (painel de aeroporto), 5×7 pontos por caractere
+var DOT={'0':['01110','10001','10011','10101','11001','10001','01110'],'1':['00100','01100','00100','00100','00100','00100','01110'],'2':['01110','10001','00001','00010','00100','01000','11111'],'3':['11111','00010','00100','00010','00001','10001','01110'],'4':['00010','00110','01010','10010','11111','00010','00010'],'5':['11111','10000','11110','00001','00001','10001','01110'],'6':['00110','01000','10000','11110','10001','10001','01110'],'7':['11111','00001','00010','00100','01000','01000','01000'],'8':['01110','10001','10001','01110','10001','10001','01110'],'9':['01110','10001','10001','01111','00001','00010','01100'],':':['0','0','1','0','1','0','0']};
+function dotSvg(t,cls){let x=0,h='';for(const ch of t){const g=DOT[ch]||DOT['0'],w=g[0].length;
+    if(w>1)h+=`<rect x="${x-.6}" y="-.6" width="${w+.2}" height="7.2" rx=".7" class="dt"/>`;
+    for(let r=0;r<7;r++)for(let c=0;c<w;c++)h+=`<circle cx="${x+c}" cy="${r}" r=".4" class="${g[r][c]==='1'?'on':'off'}"/>`;
+    x+=w+(w>1?1.3:.9)}
+  return `<svg class="${cls}" viewBox="-.7 -.7 ${x-.9} 7.4" aria-hidden="true">${h}</svg>`}
 var dateLong=m=>{const d=dateOf(dayOf(m));return d.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'}).replace(/^./,c=>c.toUpperCase())};
 var tod=m=>((m%1440)+1440)%1440,dayOf=m=>Math.floor(m/1440);
 var dateOf=d=>new Date((camp.t0||Date.now())+d*864e5+432e5);
@@ -2501,7 +2510,7 @@ function tick(t){
   if(dirty){dirty=false;drawUI()}
   drawPlanes();
   if(mapOpen)drawFM(t);
-  {const ss=Math.floor((now%1)*60),tx=fmt(now)+'|'+ss+'|'+speed;if(tx!==lastClk){lastClk=tx;$('mcT').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('mcS').textContent=dateLbl(now)+' · '+(speed?speed+'×':'PAUSA');$('cbT').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('cbS').textContent=dateLong(now)+' · '+(speed?speed+'×':'PAUSA');$('clock').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('clockD').textContent=dateLbl(now)}}
+  {const ss=Math.floor((now%1)*60),tx=fmt(now)+'|'+ss+'|'+speed;if(tx!==lastClk){lastClk=tx;$('mcT').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('mcS').textContent=dateLbl(now)+' · '+(speed?speed+'×':'PAUSA');$('cbT').innerHTML=dotSvg(fmt(now),'dm')+dotSvg(':'+String(ss).padStart(2,'0'),'ds');$('cbT').setAttribute('aria-label',fmt(now));$('cbS').textContent=dateLong(now)+' · '+(speed?speed+'×':'PAUSA');$('clock').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('clockD').textContent=dateLbl(now)}}
   requestAnimationFrame(tick);
 }
 $('abtg').addEventListener('click',()=>{const a=$('abar');a.classList.toggle('min');$('abtg').setAttribute('aria-expanded',!a.classList.contains('min'));drawBar()});
