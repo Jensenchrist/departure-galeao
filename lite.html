@@ -196,6 +196,9 @@ body.land .rail{top:84px}
 #skyT{background-image:url(lite_map.jpg)}#skyN{background-image:url(lite_map_noite.jpg)}
 body.l2 .map{background-image:url(lite_map2.jpg)}body.l2 #skyT{background-image:url(lite_map2.jpg)}body.l2 #skyN{background-image:url(lite_map2_noite.jpg)}
 body.l2 .stage::before{background-image:url(lite_map2.jpg)}
+body.l3 .map{background-image:url(lite_map3.jpg)}body.l3 #skyT{background-image:url(lite_map3.jpg)}body.l3 #skyN{background-image:url(lite_map3_noite.jpg)}
+body.l3 .stage::before{background-image:url(lite_map3.jpg)}body.l3 #glow{display:none}
+.dl.apt .dl-r{font-size:13px;color:#bbb}.dl-go{margin-top:8px}
 #glow{position:absolute;top:0;right:0;bottom:0;left:0;background:url(glow1.png) center/100% 100% no-repeat;opacity:var(--nt,.2);pointer-events:none;mix-blend-mode:screen;z-index:1}
 body.l2 #glow{background-image:url(glow2.png)}body.rot #glow{display:none}
 .lt.e{background:#fff7d6;box-shadow:0 0 calc(var(--mk,1)*7px) calc(var(--mk,1)*2px) rgba(255,240,190,.9);opacity:calc(.55 + .45*var(--nt,.2));animation:ewave 2.2s linear infinite}
@@ -711,7 +714,7 @@ body.auto #autoBan{display:block}
 .edp{flex-wrap:wrap;justify-content:flex-end;max-width:calc(100vw - 70px)}.edp>*{margin:3px}
 .edp button{width:48px;height:48px;min-height:0;padding:0;font-size:0;border-radius:10px;background:#141414;border:1px solid #333;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .edp button .ico{width:32px;height:32px;border-radius:7px}
-.edp button.on{background:var(--y)}
+.edp button.on{background:var(--y)}.edw[hidden]{display:none!important}
 .edp button.txt{font-size:15px;font-weight:900;color:#fff}.edp button.txt.on{color:var(--k)}
 .edp .clockb small{font:700 9px "Inter Tight",sans-serif;color:var(--y);margin-top:1px}.edp .clockb .ico{width:26px;height:26px}
 body.two #fltPg{display:flex;flex-direction:column;position:fixed;top:0;right:0;bottom:0;left:0;z-index:50;background:rgba(0,0,0,.94);transform:translateX(102%);transition:transform .28s ease;padding:max(10px,env(safe-area-inset-top)) 12px 12px 12px}
@@ -800,7 +803,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795473200';
+var APPV='1795473746';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -928,7 +931,13 @@ var LAYS={
    mk:()=>{const X=[1432,1432,1440,1424,1376,1392,1440,1472,1472,1488],Y=[371,509,648,784,912,1080,1208,1344,1488,1616],M=[4,4,5,6,7,7,6,5,4,4];
      const t1=X.map((x,i)=>({n:i+1,x,y:Y[i],max:M[i],g:'B',sx:1576,sy:Y[i]}));
      const t2=[576,704,832,960,1085,1211].map((y,i)=>({n:11+i,x:397,y,max:[4,4,5,5,4,4][i],g:'A',sx:275,sy:y}));
-     return t1.concat(t2)}}};
+     return t1.concat(t2)}},
+ 3:{id:3,W:941,H:1672,G:[
+   {id:'A',rx:103,twy:198,lane:232,sg:1,conn:[325,445,765,985,1195,1480],entry:null,th:{"10":96,"28":1362},nm:{"10":"10L","28":"28R"},lt:[67,9,9],reil:[57,149],lbx:34,ap:{"10":[30,48,66,84],"28":[1380,1398,1416,1434,1452]},edge:[66,139]},
+   {id:'B',rx:838,twy:743,lane:709,sg:-1,conn:[325,445,765,985,1195,1480],entry:null,th:{"10":96,"28":1362},nm:{"10":"10R","28":"28L"},lt:[803,9,9],reil:[792,884],lbx:907,ap:{"10":[30,48,66,84],"28":[1380,1398,1416,1434,1452]},edge:[802,875]}],
+   q:{x:320,y:1325,w:110},labels:[],
+   mk:()=>{const Y=[533,652,772,893],M=[6,7,7,6];
+     return Y.map((y,i)=>({n:i+1,x:356,y,max:M[i],g:'A',sx:424,sy:y})).concat(Y.map((y,i)=>({n:i+5,x:585,y,max:M[i],g:'B',sx:517,sy:y})))}}};
 var LAY=LAYS[1],ROTM=false;
 var STANDS=LAY.mk();
 var grpOf=s=>LAY.G.find(g=>g.id===(s&&s.g))||LAY.G[0];
@@ -958,7 +967,14 @@ var LOGO={};
 var logo=(al,c='')=>LOGO[al]?`<img class="lg ${c}" src="logos/${al}.png?t=${LOGOV}" alt="">`:'';
 var LOGOV=Math.floor(Date.now()/60000);
 var AIRLINES={SR:"Swissair",SK:"SAS Scandinavian",DT:"TAAG Angola",ET:"Ethiopian",AT:"Royal Air Maroc",MS:"EgyptAir",VR:"Cabo Verde Airlines",RG:"Varig",VP:"Vasp",TR:"Transbrasil",SC:"Cruzeiro",PB:"Panair do Brasil",JM:"Air Jamaica",AC:"Air Canada",NZ:"Air New Zealand",QF:"Qantas",SA:"South African",CA:"Air China",SQ:"Singapore Airlines",AZ:"Alitalia",PA:"Pan Am",JL:"Japan Airlines",LA:"LATAM",G3:"GOL",AD:"Azul",TP:"TAP Air Portugal",EK:"Emirates",AF:"Air France",BA:"British Airways",AA:"American Airlines",AR:"Aerolíneas Argentinas",CM:"Copa Airlines",QR:"Qatar Airways",LH:"Lufthansa",IB:"Iberia",KL:"KLM",AV:"Avianca",DL:"Delta",UA:"United",AM:"Aeroméxico",PZ:"Paranair",OB:"Boliviana de Aviación",PU:"Pluna",TA:"TACA",CU:"Cubana",V0:"Conviasa",H2:"Sky Airline",SU:"Aeroflot",TW:"TWA",WN:"Southwest",LB:"Lloyd Aéreo Boliviano"};
-var CITY={ZRH:"Zurique",CPH:"Copenhague",LAD:"Luanda",ADD:"Adis Abeba",CMN:"Casablanca",CAI:"Cairo",SID:"Ilha do Sal",NRT:"Tóquio",SYD:"Sydney",JNB:"Joanesburgo",PEK:"Pequim",SIN:"Singapura",POA:"Porto Alegre",MAO:"Manaus",FCO:"Roma",JFK:"Nova York",LAX:"Los Angeles",GRU:"São Paulo",BSB:"Brasília",REC:"Recife",LIS:"Lisboa",DXB:"Dubai",CDG:"Paris",LHR:"Londres",MIA:"Miami",EZE:"Buenos Aires",PTY:"Cidade do Panamá",SCL:"Santiago",DOH:"Doha",FRA:"Frankfurt",MAD:"Madri",AMS:"Amsterdã",BOG:"Bogotá",ATL:"Atlanta",SSA:"Salvador",IAH:"Houston",MEX:"Cidade do México",ASU:"Assunção",VVI:"Santa Cruz de la Sierra",MVD:"Montevidéu",LIM:"Lima",HAV:"Havana",KIN:"Kingston",AKL:"Auckland",YYZ:"Toronto",SAL:"San Salvador",SJO:"San José",CCS:"Caracas",UIO:"Quito",SVO:"Moscou",STL:"St. Louis",CGH:"São Paulo",CNF:"Belo Horizonte",FOR:"Fortaleza",CWB:"Curitiba",FLN:"Florianópolis",VIX:"Vitória",GYN:"Goiânia",CGB:"Cuiabá",CGR:"Campo Grande",BEL:"Belém",SLZ:"São Luís",THE:"Teresina",NAT:"Natal",JPA:"João Pessoa",MCZ:"Maceió",AJU:"Aracaju",PMW:"Palmas",PVH:"Porto Velho",RBR:"Rio Branco",BVB:"Boa Vista",MCP:"Macapá"};
+// aeroportos administrados: o Galeão é a casa; os outros são comprados no Negócios
+var APTS={GIG:{c:'GIG',n:'Galeão',city:'Rio',full:'Rio de Janeiro · Galeão',lay:1},GRU:{c:'GRU',n:'Guarulhos',city:'São Paulo',full:'São Paulo · Guarulhos',lay:3,price:2500000,desc:'8 portões em píer · pistas paralelas 10L/28R e 10R/28L'}};
+var HOME=()=>(camp&&camp.apt)||'GIG',APN=()=>APTS[HOME()];
+var OWNED=()=>['GIG'].concat(Object.keys((camp&&camp.owned)||{}));
+// tempos de voo a partir de Guarulhos (o resto usa os do Galeão)
+var GRUD={GIG:55,POA:95,CWB:55,FLN:65,CNF:65,VIX:85,BSB:95,GYN:85,CGB:115,CGR:85,SSA:130,REC:180,FOR:200,BEL:210,MAO:235,SLZ:200,THE:180,NAT:190,JPA:185,MCZ:155,AJU:145,PMW:130,PVH:200,RBR:220,BVB:265,MCP:225,EZE:160,MVD:145,ASU:115,SCL:235,LIM:305,VVI:200};
+var durA=ap=>(HOME()==='GRU'&&GRUD[ap])||DUR[ap]||120;
+var CITY={GIG:"Rio de Janeiro",ZRH:"Zurique",CPH:"Copenhague",LAD:"Luanda",ADD:"Adis Abeba",CMN:"Casablanca",CAI:"Cairo",SID:"Ilha do Sal",NRT:"Tóquio",SYD:"Sydney",JNB:"Joanesburgo",PEK:"Pequim",SIN:"Singapura",POA:"Porto Alegre",MAO:"Manaus",FCO:"Roma",JFK:"Nova York",LAX:"Los Angeles",GRU:"São Paulo",BSB:"Brasília",REC:"Recife",LIS:"Lisboa",DXB:"Dubai",CDG:"Paris",LHR:"Londres",MIA:"Miami",EZE:"Buenos Aires",PTY:"Cidade do Panamá",SCL:"Santiago",DOH:"Doha",FRA:"Frankfurt",MAD:"Madri",AMS:"Amsterdã",BOG:"Bogotá",ATL:"Atlanta",SSA:"Salvador",IAH:"Houston",MEX:"Cidade do México",ASU:"Assunção",VVI:"Santa Cruz de la Sierra",MVD:"Montevidéu",LIM:"Lima",HAV:"Havana",KIN:"Kingston",AKL:"Auckland",YYZ:"Toronto",SAL:"San Salvador",SJO:"San José",CCS:"Caracas",UIO:"Quito",SVO:"Moscou",STL:"St. Louis",CGH:"São Paulo",CNF:"Belo Horizonte",FOR:"Fortaleza",CWB:"Curitiba",FLN:"Florianópolis",VIX:"Vitória",GYN:"Goiânia",CGB:"Cuiabá",CGR:"Campo Grande",BEL:"Belém",SLZ:"São Luís",THE:"Teresina",NAT:"Natal",JPA:"João Pessoa",MCZ:"Maceió",AJU:"Aracaju",PMW:"Palmas",PVH:"Porto Velho",RBR:"Rio Branco",BVB:"Boa Vista",MCP:"Macapá"};
 // tempos de voo aproximados de/para o Galeão (GIG)
 var DUR={ZRH:705,CPH:760,LAD:485,ADD:725,CMN:600,CAI:745,SID:420,NRT:1330,SYD:1000,JNB:540,PEK:1250,SIN:1220,POA:115,MAO:250,FCO:705,JFK:600,LAX:725,GRU:60,BSB:110,REC:165,LIS:570,DXB:870,CDG:665,LHR:695,MIA:510,EZE:175,PTY:405,SCL:255,DOH:885,FRA:700,MAD:610,AMS:695,BOG:375,ATL:590,SSA:120,IAH:615,MEX:585,ASU:150,VVI:240,MVD:160,LIM:330,HAV:540,KIN:520,AKL:940,YYZ:640,SAL:480,SJO:450,CCS:345,UIO:380,SVO:840,STL:630,CGH:55,CNF:60,FOR:190,CWB:80,FLN:95,VIX:55,GYN:110,CGB:155,CGR:130,BEL:215,SLZ:205,THE:185,NAT:185,JPA:175,MCZ:145,AJU:130,PMW:155,PVH:230,RBR:255,BVB:280,MCP:235};
 // [cia, voo chegada, voo partida, origem/destino, classe, hora prevista de pouso, atraso de origem]
@@ -994,7 +1010,7 @@ var DOMF=[["GRU",["LA","G3","AD","LA","G3","AD","LA","G3"],[1,2,3]],["CGH",["LA"
  ["CNF",["AD","G3","LA"],[1,2]],["SSA",["G3","AD","LA","SC"],[2,3]],["REC",["AD","TR","LA"],[2,3]],["POA",["RG","G3"],[2,3]],["CWB",["AD","G3"],[1,2]],["FOR",["LA","G3","SC"],[2,3]],
  ["FLN",["AD","G3"],[1,2]],["VIX",["AD","LA"],[1,2]],["GYN",["AD"],[1,2]],["CGB",["G3"],[2]],["CGR",["AD"],[1,2]],["BEL",["LA","SC","PB"],[2,3]],["MAO",["VP","SC","PB"],[3,4]],["SLZ",["G3"],[2]],
  ["THE",["G3"],[2]],["NAT",["LA"],[2,3]],["JPA",["G3"],[2]],["MCZ",["AD"],[1,2]],["AJU",["G3"],[2]],["PMW",["AD"],[1]],["PVH",["LA"],[2]],["RBR",["LA"],[2]],["BVB",["G3"],[2]],["MCP",["G3"],[2]]];
-var DOMAP=new Set(DOMF.map(x=>x[0]));
+var DOMAP=new Set(DOMF.map(x=>x[0]).concat(['GIG']));
 var NIGHT=["MAO","BEL","FOR","REC","SSA","POA","CWB","BSB","CNF"];
 // internacionais: [cia, aeroporto, classes, dias (Dom..Sáb) ou q3 = a cada 3 dias, chegada no Galeão]
 var INTL=[["TP","LIS",[5,6],"1111111","19:10"],["EK","DXB",[7,6],"1111111","17:40"],["QR","DOH",[6,5],"1111111","18:30"],["AF","CDG",[6,5],"1111111","20:05"],
@@ -1013,9 +1029,10 @@ function buildLines(){
   const r=rng(camp.seed||1),K=D().keep||[1,1],used=new Set();let out=[];
   const num=al=>{let a;do{const b=["LA","G3","AD","VP","TR","RG","SC","PB"].includes(al)?1000+Math.floor(r()*8000):10+Math.floor(r()*890);a=b%2?b:b+1}while(used.has(al+a));used.add(al+a);return a};
   // nacionais: cada acordo = 1 avião fazendo vai e volta o dia todo (solo aqui + voo + solo lá + volta)
-  for(const [ap,als,cls] of DOMF){
+  const DF=HOME()==='GRU'?DOMF.filter(x=>x[0]!=='CGH').map(x=>x[0]==='GRU'?['GIG',x[1],x[2]]:x):DOMF;
+  for(const [ap,als,cls] of DF){
     for(const al of [...new Set(als)]){
-      const c=cls[Math.floor(r()*cls.length)],g=GROUND[c-1],gA=Math.round(g*.9),dur=DUR[ap],cyc=2*dur+gA+g;
+      const c=cls[Math.floor(r()*cls.length)],g=GROUND[c-1],gA=Math.round(g*.9),dur=durA(ap),cyc=2*dur+gA+g;
       const home=r()<.5,j=Math.round(r()*50),kp=r()<K[0],arrs=[];let dep0=null;
       if(home){dep0=360+j;for(let a=dep0+2*dur+gA;a<=1395;a+=cyc)arrs.push(a)}      // dorme no Galeão, sai cedo
       else{for(let a=390+j;a+g<=1320;a+=cyc)arrs.push(a)}                          // dorme no destino, chega cedo
@@ -1027,7 +1044,7 @@ function buildLines(){
   const extra=[];
   for(const e of camp.deals||[]){if(e.indexOf('#')<0)continue;const [base,ix]=e.split('#'),n=+ix,bl=out.filter(l=>l.k===base);if(!bl.length)continue;
     const r2=rng((camp.seed||1)+n*7919+base.charCodeAt(0)*31+base.charCodeAt(2)),l0=bl[0],dom=DOMAP.has(l0.ap);
-    const arrs=bl.map(l=>l.arr).sort((a,b)=>a-b),c=l0.cls[0],cyc=arrs.length>1?arrs[1]-arrs[0]:2*DUR[l0.ap]+Math.round(GROUND[c-1]*.9)+GROUND[c-1];
+    const arrs=bl.map(l=>l.arr).sort((a,b)=>a-b),c=l0.cls[0],cyc=arrs.length>1?arrs[1]-arrs[0]:2*durA(l0.ap)+Math.round(GROUND[c-1]*.9)+GROUND[c-1];
     const sh=dom?Math.round(cyc*(((n-1)*.618)%1)):Math.round((((n-1)*.618)%1)*420-210);
     for(const l of bl){const a=l.arr+sh;if(a<300||a>1430)continue;
       let no=l.no>=1000?1000+(l.no+n*246)%8000:10+(l.no+n*46)%890;if(no%2===0)no++;
@@ -1046,7 +1063,7 @@ function mkRot(ln,d){
   if(pi>=0){eta=Math.max(eta,camp.pend[pi].avail);camp.pend.splice(pi,1)}
   const i=flights.length;
   flights.push({i,k:ln.k,al:ln.al,arrNo:ln.al+ln.no,depNo:ln.al+(ln.no+1),ap:ln.ap,cls,sched,eta,ground:g,depSched:ln.dep!=null?(d+1)*1440+ln.dep:sched+g,
-    dur:DUR[ln.ap],state:"inbound",stand:null,path:null,fuelPlan:D().fuel+5+Math.round(Math.random()*.12*DUR[ln.ap]),mk:pickMk(ln.al,cls)});
+    dur:durA(ln.ap),state:"inbound",stand:null,path:null,fuelPlan:D().fuel+5+Math.round(Math.random()*.12*durA(ln.ap)),mk:pickMk(ln.al,cls)});
 }
 function genUpTo(dEnd){
   while(camp.gen<dEnd){const d=++camp.gen;
@@ -1093,11 +1110,12 @@ var flights,now,speed=10,tab="arr",sel=null,assignFor=null,runwayFree,score,last
 var $=id=>document.getElementById(id);
 var map=$('map'),fixed=$('fixed'),planesEl=$('planes'),board=$('board'),detail=$('detail'),side=$('side'),cards=$('cards');
 
-function reset(){
-  const td=new Date();camp.t0=new Date(td.getFullYear(),td.getMonth(),td.getDate()).getTime();
-  camp.seed=Math.floor(Math.random()*1e9);camp.gen=-2;camp.cur=0;camp.pend=[];
+function reset(t0){
+  if(t0==null){const td=new Date();camp.t0=new Date(td.getFullYear(),td.getMonth(),td.getDate()).getTime()}
+  const d0=t0==null?0:dayOf(t0);
+  camp.seed=Math.floor(Math.random()*1e9);camp.gen=d0-2;camp.cur=d0;camp.pend=[];
   storms=[];dayOver=false;flights=[];setLayout(camp.lay||1);STANDS.forEach(s=>s.res=null);
-  buildLines();now=toMin("05:52");genUpTo(1);
+  buildLines();now=t0==null?toMin("05:52"):t0;genUpTo(d0+1);
   // estado inicial: quem já partiu está voando; quem já chegou está no pátio (pernoite)
   for(const f of flights){
     if(f.depSched<=now){f.state="gone";f.tOff=f.depSched;continue}
@@ -1783,9 +1801,9 @@ function drawDetail(){
   <div class="pass">
     <div class="hd"><span class="air">${logo(f.al,"hd-lg")}${flag(f.al)} ${AIRLINES[f.al]}</span><span class="code">${arr?f.arrNo:f.depNo}</span></div>
     <div class="route">
-      <div><small>${arr?'Origem':'Saída'}</small><span class="c">${arr?f.ap:'GIG'}</span><small>${arr?CITY[f.ap]:'Rio · Galeão'}</small></div>
+      <div><small>${arr?'Origem':'Saída'}</small><span class="c">${arr?f.ap:HOME()}</span><small>${arr?CITY[f.ap]:APN().city+' · '+APN().n}</small></div>
       <svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" transform="rotate(90 12 12)"/></svg>
-      <div class="r"><small>Destino</small><span class="c">${arr?'GIG':f.ap}</span><small>${arr?'Rio · Galeão':CITY[f.ap]}</small></div>
+      <div class="r"><small>Destino</small><span class="c">${arr?HOME():f.ap}</span><small>${arr?APN().city+' · '+APN().n:CITY[f.ap]}</small></div>
     </div>
     <div class="prog"><i style="width:${p*100}%"></i></div>
     <div class="progl"><span>${pl}</span><span>${pr}</span></div>
@@ -1847,14 +1865,14 @@ function gcPoint(a,b,t){
 function airborne(){
   const out=[];
   for(const f of flights){
-    if(["inbound","approach","holding"].includes(f.state)){const s=f.eta-f.dur;if(now>=s)out.push({f,leg:"arr",from:f.ap,to:"GIG",dur:f.dur,p:clamp((now-s)/f.dur,0,1),rem:Math.max(0,f.eta-now)})}
-    if(f.state==="gone"&&now<f.tOff+f.dur)out.push({f,leg:"dep",from:"GIG",to:f.ap,dur:f.dur,p:clamp((now-f.tOff)/f.dur,0,1),rem:Math.max(0,f.tOff+f.dur-now)});
+    if(["inbound","approach","holding"].includes(f.state)){const s=f.eta-f.dur;if(now>=s)out.push({f,leg:"arr",from:f.ap,to:HOME(),dur:f.dur,p:clamp((now-s)/f.dur,0,1),rem:Math.max(0,f.eta-now)})}
+    if(f.state==="gone"&&now<f.tOff+f.dur)out.push({f,leg:"dep",from:HOME(),to:f.ap,dur:f.dur,p:clamp((now-f.tOff)/f.dur,0,1),rem:Math.max(0,f.tOff+f.dur-now)});
   }
   return out;
 }
 function profile(o){
   const c=o.f.cls,cr=[35000,37000,37000,39000,41000,39000,37000][c-1],vs=[830,840,845,850,905,905,910][c-1];
-  if(o.f.state==="holding")return{alt:8000,spd:420,phase:"Em espera sobre o Galeão"};
+  if(o.f.state==="holding")return{alt:8000,spd:420,phase:"Em espera sobre "+(HOME()==="GIG"?"o Galeão":"Guarulhos")};
   const el=o.p*o.dur,rem=o.dur-el,cl=Math.min(25,o.dur*.3),de=Math.min(30,o.dur*.35);
   let k=1,phase="Cruzeiro · céu limpo à frente";
   if(el<cl){k=el/cl;phase="Subindo para a altitude de cruzeiro"}else if(rem<de){k=rem/de;phase=`Descendo para ${APT[o.to][3]}`}
@@ -1943,7 +1961,7 @@ function drawFM(t){
   }
   c.setTransform(dpr,0,0,dpr,0,0);
   const air=airborne();fmPlanes=[];
-  const active=new Set(["GIG",...LINES.map(l=>l.ap),...air.map(o=>o.f.ap)]);
+  const active=new Set([HOME(),...LINES.map(l=>l.ap),...air.map(o=>o.f.ap)]);
   const sz=clamp(r.w/70,9,18);
   c.save();c.beginPath();c.rect(r.x,r.y,r.w,r.h);c.clip();
   // rotas
@@ -1977,7 +1995,7 @@ function drawFM(t){
   }
   c.restore();
   // aeroportos
-  for(const k of active){const a=APT[k],[x,y]=projF(a[0],a[1],r),home=k==="GIG";
+  for(const k of active){const a=APT[k],[x,y]=projF(a[0],a[1],r),home=k===HOME();
     // todos os nossos destinos piscam (cada um num tempo)
     {const ph=home?0:(k.charCodeAt(0)*7+k.charCodeAt(1)*3+k.charCodeAt(2))%20/20,pl=((t/1000)/2+ph)%1;
      c.strokeStyle=`rgba(29,43,58,${(1-pl)*(home?.5:.4)})`;c.lineWidth=home?1.5:1.2;c.beginPath();c.arc(x,y,(home?9:6)+pl*(home?16:12),0,7);c.stroke()}
@@ -1987,7 +2005,7 @@ function drawFM(t){
     const selF=air.find(o=>o.f.i===mapSelId);
     if(!home&&r.w<600&&!(selF&&selF.f.ap===k))continue;
     c.font=`900 ${home?15:12}px 'Inter Tight',Arial`;c.fillStyle="#1D2B3A";
-    const lbl=home?"GIG":k,tw=c.measureText(lbl).width,o=LBL[k]||[10,-8];
+    const lbl=k,tw=c.measureText(lbl).width,o=LBL[k]||[10,-8];
     let tx=x+o[0]+(home?4:0),ty=y+o[1];if(tx+tw>r.x+r.w-4)tx=x-10-tw;c.fillText(lbl,tx,ty);
     c.font=`700 ${home?9:8}px 'Inter Tight',Arial`;c.fillStyle="rgba(29,43,58,.65)";c.fillText((CITY[k]||'').toUpperCase(),tx,ty+(home?11:10))}
   // coordenadas do avião selecionado
@@ -2003,7 +2021,7 @@ function drawFMPanel(){
   $('fmTab').innerHTML=`${ic('plane')}<b>${air.length}</b><i>‹</i>`;$('fmN').textContent=air.length?air.length+' no ar':'';
   $('fmChips').innerHTML=air.map(o=>`<button class="fm-chip${o.f.i===mapSelId?' on':''}" data-f="${o.f.i}"><b>${o.leg==="arr"?o.f.arrNo:o.f.depNo}</b><small>${o.from} → ${o.to}</small><i><em style="width:${o.p*100}%"></em></i></button>`).join('')||'';
   const o=air.find(x=>x.f.i===mapSelId);
-  if(!o){$('fmCard').innerHTML='<div class="fm-empty">Nenhum avião voando agora. Avance o relógio para ver os voos a caminho do Galeão.</div>';$('fmWx').innerHTML='';return}
+  if(!o){$('fmCard').innerHTML='<div class="fm-empty">Nenhum avião voando agora. Avance o relógio para ver os voos a caminho do aeroporto.</div>';$('fmWx').innerHTML='';return}
   const f=o.f,A=APT[o.from],B=APT[o.to],pr=profile(o),km=Math.round(gcDist(A,B)*6371/10)*10;
   const st=o.leg==="arr"?arrStatus(f):["EM ROTA","ok"],stTxt=f.state==="holding"?"EM ESPERA":(o.leg==="arr"&&f.state==="inbound"?"EM ROTA":st[0]);
   const remH=Math.floor(o.rem/60),remM=Math.round(o.rem%60);
@@ -2028,7 +2046,7 @@ function drawFMPanel(){
       <div class="w"><small>Chega em</small><b class="y">${remH?remH+'h ':''}${remM} min</b></div>
     </div>`;
   const w=windNow();
-  $('fmWx').innerHTML=`<div><b>${pr.phase}</b>Vento no Galeão ${String(w[1]).padStart(3,'0')}° · ${w[2]} kt · ${rwLbl(activeRwy()).toLowerCase()} em uso</div>
+  $('fmWx').innerHTML=`<div><b>${pr.phase}</b>Vento em ${APN().n} ${String(w[1]).padStart(3,'0')}° · ${w[2]} kt · ${rwLbl(activeRwy()).toLowerCase()} em uso</div>
     <div class="trk"><i class="ln"></i><i class="dn" id="trkDone"></i><span class="ep l">${o.from}</span><span class="ep r">${o.to}</span><svg id="trkPl" viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" transform="rotate(90 12 12)"/></svg></div>`;
 }
 function openMap(f){
@@ -2161,7 +2179,7 @@ function zoomAt(px,py,nk){const u=(px-ZX)/zk,v=(py-ZY)/zk;zk=clamp(nk,1,4);ZX=px
 function toScreen(x,y){const s=bw/W*zk;return ROTM?[ZX+y*s,ZY+(W-x)*s]:[ZX+x*s,ZY+y*s]}
 function setLayout(id){
   LAY=LAYS[id]||LAYS[1];W=LAY.W;H=LAY.H;STANDS=LAY.mk();
-  ROTM=LAND&&LAY.id===1;document.body.classList.toggle('rot',ROTM);document.body.classList.toggle('l2',LAY.id===2);
+  ROTM=LAND&&LAY.id===1;document.body.classList.toggle('rot',ROTM);document.body.classList.toggle('l2',LAY.id===2);document.body.classList.toggle('l3',LAY.id===3);
   planeEls.forEach(e=>e.remove());planeEls.clear();laidOut=false;zk=1;layoutMap();drawLights();dirty=true;
 }
 // obra concluída: os aviões passam para o aeroporto novo (portões 1–10 no Terminal 1, remotas no Terminal 2)
@@ -2209,7 +2227,7 @@ function drawFlt(ap,rd,bk){
   const durF=m=>`${Math.floor(m/60)}h ${String(Math.round(m%60)).padStart(2,'0')}m`;
   const card=(f,kind)=>{
     const arr=kind!=='rd'&&kind!=='blk';
-    const from=arr?f.ap:'GIG',to=arr?'GIG':f.ap;
+    const from=arr?f.ap:HOME(),to=arr?HOME():f.ap;
     const t1=arr?fmt(f.eta-f.dur):fmt(f.depSched),t2=arr?fmt(f.eta):fmt(f.depSched+f.dur);
     let pill='',pc='',act='';
     if(kind==='blk'){pill='SEM VAGA';pc='bad';act=`<button data-a="move" data-f="${f.i}">${assignFor===f.i?'Toque na vaga certa':'Mover para vaga certa'}</button>`}
@@ -2293,7 +2311,7 @@ var fareOf=(cls,dom)=>(5000+cls*3000)*(dom?1:1.6);   // receita por partida
 var nice=v=>v<100000?Math.round(v/5000)*5000:v<1000000?Math.round(v/10000)*10000:Math.round(v/50000)*50000;
 function dealList(){
   const by={};for(const l of ALL_LINES)(by[l.k]=by[l.k]||[]).push(l);
-  return Object.values(by).map(ls=>{const l=ls[0],dom=DOMAP.has(l.ap),cat=dom?'nac':DUR[l.ap]<=420?'reg':'long';
+  return Object.values(by).map(ls=>{const l=ls[0],dom=DOMAP.has(l.ap),cat=dom?'nac':durA(l.ap)<=420?'reg':'long';
     const wk=ls.reduce((a,x)=>a+(x.days==='q3'?7/3:x.days.split('').filter(c=>c==='1').length),0);
     const ca=l.cls.reduce((a,b)=>a+b,0)/l.cls.length,rev=wk*fareOf(ca,dom);
     return {k:l.k,al:l.al,ap:l.ap,ls,dom,cat,wk,cls:l.cls,rev,price:nice(Math.max(25000,rev*(cat==='nac'?.8:cat==='reg'?1.6:2.5)))}});
@@ -2364,7 +2382,7 @@ function drawDeals(){
   $('dlMoney').textContent=money(camp.money);
   if(dealsAl){
     const al=dealsAl,ds=L.filter(d=>d.al===al).sort((a,b)=>a.price-b.price),av=ds.filter(d=>!own.has(d.k)),mi=ds.filter(d=>own.has(d.k));
-    const card=d=>`<div class="dl"><div class="dl-r"><span class="dl-ap">GIG ⇄ <b>${d.ap}</b> ${CITY[d.ap]}</span><em class="dl-c ${d.cat}">${d.cat==='nac'?'Nacional':d.cat==='reg'?'Américas':'Longa distância'}</em></div>
+    const card=d=>`<div class="dl"><div class="dl-r"><span class="dl-ap">${HOME()} ⇄ <b>${d.ap}</b> ${CITY[d.ap]}</span><em class="dl-c ${d.cat}">${d.cat==='nac'?'Nacional':d.cat==='reg'?'Américas':'Longa distância'}</em></div>
       <div class="dl-i"><span>${freqTxt(d)}</span><span>classe ${Math.min(...d.cls)}${d.cls.length>1?'–'+Math.max(...d.cls):''}</span><span>~${money(Math.round(d.rev))}/sem</span></div>
       ${own.has(d.k)?`<div class="dl-on">✓ Em operação · ${nPl(d.k)} avi${nPl(d.k)>1?'ões':'ão'}</div>${camp.money>=d.price?`<button class="dl-b dl-more" data-buy="${d.k}+">${dealAsk===d.k+'+'?'Confirmar':'+ Mais um avião'} · ${money(d.price)}</button>`:`<span class="dl-p">+ avião ${money(d.price)}<small>faltam ${money(d.price-camp.money)}</small></span>`}`:btn(d.k,d.price)}</div>`;
     $('dlList').innerHTML=`<button class="dl-back" id="dlBack">‹ Companhias</button>${alCover(al,true)}<div class="dl-sum">${mi.length} de ${ds.length} destinos em operação</div>`+av.map(card).join('')+mi.map(card).join('');
@@ -2373,10 +2391,14 @@ function drawDeals(){
   const als=[...new Set(L.map(d=>d.al))].map(al=>{const ds=L.filter(d=>d.al===al),av=ds.filter(d=>!own.has(d.k));
     return {al,n:ds.length,on:ds.length-av.length,min:av.length?Math.min(...av.map(d=>d.price)):null}}).sort((a,b)=>(a.min==null?1e12:a.min)-(b.min==null?1e12:b.min));
   $('dlList').innerHTML=(LAY.id===1?`<div class="dl exp"><div class="dl-h"><span class="tk-fl">🏗</span><b>Expansão do Galeão</b><em class="dl-c long">Obra</em></div><div class="dl-r">Terminal 2 com 6 portões + 2ª pista paralela (10L/28R)</div>${btn('EXP',EXP_PRICE)}</div>`:'')
+    +Object.values(APTS).filter(a=>a.price).map(a=>{const own=OWNED().includes(a.c),here=HOME()===a.c;
+      return `<div class="dl exp apt"><div class="dl-h"><span class="tk-fl">🗼</span><b>Administração de ${a.n} (${a.c})</b><em class="dl-c nac">Aeroporto</em></div><div class="dl-r">${a.city} · ${a.desc}. Mesmo caixa; quando você não está lá, ele opera no piloto automático.</div>${here?'<div class="dl-on">✓ Você está aqui</div>':own?`<div class="dl-on">✓ Seu aeroporto</div><button class="dl-b dl-go" data-goapt="${a.c}">Ir para ${a.c}</button>`:btn('APT:'+a.c,a.price)}</div>`}).join('')
+    +(HOME()!=='GIG'?`<div class="dl exp apt"><div class="dl-h"><span class="tk-fl">🗼</span><b>Galeão (GIG)</b><em class="dl-c nac">Aeroporto</em></div><div class="dl-on">✓ Seu aeroporto</div><button class="dl-b dl-go" data-goapt="GIG">Ir para GIG</button></div>`:'')
     +`<div class="dl-grid">${als.map(a=>`<button class="dl-al" data-al="${a.al}">${alCover(a.al)}<div class="dl-alf"><span>${a.on?`<b class="on">${a.on}/${a.n} rotas</b>`:`${a.n} destino${a.n>1?'s':''}`}</span><span>${a.min!=null?'a partir de <b>'+money(a.min)+'</b>':'<b class="on">todas em operação</b>'}</span></div></button>`).join('')}</div>`;
 }
 function buyDeal(k){
   if(k==='EXP'){buildExpansion();openDeals(false);return}
+  if(k.indexOf('APT:')===0){buyApt(k.slice(4));openDeals(false);return}
   const base=k.split('#')[0],d=dealList().find(x=>x.k===base);if(!d||camp.money<d.price)return;
   if(!camp.deals)camp.deals=ALL_LINES.filter(l=>l.kp).map(l=>l.k);
   if(camp.deals.includes(base)){let n=2;while(camp.deals.includes(base+'#'+n))n++;k=base+'#'+n}
@@ -2388,10 +2410,11 @@ function buyDeal(k){
 $('dlX').addEventListener('click',()=>openDeals(false));
 $('dlBk').addEventListener('click',()=>{if(dealsAl){dealsAl=null;dealAsk=null;drawDeals();$('dlList').scrollTop=0}else if(dealTab!=='deals'){const b=document.querySelector('.dl-tabs [data-dt="deals"]');b.click()}else openDeals(false)});
 $('deals').addEventListener('click',e=>{if(e.target.id==='deals')return openDeals(false);
-  const tb=e.target.closest('[data-dt]');if(tb){dealTab=tb.dataset.dt;dealsAl=null;document.querySelectorAll('.dl-tabs button').forEach(x=>x.classList.toggle('on',x===tb));$('dlSub').textContent=dealTab==='gest'?'Custos, equipes e a relação com as companhias.':dealTab==='fin'?'Receitas x despesas do aeroporto.':'Traga novas rotas para o Galeão. Do mais barato ao mais caro.';drawDeals();$('dlList').scrollTop=0;return}
+  const tb=e.target.closest('[data-dt]');if(tb){dealTab=tb.dataset.dt;dealsAl=null;document.querySelectorAll('.dl-tabs button').forEach(x=>x.classList.toggle('on',x===tb));$('dlSub').textContent=dealTab==='gest'?'Custos, equipes e a relação com as companhias.':dealTab==='fin'?'Receitas x despesas do aeroporto.':'Traga novas rotas para '+(HOME()==='GIG'?'o Galeão':'Guarulhos')+'. Do mais barato ao mais caro.';drawDeals();$('dlList').scrollTop=0;return}
   const cr=e.target.closest('[data-cr]');if(cr){const c=crewCap(),k=cr.dataset.cr,v=+cr.dataset.v;if(v<0&&c[k]<=1)return toast('Precisa de pelo menos 1 equipe');if(v>0&&c[k]>=10)return toast('Máximo de 10 equipes');
     if(v<0&&crewBusy()[k]>=c[k])return toast('Essa equipe está trabalhando agora');c[k]+=v;toast(v>0?`Equipe de ${CREWNAME[k].toLowerCase()} contratada`:`Equipe de ${CREWNAME[k].toLowerCase()} dispensada`);drawDeals();return}
   const po=e.target.closest('[data-pol]');if(po){camp.forgive=po.dataset.pol==='1';drawDeals();return}
+  {const g=e.target.closest('[data-goapt]');if(g){openDeals(false);switchApt(g.dataset.goapt);return}}
   if(e.target.closest('#dlBack')){dealsAl=null;dealAsk=null;drawDeals();$('dlList').scrollTop=0;return}
   const ca=e.target.closest('[data-al]');if(ca){dealsAl=ca.dataset.al;dealAsk=null;drawDeals();$('dlList').scrollTop=0;return}
   const b=e.target.closest('[data-buy]');if(!b)return;
@@ -2407,6 +2430,7 @@ if(TWO){
   const q=sel=>document.querySelector(sel);
   mk('edCtl',ic('dep'),'Controle de voos',[q('.mobileBar .tab[data-t="arr"]'),q('.mobileBar .tab[data-t="dep"]'),$('mapBtn2'),(()=>{const b=document.createElement('button');b.setAttribute('aria-label','Tempo');b.innerHTML=ic('wx');b.addEventListener('click',()=>openWx(true));return b})()]);
   mk('edOpt',`<span class="ico"><svg viewBox="0 0 24 24"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg></span>`,'Opções',[...[1,10,60].map(v=>{const b=document.createElement('button');b.className='txt spdb'+(v===10?' on':'');b.dataset.sp=v;b.textContent=v+'×';b.addEventListener('click',()=>setSpeed(v));return b}),(()=>{const b=document.createElement('button');b.id='sndE';b.className='on';b.setAttribute('aria-label','Som');b.innerHTML=ic('vol');b.addEventListener('click',()=>setSound(!soundOn));return b})(),(()=>{const b=document.createElement('button');b.id='rstE';b.className='txt';b.textContent='↺';b.setAttribute('aria-label','Reiniciar');b.addEventListener('click',()=>{if(!b.dataset.ask){b.dataset.ask=1;b.textContent='?';toast('Toque de novo para reiniciar o jogo');setTimeout(()=>{delete b.dataset.ask;b.textContent='↺'},3000);return}delete b.dataset.ask;b.textContent='↺';reset();rowsTab=null;drawLights();dirty=true});return b})(),(()=>{const b=document.createElement('button');b.id='pauseBtn';b.setAttribute('aria-label','Pausar');b.className='mb';b.innerHTML=ic('pause');b.addEventListener('click',togglePause);return b})(),(()=>{const b=document.createElement('button');b.id='autoBtn';b.setAttribute('aria-label','Piloto automático');b.className='mb autob';b.innerHTML=ic('auto')+'<small>AUTO</small>';b.addEventListener('click',()=>setAuto(!camp.auto));return b})(),$('clockBtn'),$('mixBtn2'),$('saveBtn2'),$('loadBtn2'),$('homeBtn2')]);
+  mk('edApt','<span class="ico"><svg viewBox="0 0 24 24"><path d="M8 2h8l1 3H7zM5 6h14l-2 4H7zM9.5 11h5l1.2 9H18v2H6v-2h2.3z"/></svg></span>','Aeroportos',[]);$('edAptP').addEventListener('click',e=>{const b=e.target.closest('[data-apt]');if(!b)return;$('edApt').parentNode.classList.remove('open');switchApt(b.dataset.apt)});
   {const w=document.createElement('div');w.className='edw';w.innerHTML=`<button class="edt" id="edYard" aria-label="Pátio e serviços">${ic('yard')}<i>‹</i></button>`;edge.appendChild(w);
    w.querySelector('.edt').addEventListener('click',e=>{e.stopPropagation();edge.querySelectorAll('.edw').forEach(x=>x.classList.remove('open'));openYard(!yardOn)})}
   {const w=document.createElement('div');w.className='edw';w.innerHTML=`<button class="edt" id="edDeal" aria-label="Acordos comerciais">${ic('deal')}<i>‹</i></button>`;edge.appendChild(w);
@@ -2500,6 +2524,7 @@ function loadGame(d){
   side.classList.remove('showDetail');drawLights();dirty=true;
   document.body.classList.toggle('auto',!!camp.auto);{const b=$('autoBtn');if(b)b.classList.toggle('on',!!camp.auto)}
   if(camp.auto&&d.at)lastWall=d.at;
+  aptUI();
 }
 var when=t=>{const d=new Date(t);return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})};
 var slMode='save';
@@ -2597,7 +2622,7 @@ $('diffClose').addEventListener('click',()=>$('diffDlg').hidden=true);
 $('diffDlg').addEventListener('click',e=>{
   if(e.target.id==='diffDlg'){$('diffDlg').hidden=true;return}
   const b=e.target.closest('.df');if(!b)return;
-  DIFF=b.dataset.d;camp=newCamp();reset();rowsTab=null;drawLights();$('diffDlg').hidden=true;startGame();
+  DIFF=b.dataset.d;camp=newCamp();reset();aptUI();rowsTab=null;drawLights();$('diffDlg').hidden=true;startGame();
   toast(`Dia 1 · ${D().name} · bom trabalho na torre!`);
 });
 function endDay(){
@@ -2621,7 +2646,7 @@ function endDay(){
 function rollDay(){score.wage=payWages();camp.lastDay={rev:score.rev||0,fine:score.fine||0,forg:score.forg||0,wage:score.wage||0,lost:score.lost||null};
   camp.hist=(camp.hist||[]).concat([{d:camp.cur,rev:score.rev||0,fine:score.fine||0,wage:score.wage||0,pen:score.pen||0,inv:score.inv||0}]).slice(-14);camp.day++;camp.cur=dayOf(now);renewals();genUpTo(camp.cur+1);pruneWorld();score={landed:0,departed:0,onTime:0,lateMin:0,diverted:0,emerg:0};dayOver=false;rowsTab=null}
 $('dayDlg').addEventListener('click',e=>{if(!e.target.closest('#nextDay'))return;
-  rollDay();$('dayDlg').hidden=true;writeKey(AUTO_KEY,false);toast(`${dateLbl(now)} · madrugada no Galeão`);dirty=true});
+  rollDay();$('dayDlg').hidden=true;writeKey(AUTO_KEY,false);toast(`${dateLbl(now)} · madrugada em ${APN().n}`);dirty=true});
 /* ---------- piloto automático ---------- */
 function autoDay(){const gs=goals(),st=gs.filter(g=>g.ok).length;if(camp.scored!==camp.day){camp.scored=camp.day;camp.stars+=st}
   const L=camp.alog||(camp.alog={l:0,d:0,dv:0,days:0,stars:0});L.l+=score.landed;L.d+=score.departed;L.dv+=score.diverted;L.days++;L.stars+=st;rollDay()}
@@ -2629,7 +2654,7 @@ function autoStep(){
   for(const f of flights){
     if((f.state==="inbound"||f.state==="approach"||f.state==="holding")&&f.stand==null&&now>=f.eta-25){
       const fr=STANDS.filter(x=>x.res==null);
-      const pref=LAY.id===2?(DOMAP.has(f.ap)?'A':'B'):null;
+      const pref=LAY.id>=2?(DOMAP.has(f.ap)?'A':'B'):null;
       const s=fr.filter(x=>x.max>=f.cls).sort((a,b)=>(pref?(a.g===pref?0:1)-(b.g===pref?0:1):0)||(a.remote?1:0)-(b.remote?1:0)||a.max-b.max)[0]||fr.filter(x=>!x.remote&&x.max>=f.cls-2).sort((a,b)=>b.max-a.max)[0];
       if(s)assign(f,s)}
     if(f.state==="parked"&&f.blk){const s=STANDS.filter(x=>x.res==null&&x.max>=f.cls).sort((a,b)=>a.max-b.max)[0];if(s)moveTo(f,s)}
@@ -2637,13 +2662,47 @@ function autoStep(){
     if(isReady(f)&&!f.blk)depart(f);
   }
 }
-var lastWall=Date.now(),catchLeft=0;
+var lastWall=Date.now(),catchLeft=0,catchMsg=null;
+/* ---------- vários aeroportos: cada um guarda o próprio mundo; o caixa é um só ---------- */
+var PER=['deals','dealT','cur','day','pend','gen','seed','scored','lay','hist','crews','lastDay','alog'];
+function stash(){const c={};PER.forEach(k=>{if(camp[k]!==undefined)c[k]=camp[k]});
+  return {c,flights:flights.map(f=>f.state==='gone'?{...f,path:null}:{...f}),storms,runwayFree,score,stands:STANDS.map(x=>x.res),at:now}}
+function aptUI(){const a=APN(),el=document.querySelector('.top .apt');if(el)el.textContent=(el.textContent.indexOf('LITE')===0?'LITE · ':'')+a.c+' · '+a.n;
+  document.title='Departure · '+a.n;const fc=document.querySelector('.fp-route .fp-c');if(fc){fc.textContent=a.c;const sm=fc.nextElementSibling;if(sm)sm.textContent=a.full.toUpperCase()}
+  if(dealTab==='deals')$('dlSub').textContent='Traga novas rotas para '+(HOME()==='GIG'?'o Galeão':'Guarulhos')+'. Do mais barato ao mais caro.';
+  const ft=document.querySelector('.fm-t small');if(ft)ft.textContent='Mapa de voos · '+a.n;
+  const w=$('edApt');if(w){w.parentNode.hidden=OWNED().length<2;$('edAptP').innerHTML=OWNED().map(c=>`<button class="txt${c===HOME()?' on':''}" data-apt="${c}">${c}</button>`).join('')}
+  const b=$('aptBtn');if(b){b.hidden=OWNED().length<2;b.lastChild.textContent=' '+HOME()}}
+function switchApt(code){
+  if(!APTS[code]||code===HOME()||!OWNED().includes(code))return;
+  if(dayOver){toast('Feche o resumo do dia antes de trocar de aeroporto');return}
+  if(catchLeft>0){toast('Espere o relógio terminar de recuperar');return}
+  const t=now;camp.apts=camp.apts||{};camp.apts[HOME()]=stash();
+  const o=camp.apts[code];delete camp.apts[code];camp.apt=code;
+  PER.forEach(k=>delete camp[k]);
+  sel=null;assignFor=null;side.classList.remove('showDetail');side.classList.remove('open');setTabs();
+  if(!o||t-o.at>4320){
+    if(o)Object.assign(camp,o.c);else Object.assign(camp,{deals:[],dealT:{},day:1,lay:APTS[code].lay,hist:[],crews:DIFF==='facil'?undefined:{fuel:2,cat:2,clean:2}});
+    reset(t);if(o)toast(`${APTS[code].n}: muito tempo longe, a operação recomeçou do dia de hoje`);
+  }else{
+    Object.assign(camp,o.c);flights=o.flights;storms=o.storms||[];runwayFree=o.runwayFree||{A:0,B:0};score=o.score;now=o.at;
+    buildLines();setLayout(camp.lay||APTS[code].lay);STANDS.forEach((x,i)=>x.res=o.stands[i]==null?null:o.stands[i]);
+    planeEls.forEach(e=>e.remove());planeEls.clear();
+    if(t-now>.5){catchLeft=t-now;catchMsg=`${APTS[code].n} em dia · o piloto automático cuidou de tudo`}
+  }
+  lastWind=-1;rowsTab=null;drawLights();aptUI();dirty=true;
+  if(!catchLeft)toast(`Torre de ${APTS[code].n} · ${APTS[code].city}`);
+  writeKey(AUTO_KEY,false);
+}
+function buyApt(code){const a=APTS[code];if(!a||OWNED().includes(code)||camp.money<a.price)return;
+  camp.money-=a.price;score.inv=(score.inv||0)+a.price;camp.owned=camp.owned||{};camp.owned[code]=dayOf(now);
+  toast(`Administração de ${a.n} comprada!`);switchApt(code)}
 function catchUp(){
   const t0=performance.now();FAST=true;
   while(catchLeft>0&&performance.now()-t0<40){const d=Math.min(.25,catchLeft);now+=d;catchLeft-=d;
     if(dayOf(now)>camp.cur)autoDay();step();autoStep()}
   FAST=false;
-  if(catchLeft<=0){catchLeft=0;planeEls.forEach(e=>e.remove());planeEls.clear();loop('tempestade',!!stormNow()&&pk('chuva')!=='off',1);toast(`Piloto automático em dia · ${dateLbl(now)} ${fmt(now)}`)}
+  if(catchLeft<=0){catchLeft=0;planeEls.forEach(e=>e.remove());planeEls.clear();loop('tempestade',!!stormNow()&&pk('chuva')!=='off',1);toast(catchMsg||`Piloto automático em dia · ${dateLbl(now)} ${fmt(now)}`);catchMsg=null}
   dirty=true;
 }
 function setAuto(on){camp.auto=!!on;document.body.classList.toggle('auto',camp.auto);
@@ -2657,7 +2716,8 @@ if(!TWO){const y=document.createElement('button');y.className='ib';y.innerHTML=i
 if(!TWO){const y=document.createElement('button');y.className='ib';y.innerHTML=ic('deal')+'Acordos';y.addEventListener('click',()=>openDeals(!dealsOn));$('speed').insertBefore(y,$('restart'))}
 if(!TWO){const y=document.createElement('button');y.className='ib';y.innerHTML=ic('yard')+'Pátio';y.addEventListener('click',()=>openYard(!yardOn));$('speed').insertBefore(y,$('restart'))}
 if(!TWO){const b=document.createElement('button');b.id='autoBtn';b.className='ib autob';b.innerHTML=ic('auto')+'Piloto automático';b.addEventListener('click',()=>setAuto(!camp.auto));$('speed').insertBefore(b,$('restart'))}
-reset();setTabs();requestAnimationFrame(tick);
+if(!TWO){const b=document.createElement('button');b.id='aptBtn';b.className='ib';b.innerHTML='<span class="ico"><svg viewBox="0 0 24 24"><path d="M8 2h8l1 3H7zM5 6h14l-2 4H7zM9.5 11h5l1.2 9H18v2H6v-2h2.3z"/></svg></span>'+' GIG';b.addEventListener('click',()=>{const o=OWNED();switchApt(o[(o.indexOf(HOME())+1)%o.length])});$('speed').insertBefore(b,$('restart'))}
+reset();aptUI();setTabs();requestAnimationFrame(tick);
 function loadLogos(){Object.keys(AIRLINES).forEach(al=>{if(LOGO[al])return;const im=new Image();im.onload=()=>{LOGO[al]=true;dirty=true};im.src=`logos/${al}.png?t=${Math.floor(Date.now()/60000)}`})}
 loadLogos();setInterval(loadLogos,60000);
 })();
