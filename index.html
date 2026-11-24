@@ -880,7 +880,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795563557';
+var APPV='1795563813';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1001,7 +1001,7 @@ var CN2=[224,584,1197,1595,1920];
 var LAYS={
  1:{id:1,W:966,H:1628,ps:1.25,cover:1,G:[{id:'A',rx:243,twy:357,lane:420,sg:1,conn:[307,848,1460],entry:null,th:{"10":200,"28":1428},nm:{"10":"10","28":"28"},lt:[198,10,10],reil:[186,300],lbx:120,ap:{"10":[6,18],"28":[1600,1612]},edge:[195,290]}],
    labels:[],
-   mk:()=>[[255,6],[358,6],[460,6],[564,6],[725,3],[822,3],[1049,5],[1140,5],[1239,7,6],[1334,7,6]].map(([y,m,mn],i)=>({n:i+1,x:i===4||i===5?530:563,y,max:m,min:mn||1,bd:1,g:'A',sx:672,sy:y})).concat([{n:11,x:522,y:150,max:4,remote:1,lab:'R1',bd:0,g:'A',sx:603,sy:96},{n:12,x:547,y:1458,max:4,remote:1,lab:'R2',bd:0,g:'A',sx:603,sy:1518}])},
+   mk:()=>[[255,7,6],[358,6],[460,6],[564,6],[725,3],[822,3],[1049,5],[1140,5],[1239,6],[1334,7,6]].map(([y,m,mn],i)=>({n:i+1,x:i===4||i===5?530:563,y,max:m,min:mn||1,bd:1,g:'A',sx:672,sy:y})).concat([{n:11,x:522,y:150,max:4,remote:1,lab:'R1',bd:0,g:'A',sx:603,sy:96},{n:12,x:547,y:1458,max:4,remote:1,lab:'R2',bd:0,g:'A',sx:603,sy:1518}])},
  2:{id:2,W:941,H:1672,ps:1.35,G:[
    {id:'A',rx:84,twy:355,lane:397,sg:1,conn:[255,256,1399,1400],entry:null,th:{"10":168,"28":1489},nm:{"10":"10L","28":"28R"},lt:[58,6.5,9],reil:[50,118],lbx:30,ap:{"10":[100,117,134,151],"28":[1505,1520,1535,1550,1565]},edge:[57,111]},
    {id:'B',rx:266,twy:355,lane:397,sg:1,conn:[240,480,838,1248,1500],entry:null,th:{"10":93,"28":1489},nm:{"10":"10R","28":"28L"},lt:[234,8,9],reil:[226,306],lbx:325,ap:{"10":[25,42,59,76],"28":[1505,1520,1535,1550,1565]},edge:[233,299]}],
@@ -1209,7 +1209,7 @@ var DIFFS={
 var DIFF="normal",camp={day:1,stars:0,rep:70,money:0},storms=[],dayOver=false;
 var D=()=>DIFFS[DIFF];
 var START_MONEY={facil:400000,normal:250000,dificil:150000};
-var newCamp=()=>({lay1v:6,day:1,stars:0,rep:70,money:START_MONEY[DIFF]||250000,deals:[],crews:DIFF==='facil'?undefined:{fuel:2,cat:2,clean:2}});
+var newCamp=()=>({lay1v:7,day:1,stars:0,rep:70,money:START_MONEY[DIFF]||250000,deals:[],crews:DIFF==='facil'?undefined:{fuel:2,cat:2,clean:2}});
 var flights,now,speed=10,tab="arr",sel=null,assignFor=null,runwayFree,score,lastWind=-1;
 var $=id=>document.getElementById(id);
 var map=$('map'),fixed=$('fixed'),planesEl=$('planes'),board=$('board'),detail=$('detail'),side=$('side'),cards=$('cards');
@@ -2769,7 +2769,7 @@ function loadGame(d){
   ROT=d.ROT;flights=d.flights;now=d.now;buildLines();runwayFree=typeof d.runwayFree==='object'&&d.runwayFree?d.runwayFree:{A:0,B:0};score=d.score;
   setLayout(camp.lay||1);STANDS.forEach((x,i)=>x.res=d.stands[i]==null?null:d.stands[i]);
   if(camp.lay===2&&camp.layv!==2){camp.layv=2;migrateLay();runwayFree={A:0,B:0}}
-  if((camp.lay||1)===1&&camp.lay1v!==6){camp.lay1v=6;migrateLay();runwayFree={A:0,B:0}}
+  if((camp.lay||1)===1&&camp.lay1v!==7){camp.lay1v=7;migrateLay();runwayFree={A:0,B:0}}
   flights.forEach(f=>{if(f.svs)f.svs.forEach(v=>{if(v.q==null)v.q=true})});
   speed=nz(d.speed,10);if(speed)rescalePaths(pathK(speed));document.querySelectorAll('#speed button[data-s]').forEach(x=>x.classList.toggle('on',+x.dataset.s===speed));
   $('spdLbl').textContent=speed?speed+'×':'pausa';
