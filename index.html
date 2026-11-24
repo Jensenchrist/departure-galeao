@@ -188,6 +188,9 @@ body.land .mobileBar{top:50%;transform:translateY(-50%)}
 #bgH i{position:absolute;top:0;right:0;bottom:0;left:0;opacity:0;background:center/100% 100% no-repeat}
 #skyTh{background-image:url(maph_tarde.jpg)!important}#skyNh{background-image:url(maph_noite.jpg)!important}
 body.rot #bgH{display:block}
+body.l2 #bgH{background-image:url(maph2_dia.jpg)}body.l2 #skyTh{background-image:url(maph2_tarde.jpg)!important}body.l2 #skyNh{background-image:url(maph2_noite.jpg)!important}
+body.l3 #bgH{background-image:url(maph3_dia.jpg)}body.l3 #skyTh{background-image:url(maph3_tarde.jpg)!important}body.l3 #skyNh{background-image:url(maph3_noite.jpg)!important}
+body.rot.l2 .stage::before{background-image:url(maph2_dia.jpg)}body.rot.l3 .stage::before{background-image:url(maph3_dia.jpg)}
 body.land .rail{top:84px}
 
 @media(max-height:520px){body.land .mobileBar{gap:4px}body.land .mobileBar .tab,body.land .mobileBar .mb{width:40px;height:40px;border-radius:9px}body.land .mobileBar .tab .ico,body.land .mobileBar .mb .ico{width:24px;height:24px}body.land .mobileBar .mb.clockb .clock{font-size:11px}body.land .mobileBar .mb.clockb small{display:none}body.land .rail{top:70px}}
@@ -834,8 +837,32 @@ body.cbar #edge>*+*{margin-top:7px}
 body.spec #specBar{display:flex}
 #specT{font:900 10px/1 system-ui,sans-serif;letter-spacing:.1em;color:var(--y)}
 #specX{border:0;border-radius:14px;background:var(--y);color:#000;font:800 11px/1 system-ui,sans-serif;padding:7px 10px;cursor:pointer}
-body.spec #edge>.edw:not(:has(#edApt)),body.spec #fltTab,body.spec #ovAuto,body.spec #ovPause{opacity:.35}
+body.spec #mxTab,body.spec #edge>.edw:not(:has(#edApt)),body.spec #fltTab,body.spec #ovAuto,body.spec #ovPause{opacity:.35}
 body.spec #hud{top:calc(var(--barh,0px) + 48px)}
+
+/* manutenção */
+#mxp{position:fixed;top:0;right:0;bottom:0;left:0;z-index:40;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;padding:max(14px,env(safe-area-inset-top)) 12px max(14px,env(safe-area-inset-bottom))}
+#mxp[hidden]{display:none}#mxp .yd-box{max-height:100%;display:flex;flex-direction:column}#mxList{overflow:auto;-webkit-overflow-scrolling:touch;margin-top:8px}
+#mxBk{width:34px;height:34px;border-radius:50%;border:0;background:#222;color:var(--y);font-size:22px;font-weight:900;cursor:pointer}
+#mxX{margin-left:auto}
+#mxTab{position:absolute;left:0;bottom:calc(var(--panh,0px) + 14px);z-index:10;width:52px;height:56px;border:0;padding:0 0 0 6px;border-radius:0 18px 18px 0;background:linear-gradient(145deg,#2a2b30,#1c1d20);box-shadow:6px 6px 14px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;cursor:pointer}
+#mxTab .ico{width:34px;height:34px}
+#mxDot{position:absolute;top:6px;right:6px;width:10px;height:10px;border-radius:50%;background:var(--r);box-shadow:0 0 8px var(--r);display:none}
+#mxTab.warn #mxDot{display:block}
+body.land #mxTab{bottom:16px;left:52px}body.land #aqp{left:46px}
+.mx-c{background:#1b1b1d;border-radius:16px;padding:12px;margin-top:10px;box-shadow:inset 0 0 0 1px #2a2a2d}
+.mx-h{display:flex;align-items:baseline;gap:8px}.mx-h b{font:900 16px/1 system-ui,sans-serif;color:#fff;letter-spacing:.04em}.mx-h span{font-size:12px;color:#aaa;font-weight:700}
+.mx-st{font-size:12px;color:var(--y);font-weight:800;margin:6px 0 8px}
+.mx-b{display:grid;grid-template-columns:62px 1fr 40px;align-items:center;gap:8px;margin-top:6px;font-size:12px;font-weight:800;color:#ddd}
+.mx-b i{height:9px;border-radius:5px;background:#2c2c30;overflow:hidden}.mx-b i b{display:block;height:100%;border-radius:5px}
+.mx-b em{font-style:normal;text-align:right}
+.mx-c .dl-b{margin-top:10px;width:100%}
+.mx-pr{margin-top:10px;font-size:12px;font-weight:800;color:#ddd}.mx-pr i{display:block;height:6px;border-radius:3px;background:#2c2c30;margin-top:5px;overflow:hidden}.mx-pr i b{display:block;height:100%;background:var(--y)}
+.mx-al{font-size:12px;color:#bbb}.mx-al b{color:var(--r)}
+.ln-o{background:#1b1b1d;border-radius:16px;padding:12px;margin-top:10px;box-shadow:inset 0 0 0 1px #2a2a2d}
+.ln-o h4{margin:0;font:900 20px/1 system-ui,sans-serif;color:var(--y)}.ln-o .gs-row{margin-top:6px}
+.ln-o .dl-b{margin-top:10px;width:100%}
+.ln-pg{height:7px;border-radius:4px;background:#2c2c30;margin-top:8px;overflow:hidden}.ln-pg b{display:block;height:100%;background:var(--gr)}
 </style>
 <script>
 window.__errs=[];window.onerror=function(m,src,l,c){window.__errs.push(m+' @'+l+':'+c);var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:99999;background:#b00;color:#fff;font:14px/1.4 sans-serif;padding:10px;border-radius:8px;white-space:pre-wrap';(document.body||document.documentElement).appendChild(d)}d.textContent='Erro: '+window.__errs.join('\n')};
@@ -852,7 +879,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795520042';
+var APPV='1795521437';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -878,7 +905,7 @@ chk();document.addEventListener('visibilitychange',function(){if(!document.hidde
     </div>
     <div id="storm"></div><video id="rainVid" src="chuva.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
     <div class="pop" id="pop" hidden><span class="pop-t"></span><div><button data-pm="svc" aria-label="Serviços"><span class="ico"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span><small>Serviços</small></button><button data-pm="data" aria-label="Dados do voo"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></span><small>Voo</small></button></div></div>
-    <div id="deals" hidden><div class="yd-box"><div class="yd-h"><button id="dlBk" aria-label="Voltar">‹</button><b>Negócios</b><span id="dlMoney"></span><button id="dlX" aria-label="Fechar">×</button></div><div class="dl-tabs"><button data-dt="deals" class="on">Acordos</button><button data-dt="gest">Gestão</button><button data-dt="fin">Finanças</button></div><small class="dl-sub" id="dlSub">Traga novas rotas para o Galeão. Do mais barato ao mais caro.</small><div id="dlList"></div></div></div><div id="wxp" hidden><div class="yd-box"><div class="yd-h"><b>Tempo · Galeão</b><span id="wxD"></span><button id="wxX" aria-label="Fechar">×</button></div><div id="wxB"></div></div></div><div id="yard" hidden><div class="yd-box"><div class="yd-h"><b>Pátio</b><span id="ydSum"></span><button id="ydX" aria-label="Fechar">×</button></div><div class="yd-crew" id="ydCrew"></div><div class="yd-g" id="ydG"></div><small class="yd-lg"><i class="ok"></i>pronto <i class="run"></i>em serviço <i class="idle"></i>parado <i class="bad"></i>provisória <i class="in"></i>chegando</small></div></div><div id="autoBan">PILOTO AUTOMÁTICO · toque para desligar</div><div id="hud"><div class="mclock" id="mclock"><b id="mcT">11:52<i>:00</i></b><small id="mcS">10×</small></div><div id="windBox"></div></div><div id="specBar"><span id="specT">ESPECTADOR</span><button id="specX">Voltar ao meu aeroporto</button></div><div id="aqp"><div class="aq-in"><div class="aq-hd">PRÓXIMOS</div><div id="aqL"></div></div><button class="aq-tab" id="aqTab" aria-label="Próximos voos"><span>PRÓXIMOS</span><i>›</i></button></div><div id="cbar"><canvas id="cbC" aria-label="Relógio"></canvas></div><div id="ovh"><div class="ov-tray">
+    <div id="deals" hidden><div class="yd-box"><div class="yd-h"><button id="dlBk" aria-label="Voltar">‹</button><b>Negócios</b><span id="dlMoney"></span><button id="dlX" aria-label="Fechar">×</button></div><div class="dl-tabs"><button data-dt="deals" class="on">Acordos</button><button data-dt="gest">Gestão</button><button data-dt="fin">Finanças</button><button data-dt="loan">Crédito</button></div><small class="dl-sub" id="dlSub">Traga novas rotas para o Galeão. Do mais barato ao mais caro.</small><div id="dlList"></div></div></div><div id="mxp" hidden><div class="yd-box"><div class="yd-h"><button id="mxBk" aria-label="Voltar">‹</button><b>Manutenção</b><span id="mxMoney"></span><button id="mxX" aria-label="Fechar">×</button></div><small class="dl-sub" id="mxSub">Escolha a companhia para ver as aeronaves.</small><div id="mxList"></div></div></div><div id="wxp" hidden><div class="yd-box"><div class="yd-h"><b>Tempo · Galeão</b><span id="wxD"></span><button id="wxX" aria-label="Fechar">×</button></div><div id="wxB"></div></div></div><div id="yard" hidden><div class="yd-box"><div class="yd-h"><b>Pátio</b><span id="ydSum"></span><button id="ydX" aria-label="Fechar">×</button></div><div class="yd-crew" id="ydCrew"></div><div class="yd-g" id="ydG"></div><small class="yd-lg"><i class="ok"></i>pronto <i class="run"></i>em serviço <i class="idle"></i>parado <i class="bad"></i>provisória <i class="in"></i>chegando</small></div></div><div id="autoBan">PILOTO AUTOMÁTICO · toque para desligar</div><div id="hud"><div class="mclock" id="mclock"><b id="mcT">11:52<i>:00</i></b><small id="mcS">10×</small></div><div id="windBox"></div></div><button id="mxTab" aria-label="Manutenção"><span class="ico"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span><i id="mxDot"></i></button><div id="specBar"><span id="specT">ESPECTADOR</span><button id="specX">Voltar ao meu aeroporto</button></div><div id="aqp"><div class="aq-in"><div class="aq-hd">PRÓXIMOS</div><div id="aqL"></div></div><button class="aq-tab" id="aqTab" aria-label="Próximos voos"><span>PRÓXIMOS</span><i>›</i></button></div><div id="cbar"><canvas id="cbC" aria-label="Relógio"></canvas></div><div id="ovh"><div class="ov-tray">
       <button class="ov-b" id="ovAuto" aria-label="Piloto automático"><svg viewBox="0 0 24 24"></svg></button>
       <button class="ov-b" id="ovSnd" aria-label="Som"><svg viewBox="0 0 24 24"></svg></button>
       <button class="ov-b" id="ovPause" aria-label="Pausar"><svg viewBox="0 0 24 24"></svg></button></div></div>
@@ -1352,7 +1379,28 @@ function toggleX(f,i){const v=f.svs&&f.svs[i],c=CREW[i];if(!v||!c||v.skip||svDon
   const r=v.s+v.d-now;v.d=(now-v.s)+r*XK;v.x=true;toast(`2ª equipe de ${CREWNAME[c].toLowerCase()} no ${f.depNo}`);dirty=true}
 var waitingCrew=(f,i)=>{const v=f.svs&&f.svs[i];return v&&v.s==null&&v.wait};
 var servProg=f=>!f.svs?0:f.svs.reduce((a,v,i)=>a+svP(f,i)*v.d,0)/Math.max(1e-6,f.svs.reduce((a,v)=>a+v.d,0));   // mesmo cálculo da placa do portão
-var isReady=f=>f.state==="parked"&&!!f.svs&&f.svs.every((_,i)=>svDone(f,i));
+var isReady=f=>f.state==="parked"&&!!f.svs&&f.svs.every((_,i)=>svDone(f,i))&&(!f.mnt||f.mnt.done)&&!(f.k&&mxMin(f.k)<=0);
+/* ---------- manutenção das aeronaves: motor, freios e pneus gastam a cada pouso ---------- */
+var MXK=['e','b','t'],MXN={e:'Motor',b:'Freios',t:'Pneus'};
+function mxOf(k){camp.mx=camp.mx||{};return camp.mx[k]||(camp.mx[k]={e:100,b:100,t:100})}
+var mxMin=k=>{const m=(camp.mx||{})[k];return m?Math.min(m.e,m.b,m.t):100};
+var mxCol=v=>v>60?'var(--gr)':v>30?'#ff9f1a':'var(--r)';
+var mxDef=k=>{const m=mxOf(k);return (100-m.e)*1.5+(100-m.b)+(100-m.t)};
+var mxPrice=(k,cls)=>Math.max(20000,Math.round(mxDef(k)*(cls||4)*190/1000)*1000);
+var mxDur=k=>Math.round(12+mxDef(k)*.22);
+function mxWear(f){if(!f.k)return;const m=mxOf(f.k),r=Math.random,z=(DIFF==='facil'?.5:DIFF==='dificil'?1.25:1)*(1+(f.cls||4)*.04);
+  m.t=Math.max(0,m.t-(6+r()*5)*z);m.b=Math.max(0,m.b-(4+r()*4)*z);m.e=Math.max(0,m.e-(1.5+r()*2+(f.dur||90)/300)*z);
+  const mn=Math.min(m.e,m.b,m.t);
+  if(mn<=0)toast(`🔧 ${f.depNo} sem condições de voo · faça a manutenção`);
+  else if(mn<25){addSat(f.al,-1.5);if(!camp.auto)toast(`🔧 ${f.depNo} precisa de manutenção`)}}
+function mxStart(f){if(!f||f.state!=='parked'||!f.k||(f.mnt&&!f.mnt.done))return false;
+  const fee=mxPrice(f.k,f.cls),cost=Math.round(fee*.65/1000)*1000;f.mnt={s:now,d:mxDur(f.k),fee,cost};
+  camp.money-=cost;score.mxc=(score.mxc||0)+cost;if(camp.mxq)delete camp.mxq[f.k];
+  toast(`🔧 Manutenção de ${f.depNo} no portão ${sn(f.stand)} · ${f.mnt.d} min`);dirty=true;return true}
+function mxTick(){for(const f of flights){if(f.state!=='parked')continue;
+    if(!f.mnt||f.mnt.done){if(f.k&&((camp.mxq&&camp.mxq[f.k])||(camp.auto&&mxMin(f.k)<30)||(FAST&&mxMin(f.k)<=0)))mxStart(f);continue}
+    if(now>=f.mnt.s+f.mnt.d){f.mnt.done=true;camp.mx[f.k]={e:100,b:100,t:100};camp.money+=f.mnt.fee;score.mxr=(score.mxr||0)+f.mnt.fee;addSat(f.al,3);
+      if(!FAST)toast(`✅ ${f.depNo} revisado · +${money(f.mnt.fee)}`);dirty=true}}}
 function fuelNow(f){
   const cap=capF(f),plan=nz(f.fuelPlan,D().fuel+10),hm=f.holdMin||0;
   if(["inbound","approach","holding"].includes(f.state))return clamp(plan-hm+Math.max(0,f.eta-now),0,cap);
@@ -1376,6 +1424,7 @@ function divert(f){
 }
 
 function step(){
+  mxTick();
   if(camp.gen<dayOf(now)+1)genUpTo(dayOf(now)+1);
   const r=activeRwy();
   // chegadas
@@ -1395,7 +1444,7 @@ function step(){
       else{f.rwy=r;f.path=landingPath(f,r,STANDS[f.stand-1]);f.state="arriving";runwayFree[f.g]=f.path.offRwy+.2;jet("approach");dirty=true}
     }
     if(f.state==="arriving"&&!f.tdSnd&&now>=f.path.segs[1].t){f.tdSnd=true;if(pk('pneu')!=='off')play('pneu',{vol:.9,rate:.92+Math.random()*.16});jet("touchdown");jet("brake");smoke(f)}
-    if(f.state==="arriving"&&now>=f.path.end){if(pk('estaciona')!=='off')play('turbina_desliga',{vol:.6,dur:14});f.state="parked";f.tPark=now;f.path=null;score.landed++;initSvc(f);chargeFine(f);
+    if(f.state==="arriving"&&now>=f.path.end){mxWear(f);if(pk('estaciona')!=='off')play('turbina_desliga',{vol:.6,dur:14});f.state="parked";f.tPark=now;f.path=null;score.landed++;initSvc(f);chargeFine(f);
       if(f.emerg){camp.rep=clamp(camp.rep+2,0,100);toast(`${f.arrNo} pousou em segurança · emergência resolvida`)}dirty=true}
     if(f.state==="moving"&&now>=f.path.end){f.state="parked";f.path=null;f.tPark=now;initSvc(f);toast(`${f.depNo} na posição ${sn(f.stand)} · serviços liberados`);dirty=true}
     if(f.state==="parked"&&f.blk){const m=Math.floor((now-f.tPark)/5);if(m>(f.blkPen||0)){f.blkPen=m;camp.rep=clamp(camp.rep-1,0,100);camp.money-=500;score.pen=(score.pen||0)+500;dirty=true}}
@@ -2296,7 +2345,7 @@ function zoomAt(px,py,nk){const u=(px-ZX)/zk,v=(py-ZY)/zk;zk=clamp(nk,1,4);ZX=px
 function toScreen(x,y){const s=bw/W*zk;return ROTM?[ZX+y*s,ZY+(W-x)*s]:[ZX+x*s,ZY+y*s]}
 function setLayout(id){
   LAY=LAYS[id]||LAYS[1];W=LAY.W;H=LAY.H;STANDS=LAY.mk();
-  ROTM=LAND&&LAY.id===1;document.body.classList.toggle('rot',ROTM);document.body.classList.toggle('l2',LAY.id===2);document.body.classList.toggle('l3',LAY.id===3);
+  ROTM=LAND&&H>W;document.body.classList.toggle('rot',ROTM);document.body.classList.toggle('l2',LAY.id===2);document.body.classList.toggle('l3',LAY.id===3);
   planeEls.forEach(e=>e.remove());planeEls.clear();laidOut=false;zk=1;layoutMap();drawLights();dirty=true;
 }
 // obra concluída: os aviões passam para o aeroporto novo (portões 1–10 no Terminal 1, remotas no Terminal 2)
@@ -2318,7 +2367,7 @@ function migrateLay(){STANDS.forEach(x=>x.res=null);
 }
 function checkLand(){
   const l=innerWidth>=700&&innerWidth>innerHeight*1.15;
-  if(l!==LAND){LAND=l;ROTM=LAND&&LAY.id===1;document.body.classList.toggle('land',l);document.body.classList.toggle('rot',ROTM);laidOut=false;zk=1;layoutMap();if(typeof drawLights==='function')drawLights();dirty=true}
+  if(l!==LAND){LAND=l;ROTM=LAND&&H>W;document.body.classList.toggle('land',l);document.body.classList.toggle('rot',ROTM);laidOut=false;zk=1;layoutMap();if(typeof drawLights==='function')drawLights();dirty=true}
 }
 addEventListener('resize',checkLand);
 var ptrs=new Map();var pinch=null,dragged=false,moved=0;
@@ -2443,6 +2492,42 @@ function freqTxt(d){const l=d.ls[0];
   if(d.dom)return d.ls.length>1?`${d.ls.length}× por dia`:'diário';
   if(l.days==='1111111')return d.ls.length>1?`${d.ls.length}× por dia`:'diário';
   return `${Math.round(d.wk)}× por semana · `+l.days.split('').map((c,i)=>c==='1'?DIAS[i]:'').filter(Boolean).join(' ')}
+var mxOn=false,mxAl=null;
+function openMx(on){mxOn=on;$('mxp').hidden=!on;mxAl=null;if(on)drawMx()}
+var reg=k=>{let h=0;for(const c of k)h=(h*31+c.charCodeAt(0))>>>0;const L='ABCDEFGHJKLMNPRSTUVWXYZ';const al=k.slice(0,2),nat=NAT[al]||'';
+  return (nat==='BR'?'PR-':nat==='US'?'N':al+'-')+L[h%23]+L[(h>>5)%23]+L[(h>>10)%23]};
+function mxLoc(k){const fs=flights.filter(f=>f.k===k&&!['gone','old'].includes(f.state)).sort((a,b)=>a.eta-b.eta);const f=fs.find(f=>f.state!=='inbound')||fs[0];
+  if(!f)return {t:'Fora da base',f:null};
+  if(f.state==='parked')return {t:f.mnt&&!f.mnt.done?`Em manutenção · portão ${sn(f.stand)}`:`No pátio · portão ${sn(f.stand)}`,f};
+  if(f.state==='arriving'||f.state==='moving')return {t:'Taxiando para o pátio',f};
+  if(['departing','lineup','takeoff'].includes(f.state))return {t:'Decolando',f};
+  if(['approach','holding'].includes(f.state))return {t:'Na aproximação',f};
+  return {t:`Em voo · chega ${dayOf(f.eta)>dayOf(now)?dateLbl(f.eta)+' ':''}${fmt(f.eta)}`,f}}
+function drawMx(){$('mxMoney').textContent=money(camp.money);const own=camp.deals||[];
+  if(!mxAl){const als=[...new Set(own.map(k=>k.slice(0,2)))];
+    $('mxSub').textContent='Companhias que você administra. Escolha uma para ver as aeronaves.';
+    $('mxList').innerHTML=als.length?`<div class="dl-grid">${als.map(al=>{const ks=own.filter(k=>k.startsWith(al)),bad=ks.filter(k=>mxMin(k)<30).length;
+      return `<button class="dl-al" data-mal="${al}">${alCover(al)}<div class="dl-alf"><span>${ks.length} aeronave${ks.length>1?'s':''}</span><span class="mx-al">${bad?`<b>${bad} precisa${bad>1?'m':''} de revisão</b>`:'tudo em dia'}</span></div></button>`}).join('')}</div>`
+      :'<div class="dl-empty">Você ainda não administra nenhuma companhia.<br><small style="color:var(--g);font-weight:600">Feche acordos no Negócios para ter aeronaves.</small></div>';return}
+  const al=mxAl,ks=own.filter(k=>k.startsWith(al));$('mxSub').textContent='Motor, freios e pneus gastam a cada pouso. A revisão bloqueia o portão até terminar.';
+  $('mxList').innerHTML=`<button class="dl-back" data-mback>‹ Companhias</button>${alCover(al,true)}`+ks.map(k=>{const m=mxOf(k),L=mxLoc(k),f=L.f,ln=ALL_LINES.find(l=>l.k===k.split('#')[0]),cls=f?f.cls:(ln&&ln.cls?Math.max(...[].concat(ln.cls)):4),def=mxDef(k);
+    let act;
+    if(f&&f.mnt&&!f.mnt.done){const p=clamp((now-f.mnt.s)/f.mnt.d,0,1);act=`<div class="mx-pr">Revisão em andamento · ${Math.round(p*100)}% · termina ${fmt(f.mnt.s+f.mnt.d)}<i><b style="width:${p*100}%"></b></i></div>`}
+    else if(def<1)act='<div class="dl-on">✓ Revisada · 100%</div>';
+    else if(f&&f.state==='parked'){const fee=mxPrice(k,cls);act=`<button class="dl-b" data-mx="${k}">${mxAsk===k?'Confirmar':'Fazer manutenção agora'} · ${mxDur(k)} min · +${money(fee)}</button>`}
+    else{const q=camp.mxq&&camp.mxq[k];act=`<button class="dl-b${q?' dl-more':''}" data-mq="${k}">${q?'✓ Agendada para o próximo pouso · cancelar':'Agendar no próximo pouso'}</button>`}
+    return `<div class="mx-c"><div class="mx-h"><b>${reg(k)}</b><span>${ln?HOME()+' ⇄ '+ln.ap:''} · classe ${cls}</span></div><div class="mx-st">${L.t}</div>
+      ${MXK.map(x=>{const v=Math.round(m[x]);return `<div class="mx-b"><span>${MXN[x]}</span><i><b style="width:${v}%;background:${mxCol(v)}"></b></i><em style="color:${mxCol(v)}">${v}%</em></div>`}).join('')}${act}</div>`}).join('');}
+var mxAsk=null;
+$('mxTab').addEventListener('click',()=>openMx(true));
+$('mxX').addEventListener('click',()=>openMx(false));
+$('mxBk').addEventListener('click',()=>{if(mxAl){mxAl=null;drawMx()}else openMx(false)});
+$('mxp').addEventListener('click',e=>{if(e.target.id==='mxp')return openMx(false);
+  if(e.target.closest('[data-mback]')){mxAl=null;drawMx();return}
+  const a=e.target.closest('[data-mal]');if(a){mxAl=a.dataset.mal;drawMx();$('mxList').scrollTop=0;return}
+  const q=e.target.closest('[data-mq]');if(q){camp.mxq=camp.mxq||{};const k=q.dataset.mq;if(camp.mxq[k])delete camp.mxq[k];else{camp.mxq[k]=1;toast('Revisão agendada · começa quando o avião estacionar')}drawMx();return}
+  const b=e.target.closest('[data-mx]');if(b){const k=b.dataset.mx;if(mxAsk!==k){mxAsk=k;drawMx();setTimeout(()=>{if(mxAsk===k){mxAsk=null;if(mxOn)drawMx()}},4000);return}mxAsk=null;
+    const f=flights.find(f=>f.k===k&&f.state==='parked');if(f)mxStart(f);drawMx()}});
 function openDeals(on){dealsOn=on;$('deals').hidden=!on;dealAsk=null;dealsAl=null;if(on)drawDeals()}
 
 // cores de cada companhia: [principal, destaque]
@@ -2479,15 +2564,15 @@ function drawGest(){
 function drawFin(){
   $('dlMoney').textContent=money(camp.money);
   const e=ECO(),c=crewCap(),wageT=e?(c.fuel+c.cat+c.clean)*e.wage:0;
-  const recT=(score.rev||0)+(score.fine||0),depT=wageT+(score.pen||0)+(score.inv||0),res=recT-depT,opr=recT-wageT-(score.pen||0);
-  const H=(camp.hist||[]).slice(-7).map(h=>({l:dateLbl(h.d*1440).split(' ').slice(0,2).join(' '),r:h.rev+h.fine,x:h.wage+h.pen+h.inv,inv:h.inv}));
+  const recT=(score.rev||0)+(score.fine||0)+(score.mxr||0),depT=wageT+(score.pen||0)+(score.inv||0)+(score.mxc||0)+(score.loan||0),res=recT-depT,opr=recT-wageT-(score.pen||0)-(score.mxc||0);
+  const H=(camp.hist||[]).slice(-7).map(h=>({l:dateLbl(h.d*1440).split(' ').slice(0,2).join(' '),r:h.rev+h.fine+(h.mxr||0),x:h.wage+h.pen+h.inv+(h.mxc||0)+(h.loan||0),inv:h.inv}));
   H.push({l:'Hoje',r:recT,x:depT,inv:score.inv||0,now:1});
   const mx=Math.max(1,...H.map(h=>Math.max(h.r,h.x)));
   const tr=H.reduce((a,h)=>a+h.r,0),tx=H.reduce((a,h)=>a+h.x,0);
   const row=(t,v,cl)=>`<div class="gs-row"><span>${t}</span><b class="${cl}">${cl==='n'?'−':cl==='p'?'+':''}${money(Math.abs(v))}</b></div>`;
   $('dlList').innerHTML=`<div class="gs"><div class="gs-h">Hoje <span>${dateLbl(now)} · até ${fmt(now)}</span></div>
-    <div class="fin-k">Receitas</div>${row('Voos (taxas de pouso e embarque)',score.rev||0,'p')}${row('Multas de atraso recebidas',score.fine||0,'p')}
-    <div class="fin-k">Despesas</div>${e?row('Salários das equipes (pago à meia-noite)',wageT,'n'):''}${row('Penalidades (desvios, vaga provisória)',score.pen||0,'n')}${row('Investimentos (acordos e obras)',score.inv||0,'n')}
+    <div class="fin-k">Receitas</div>${row('Voos (taxas de pouso e embarque)',score.rev||0,'p')}${row('Multas de atraso recebidas',score.fine||0,'p')}${row('Manutenção (serviço às companhias)',score.mxr||0,'p')}
+    <div class="fin-k">Despesas</div>${e?row('Salários das equipes (pago à meia-noite)',wageT,'n'):''}${row('Penalidades (desvios, vaga provisória)',score.pen||0,'n')}${row('Investimentos (acordos e obras)',score.inv||0,'n')}${row('Peças de manutenção',score.mxc||0,'n')}${row('Parcelas de empréstimos',score.loan||0,'n')}
     <div class="gs-tot"><span>Resultado do dia</span><b style="color:${res>=0?'var(--gr)':'var(--r)'}">${res>=0?'+':'−'}${money(Math.abs(res))}</b></div>
     <small class="gs-s">Sem investimentos, a operação dá ${opr>=0?'+':'−'}${money(Math.abs(opr))} hoje.</small></div>
     <div class="gs"><div class="gs-h">Últimos dias <span><i class="fl-r"></i>receitas <i class="fl-x"></i>despesas</span></div>
@@ -2495,7 +2580,24 @@ function drawFin(){
     ${row(`Receitas · ${H.length} dias`,tr,'p')}${row(`Despesas · ${H.length} dias`,tx,'n')}
     <div class="gs-tot"><span>Saldo do período</span><b style="color:${tr-tx>=0?'var(--gr)':'var(--r)'}">${tr-tx>=0?'+':'−'}${money(Math.abs(tr-tx))}</b></div></div>`;
 }
+var LOANS=[{p:1000000,d:10,r:.012},{p:3000000,d:20,r:.010},{p:8000000,d:30,r:.008}];
+var debt=()=>(camp.loans||[]).reduce((a,l)=>a+l.par*l.left,0);
+function loanLimit(){const H=(camp.hist||[]).slice(-7),avg=H.length?H.reduce((a,h)=>a+h.rev+h.fine+(h.mxr||0),0)/H.length:0;return Math.max(2000000,Math.round(avg*8/100000)*100000)}
+function drawLoans(){$('dlMoney').textContent=money(camp.money);const L=camp.loans||[],lim=loanLimit(),dv=debt(),free=lim-dv;
+  const row=(t,v)=>`<div class="gs-row"><span>${t}</span><b>${v}</b></div>`;
+  $('dlList').innerHTML=`<div class="gs"><div class="gs-h">Crédito do aeroporto <span>limite cresce com a receita</span></div>${row('Limite',money(lim))}${row('Em aberto',money(dv))}${row('Disponível',`<span style="color:${free>0?'var(--gr)':'var(--r)'}">${money(Math.max(0,free))}</span>`)}
+    <small class="gs-s">As parcelas são descontadas todo dia à meia-noite, junto com os salários.</small></div>`
+   +(L.length?`<div class="gs"><div class="gs-h">Seus empréstimos</div>${L.map((l,i)=>`<div class="ln-o"><div class="gs-row"><span>${money(l.p)} em ${l.d} dias</span><b>${l.d-l.left}/${l.d} pagas</b></div>
+      <div class="ln-pg"><b style="width:${(l.d-l.left)/l.d*100}%"></b></div><div class="gs-row"><span>Parcela diária</span><b class="n">−${money(l.par)}</b></div><div class="gs-row"><span>Falta pagar</span><b>${money(l.par*l.left)}</b></div>
+      ${camp.money>=Math.round(l.par*l.left*.96)?`<button class="dl-b dl-more" data-lpay="${i}">${dealAsk==='lp'+i?'Confirmar':'Quitar agora (4% de desconto)'} · ${money(Math.round(l.par*l.left*.96))}</button>`:''}</div>`).join('')}</div>`:'')
+   +`<div class="gs"><div class="gs-h">Pegar empréstimo <span>juros simples por dia</span></div>${LOANS.map((o,i)=>{const tot=Math.round(o.p*(1+o.r*o.d)),par=Math.round(tot/o.d),ok=o.p<=free;
+      return `<div class="ln-o"><h4>${money(o.p)}</h4>${row('Prazo',o.d+' dias')}${row('Juros',(o.r*100).toFixed(1).replace('.',',')+'% ao dia')}${row('Parcela diária',money(par))}${row('Total a pagar',money(tot))}
+      ${ok?`<button class="dl-b" data-loan="${i}">${dealAsk==='ln'+i?'Confirmar':'Pegar empréstimo'}</button>`:`<span class="dl-p">acima do limite<small>libera ${money(o.p-free)} a mais</small></span>`}</div>`}).join('')}</div>`}
+function takeLoan(i){const o=LOANS[i];if(!o||o.p>loanLimit()-debt())return;const tot=Math.round(o.p*(1+o.r*o.d));
+  camp.loans=(camp.loans||[]).concat([{p:o.p,d:o.d,left:o.d,par:Math.round(tot/o.d)}]);camp.money+=o.p;toast(`💰 Empréstimo de ${money(o.p)} liberado`);writeKey(AUTO_KEY,false);drawDeals()}
+function payLoans(){let v=0;for(const l of camp.loans||[]){if(l.left>0){camp.money-=l.par;v+=l.par;l.left--}}camp.loans=(camp.loans||[]).filter(l=>l.left>0);return v}
 function drawDeals(){
+  if(dealTab==='loan')return drawLoans();
   if(dealTab==='gest')return drawGest();
   if(dealTab==='fin')return drawFin();
   const own=new Set(camp.deals||ALL_LINES.filter(l=>l.kp).map(l=>l.k)),L=dealList();
@@ -2531,7 +2633,7 @@ function buyDeal(k){
 $('dlX').addEventListener('click',()=>openDeals(false));
 $('dlBk').addEventListener('click',()=>{if(dealsAl){dealsAl=null;dealAsk=null;drawDeals();$('dlList').scrollTop=0}else if(dealTab!=='deals'){const b=document.querySelector('.dl-tabs [data-dt="deals"]');b.click()}else openDeals(false)});
 $('deals').addEventListener('click',e=>{if(e.target.id==='deals')return openDeals(false);
-  const tb=e.target.closest('[data-dt]');if(tb){dealTab=tb.dataset.dt;dealsAl=null;document.querySelectorAll('.dl-tabs button').forEach(x=>x.classList.toggle('on',x===tb));$('dlSub').textContent=dealTab==='gest'?'Custos, equipes e a relação com as companhias.':dealTab==='fin'?'Receitas x despesas do aeroporto.':'Traga novas rotas para '+(HOME()==='GIG'?'o Galeão':'Guarulhos')+'. Do mais barato ao mais caro.';drawDeals();$('dlList').scrollTop=0;return}
+  const tb=e.target.closest('[data-dt]');if(tb){dealTab=tb.dataset.dt;dealsAl=null;document.querySelectorAll('.dl-tabs button').forEach(x=>x.classList.toggle('on',x===tb));$('dlSub').textContent=dealTab==='gest'?'Custos, equipes e a relação com as companhias.':dealTab==='fin'?'Receitas x despesas do aeroporto.':dealTab==='loan'?'Dinheiro agora, pago em parcelas diárias.':'Traga novas rotas para '+(HOME()==='GIG'?'o Galeão':'Guarulhos')+'. Do mais barato ao mais caro.';drawDeals();$('dlList').scrollTop=0;return}
   const cr=e.target.closest('[data-cr]');if(cr){const c=crewCap(),k=cr.dataset.cr,v=+cr.dataset.v;if(v<0&&c[k]<=1)return toast('Precisa de pelo menos 1 equipe');if(v>0&&c[k]>=10)return toast('Máximo de 10 equipes');
     if(v<0&&crewBusy()[k]>=c[k])return toast('Essa equipe está trabalhando agora');c[k]+=v;toast(v>0?`Equipe de ${CREWNAME[k].toLowerCase()} contratada`:`Equipe de ${CREWNAME[k].toLowerCase()} dispensada`);drawDeals();return}
   const po=e.target.closest('[data-pol]');if(po){camp.forgive=po.dataset.pol==='1';drawDeals();return}
@@ -2539,6 +2641,9 @@ $('deals').addEventListener('click',e=>{if(e.target.id==='deals')return openDeal
   {const g=e.target.closest('[data-goapt]');if(g){openDeals(false);switchApt(g.dataset.goapt);return}}
   if(e.target.closest('#dlBack')){dealsAl=null;dealAsk=null;drawDeals();$('dlList').scrollTop=0;return}
   const ca=e.target.closest('[data-al]');if(ca){dealsAl=ca.dataset.al;dealAsk=null;drawDeals();$('dlList').scrollTop=0;return}
+  {const lb=e.target.closest('[data-loan]');if(lb){const k='ln'+lb.dataset.loan;if(dealAsk!==k){dealAsk=k;drawDeals();setTimeout(()=>{if(dealAsk===k){dealAsk=null;if(dealsOn)drawDeals()}},4000);return}dealAsk=null;takeLoan(+lb.dataset.loan);return}}
+  {const lp=e.target.closest('[data-lpay]');if(lp){const i=+lp.dataset.lpay,k='lp'+i;if(dealAsk!==k){dealAsk=k;drawDeals();setTimeout(()=>{if(dealAsk===k){dealAsk=null;if(dealsOn)drawDeals()}},4000);return}dealAsk=null;
+    const l=camp.loans[i],v=Math.round(l.par*l.left*.96);if(camp.money<v)return;camp.money-=v;score.loan=(score.loan||0)+v;camp.loans.splice(i,1);toast('Empréstimo quitado');drawDeals();return}}
   const b=e.target.closest('[data-buy]');if(!b)return;
   let k=b.dataset.buy;if(dealAsk!==k){dealAsk=k;drawDeals();setTimeout(()=>{if(dealAsk===k){dealAsk=null;if(dealsOn)drawDeals()}},4000);return}dealAsk=null;buyDeal(k.replace('+',''))});
 function openFlt(on){const pg=$('fltPg');pg.classList.toggle('open',on);document.body.classList.toggle('fltOpen',on)}
@@ -2616,6 +2721,8 @@ function tick(t){
   if(started&&!dayOver)now+=dt*speed/60;
   if(!dayOver&&started&&dayOf(now)>camp.cur){if(camp.auto)autoDay();else endDay()}
   if(camp.auto&&started&&!dayOver)autoStep();
+  if(mxOn&&Date.now()-(drawMx.t||0)>700){drawMx.t=Date.now();drawMx()}
+  if(started&&Date.now()-(mxWarnT||0)>1500){mxWarnT=Date.now();$('mxTab').classList.toggle('warn',(camp.deals||[]).some(k=>mxMin(k)<30))}
   skyTick();ovSync();
   flipTick(t);
   step();
@@ -2774,8 +2881,8 @@ function endDay(){
     <button class="day-go" id="nextDay">Continuar · ${dateLbl((camp.cur+1)*1440)}</button>`;
   $('dayDlg').hidden=false;
 }
-function rollDay(){score.wage=payWages();camp.lastDay={rev:score.rev||0,fine:score.fine||0,forg:score.forg||0,wage:score.wage||0,lost:score.lost||null};
-  camp.hist=(camp.hist||[]).concat([{d:camp.cur,rev:score.rev||0,fine:score.fine||0,wage:score.wage||0,pen:score.pen||0,inv:score.inv||0}]).slice(-14);camp.day++;camp.cur=dayOf(now);renewals();genUpTo(camp.cur+1);pruneWorld();score={landed:0,departed:0,onTime:0,lateMin:0,diverted:0,emerg:0};dayOver=false;rowsTab=null}
+function rollDay(){score.wage=payWages();score.loan=(score.loan||0)+payLoans();camp.lastDay={rev:score.rev||0,fine:score.fine||0,forg:score.forg||0,wage:score.wage||0,lost:score.lost||null};
+  camp.hist=(camp.hist||[]).concat([{d:camp.cur,rev:score.rev||0,fine:score.fine||0,wage:score.wage||0,pen:score.pen||0,inv:score.inv||0,mxr:score.mxr||0,mxc:score.mxc||0,loan:score.loan||0}]).slice(-14);camp.day++;camp.cur=dayOf(now);renewals();genUpTo(camp.cur+1);pruneWorld();score={landed:0,departed:0,onTime:0,lateMin:0,diverted:0,emerg:0};dayOver=false;rowsTab=null}
 $('dayDlg').addEventListener('click',e=>{if(!e.target.closest('#nextDay'))return;
   rollDay();$('dayDlg').hidden=true;writeKey(AUTO_KEY,false);toast(`${dateLbl(now)} · madrugada em ${APN().n}`);dirty=true});
 /* ---------- piloto automático ---------- */
@@ -2793,7 +2900,7 @@ function autoStep(){
     if(isReady(f)&&!f.blk)depart(f);
   }
 }
-var lastWall=Date.now(),catchLeft=0,catchMsg=null,SPEC=null;
+var mxWarnT=0,lastWall=Date.now(),catchLeft=0,catchMsg=null,SPEC=null;
 /* ---------- modo espectador: assistir a um aeroporto que não é seu (sem controle, sem mexer no caixa) ---------- */
 function specEnter(code){if(SPEC||!APTS[code]||OWNED().includes(code))return;
   if(dayOver){toast('Feche o resumo do dia antes');return}if(catchLeft>0){toast('Espere o relógio terminar de recuperar');return}
@@ -2806,7 +2913,7 @@ function specEnter(code){if(SPEC||!APTS[code]||OWNED().includes(code))return;
 function specExit(){if(!SPEC)return;const sv=SPEC.save,t=now;SPEC=null;document.body.classList.remove('spec');
   loadGame(sv);if(t-now>.5){catchLeft=Math.min(4320,t-now);catchMsg=`De volta a ${APN().n}`}else toast(`De volta a ${APN().n}`);aptUI();dirty=true}
 /* ---------- vários aeroportos: cada um guarda o próprio mundo; o caixa é um só ---------- */
-var PER=['deals','dealT','cur','day','pend','gen','seed','scored','lay','hist','crews','lastDay','alog'];
+var PER=['mx','mxq','deals','dealT','cur','day','pend','gen','seed','scored','lay','hist','crews','lastDay','alog'];
 function stash(){const c={};PER.forEach(k=>{if(camp[k]!==undefined)c[k]=camp[k]});
   return {c,flights:flights.map(f=>f.state==='gone'?{...f,path:null}:{...f}),storms,runwayFree,score,stands:STANDS.map(x=>x.res),at:now}}
 function aptUI(){const a=APN(),el=document.querySelector('.top .apt');if(el)el.textContent=(el.textContent.indexOf('LITE')===0?'LITE · ':'')+a.c+' · '+a.n;
