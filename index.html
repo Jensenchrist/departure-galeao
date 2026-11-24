@@ -826,6 +826,9 @@ body.cbar .zhint{top:auto;bottom:calc(var(--panh,0px) + 14px)}
 .aq-tab i{font-style:normal;color:var(--y);font-size:16px;font-weight:900;transition:transform .3s}
 #aqp:not(.shut) .aq-tab i{transform:rotate(180deg)}
 #aqp:not(.shut) .aq-tab{border-radius:0 14px 14px 0}
+/* abas laterais cabem entre o painel de LED e o painel de botões */
+body.cbar #edge{top:calc(var(--barh,0px) + 74px);transform:scale(var(--eds,1));transform-origin:100% 0}
+body.cbar #edge>*+*{margin-top:7px}
 </style>
 <script>
 window.__errs=[];window.onerror=function(m,src,l,c){window.__errs.push(m+' @'+l+':'+c);var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:99999;background:#b00;color:#fff;font:14px/1.4 sans-serif;padding:10px;border-radius:8px;white-space:pre-wrap';(document.body||document.documentElement).appendChild(d)}d.textContent='Erro: '+window.__errs.join('\n')};
@@ -842,7 +845,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795480896';
+var APPV='1795481172';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -2258,12 +2261,14 @@ function layoutMap(){
   const sq=W/H>.8,PANH=fitW?(sq?66:Math.min(110,Math.max(62,SH-44-SW/W*H))):0;
   const sc=fitW?(sq?Math.max(SW/W,(SH-44-PANH)/H):Math.min(SW/W,(SH-44-PANH)/H)):ROTM?(SW/SH>H/W*1.12?SW/H:Math.min(SW/H,SH/W)):(SW/SH<W/H*1.15?Math.max(SW/W,SH/H):SH/H);
   const cu=(SW/2-ZX)/(dispW()*zk),cv=(SH/2-ZY)/(dispH()*zk);
-  barH=fitW?44:0;document.body.classList.toggle('cbar',fitW);$('cbar').style.height=barH+'px';document.body.style.setProperty('--barh',barH+'px');document.body.style.setProperty('--panh',PANH+'px');PANHV=PANH;lastClk='';
+  barH=fitW?44:0;document.body.classList.toggle('cbar',fitW);$('cbar').style.height=barH+'px';document.body.style.setProperty('--barh',barH+'px');document.body.style.setProperty('--panh',PANH+'px');PANHV=PANH;lastClk='';requestAnimationFrame(edFit);
   bw=W*sc;bh=H*sc;map.style.width=bw+'px';map.style.height=bh+'px';map.style.setProperty('--mk',(bw/W).toFixed(4));
   const bg=$('bgH');bg.style.width=bh+'px';bg.style.height=bw+'px';bg.style.transform=`translateX(${bw}px) rotate(90deg)`;
   if(!laidOut){ZX=(SW-dispW())/2;ZY=ROTM?(SH-dispH())/2:barH;laidOut=true}else{ZX=SW/2-cu*dispW()*zk;ZY=SH/2-cv*dispH()*zk}
   clampZ();applyZ();
 }
+function edFit(){const e=$('edge');if(!e)return;e.style.setProperty('--eds',1);if(!document.body.classList.contains('cbar'))return;
+  const avail=SH-barH-PANHV-74-10,h=e.offsetHeight;e.style.setProperty('--eds',h>avail?Math.max(.6,avail/h).toFixed(3):1)}
 function clampZ(){
   zk=clamp(zk,1,4);const dw=dispW()*zk,dh=dispH()*zk,avail=SH-barH-panH();
   ZX=dw<=SW?(SW-dw)/2:clamp(ZX,SW-dw,0);
@@ -2778,7 +2783,7 @@ function aptUI(){const a=APN(),el=document.querySelector('.top .apt');if(el)el.t
   document.title='Departure · '+a.n;const fc=document.querySelector('.fp-route .fp-c');if(fc){fc.textContent=a.c;const sm=fc.nextElementSibling;if(sm)sm.textContent=a.full.toUpperCase()}
   if(dealTab==='deals')$('dlSub').textContent='Traga novas rotas para '+(HOME()==='GIG'?'o Galeão':'Guarulhos')+'. Do mais barato ao mais caro.';
   const ft=document.querySelector('.fm-t small');if(ft)ft.textContent='Mapa de voos · '+a.n;
-  const w=$('edApt');if(w){w.parentNode.hidden=OWNED().length<2;$('edAptP').innerHTML=OWNED().map(c=>`<button class="txt${c===HOME()?' on':''}" data-apt="${c}">${c}</button>`).join('')}
+  const w=$('edApt');if(w){w.parentNode.hidden=OWNED().length<2;requestAnimationFrame(edFit);$('edAptP').innerHTML=OWNED().map(c=>`<button class="txt${c===HOME()?' on':''}" data-apt="${c}">${c}</button>`).join('')}
   const b=$('aptBtn');if(b){b.hidden=OWNED().length<2;b.lastChild.textContent=' '+HOME()}}
 function switchApt(code){
   if(!APTS[code]||code===HOME()||!OWNED().includes(code))return;
