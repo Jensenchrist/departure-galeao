@@ -889,7 +889,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795540186';
+var APPV='1795541701';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1032,16 +1032,16 @@ var gid=id=>LAY.G.find(g=>g.id===id)||LAY.G[0];
 var headOf=s=>grpOf(s).sg>0?90:270;
 var rwLbl=d=>(LAY.G.length>1?'Pistas ':'Pista ')+LAY.G.map(g=>g.nm[d]).join(' / ');
 var rwOf=f=>{const s=f.stand?STANDS[f.stand-1]:null;return (s?grpOf(s):LAY.G[0]).nm[activeRwy()]};
-var SPR=[[192,246],[197,294],[238,338],[226,416],[348,491],[357,546],[515,615]];
+var SPR=[[215,220],[242,240],[257,313],[305,308],[396,390],[409,403],[537,478]];
 var SC=135/615,PS=()=>SC*(LAY.ps||1);
-var SPRB=[[184,251],[202,300],[211,358],[261,440],[322,496],[383,575],[536,641]];
+var SPRB=[[212,217],[229,265],[256,295],[324,355],[382,377],[396,471],[504,553]];
 var MODA=["A220-300","A320neo","A321neo","A330-200","A330-900","A350-1000","A380-800"];
 var MODB=["737-700","737-800","757-200","767-300ER","787-9","777-300ER","747-8"];
 // frota por companhia: A = Airbus, B = Boeing, AB = as duas
 var FLEET={NZ:'AB',JM:'B',AC:'AB',SC:'AB',PB:'AB',G3:'B',AD:'A',LA:'A',TP:'A',EK:'AB',AF:'AB',BA:'AB',AA:'B',DL:'AB',UA:'B',PA:'B',RG:'B',VP:'B',TR:'AB',AR:'B',CM:'B',QR:'AB',LH:'AB',IB:'A',KL:'B',AV:'A',AZ:'AB',JL:'B',QF:'AB',SA:'A',CA:'AB',SQ:'AB',DT:'B',ET:'B',AT:'B',MS:'AB',VR:'B',SR:'AB',SK:'A',AM:'B',PZ:'A',OB:'B',PU:'B',TA:'A',CU:'AB',V0:'A',H2:'A',SU:'AB',TW:'B',WN:'B',LB:'B'};
 function pickMk(al,cls){let f=FLEET[al]||'AB';if(al==='LA'&&cls>=5)f='B';if(al==='EK'&&cls===7)f='A';if(al==='SQ'&&cls===7)f='A';if(al==='QF'&&cls===7)f='A';return f.length>1?(Math.random()<.5?'A':'B'):f}
 var spr=f=>f.mk==='B'?SPRB:SPR;
-var pimg=f=>(f.mk==='B'?'b':'p')+f.cls+'.png';
+var pimg=f=>(f.mk==='B'?'b':'p')+f.cls+'.png?v=2';
 var model=f=>(f.mk==='B'?MODB:MODA)[f.cls-1];
 var mkName=f=>f.mk==='B'?'Boeing':'Airbus';
 var GROUND=[20,30,40,55,70,90,120];
