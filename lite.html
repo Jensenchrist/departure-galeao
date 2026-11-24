@@ -31,7 +31,7 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
 .zreset{position:absolute;left:10px;top:10px;z-index:12;display:flex;align-items:center;gap:6px;background:var(--k);border:1px solid var(--y);color:var(--y);font-weight:800;font-size:12px;border-radius:18px;padding:6px 12px;min-height:36px}
 .zreset[hidden]{display:none}
 .zhint{position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);font-weight:700;z-index:12;background:rgba(0,0,0,.7);color:var(--g);font-size:11px;border-radius:12px;padding:4px 10px;pointer-events:none;transition:opacity .6s}
-.map{position:absolute;left:0;top:0;transform-origin:0 0;background:url(lite_map.jpg?v=20261124f) center/100% 100% no-repeat;overflow:hidden;will-change:transform}
+.map{position:absolute;left:0;top:0;transform-origin:0 0;background:url(lite_map.jpg?v=20261124g) center/100% 100% no-repeat;overflow:hidden;will-change:transform}
 
 /* aviões */
 .pl{position:absolute;transform:translate(-50%,-50%);pointer-events:none;will-change:left,top}
@@ -184,23 +184,23 @@ body.rot .map{background:none}
 body.rot .sky{display:none}
 body.rot .sign,body.rot .rwy{transform:translate(-50%,-50%) rotate(90deg)}
 body.land .mobileBar{top:50%;transform:translateY(-50%)}
-#bgH{position:absolute;left:0;top:0;transform-origin:0 0;background:url(lite_maph.jpg?v=20261124f) center/100% 100% no-repeat;display:none;pointer-events:none}
+#bgH{position:absolute;left:0;top:0;transform-origin:0 0;background:url(lite_maph.jpg?v=20261124g) center/100% 100% no-repeat;display:none;pointer-events:none}
 #bgH i{position:absolute;top:0;right:0;bottom:0;left:0;opacity:0;background:center/100% 100% no-repeat}
-#skyTh{background-image:url(lite_maph.jpg?v=20261124f)!important}#skyNh{background-image:url(lite_maph_noite.jpg?v=20261124f)!important}
+#skyTh{background-image:url(lite_maph.jpg?v=20261124g)!important}#skyNh{background-image:url(lite_maph_noite.jpg?v=20261124g)!important}
 body.rot #bgH{display:block}
-body.l2 #bgH{background-image:url(maph2_dia.jpg?v=20261124f)}body.l2 #skyTh{background-image:url(maph2_tarde.jpg?v=20261124f)!important}body.l2 #skyNh{background-image:url(maph2_noite.jpg?v=20261124f)!important}
-body.l3 #bgH{background-image:url(maph3_dia.jpg?v=20261124f)}body.l3 #skyTh{background-image:url(maph3_tarde.jpg?v=20261124f)!important}body.l3 #skyNh{background-image:url(maph3_noite.jpg?v=20261124f)!important}
-body.rot.l2 .stage::before{background-image:url(maph2_dia.jpg?v=20261124f)}body.rot.l3 .stage::before{background-image:url(maph3_dia.jpg?v=20261124f)}
+body.l2 #bgH{background-image:url(maph2_dia.jpg?v=20261124g)}body.l2 #skyTh{background-image:url(maph2_tarde.jpg?v=20261124g)!important}body.l2 #skyNh{background-image:url(maph2_noite.jpg?v=20261124g)!important}
+body.l3 #bgH{background-image:url(maph3_dia.jpg?v=20261124g)}body.l3 #skyTh{background-image:url(maph3_tarde.jpg?v=20261124g)!important}body.l3 #skyNh{background-image:url(maph3_noite.jpg?v=20261124g)!important}
+body.rot.l2 .stage::before{background-image:url(maph2_dia.jpg?v=20261124g)}body.rot.l3 .stage::before{background-image:url(maph3_dia.jpg?v=20261124g)}
 body.land .rail{top:84px}
 
 @media(max-height:520px){body.land .mobileBar{gap:4px}body.land .mobileBar .tab,body.land .mobileBar .mb{width:40px;height:40px;border-radius:9px}body.land .mobileBar .tab .ico,body.land .mobileBar .mb .ico{width:24px;height:24px}body.land .mobileBar .mb.clockb .clock{font-size:11px}body.land .mobileBar .mb.clockb small{display:none}body.land .rail{top:70px}}
 
 .sky{position:absolute;top:0;right:0;bottom:0;left:0;background:center/100% 100% no-repeat;opacity:0;pointer-events:none}
-#skyT{background-image:url(lite_map.jpg?v=20261124f)}#skyN{background-image:url(lite_map_noite.jpg?v=20261124f)}
-body.l2 .map{background-image:url(lite_map2.jpg?v=20261124f)}body.l2 #skyT{background-image:url(lite_map2.jpg?v=20261124f)}body.l2 #skyN{background-image:url(lite_map2_noite.jpg?v=20261124f)}
-body.l2 .stage::before{background-image:url(lite_map2.jpg?v=20261124f)}
-body.l3 .map{background-image:url(lite_map3.jpg?v=20261124f)}body.l3 #skyT{background-image:url(lite_map3.jpg?v=20261124f)}body.l3 #skyN{background-image:url(lite_map3_noite.jpg?v=20261124f)}
-body.l3 .stage::before{background-image:url(lite_map3.jpg?v=20261124f)}body.l3 #glow{display:none}
+#skyT{background-image:url(lite_map.jpg?v=20261124g)}#skyN{background-image:url(lite_map_noite.jpg?v=20261124g)}
+body.l2 .map{background-image:url(lite_map2.jpg?v=20261124g)}body.l2 #skyT{background-image:url(lite_map2.jpg?v=20261124g)}body.l2 #skyN{background-image:url(lite_map2_noite.jpg?v=20261124g)}
+body.l2 .stage::before{background-image:url(lite_map2.jpg?v=20261124g)}
+body.l3 .map{background-image:url(lite_map3.jpg?v=20261124g)}body.l3 #skyT{background-image:url(lite_map3.jpg?v=20261124g)}body.l3 #skyN{background-image:url(lite_map3_noite.jpg?v=20261124g)}
+body.l3 .stage::before{background-image:url(lite_map3.jpg?v=20261124g)}body.l3 #glow{display:none}
 .dl.apt .dl-r{font-size:13px;color:#bbb}.dl-go{margin-top:8px}
 #glow{position:absolute;top:0;right:0;bottom:0;left:0;background:url(glow1.png) center/100% 100% no-repeat;opacity:var(--nt,.2);pointer-events:none;mix-blend-mode:screen;z-index:1}
 body.l2 #glow{background-image:url(glow2.png)}#glow{display:none!important}body.rot #glow{display:none}
@@ -523,8 +523,8 @@ body.neo .aq-t:empty{background:#1d1e21;box-shadow:inset 3px 3px 6px rgba(0,0,0,
   .toast{position:fixed;top:auto;bottom:18px;max-width:calc(100% - 150px);left:calc(50% - 30px)}
 }
 @media(prefers-reduced-motion:reduce){.sign.ok .plate{animation:none!important}}
-.stage::before{content:"";position:absolute;top:-40px;right:-40px;bottom:-40px;left:-40px;background:url(lite_map.jpg?v=20261124f) center/cover no-repeat;filter:blur(22px) brightness(.75)}
-body.rot .stage::before{background-image:url(lite_maph.jpg?v=20261124f)}
+.stage::before{content:"";position:absolute;top:-40px;right:-40px;bottom:-40px;left:-40px;background:url(lite_map.jpg?v=20261124g) center/cover no-repeat;filter:blur(22px) brightness(.75)}
+body.rot .stage::before{background-image:url(lite_maph.jpg?v=20261124g)}
 /* capa: compatível com Safari antigo (sem gap em flex, altura explícita) */
 .cover{height:100vh;height:100dvh;grid-template-rows:auto minmax(0,1fr) auto}
 .signs>*+*{margin-top:8px}.sgn>*+*{margin-left:12px}.cv-act>*+*{margin-top:8px}
@@ -889,7 +889,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795558043';
+var APPV='1795558589';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1009,9 +1009,9 @@ var TH={"10":60,"28":1590};
 // layouts: 1 = Galeão original (1 pista), 2 = expansão (2 pistas, Terminal 1 e 2)
 var CN2=[224,584,1197,1595,1920];
 var LAYS={
- 1:{id:1,W:870,H:1540,ps:1.25,cover:1,G:[{id:'A',rx:217,twy:330,lane:385,sg:1,conn:[265,805,1410],entry:null,th:{"10":170,"28":1377},nm:{"10":"10","28":"28"},lt:[173,10,10],reil:[163,271],lbx:115,ap:{"10":[4,14],"28":[1524,1534]},edge:[171,263]}],
+ 1:{id:1,W:966,H:1628,ps:1.25,cover:1,G:[{id:'A',rx:243,twy:357,lane:420,sg:1,conn:[307,848,1460],entry:null,th:{"10":200,"28":1428},nm:{"10":"10","28":"28"},lt:[198,10,10],reil:[186,300],lbx:120,ap:{"10":[6,18],"28":[1600,1612]},edge:[195,290]}],
    labels:[],
-   mk:()=>[[229,5],[330,5],[430,5],[530,5],[686,6],[782,6],[1004,5],[1098,5],[1192,5],[1286,5]].map(([y,m],i)=>({n:i+1,x:i===4||i===5?488:523,y,max:m,bd:1,g:'A',sx:635,sy:y}))},
+   mk:()=>[[255,5],[358,5],[460,5],[564,5],[725,6],[822,6],[1049,5],[1140,5],[1239,5],[1334,5]].map(([y,m],i)=>({n:i+1,x:i===4||i===5?530:563,y,max:m,bd:1,g:'A',sx:672,sy:y}))},
  2:{id:2,W:941,H:1672,ps:1.35,G:[
    {id:'A',rx:84,twy:355,lane:397,sg:1,conn:[255,256,1399,1400],entry:null,th:{"10":168,"28":1489},nm:{"10":"10L","28":"28R"},lt:[58,6.5,9],reil:[50,118],lbx:30,ap:{"10":[100,117,134,151],"28":[1505,1520,1535,1550,1565]},edge:[57,111]},
    {id:'B',rx:266,twy:355,lane:397,sg:1,conn:[240,480,838,1248,1500],entry:null,th:{"10":93,"28":1489},nm:{"10":"10R","28":"28L"},lt:[234,8,9],reil:[226,306],lbx:325,ap:{"10":[25,42,59,76],"28":[1505,1520,1535,1550,1565]},edge:[233,299]}],
@@ -1219,7 +1219,7 @@ var DIFFS={
 var DIFF="normal",camp={day:1,stars:0,rep:70,money:0},storms=[],dayOver=false;
 var D=()=>DIFFS[DIFF];
 var START_MONEY={facil:400000,normal:250000,dificil:150000};
-var newCamp=()=>({lay1v:4,day:1,stars:0,rep:70,money:START_MONEY[DIFF]||250000,deals:[],crews:DIFF==='facil'?undefined:{fuel:2,cat:2,clean:2}});
+var newCamp=()=>({lay1v:5,day:1,stars:0,rep:70,money:START_MONEY[DIFF]||250000,deals:[],crews:DIFF==='facil'?undefined:{fuel:2,cat:2,clean:2}});
 var flights,now,speed=10,tab="arr",sel=null,assignFor=null,runwayFree,score,lastWind=-1;
 var $=id=>document.getElementById(id);
 var map=$('map'),fixed=$('fixed'),planesEl=$('planes'),board=$('board'),detail=$('detail'),side=$('side'),cards=$('cards');
@@ -2777,7 +2777,7 @@ function loadGame(d){
   ROT=d.ROT;flights=d.flights;now=d.now;buildLines();runwayFree=typeof d.runwayFree==='object'&&d.runwayFree?d.runwayFree:{A:0,B:0};score=d.score;
   setLayout(camp.lay||1);STANDS.forEach((x,i)=>x.res=d.stands[i]==null?null:d.stands[i]);
   if(camp.lay===2&&camp.layv!==2){camp.layv=2;migrateLay();runwayFree={A:0,B:0}}
-  if((camp.lay||1)===1&&camp.lay1v!==4){camp.lay1v=4;migrateLay();runwayFree={A:0,B:0}}
+  if((camp.lay||1)===1&&camp.lay1v!==5){camp.lay1v=5;migrateLay();runwayFree={A:0,B:0}}
   flights.forEach(f=>{if(f.svs)f.svs.forEach(v=>{if(v.q==null)v.q=true})});
   speed=nz(d.speed,10);if(speed)rescalePaths(pathK(speed));document.querySelectorAll('#speed button[data-s]').forEach(x=>x.classList.toggle('on',+x.dataset.s===speed));
   $('spdLbl').textContent=speed?speed+'×':'pausa';
