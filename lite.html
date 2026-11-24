@@ -889,7 +889,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795562946';
+var APPV='1795563557';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1011,7 +1011,7 @@ var CN2=[224,584,1197,1595,1920];
 var LAYS={
  1:{id:1,W:966,H:1628,ps:1.25,cover:1,G:[{id:'A',rx:243,twy:357,lane:420,sg:1,conn:[307,848,1460],entry:null,th:{"10":200,"28":1428},nm:{"10":"10","28":"28"},lt:[198,10,10],reil:[186,300],lbx:120,ap:{"10":[6,18],"28":[1600,1612]},edge:[195,290]}],
    labels:[],
-   mk:()=>[[255,5],[358,5],[460,5],[564,5],[725,6],[822,6],[1049,5],[1140,5],[1239,5],[1334,5]].map(([y,m],i)=>({n:i+1,x:i===4||i===5?530:563,y,max:m,bd:1,g:'A',sx:672,sy:y})).concat([{n:11,x:522,y:150,max:4,remote:1,lab:'R1',bd:0,g:'A',sx:603,sy:96},{n:12,x:547,y:1458,max:4,remote:1,lab:'R2',bd:0,g:'A',sx:603,sy:1518}])},
+   mk:()=>[[255,6],[358,6],[460,6],[564,6],[725,3],[822,3],[1049,5],[1140,5],[1239,7,6],[1334,7,6]].map(([y,m,mn],i)=>({n:i+1,x:i===4||i===5?530:563,y,max:m,min:mn||1,bd:1,g:'A',sx:672,sy:y})).concat([{n:11,x:522,y:150,max:4,remote:1,lab:'R1',bd:0,g:'A',sx:603,sy:96},{n:12,x:547,y:1458,max:4,remote:1,lab:'R2',bd:0,g:'A',sx:603,sy:1518}])},
  2:{id:2,W:941,H:1672,ps:1.35,G:[
    {id:'A',rx:84,twy:355,lane:397,sg:1,conn:[255,256,1399,1400],entry:null,th:{"10":168,"28":1489},nm:{"10":"10L","28":"28R"},lt:[58,6.5,9],reil:[50,118],lbx:30,ap:{"10":[100,117,134,151],"28":[1505,1520,1535,1550,1565]},edge:[57,111]},
    {id:'B',rx:266,twy:355,lane:397,sg:1,conn:[240,480,838,1248,1500],entry:null,th:{"10":93,"28":1489},nm:{"10":"10R","28":"28L"},lt:[234,8,9],reil:[226,306],lbx:325,ap:{"10":[25,42,59,76],"28":[1505,1520,1535,1550,1565]},edge:[233,299]}],
@@ -1219,7 +1219,7 @@ var DIFFS={
 var DIFF="normal",camp={day:1,stars:0,rep:70,money:0},storms=[],dayOver=false;
 var D=()=>DIFFS[DIFF];
 var START_MONEY={facil:400000,normal:250000,dificil:150000};
-var newCamp=()=>({lay1v:5,day:1,stars:0,rep:70,money:START_MONEY[DIFF]||250000,deals:[],crews:DIFF==='facil'?undefined:{fuel:2,cat:2,clean:2}});
+var newCamp=()=>({lay1v:6,day:1,stars:0,rep:70,money:START_MONEY[DIFF]||250000,deals:[],crews:DIFF==='facil'?undefined:{fuel:2,cat:2,clean:2}});
 var flights,now,speed=10,tab="arr",sel=null,assignFor=null,runwayFree,score,lastWind=-1;
 var $=id=>document.getElementById(id);
 var map=$('map'),fixed=$('fixed'),planesEl=$('planes'),board=$('board'),detail=$('detail'),side=$('side'),cards=$('cards');
@@ -1233,7 +1233,7 @@ function reset(t0){
   // estado inicial: quem já partiu está voando; quem já chegou está no pátio (pernoite)
   for(const f of flights){
     if(f.depSched<=now){f.state="gone";f.tOff=f.depSched;continue}
-    if(f.eta<=now+2){const st=STANDS.filter(x=>x.res==null&&x.max>=f.cls).sort((a,b)=>a.max-b.max||(a.remote?1:0)-(b.remote?1:0))[0];
+    if(f.eta<=now+2){const st=STANDS.filter(x=>x.res==null&&fits(x,f.cls)).sort((a,b)=>a.max-b.max||(a.remote?1:0)-(b.remote?1:0))[0];
       if(!st){f.state="gone";f.tOff=now-f.dur-1;continue}
       st.res=f.i;f.stand=st.n;f.state="parked";f.tPark=now;f.pre=1;f.fuelArr=8+Math.round(Math.random()*10);initSvc(f)}
   }
@@ -1501,9 +1501,11 @@ function depart(f){
   if(pk('partida')!=='off')play('motor_partida',{vol:.7,dur:16});f.tPush=now;f.rwy=activeRwy();f.state="departing";f.path=taxiOutPath(f,f.rwy,STANDS[f.stand-1]);
   toast(`${f.depNo} liberado · taxiando para a cabeceira ${gid(f.g).nm[f.rwy]}`);dirty=true;
 }
+var fits=(s,c)=>c<=s.max&&c>=(s.min||1);
 function assign(f,s){
   if(f.state==="parked"){return moveTo(f,s)}
   if(s.res!=null&&s.res!==f.i)return toast(`Posição ${sn(s.n)} está ocupada`);
+  if(f.cls<(s.min||1))return toast(`Posição ${sn(s.n)} é só para classe ${s.min}–${s.max}`);
   if(s.max<f.cls){
     if(f.cls-s.max>2||s.remote)return toast(`Posição ${sn(s.n)} é pequena demais para ${f.arrNo} (classe ${f.cls})`);
     if(f.stand!=null)STANDS[f.stand-1].res=null;
@@ -1517,7 +1519,7 @@ function assign(f,s){
 
 function moveTo(f,s){
   if(s.n===f.stand){assignFor=null;dirty=true;return}
-  if(s.max<f.cls)return toast(`Posição ${sn(s.n)} não serve: ${f.depNo} é classe ${f.cls}`);
+  if(!fits(s,f.cls))return toast(`Posição ${sn(s.n)} não serve: ${f.depNo} é classe ${f.cls}`);
   if(s.res!=null)return toast(`Posição ${sn(s.n)} está ocupada`);
   const old=STANDS[f.stand-1];old.res=null;s.res=f.i;f.stand=s.n;f.blk=false;assignFor=null;
   const a=parkPos(f,old),b=parkPos(f,s),gO=grpOf(old),gN=grpOf(s),hd=headOf(old);
@@ -1608,14 +1610,14 @@ function drawFixed(){
   STANDS.forEach(s=>{
     const f=s.res!=null?flights[s.res]:null;
     let c='';
-    if(af){const free=s.res==null||s.res===af.i;c=(s.max>=af.cls&&free)?' ok':(af.state!=="parked"&&free&&!s.remote&&af.cls-s.max<=2)?' tmp':' no'}
+    if(af){const free=s.res==null||s.res===af.i;c=(fits(s,af.cls)&&free)?' ok':(af.state!=="parked"&&free&&!s.remote&&af.cls>s.max&&af.cls-s.max<=2)?' tmp':' no'}
     else if(f&&f.blk&&f.state==="parked")c=' blk';
     else if(sel&&sel.stand===s.n)c=' sel';
     else if(f&&isReady(f))c=' ready';
     else if(f&&f.state!=="parked")c=' reserved';
     const pk=f&&f.state==="parked"&&f.svs?f:null;
     const pc=pk?Math.round(servProg(pk)*100):null;
-    h+=`<div class="sign${c}" style="left:${s.sx/W*100}%;top:${s.sy/H*100}%">${pc!=null?`<div class="pct${pc>=100?' full':''}">${pc}%</div>`:''}<div class="plate">${s.lab||s.n}</div><div class="cls">${s.remote?'REMOTA · ':''}MAX ${s.max}</div></div>`;
+    h+=`<div class="sign${c}" style="left:${s.sx/W*100}%;top:${s.sy/H*100}%">${pc!=null?`<div class="pct${pc>=100?' full':''}">${pc}%</div>`:''}<div class="plate">${s.lab||s.n}</div><div class="cls">${s.remote?'REMOTA · ':''}${(s.min||1)>1?'CLASSE '+s.min+'–'+s.max:'MAX '+s.max}</div></div>`;
     h+=`<button class="hit${c.includes('ok')?' ok':c.includes('tmp')?' tmp':''}" data-stand="${s.n}" aria-label="Posição ${s.n}" style="left:${(s.x-grpOf(s).sg*62)/W*100}%;top:${s.y/H*100}%;width:${160/W*100}%;height:${114/H*100}%"></button>`;
   });
   LAY.labels.forEach(l=>h+=`<div class="tlab" style="left:${l.x/W*100}%;top:${l.y/H*100}%;width:calc(var(--mk)*${l.w}px);height:calc(var(--mk)*${l.h}px);font-size:calc(var(--mk)*${l.fs}px);transform:translate(-50%,-50%) rotate(${l.r}deg)">${l.t}</div>`);
@@ -2381,10 +2383,10 @@ function buildExpansion(){
 function migrateLay(){STANDS.forEach(x=>x.res=null);
   for(const f of flights){
     if(f.stand!=null&&f.stand>STANDS.length)f.stand=null;
-    if(f.stand==null&&f.state==="parked"){const st=STANDS.find(x=>x.res==null&&x.max>=f.cls)||STANDS.find(x=>x.res==null);if(st){f.stand=st.n;st.res=f.i}else{f.state="gone";f.tOff=now;linkNext(f)}}
+    if(f.stand==null&&f.state==="parked"){const st=STANDS.find(x=>x.res==null&&fits(x,f.cls))||STANDS.find(x=>x.res==null);if(st){f.stand=st.n;st.res=f.i}else{f.state="gone";f.tOff=now;linkNext(f)}}
     if(f.state==="arriving"||f.state==="moving"){if(f.state==="arriving")score.landed++;f.path=null;f.state="parked";f.tPark=now;f.svs=null;initSvc(f)}
     if(["departing","lineup","takeoff"].includes(f.state)){f.path=null;f.state="gone";f.tOff=now;score.departed++;linkNext(f);f.stand=null}
-    if(f.stand!=null&&["parked","approach","holding","inbound"].includes(f.state)){const st=STANDS[f.stand-1];st.res=f.i;f.blk=st.max<f.cls;if(f.state==="parked")f.g=st.g}
+    if(f.stand!=null&&["parked","approach","holding","inbound"].includes(f.state)){const st=STANDS[f.stand-1];st.res=f.i;f.blk=!fits(st,f.cls);if(f.state==="parked")f.g=st.g}
   }
 }
 function checkLand(){
@@ -2777,7 +2779,7 @@ function loadGame(d){
   ROT=d.ROT;flights=d.flights;now=d.now;buildLines();runwayFree=typeof d.runwayFree==='object'&&d.runwayFree?d.runwayFree:{A:0,B:0};score=d.score;
   setLayout(camp.lay||1);STANDS.forEach((x,i)=>x.res=d.stands[i]==null?null:d.stands[i]);
   if(camp.lay===2&&camp.layv!==2){camp.layv=2;migrateLay();runwayFree={A:0,B:0}}
-  if((camp.lay||1)===1&&camp.lay1v!==5){camp.lay1v=5;migrateLay();runwayFree={A:0,B:0}}
+  if((camp.lay||1)===1&&camp.lay1v!==6){camp.lay1v=6;migrateLay();runwayFree={A:0,B:0}}
   flights.forEach(f=>{if(f.svs)f.svs.forEach(v=>{if(v.q==null)v.q=true})});
   speed=nz(d.speed,10);if(speed)rescalePaths(pathK(speed));document.querySelectorAll('#speed button[data-s]').forEach(x=>x.classList.toggle('on',+x.dataset.s===speed));
   $('spdLbl').textContent=speed?speed+'×':'pausa';
@@ -2918,9 +2920,9 @@ function autoStep(){
     if((f.state==="inbound"||f.state==="approach"||f.state==="holding")&&f.stand==null&&now>=f.eta-25){
       const fr=STANDS.filter(x=>x.res==null);
       const pref=LAY.id>=2?(DOMAP.has(f.ap)?'A':'B'):null;
-      const s=fr.filter(x=>x.max>=f.cls).sort((a,b)=>(pref?(a.g===pref?0:1)-(b.g===pref?0:1):0)||(a.remote?1:0)-(b.remote?1:0)||a.max-b.max)[0]||fr.filter(x=>!x.remote&&x.max>=f.cls-2).sort((a,b)=>b.max-a.max)[0];
+      const s=fr.filter(x=>fits(x,f.cls)).sort((a,b)=>(pref?(a.g===pref?0:1)-(b.g===pref?0:1):0)||(a.remote?1:0)-(b.remote?1:0)||a.max-b.max)[0]||fr.filter(x=>!x.remote&&fits(x,f.cls)-2&&f.cls>=(x.min||1)).sort((a,b)=>b.max-a.max)[0];
       if(s)assign(f,s)}
-    if(f.state==="parked"&&f.blk){const s=STANDS.filter(x=>x.res==null&&x.max>=f.cls).sort((a,b)=>a.max-b.max)[0];if(s)moveTo(f,s)}
+    if(f.state==="parked"&&f.blk){const s=STANDS.filter(x=>x.res==null&&fits(x,f.cls)).sort((a,b)=>a.max-b.max)[0];if(s)moveTo(f,s)}
     if(f.state==="parked"&&f.svs&&!f.blk){if(RECOV()&&!f.prio&&(f.extLate||0)>20&&flights.filter(o=>o.prio&&o.state==="parked").length<2){FAST0=FAST;FAST=true;togglePrio(f);FAST=FAST0}f.svs.forEach(v=>{if(v.s==null)v.q=true});if(canX(f)&&depEst(f)>f.depSched+10){const b=crewBusy();for(const i of [4,2,3]){const v=f.svs[i],c=CREW[i];if(!v.x&&!v.skip&&!svDone(f,i)&&v.s!=null&&b[c]<crewCap()[c]-1){toggleX(f,i);b[c]++}}}}
     if(isReady(f)&&!f.blk)depart(f);
   }
