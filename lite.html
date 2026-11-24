@@ -851,7 +851,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795479678';
+var APPV='1795480248';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -971,10 +971,10 @@ var TH={"10":60,"28":1590};
 // layouts: 1 = Galeão original (1 pista), 2 = expansão (2 pistas, Terminal 1 e 2)
 var CN2=[224,584,1197,1595,1920];
 var LAYS={
- 1:{id:1,W:941,H:1672,G:[{id:'A',rx:198,twy:303,lane:348,sg:1,conn:[215,470,970,1315,1560],entry:[330,478,625,830,1078,1255],th:{"10":70,"28":1577},nm:{"10":"10","28":"28"},lt:[160,9,9],reil:[150,246],lbx:118,ap:{"10":[14,28,42,56],"28":[1591,1605,1619,1633,1647]},edge:[158,238]}],
+ 1:{id:1,W:941,H:1672,ps:1.35,G:[{id:'A',rx:198,twy:303,lane:348,sg:1,conn:[215,470,970,1315,1560],entry:[330,478,625,830,1078,1255],th:{"10":70,"28":1577},nm:{"10":"10","28":"28"},lt:[160,9,9],reil:[150,246],lbx:118,ap:{"10":[14,28,42,56],"28":[1591,1605,1619,1633,1647]},edge:[158,238]}],
    labels:[],q:{x:66,y:515,w:84},
-   mk:()=>[{n:1,x:514,y:298,max:5},{n:2,x:514,y:416,max:5},{n:3,x:514,y:532,max:5},{n:4,x:506,y:648,max:6},{n:5,x:466,y:751,max:7},{n:6,x:480,y:896,max:7},{n:7,x:522,y:1005,max:6},{n:8,x:546,y:1116,max:5},{n:9,x:546,y:1235,max:5},{n:10,x:546,y:1353,max:5},
-     {n:11,x:452,y:1432,max:4,remote:1,lab:'R1'},{n:12,x:578,y:1432,max:5,remote:1,lab:'R2'}].map(s=>Object.assign(s,{g:'A',sx:s.remote?(s.n===11?395:618):628,sy:s.remote?s.y+52:s.y}))},
+   mk:()=>[{n:1,x:499,y:299,max:5},{n:2,x:501,y:415,max:5},{n:3,x:496,y:535,max:5},{n:4,x:491,y:647,max:6},{n:5,x:449,y:750,max:7},{n:6,x:464,y:893,max:7},{n:7,x:509,y:1002,max:6},{n:8,x:531,y:1115,max:5},{n:9,x:531,y:1232,max:5},{n:10,x:526,y:1352,max:5},
+     {n:11,x:425,y:1432,max:4,remote:1,lab:'R1'},{n:12,x:578,y:1432,max:5,remote:1,lab:'R2'}].map(s=>Object.assign(s,{g:'A',sx:s.remote?(s.n===11?395:618):628,sy:s.remote?s.y+52:s.y}))},
  2:{id:2,W:2006,H:2006,G:[
    {id:'A',rx:664,twy:552,lane:530,sg:-1,conn:CN2,entry:null,th:{"10":136,"28":1856},nm:{"10":"10L","28":"28R"},lt:[622,10.5,9],reil:[610,718],lbx:578,ap:{"10":[40,64,88,112],"28":[1880,1904,1928,1952,1976]},edge:[620,708]},
    {id:'B',rx:1067,twy:1200,lane:1228,sg:1,conn:CN2,entry:null,th:{"10":136,"28":1856},nm:{"10":"10R","28":"28L"},lt:[1025,10.5,9],reil:[1013,1121],lbx:1158,ap:{"10":[40,64,88,112],"28":[1880,1904,1928,1952,1976]},edge:[1023,1111]}],
@@ -984,7 +984,7 @@ var LAYS={
      const t1=X.map((x,i)=>({n:i+1,x,y:Y[i],max:M[i],g:'B',sx:1576,sy:Y[i]}));
      const t2=[576,704,832,960,1085,1211].map((y,i)=>({n:11+i,x:397,y,max:[4,4,5,5,4,4][i],g:'A',sx:275,sy:y}));
      return t1.concat(t2)}},
- 3:{id:3,W:941,H:1672,G:[
+ 3:{id:3,W:941,H:1672,ps:1.3,G:[
    {id:'A',rx:103,twy:198,lane:232,sg:1,conn:[325,445,765,985,1195,1480],entry:null,th:{"10":96,"28":1362},nm:{"10":"10L","28":"28R"},lt:[67,9,9],reil:[57,149],lbx:34,ap:{"10":[30,48,66,84],"28":[1380,1398,1416,1434,1452]},edge:[66,139]},
    {id:'B',rx:838,twy:743,lane:709,sg:-1,conn:[325,445,765,985,1195,1480],entry:null,th:{"10":96,"28":1362},nm:{"10":"10R","28":"28L"},lt:[803,9,9],reil:[792,884],lbx:907,ap:{"10":[30,48,66,84],"28":[1380,1398,1416,1434,1452]},edge:[802,875]}],
    q:{x:320,y:1325,w:110},labels:[],
@@ -998,7 +998,7 @@ var headOf=s=>grpOf(s).sg>0?90:270;
 var rwLbl=d=>(LAY.G.length>1?'Pistas ':'Pista ')+LAY.G.map(g=>g.nm[d]).join(' / ');
 var rwOf=f=>{const s=f.stand?STANDS[f.stand-1]:null;return (s?grpOf(s):LAY.G[0]).nm[activeRwy()]};
 var SPR=[[192,246],[197,294],[238,338],[226,416],[348,491],[357,546],[515,615]];
-var SC=135/615;
+var SC=135/615,PS=()=>SC*(LAY.ps||1);
 var SPRB=[[184,251],[202,300],[211,358],[261,440],[322,496],[383,575],[536,641]];
 var MODA=["A220-300","A320neo","A321neo","A330-200","A330-900","A350-1000","A380-800"];
 var MODB=["737-700","737-800","757-200","767-300ER","787-9","777-300ER","747-8"];
@@ -1223,7 +1223,7 @@ function mkPath(start,segs,t0,startH=0){
 }
 var dist=(a,b)=>Math.hypot(b[0]-a[0],b[1]-a[1]);
 var sn=n=>n==null?'--':((STANDS[n-1]&&STANDS[n-1].lab)||pad(n));
-var parkPos=(f,s)=>[s.x-grpOf(s).sg*spr(f)[f.cls-1][1]*SC/2,s.y];
+var parkPos=(f,s)=>[s.x-grpOf(s).sg*spr(f)[f.cls-1][1]*PS()/2,s.y];
 
 /* rede de pistas de táxi, seguindo as linhas amarelas do mapa */
 var TWY=318;                                  // taxiway paralela (entre a grama e o pátio)
@@ -1567,7 +1567,7 @@ function drawFixed(){
 /* fumaça dos pneus no toque */
 function smoke(f){
   if(FAST)return;
-  const wpx=spr(f)[f.cls-1][0]*SC;
+  const wpx=spr(f)[f.cls-1][0]*PS();
   for(let k=0;k<7;k++)setTimeout(()=>{
     const p=pose(f);if(!p)return;
     for(const side of [-1,1]){
@@ -1589,7 +1589,7 @@ function drawPlanes(){
     live.add(f.i);
     let el=planeEls.get(f.i);
     if(!el){el=document.createElement('div');el.className='pl';el.innerHTML=`<img src="${pimg(f)}" alt=""><div class="tag" hidden></div>`;planesEl.appendChild(el);planeEls.set(f.i,el)}
-    const wpx=spr(f)[f.cls-1][0]*SC;
+    const wpx=spr(f)[f.cls-1][0]*PS();
     el.style.left=(p.x/W*100)+'%';el.style.top=(p.y/H*100)+'%';el.style.width=(wpx/W*100)+'%';
     el.style.zIndex=p.al>0?8:1;
     el.style.opacity=p.al>.88?Math.max(0,(1-p.al)/.12):1;
@@ -2231,7 +2231,7 @@ map.addEventListener('click',e=>{
 });
 function showPop(f,s){
   const q=parkPos(f,s),sc=bw/W*zk,[x,y]=toScreen(q[0],q[1]),pop=$('pop');
-  pop.style.left=x+'px';pop.style.top=(y-spr(f)[f.cls-1][ROTM?1:0]*SC*sc*.5-8)+'px';pop.dataset.f=f.i;
+  pop.style.left=x+'px';pop.style.top=(y-spr(f)[f.cls-1][ROTM?1:0]*PS()*sc*.5-8)+'px';pop.dataset.f=f.i;
   pop.querySelector('.pop-t').textContent=f.depNo;pop.hidden=false;
 }
 $('pop').addEventListener('click',e=>{const b=e.target.closest('[data-pm]');if(!b)return;const f=flights[+$('pop').dataset.f];$('pop').hidden=true;
