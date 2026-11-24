@@ -851,7 +851,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795480248';
+var APPV='1795480537';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -974,7 +974,7 @@ var LAYS={
  1:{id:1,W:941,H:1672,ps:1.35,G:[{id:'A',rx:198,twy:303,lane:348,sg:1,conn:[215,470,970,1315,1560],entry:[330,478,625,830,1078,1255],th:{"10":70,"28":1577},nm:{"10":"10","28":"28"},lt:[160,9,9],reil:[150,246],lbx:118,ap:{"10":[14,28,42,56],"28":[1591,1605,1619,1633,1647]},edge:[158,238]}],
    labels:[],q:{x:66,y:515,w:84},
    mk:()=>[{n:1,x:499,y:299,max:5},{n:2,x:501,y:415,max:5},{n:3,x:496,y:535,max:5},{n:4,x:491,y:647,max:6},{n:5,x:449,y:750,max:7},{n:6,x:464,y:893,max:7},{n:7,x:509,y:1002,max:6},{n:8,x:531,y:1115,max:5},{n:9,x:531,y:1232,max:5},{n:10,x:526,y:1352,max:5},
-     {n:11,x:425,y:1432,max:4,remote:1,lab:'R1'},{n:12,x:578,y:1432,max:5,remote:1,lab:'R2'}].map(s=>Object.assign(s,{g:'A',sx:s.remote?(s.n===11?395:618):628,sy:s.remote?s.y+52:s.y}))},
+     {n:11,x:425,y:1432,max:4,remote:1,lab:'R1'},{n:12,x:578,y:1432,max:5,remote:1,lab:'R2'}].map(s=>Object.assign(s,{bd:s.remote?0:s.n<=6?-1:1,g:'A',sx:s.remote?(s.n===11?395:618):628,sy:s.remote?s.y+52:s.y}))},
  2:{id:2,W:2006,H:2006,G:[
    {id:'A',rx:664,twy:552,lane:530,sg:-1,conn:CN2,entry:null,th:{"10":136,"28":1856},nm:{"10":"10L","28":"28R"},lt:[622,10.5,9],reil:[610,718],lbx:578,ap:{"10":[40,64,88,112],"28":[1880,1904,1928,1952,1976]},edge:[620,708]},
    {id:'B',rx:1067,twy:1200,lane:1228,sg:1,conn:CN2,entry:null,th:{"10":136,"28":1856},nm:{"10":"10R","28":"28L"},lt:[1025,10.5,9],reil:[1013,1121],lbx:1158,ap:{"10":[40,64,88,112],"28":[1880,1904,1928,1952,1976]},edge:[1023,1111]}],
@@ -1223,7 +1223,7 @@ function mkPath(start,segs,t0,startH=0){
 }
 var dist=(a,b)=>Math.hypot(b[0]-a[0],b[1]-a[1]);
 var sn=n=>n==null?'--':((STANDS[n-1]&&STANDS[n-1].lab)||pad(n));
-var parkPos=(f,s)=>[s.x-grpOf(s).sg*spr(f)[f.cls-1][1]*PS()/2,s.y];
+var parkPos=(f,s)=>{const g=grpOf(s),L=spr(f)[f.cls-1][1]*PS(),Wd=spr(f)[f.cls-1][0]*PS();return s.bd?[s.x-g.sg*L*.39,s.y+s.bd*(Wd*.055+2.5)]:[s.x-g.sg*L/2,s.y]};
 
 /* rede de pistas de táxi, seguindo as linhas amarelas do mapa */
 var TWY=318;                                  // taxiway paralela (entre a grama e o pátio)
