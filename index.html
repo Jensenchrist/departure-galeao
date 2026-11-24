@@ -852,7 +852,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795481797';
+var APPV='1795482660';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -981,12 +981,12 @@ var LAYS={
    labels:[],
    mk:()=>[{n:1,x:536,y:312,max:5},{n:2,x:535,y:422,max:5},{n:3,x:536,y:530,max:5},{n:4,x:534,y:635,max:6},{n:5,x:500,y:730,max:7},{n:6,x:504,y:862,max:7},{n:7,x:546,y:960,max:6},{n:8,x:567,y:1065,max:5},{n:9,x:567,y:1175,max:5},{n:10,x:565,y:1285,max:5},
      {n:11,x:430,y:1360,max:4,remote:1,lab:'R1'},{n:12,x:565,y:1360,max:5,remote:1,lab:'R2'}].map(s=>Object.assign(s,{bd:s.remote?0:s.n<=6?-1:1,g:s.remote||s.n>=6?'A':'B',sx:s.remote?(s.n===11?395:610):640,sy:s.remote?s.y+50:s.y}))},
- 3:{id:3,W:941,H:1672,ps:1.3,G:[
-   {id:'A',rx:103,twy:198,lane:232,sg:1,conn:[325,445,765,985,1195,1480],entry:null,th:{"10":96,"28":1362},nm:{"10":"10L","28":"28R"},lt:[67,9,9],reil:[57,149],lbx:34,ap:{"10":[30,48,66,84],"28":[1380,1398,1416,1434,1452]},edge:[66,139]},
-   {id:'B',rx:838,twy:743,lane:709,sg:-1,conn:[325,445,765,985,1195,1480],entry:null,th:{"10":96,"28":1362},nm:{"10":"10R","28":"28L"},lt:[803,9,9],reil:[792,884],lbx:907,ap:{"10":[30,48,66,84],"28":[1380,1398,1416,1434,1452]},edge:[802,875]}],
-   q:{x:320,y:1325,w:110},labels:[],
-   mk:()=>{const Y=[533,652,772,893],M=[6,7,7,6];
-     return Y.map((y,i)=>({n:i+1,x:356,y,max:M[i],g:'A',sx:424,sy:y})).concat(Y.map((y,i)=>({n:i+5,x:585,y,max:M[i],g:'B',sx:517,sy:y})))}}};
+ 3:{id:3,W:941,H:1672,ps:1.05,G:[
+   {id:'A',rx:102,twy:150,lane:198,sg:1,conn:[120,330,455,760,971,1186,1420],entry:[330,455,760,971,1186],th:{"10":75,"28":1455},nm:{"10":"14L","28":"32R"},lt:[67,9,9],reil:[57,149],lbx:34,ap:{"10":[12,26,40,54],"28":[1480,1496,1512,1528,1544]},edge:[66,139]},
+   {id:'B',rx:839,twy:791,lane:743,sg:-1,conn:[120,330,455,760,971,1186,1420],entry:[330,455,760,971,1186],th:{"10":75,"28":1455},nm:{"10":"14R","28":"32L"},lt:[803,9,9],reil:[792,884],lbx:907,ap:{"10":[12,26,40,54],"28":[1480,1496,1512,1528,1544]},edge:[802,875]}],
+   labels:[],
+   mk:()=>{const Y=[534,648,762,876],M=[5,6,6,5];
+     return Y.map((y,i)=>({n:i+1,x:350,y,max:M[i],g:'A',bd:1,sx:432,sy:y})).concat(Y.map((y,i)=>({n:i+5,x:591,y,max:M[i],g:'B',bd:1,sx:509,sy:y})))}}};
 var LAY=LAYS[1],ROTM=false;
 var STANDS=LAY.mk();
 var grpOf=s=>LAY.G.find(g=>g.id===(s&&s.g))||LAY.G[0];
