@@ -852,7 +852,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795483763';
+var APPV='1795520042';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1212,12 +1212,17 @@ function activeRwy(){const d=windNow()[1];const diff=a=>Math.abs(((d-a+540)%360)
 function mkPath(start,segs,t0,startH=0){
   let p=start,t=t0,s=1,al=0,h=startH;
   // em 1×–5× os aviões se movem no mesmo ritmo visual do 10× (o relógio segue normal)
-  const k=speed>0&&speed<10?speed/10:1;
+  const k=pathK(speed);
   const out=segs.map(g=>{const seg={a:p,b:g.b,t,d:g.d*k,e:g.e||'lin',s0:nz(g.s0,s),s1:nz(g.s,s),a0:nz(g.a0,al),a1:nz(g.al,al),
       h:nz(g.h,(Math.hypot(g.b[0]-p[0],g.b[1]-p[1])>.5?Math.atan2(g.b[0]-p[0],-(g.b[1]-p[1]))*180/Math.PI:h))};
     p=g.b;t+=seg.d;s=seg.s1;al=seg.a1;h=seg.h;return seg});
-  return {segs:out,end:t};
+  return {segs:out,end:t,k};
 }
+var pathK=v=>v>0&&v<10?v/10:1;
+// ao trocar a velocidade, os caminhos em andamento são reescalados para o avião manter o ritmo visual do 10×
+function rescalePaths(kn){for(const f of flights||[]){const P=f.path;if(!P||!P.segs)continue;const ko=P.k||1;if(Math.abs(ko-kn)<1e-6)continue;const r=kn/ko;
+  let tc=null;for(const g of P.segs){const e=g.t+g.d;if(e<=now){continue}if(g.t<=now){const pr=(now-g.t)/g.d;g.d*=r;g.t=now-pr*g.d;tc=g.t+g.d}else{if(tc==null)tc=now+(g.t-now)*r;g.t=tc;g.d*=r;tc+=g.d}}
+  if(P.end>now)P.end=now+(P.end-now)*r;P.k=kn}}
 var dist=(a,b)=>Math.hypot(b[0]-a[0],b[1]-a[1]);
 var sn=n=>n==null?'--':((STANDS[n-1]&&STANDS[n-1].lab)||pad(n));
 var parkPos=(f,s)=>{const g=grpOf(s),L=spr(f)[f.cls-1][1]*PS(),Wd=spr(f)[f.cls-1][0]*PS();return s.bd?[s.x-g.sg*L*.3,s.y+s.bd*(Wd*.055+(s.bd>0?15:8))]:[s.x-g.sg*L/2,s.y]};
@@ -2242,7 +2247,7 @@ $('speed').addEventListener('click',e=>{
   setSpeed(+b.dataset.s);
 });
 var lastSpd=10;
-function setSpeed(v){if(speed)lastSpd=speed;speed=v;document.querySelectorAll('.spdb').forEach(x=>x.classList.toggle('on',+x.dataset.sp===speed));$('spdLbl').textContent=speed?speed+'×':'pausa';document.querySelectorAll('#speed button[data-s]').forEach(x=>x.classList.toggle('on',+x.dataset.s===speed));
+function setSpeed(v){if(speed)lastSpd=speed;speed=v;if(v>0)rescalePaths(pathK(v));document.querySelectorAll('.spdb').forEach(x=>x.classList.toggle('on',+x.dataset.sp===speed));$('spdLbl').textContent=speed?speed+'×':'pausa';document.querySelectorAll('#speed button[data-s]').forEach(x=>x.classList.toggle('on',+x.dataset.s===speed));
   const pb=$('pauseBtn');if(pb){pb.classList.toggle('on',!speed);pb.innerHTML=ic(speed?'pause':'playI')}dirty=true}
 var togglePause=()=>setSpeed(speed?0:(lastSpd||10));
 $('mclock').addEventListener('click',togglePause);
@@ -2642,7 +2647,7 @@ function loadGame(d){
   setLayout(camp.lay||1);STANDS.forEach((x,i)=>x.res=d.stands[i]==null?null:d.stands[i]);
   if(camp.lay===2&&camp.layv!==2){camp.layv=2;migrateLay();runwayFree={A:0,B:0}}
   flights.forEach(f=>{if(f.svs)f.svs.forEach(v=>{if(v.q==null)v.q=true})});
-  speed=nz(d.speed,10);document.querySelectorAll('#speed button[data-s]').forEach(x=>x.classList.toggle('on',+x.dataset.s===speed));
+  speed=nz(d.speed,10);if(speed)rescalePaths(pathK(speed));document.querySelectorAll('#speed button[data-s]').forEach(x=>x.classList.toggle('on',+x.dataset.s===speed));
   $('spdLbl').textContent=speed?speed+'×':'pausa';
   planeEls.forEach(e=>e.remove());planeEls.clear();sel=null;assignFor=null;lastWind=-1;rowsTab=null;
   side.classList.remove('showDetail');drawLights();dirty=true;
