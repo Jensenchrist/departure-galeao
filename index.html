@@ -200,7 +200,7 @@ body.l3 .map{background-image:url(map3_dia.jpg)}body.l3 #skyT{background-image:u
 body.l3 .stage::before{background-image:url(map3_dia.jpg)}body.l3 #glow{display:none}
 .dl.apt .dl-r{font-size:13px;color:#bbb}.dl-go{margin-top:8px}
 #glow{position:absolute;top:0;right:0;bottom:0;left:0;background:url(glow1.png) center/100% 100% no-repeat;opacity:var(--nt,.2);pointer-events:none;mix-blend-mode:screen;z-index:1}
-body.l2 #glow{background-image:url(glow2.png)}body:not(.l2) #glow{display:none}body.rot #glow{display:none}
+body.l2 #glow{background-image:url(glow2.png)}#glow{display:none!important}body.rot #glow{display:none}
 .lt.e{background:#fff7d6;box-shadow:0 0 calc(var(--mk,1)*7px) calc(var(--mk,1)*2px) rgba(255,240,190,.9);opacity:calc(.55 + .45*var(--nt,.2));animation:ewave 2.2s linear infinite}
 .lgr{position:absolute;top:0;right:0;bottom:0;left:0;pointer-events:none}
 .lgr:not(.act) .lt.e{animation:none;filter:brightness(.55)}.lgr:not(.act) .lt.w{animation:none;opacity:0}
@@ -852,7 +852,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795481555';
+var APPV='1795481797';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -975,15 +975,12 @@ var LAYS={
    labels:[],q:{x:66,y:515,w:84},
    mk:()=>[{n:1,x:499,y:299,max:5},{n:2,x:501,y:415,max:5},{n:3,x:496,y:535,max:5},{n:4,x:491,y:647,max:6},{n:5,x:449,y:750,max:7},{n:6,x:464,y:893,max:7},{n:7,x:509,y:1002,max:6},{n:8,x:531,y:1115,max:5},{n:9,x:531,y:1232,max:5},{n:10,x:526,y:1352,max:5},
      {n:11,x:425,y:1432,max:4,remote:1,lab:'R1'},{n:12,x:578,y:1432,max:5,remote:1,lab:'R2'}].map(s=>Object.assign(s,{bd:s.remote?0:s.n<=6?-1:1,g:'A',sx:s.remote?(s.n===11?395:618):628,sy:s.remote?s.y+52:s.y}))},
- 2:{id:2,W:2006,H:2006,G:[
-   {id:'A',rx:664,twy:552,lane:530,sg:-1,conn:CN2,entry:null,th:{"10":136,"28":1856},nm:{"10":"10L","28":"28R"},lt:[622,10.5,9],reil:[610,718],lbx:578,ap:{"10":[40,64,88,112],"28":[1880,1904,1928,1952,1976]},edge:[620,708]},
-   {id:'B',rx:1067,twy:1200,lane:1228,sg:1,conn:CN2,entry:null,th:{"10":136,"28":1856},nm:{"10":"10R","28":"28L"},lt:[1025,10.5,9],reil:[1013,1121],lbx:1158,ap:{"10":[40,64,88,112],"28":[1880,1904,1928,1952,1976]},edge:[1023,1111]}],
-   q:{x:865,y:650,w:163},
-   labels:[{t:'TERMINAL 2',x:166,y:960,r:-90,w:250,h:74,fs:30},{t:'TERMINAL 1',x:1576,y:1708,r:0,w:250,h:58,fs:30}],
-   mk:()=>{const X=[1432,1432,1440,1424,1376,1392,1440,1472,1472,1488],Y=[371,509,648,784,912,1080,1208,1344,1488,1616],M=[4,4,5,6,7,7,6,5,4,4];
-     const t1=X.map((x,i)=>({n:i+1,x,y:Y[i],max:M[i],g:'B',sx:1576,sy:Y[i]}));
-     const t2=[576,704,832,960,1085,1211].map((y,i)=>({n:11+i,x:397,y,max:[4,4,5,5,4,4][i],g:'A',sx:275,sy:y}));
-     return t1.concat(t2)}},
+ 2:{id:2,W:941,H:1672,ps:1.35,G:[
+   {id:'A',rx:84,twy:355,lane:397,sg:1,conn:[255,256,1399,1400],entry:null,th:{"10":168,"28":1489},nm:{"10":"10L","28":"28R"},lt:[58,6.5,9],reil:[50,118],lbx:30,ap:{"10":[100,117,134,151],"28":[1505,1520,1535,1550,1565]},edge:[57,111]},
+   {id:'B',rx:266,twy:355,lane:397,sg:1,conn:[240,480,838,1248,1500],entry:null,th:{"10":93,"28":1489},nm:{"10":"10R","28":"28L"},lt:[234,8,9],reil:[226,306],lbx:325,ap:{"10":[25,42,59,76],"28":[1505,1520,1535,1550,1565]},edge:[233,299]}],
+   labels:[],
+   mk:()=>[{n:1,x:536,y:312,max:5},{n:2,x:535,y:422,max:5},{n:3,x:536,y:530,max:5},{n:4,x:534,y:635,max:6},{n:5,x:500,y:730,max:7},{n:6,x:504,y:862,max:7},{n:7,x:546,y:960,max:6},{n:8,x:567,y:1065,max:5},{n:9,x:567,y:1175,max:5},{n:10,x:565,y:1285,max:5},
+     {n:11,x:430,y:1360,max:4,remote:1,lab:'R1'},{n:12,x:565,y:1360,max:5,remote:1,lab:'R2'}].map(s=>Object.assign(s,{bd:s.remote?0:s.n<=6?-1:1,g:s.remote||s.n>=6?'A':'B',sx:s.remote?(s.n===11?395:610):640,sy:s.remote?s.y+50:s.y}))},
  3:{id:3,W:941,H:1672,ps:1.3,G:[
    {id:'A',rx:103,twy:198,lane:232,sg:1,conn:[325,445,765,985,1195,1480],entry:null,th:{"10":96,"28":1362},nm:{"10":"10L","28":"28R"},lt:[67,9,9],reil:[57,149],lbx:34,ap:{"10":[30,48,66,84],"28":[1380,1398,1416,1434,1452]},edge:[66,139]},
    {id:'B',rx:838,twy:743,lane:709,sg:-1,conn:[325,445,765,985,1195,1480],entry:null,th:{"10":96,"28":1362},nm:{"10":"10R","28":"28L"},lt:[803,9,9],reil:[792,884],lbx:907,ap:{"10":[30,48,66,84],"28":[1380,1398,1416,1434,1452]},edge:[802,875]}],
@@ -2300,15 +2297,18 @@ function setLayout(id){
 var EXP_PRICE=1500000;
 function buildExpansion(){
   if(LAY.id===2||camp.money<EXP_PRICE)return;
-  camp.money-=EXP_PRICE;score.inv=(score.inv||0)+EXP_PRICE;camp.lay=2;setLayout(2);
+  camp.money-=EXP_PRICE;score.inv=(score.inv||0)+EXP_PRICE;camp.lay=2;camp.layv=2;setLayout(2);migrateLay();
+  runwayFree={A:0,B:0};rowsTab=null;writeKey(AUTO_KEY,false);
+  toast('🏗 Expansão inaugurada · 2ª pista (10L/28R) em operação!');dirty=true;
+}
+// leva os aviões para o desenho atual do aeroporto (obra nova ou mapa redesenhado)
+function migrateLay(){STANDS.forEach(x=>x.res=null);
   for(const f of flights){
     if(f.stand!=null&&f.stand>STANDS.length)f.stand=null;
     if(f.state==="arriving"||f.state==="moving"){if(f.state==="arriving")score.landed++;f.path=null;f.state="parked";f.tPark=now;f.svs=null;initSvc(f)}
     if(["departing","lineup","takeoff"].includes(f.state)){f.path=null;f.state="gone";f.tOff=now;score.departed++;linkNext(f);f.stand=null}
     if(f.stand!=null&&["parked","approach","holding","inbound"].includes(f.state)){const st=STANDS[f.stand-1];st.res=f.i;f.blk=st.max<f.cls;if(f.state==="parked")f.g=st.g}
   }
-  runwayFree={A:0,B:0};rowsTab=null;writeKey(AUTO_KEY,false);
-  toast('🏗 Expansão inaugurada · Terminal 2 e pista 10L/28R em operação!');dirty=true;
 }
 function checkLand(){
   const l=innerWidth>=700&&innerWidth>innerHeight*1.15;
@@ -2505,7 +2505,7 @@ function drawDeals(){
   }
   const als=[...new Set(L.map(d=>d.al))].map(al=>{const ds=L.filter(d=>d.al===al),av=ds.filter(d=>!own.has(d.k));
     return {al,n:ds.length,on:ds.length-av.length,min:av.length?Math.min(...av.map(d=>d.price)):null}}).sort((a,b)=>(a.min==null?1e12:a.min)-(b.min==null?1e12:b.min));
-  $('dlList').innerHTML=(LAY.id===1?`<div class="dl exp"><div class="dl-h"><span class="tk-fl">🏗</span><b>Expansão do Galeão</b><em class="dl-c long">Obra</em></div><div class="dl-r">Terminal 2 com 6 portões + 2ª pista paralela (10L/28R)</div>${btn('EXP',EXP_PRICE)}</div>`:'')
+  $('dlList').innerHTML=(LAY.id===1?`<div class="dl exp"><div class="dl-h"><span class="tk-fl">🏗</span><b>Expansão do Galeão</b><em class="dl-c long">Obra</em></div><div class="dl-r">2ª pista paralela (10L/28R), pátio e terminal novos</div>${btn('EXP',EXP_PRICE)}</div>`:'')
     +Object.values(APTS).filter(a=>a.price).map(a=>{const own=OWNED().includes(a.c),here=HOME()===a.c;
       return `<div class="dl exp apt"><div class="dl-h"><span class="tk-fl">🗼</span><b>Administração de ${a.n} (${a.c})</b><em class="dl-c nac">Aeroporto</em></div><div class="dl-r">${a.city} · ${a.desc}. Mesmo caixa; quando você não está lá, ele opera no piloto automático.</div>${here?'<div class="dl-on">✓ Você está aqui</div>':own?`<div class="dl-on">✓ Seu aeroporto</div><button class="dl-b dl-go" data-goapt="${a.c}">Ir para ${a.c}</button>`:btn('APT:'+a.c,a.price)+`<button class="dl-b dl-more dl-go" data-spec="${a.c}">👁 Assistir ao vivo</button>`}</div>`}).join('')
     +(HOME()!=='GIG'?`<div class="dl exp apt"><div class="dl-h"><span class="tk-fl">🗼</span><b>Galeão (GIG)</b><em class="dl-c nac">Aeroporto</em></div><div class="dl-on">✓ Seu aeroporto</div><button class="dl-b dl-go" data-goapt="GIG">Ir para GIG</button></div>`:'')
@@ -2639,6 +2639,7 @@ function loadGame(d){
   DIFF=d.diff||'normal';camp=d.camp||newCamp();storms=d.storms||[];dayOver=false;
   ROT=d.ROT;flights=d.flights;now=d.now;buildLines();runwayFree=typeof d.runwayFree==='object'&&d.runwayFree?d.runwayFree:{A:0,B:0};score=d.score;
   setLayout(camp.lay||1);STANDS.forEach((x,i)=>x.res=d.stands[i]==null?null:d.stands[i]);
+  if(camp.lay===2&&camp.layv!==2){camp.layv=2;migrateLay();runwayFree={A:0,B:0}}
   flights.forEach(f=>{if(f.svs)f.svs.forEach(v=>{if(v.q==null)v.q=true})});
   speed=nz(d.speed,10);document.querySelectorAll('#speed button[data-s]').forEach(x=>x.classList.toggle('on',+x.dataset.s===speed));
   $('spdLbl').textContent=speed?speed+'×':'pausa';
