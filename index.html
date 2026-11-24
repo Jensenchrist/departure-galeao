@@ -842,7 +842,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795480718';
+var APPV='1795480896';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -2554,6 +2554,11 @@ if(TWO){
    edge.addEventListener('click',e=>{if(block){e.stopPropagation();e.preventDefault()}},true);
    edge.addEventListener('contextmenu',e=>e.preventDefault());}
   document.addEventListener('click',e=>{if(!e.target.closest('#edge'))edge.querySelectorAll('.edw').forEach(x=>x.classList.remove('open'))});
+  // as gavetas recolhem sozinhas: ao tocar/arrastar fora delas e depois de 5 s sem uso
+  {const shut=()=>edge.querySelectorAll('.edw.open').forEach(x=>x.classList.remove('open'));let tm=null;
+   document.addEventListener('pointerdown',e=>{if(!e.target.closest('#edge'))shut()},true);
+   new MutationObserver(()=>{clearTimeout(tm);if(edge.querySelector('.edw.open'))tm=setTimeout(shut,5000)}).observe(edge,{subtree:true,attributes:true,attributeFilter:['class']});
+   edge.addEventListener('pointerdown',()=>{clearTimeout(tm);if(edge.querySelector('.edw.open'))tm=setTimeout(shut,5000)})}
 }
 $('fltTab').addEventListener('click',()=>openFlt(true));
 $('fpBack').addEventListener('click',()=>openFlt(false));
