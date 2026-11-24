@@ -880,7 +880,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795541890';
+var APPV='1795542248';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1447,12 +1447,12 @@ function step(){
       else if(now<(runwayFree[grpOf(STANDS[f.stand-1]).id]||0)){f.eta=runwayFree[grpOf(STANDS[f.stand-1]).id]+1.3}
       else{f.rwy=r;f.path=landingPath(f,r,STANDS[f.stand-1]);f.state="arriving";runwayFree[f.g]=f.path.offRwy+.2;jet("approach");dirty=true}
     }
-    if(f.state==="arriving"&&!f.tdSnd&&now>=f.path.segs[1].t){f.tdSnd=true;if(pk('pneu')!=='off')play('pneu',{vol:.9,rate:.92+Math.random()*.16});jet("touchdown");jet("brake");smoke(f)}
+    if(f.state==="arriving"&&!f.tdSnd&&now>=f.path.segs[1].t){f.tdSnd=true;if(pk('pneu')!=='off'){loadSnd(pk('pneu'));play(pk('pneu'),{vol:.95,rate:.95+Math.random()*.1})}jet("touchdown");jet("brake");smoke(f)}
     if(f.state==="arriving"&&now>=f.path.end){mxWear(f);if(pk('estaciona')!=='off')play('turbina_desliga',{vol:.6,dur:14});f.state="parked";f.tPark=now;f.path=null;score.landed++;initSvc(f);chargeFine(f);
       if(f.emerg){camp.rep=clamp(camp.rep+2,0,100);toast(`${f.arrNo} pousou em segurança · emergência resolvida`)}dirty=true}
     if(f.state==="moving"&&now>=f.path.end){f.state="parked";f.path=null;f.tPark=now;initSvc(f);toast(`${f.depNo} na posição ${sn(f.stand)} · serviços liberados`);dirty=true}
     if(f.state==="parked"&&f.blk){const m=Math.floor((now-f.tPark)/5);if(m>(f.blkPen||0)){f.blkPen=m;camp.rep=clamp(camp.rep-1,0,100);camp.money-=500;score.pen=(score.pen||0)+500;dirty=true}}
-    if(f.state==="parked"&&!f.readyNotified&&isReady(f)){f.readyNotified=true;toast(`${f.depNo} pronto para partir · posição ${sn(f.stand)}`);if(pk('aviso')!=='off')play(pk('aviso'));dirty=true}
+    if(f.state==="parked"&&!f.readyNotified&&isReady(f)){f.readyNotified=true;toast(`${f.depNo} pronto para partir · posição ${sn(f.stand)}`);if(pk('aviso')!=='off')play(pk('aviso'));if(pk('cintos')!=='off'&&!FAST&&Date.now()-(window.__cv||0)>6000){window.__cv=Date.now();loadSnd(pk('cintos'));setTimeout(()=>play(pk('cintos'),{vol:1}),1300)}dirty=true}
   }
   // partidas
   for(const f of flights){
@@ -1813,7 +1813,7 @@ function musicSync(){const a=MUS.el;if(!a)return;const on=soundOn&&MIX.music>0;i
 var SFX={pouso_2:'engine',pouso_3:'engine',frenagem_2:'brake',frenagem_3:'brake',decolagem_2:'engine',decolagem_3:'engine',decolagem_4:'engine',ding_2:'ui',clique_2:'ui',terminal_2:'amb',
   pouso:'engine',frenagem:'brake',decolagem:'engine',patio_turbina:'engine',turbina_desliga:'engine',motor_partida:'engine',passagem:'engine',
   ambiente_patio:'amb',terminal:'amb',tempestade:'amb',trovao_longe:'amb',bagagem:'amb',combustivel:'amb',
-  pneu:'brake',ding:'ui',mayday:'ui',bipe:'ui',clique:'ui',plaquinha:'flap'};
+  pneu:'brake',pneu_real:'brake',cintos_voz:'ui',ding:'ui',mayday:'ui',bipe:'ui',clique:'ui',plaquinha:'flap'};
 var SB={},LOOPS={};
 function loadSnd(k){if(SB[k]||!SFX[k]||loadSnd[k])return;loadSnd[k]=1;fetch(`sons/${k}.mp3?v=${typeof APPV!=='undefined'?APPV:1}`).then(r=>r.ok?r.arrayBuffer():Promise.reject()).then(b=>new Promise((ok,no)=>{const r=AC.decodeAudioData(b,ok,no);if(r&&r.then)r.then(ok,no)})).then(buf=>{SB[k]=buf;if(k===pk('ambiente'))ambStart()}).catch(()=>{loadSnd[k]=0})}
 function loadSounds(){const need=new Set(['bipe']);SLOTS.forEach(x=>need.add(PICK[x.k]));need.forEach(loadSnd)}
@@ -1835,7 +1835,8 @@ var SLOTS=[
   {k:'pouso',n:'Pouso (avião chegando)',o:[['pouso','Jato pesado · passagem forte'],['pouso_2','Jato grande · da direita p/ esquerda'],['pouso_3','Jato pesado · passando por cima'],['synth','Sintetizado'],['off','Desligado']]},
   {k:'frenagem',n:'Frenagem na pista',o:[['frenagem','Toque + reverso forte (17 s)'],['frenagem_2','Toque + freio curto (10 s)'],['frenagem_3','Só o reverso e a desaceleração'],['synth','Sintetizado (chiado de freio)'],['off','Desligado']]},
   {k:'decolagem',n:'Decolagem',o:[['decolagem','Airliner · ronco forte'],['decolagem_2','Airliner · passando por cima'],['decolagem_3','Jato saindo da pista'],['decolagem_4','Jato da direita p/ esquerda'],['synth','Sintetizado'],['off','Desligado']]},
-  {k:'pneu',n:'Pneu tocando a pista',o:[['pneu','Chiado do pneu (toque)'],['off','Desligado']]},
+  {k:'pneu',n:'Pneu tocando a pista',o:[['pneu_real','Pneus na pista (gravado)'],['pneu','Chiado sintetizado'],['off','Desligado']]},
+  {k:'cintos',n:'Comissária: apertem os cintos (voo liberado)',o:[['cintos_voz','Voz da comissária'],['off','Desligado']]},
   {k:'partida',n:'Partida dos motores (Partir)',o:[['motor_partida','Motor ligando'],['off','Desligado']]},
   {k:'estaciona',n:'Turbina desligando (estacionou)',o:[['off','Desligado'],['turbina_desliga','Turbina parando (assobio)']]},
   {k:'ambiente',n:'Ambiente de fundo',o:[['ambiente_patio','Pátio com turbinas'],['terminal','Saguão movimentado'],['terminal_2','Saguão grande, murmúrio'],['off','Desligado']]},
@@ -1855,6 +1856,7 @@ var slotVol=k=>{for(const x of SLOTS)if(x.o.some(o=>o[0]===k)&&PICK[x.k]===k)ret
 var lastMay=-99,lastClk='';var PICK={};SLOTS.forEach(x=>PICK[x.k]=x.o[0][0]);
 try{const m=JSON.parse(localStorage.getItem('departure_pick')||'null');if(m)PICK={...PICK,...m};if(localStorage.getItem('departure_pick_v3')!=='1'){localStorage.setItem('departure_pick_v2','');localStorage.setItem('departure_pick_v3','1')}
   if(!localStorage.getItem('departure_pick_v2')){PICK.mayday='off';PICK.estaciona='off';localStorage.setItem('departure_pick_v2','1');localStorage.setItem('departure_pick',JSON.stringify(PICK))}}catch(e){}
+try{if(localStorage.getItem('departure_pick_v4')!=='1'){if(PICK.pneu==='pneu')PICK.pneu='pneu_real';localStorage.setItem('departure_pick_v4','1');localStorage.setItem('departure_pick',JSON.stringify(PICK))}}catch(e){}
 var pk=k=>PICK[k];
 function ambStart(){const a=pk('ambiente');['ambiente_patio','terminal','terminal_2'].forEach(x=>{if(x!==a)loop(x,false)});if(a!=='off')loop(a,true,.8)}
 /* ---------- sons sintetizados (reserva) ---------- */
