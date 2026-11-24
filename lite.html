@@ -889,7 +889,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795558962';
+var APPV='1795561261';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1812,7 +1812,7 @@ function chime(){if(!soundOn||!AC||AC.state!=="running"||pk('cabine')==='off')re
   [[1,1,1.9],[2,.32,1.1],[2.76,.12,.7],[4.07,.05,.4]].forEach(([m,a,d])=>{const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=932*m;
     g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(a*.5,t+.006);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(lp);o.start(t);o.stop(t+d+.05)})}
 /* ---------- música lo-fi: as duas faixas vão revezando ---------- */
-var MUSF=['sons/musica_1.mp3','sons/musica_2.mp3'],MUS={el:null,i:0};
+var MUSF=['sons/musica_1.mp3','sons/musica_2.mp3','sons/musica_3.mp3'],MUS={el:null,i:0};
 function musicStart(){if(!AC||!BUS.music||MUS.el)return;
   try{const a=new Audio();a.preload='auto';MUS.i=Math.floor(Math.random()*MUSF.length);a.src=MUSF[MUS.i];
     a.addEventListener('ended',()=>musicNext());MUS.el=a;AC.createMediaElementSource(a).connect(BUS.music);musicSync()}catch(e){}}
@@ -2854,7 +2854,7 @@ mixer.querySelectorAll('input[data-k]').forEach(inp=>{
 $('mixBtn').addEventListener('click',()=>{audioInit();mixer.hidden=false});
 $('mixBtn2').addEventListener('click',()=>{audioInit();mixer.hidden=false});
 $('mixClose').addEventListener('click',()=>{mixer.hidden=true});
-$('musNext').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();audioInit();musicNext();toast('Música: Galeão Night Shift'+(MUS.i?' 2':''))});
+$('musNext').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();audioInit();musicNext();toast('Música: '+['Galeão Night Shift','Galeão Night Shift 2','Ato 2'][MUS.i])});
 mixer.addEventListener('click',e=>{
   if(e.target===mixer)mixer.hidden=true;
   const b=e.target.closest('[data-test]');if(!b)return;audioInit();
