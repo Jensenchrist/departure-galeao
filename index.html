@@ -873,6 +873,7 @@ body.land #mxTab{bottom:16px;left:0}body.land #aqp{left:0}
 #ovMore.on svg{filter:drop-shadow(0 0 5px rgba(253,233,52,.85))}
 #ovMore svg{width:46%;height:46%;fill:var(--y)}
 body.spec #ovMore{opacity:.35}
+#fmC{display:block;width:100%;height:44px;flex:0 0 44px;background:#050505;border-bottom:1px solid #1a1a1a}
 </style>
 <script>
 window.__errs=[];window.onerror=function(m,src,l,c){window.__errs.push(m+' @'+l+':'+c);var d=document.getElementById('errbox');if(!d){d=document.createElement('div');d.id='errbox';d.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:99999;background:#b00;color:#fff;font:14px/1.4 sans-serif;padding:10px;border-radius:8px;white-space:pre-wrap';(document.body||document.documentElement).appendChild(d)}d.textContent='Erro: '+window.__errs.join('\n')};
@@ -889,7 +890,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795564091';
+var APPV='1795564295';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -972,7 +973,7 @@ chk();document.addEventListener('visibilitychange',function(){if(!document.hidde
 
   </div>
 </div>
-<div class="fmap" id="fmap" hidden>
+<div class="fmap" id="fmap" hidden><canvas id="fmC" aria-label="Relógio"></canvas>
   <div class="fm-top">
     <div class="fm-t"><span id="fmIco"></span><div><b>EM ROTA</b><small>Mapa de voos · Galeão</small></div></div>
     <div class="fm-coord" id="fmCoord"></div>
@@ -1099,7 +1100,8 @@ function dotSvg(t,cls){let x=0,h='';for(const ch of t){const g=DOT[ch]||DOT['0']
 var WDA=['DOM','SEG','TER','QUA','QUI','SEX','SAB'];
 var ledDate=m=>{const d=dateOf(dayOf(m));return WDA[d.getDay()]+' '+String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')};
 // painel de LED de fora a fora: grade contínua de bolinhas, texto 5×7 aceso em amarelo
-function ledDraw(t,d,sp){const cv=$('cbC');if(!cv||!document.body.classList.contains('cbar'))return;
+function ledDraw(t,d,sp){if(document.body.classList.contains('cbar'))ledOne($('cbC'),t,d,sp);const fm=$('fmap');if(fm&&!fm.hidden)ledOne($('fmC'),t,d,sp)}
+function ledOne(cv,t,d,sp){if(!cv)return;
   const w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return;const dpr=Math.min(3,window.devicePixelRatio||1);
   if(cv.width!==Math.round(w*dpr)||cv.height!==Math.round(h*dpr)){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr)}
   const c=cv.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);c.fillStyle='#050505';c.fillRect(0,0,w,h);
@@ -2216,7 +2218,7 @@ function drawFMPanel(){
   $('fmWx').innerHTML=`<div><b>${pr.phase}</b>Vento em ${APN().n} ${String(w[1]).padStart(3,'0')}° · ${w[2]} kt · ${rwLbl(activeRwy()).toLowerCase()} em uso</div>
     <div class="trk"><i class="ln"></i><i class="dn" id="trkDone"></i><span class="ep l">${o.from}</span><span class="ep r">${o.to}</span><svg id="trkPl" viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" transform="rotate(90 12 12)"/></svg></div>`;
 }
-function openMap(f){
+function openMap(f){lastClk='';
   audioInit();ensureWorld();mapOpen=true;fmap.hidden=false;
   fmMob();fmDet(false);if(f)mapSelId=f.i;baseKey="";drawFMPanel();
   if(mobile())side.classList.remove('open'),setTabs();
