@@ -889,7 +889,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795558589';
+var APPV='1795558848';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1011,7 +1011,7 @@ var CN2=[224,584,1197,1595,1920];
 var LAYS={
  1:{id:1,W:966,H:1628,ps:1.25,cover:1,G:[{id:'A',rx:243,twy:357,lane:420,sg:1,conn:[307,848,1460],entry:null,th:{"10":200,"28":1428},nm:{"10":"10","28":"28"},lt:[198,10,10],reil:[186,300],lbx:120,ap:{"10":[6,18],"28":[1600,1612]},edge:[195,290]}],
    labels:[],
-   mk:()=>[[255,5],[358,5],[460,5],[564,5],[725,6],[822,6],[1049,5],[1140,5],[1239,5],[1334,5]].map(([y,m],i)=>({n:i+1,x:i===4||i===5?530:563,y,max:m,bd:1,g:'A',sx:672,sy:y}))},
+   mk:()=>[[255,5],[358,5],[460,5],[564,5],[725,6],[822,6],[1049,5],[1140,5],[1239,5],[1334,5]].map(([y,m],i)=>({n:i+1,x:i===4||i===5?530:563,y,max:m,bd:1,g:'A',sx:672,sy:y})).concat([{n:11,x:522,y:150,max:4,remote:1,lab:'R1',bd:0,g:'A',sx:385,sy:150},{n:12,x:547,y:1458,max:4,remote:1,lab:'R2',bd:0,g:'A',sx:385,sy:1458}])},
  2:{id:2,W:941,H:1672,ps:1.35,G:[
    {id:'A',rx:84,twy:355,lane:397,sg:1,conn:[255,256,1399,1400],entry:null,th:{"10":168,"28":1489},nm:{"10":"10L","28":"28R"},lt:[58,6.5,9],reil:[50,118],lbx:30,ap:{"10":[100,117,134,151],"28":[1505,1520,1535,1550,1565]},edge:[57,111]},
    {id:'B',rx:266,twy:355,lane:397,sg:1,conn:[240,480,838,1248,1500],entry:null,th:{"10":93,"28":1489},nm:{"10":"10R","28":"28L"},lt:[234,8,9],reil:[226,306],lbx:325,ap:{"10":[25,42,59,76],"28":[1505,1520,1535,1550,1565]},edge:[233,299]}],
