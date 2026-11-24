@@ -851,7 +851,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795480626';
+var APPV='1795480718';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1223,7 +1223,7 @@ function mkPath(start,segs,t0,startH=0){
 }
 var dist=(a,b)=>Math.hypot(b[0]-a[0],b[1]-a[1]);
 var sn=n=>n==null?'--':((STANDS[n-1]&&STANDS[n-1].lab)||pad(n));
-var parkPos=(f,s)=>{const g=grpOf(s),L=spr(f)[f.cls-1][1]*PS(),Wd=spr(f)[f.cls-1][0]*PS();return s.bd?[s.x-g.sg*L*.3,s.y+s.bd*(Wd*.055+6)]:[s.x-g.sg*L/2,s.y]};
+var parkPos=(f,s)=>{const g=grpOf(s),L=spr(f)[f.cls-1][1]*PS(),Wd=spr(f)[f.cls-1][0]*PS();return s.bd?[s.x-g.sg*L*.3,s.y+s.bd*(Wd*.055+(s.bd>0?15:8))]:[s.x-g.sg*L/2,s.y]};
 
 /* rede de pistas de táxi, seguindo as linhas amarelas do mapa */
 var TWY=318;                                  // taxiway paralela (entre a grama e o pátio)
