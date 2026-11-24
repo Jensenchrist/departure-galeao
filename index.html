@@ -880,7 +880,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795522316';
+var APPV='1795530757';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1217,7 +1217,7 @@ function reset(t0){
   const d0=t0==null?0:dayOf(t0);
   camp.seed=Math.floor(Math.random()*1e9);camp.gen=d0-2;camp.cur=d0;camp.pend=[];
   storms=[];dayOver=false;flights=[];setLayout(camp.lay||1);STANDS.forEach(s=>s.res=null);
-  buildLines();now=t0==null?toMin("05:52"):t0;genUpTo(d0+1);
+  buildLines();now=t0==null?(()=>{const d=new Date();return d.getHours()*60+d.getMinutes()+d.getSeconds()/60})():t0;genUpTo(d0+1);
   // estado inicial: quem já partiu está voando; quem já chegou está no pátio (pernoite)
   for(const f of flights){
     if(f.depSched<=now){f.state="gone";f.tOff=f.depSched;continue}
