@@ -880,7 +880,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795562429';
+var APPV='1795562710';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1044,7 +1044,7 @@ var flag=al=>{const c=NAT[al];return c?String.fromCodePoint(...[...c].map(ch=>12
 // logos opcionais: coloque logos/XX.png (código da companhia) no repositório
 var LOGO={};
 var logo=(al,c='')=>LOGO[al]?`<img class="lg ${c}" src="logos/${al}.png?t=${LOGOV}" alt="">`:'';
-var LOGOV=Math.floor(Date.now()/60000);
+var LOGOV=typeof APPV!=='undefined'?APPV:Date.now();
 var AIRLINES={SR:"Swissair",SK:"SAS Scandinavian",DT:"TAAG Angola",ET:"Ethiopian",AT:"Royal Air Maroc",MS:"EgyptAir",VR:"Cabo Verde Airlines",RG:"Varig",VP:"Vasp",TR:"Transbrasil",SC:"Cruzeiro",PB:"Panair do Brasil",JM:"Air Jamaica",AC:"Air Canada",NZ:"Air New Zealand",CO:"Continental",US:"US Airways",AS:"Alaska Airlines",WA:"Western Airlines",TK:"Turkish Airlines",VA:"Virgin Australia",TN:"Air Tahiti Nui",FJ:"Fiji Airways",MH:"Malaysia Airlines",TG:"Thai Airways",BR:"EVA Air",KE:"Korean Air",CX:"Cathay Pacific",QF:"Qantas",SA:"South African",CA:"Air China",SQ:"Singapore Airlines",AZ:"Alitalia",PA:"Pan Am",JL:"Japan Airlines",LA:"LATAM",G3:"GOL",AD:"Azul",TP:"TAP Air Portugal",EK:"Emirates",AF:"Air France",BA:"British Airways",AA:"American Airlines",AR:"Aerolíneas Argentinas",CM:"Copa Airlines",QR:"Qatar Airways",LH:"Lufthansa",IB:"Iberia",KL:"KLM",AV:"Avianca",DL:"Delta",UA:"United",AM:"Aeroméxico",PZ:"Paranair",OB:"Boliviana de Aviación",PU:"Pluna",TA:"TACA",CU:"Cubana",V0:"Conviasa",H2:"Sky Airline",SU:"Aeroflot",TW:"TWA",WN:"Southwest",LB:"Lloyd Aéreo Boliviano"};
 // aeroportos administrados: o Galeão é a casa; os outros são comprados no Negócios
 var APTS={GIG:{c:'GIG',n:'Galeão',city:'Rio',full:'Rio de Janeiro · Galeão',lay:1},GRU:{c:'GRU',n:'Guarulhos',city:'São Paulo',full:'São Paulo · Guarulhos',lay:3,price:2500000,desc:'8 portões em píer · pistas paralelas 10L/28R e 10R/28L'}};
@@ -2983,7 +2983,7 @@ if(!TWO){const y=document.createElement('button');y.className='ib';y.innerHTML=i
 if(!TWO){const b=document.createElement('button');b.id='autoBtn';b.className='ib autob';b.innerHTML=ic('auto')+'Piloto automático';b.addEventListener('click',()=>setAuto(!camp.auto));$('speed').insertBefore(b,$('restart'))}
 if(!TWO){const b=document.createElement('button');b.id='aptBtn';b.className='ib';b.innerHTML='<span class="ico"><svg viewBox="0 0 24 24"><path d="M8 2h8l1 3H7zM5 6h14l-2 4H7zM9.5 11h5l1.2 9H18v2H6v-2h2.3z"/></svg></span>'+' GIG';b.addEventListener('click',()=>{const o=OWNED();switchApt(o[(o.indexOf(HOME())+1)%o.length])});$('speed').insertBefore(b,$('restart'))}
 reset();aptUI();setTabs();requestAnimationFrame(tick);
-function loadLogos(){Object.keys(AIRLINES).forEach(al=>{if(LOGO[al])return;const im=new Image();im.onload=()=>{LOGO[al]=true;dirty=true};im.src=`logos/${al}.png?t=${Math.floor(Date.now()/60000)}`})}
+function loadLogos(){Object.keys(AIRLINES).forEach(al=>{if(LOGO[al])return;const im=new Image();im.onload=()=>{LOGO[al]=true;dirty=true;clearTimeout(loadLogos.t);loadLogos.t=setTimeout(()=>{if(typeof dealsOn!=='undefined'&&dealsOn)drawDeals();if(typeof mxOn!=='undefined'&&mxOn)drawMx();aqKey=''},150)};im.src=`logos/${al}.png?t=${LOGOV}`})}
 loadLogos();setInterval(loadLogos,60000);
 })();
 </script>
