@@ -880,7 +880,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795530757';
+var APPV='1795540186';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -2225,6 +2225,12 @@ addEventListener('resize',()=>{if(mapOpen){fmMob();baseKey=""}});
     if(e.touches.length!==1||pz)return;const x=e.touches[0].clientX,y=e.touches[0].clientY;if(Math.abs(x-px)+Math.abs(y-py)>6)mv=true;fmPan+=x-lx;fmPanY+=y-ly;lx=x;ly=y},{passive:false});
   W.addEventListener('touchend',e=>{if(e.touches.length===0)pz=null},{passive:true});
   W.addEventListener('dblclick',()=>{fmZ=1;fmPanY=0});
+  // computador: roda do mouse aproxima no ponto do cursor; arrastar com o mouse move o mapa
+  W.addEventListener('wheel',e=>{if(!fmap.classList.contains('mob'))return;e.preventDefault();fmTouchT=Date.now();const rc=W.getBoundingClientRect(),x=e.clientX-rc.left,y=e.clientY-rc.top;
+    const z=clamp(fmZ*Math.exp(-e.deltaY*(e.ctrlKey?.01:.0022)),1,8),k=z/fmZ;fmPan=x-(x-fmPan)*k;fmPanY=y-(y-fmPanY)*k;fmZ=z},{passive:false});
+  {let dn=null;W.addEventListener('mousedown',e=>{if(e.button!==0)return;dn={x:e.clientX,y:e.clientY,lx:e.clientX,ly:e.clientY};mv=false});
+   addEventListener('mousemove',e=>{if(!dn)return;if(Math.abs(e.clientX-dn.x)+Math.abs(e.clientY-dn.y)>6)mv=true;if(!mv)return;fmTouchT=Date.now();fmPan+=e.clientX-dn.lx;fmPanY+=e.clientY-dn.ly;dn.lx=e.clientX;dn.ly=e.clientY;W.style.cursor='grabbing'});
+   addEventListener('mouseup',()=>{if(dn){dn=null;W.style.cursor=''}})}
   W.addEventListener('click',e=>{if(mv){e.stopPropagation();e.preventDefault();mv=false}},true);}
  document.querySelector('.fm-side').addEventListener('touchstart',ts,{passive:true});document.querySelector('.fm-side').addEventListener('touchend',te(false));}
 $('mapBtn').addEventListener('click',()=>openMap(null));
