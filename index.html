@@ -891,7 +891,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795571486';
+var APPV='1795571616';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1687,7 +1687,7 @@ function drawPlanes(){
     el.style.left=(p.x/W*100)+'%';el.style.top=(p.y/H*100)+'%';el.style.width=(wpx/W*100)+'%';
     el.style.zIndex=p.al>0?8:3;
     el.style.opacity=p.al>.88?Math.max(0,(1-p.al)/.12):1;
-    el.style.filter=`drop-shadow(${-4-34*p.al}px ${5+46*p.al}px ${3+9*p.al}px rgba(0,0,0,${.45-.25*p.al})) brightness(${PB})`;
+    {const k=Math.max(.7,Math.min(1.5,wpx/90));el.style.filter=`drop-shadow(${(-9-44*p.al)*k}px ${(11+56*p.al)*k}px ${(2.5+9*p.al)*k}px rgba(0,0,0,${.72-.35*p.al})) drop-shadow(0 1px 2px rgba(0,0,0,${.5*(1-p.al)})) brightness(${PB})`}
     el.firstChild.style.transform=`rotate(${p.h}deg) scale(${p.s})`;
     const tg=el.lastChild,show=sel&&sel.i===f.i;
     tg.hidden=!show;if(show){tg.textContent=`${f.state==="arriving"?f.arrNo:f.depNo}`;const [sw,sl]=spr(f)[f.cls-1],hr=p.h*Math.PI/180,half=(Math.abs(Math.cos(hr))*sl+Math.abs(Math.sin(hr))*sw)/2*p.s;tg.style.cssText=ROTM?(()=>{const hx=(Math.abs(Math.sin(hr))*sl+Math.abs(Math.cos(hr))*sw)/2*p.s;return `left:${50-hx/sw*100-6}%;top:50%;transform:translate(-50%,-50%) rotate(90deg)`})():`left:50%;top:${50+half/sl*100+3}%`}
