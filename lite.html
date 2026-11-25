@@ -930,7 +930,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795606268';
+var APPV='1795609584';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1939,7 +1939,7 @@ function musicSync(){const a=MUS.el;if(!a)return;const on=soundOn&&MIX.music>0;i
 var SFX={pouso_2:'engine',pouso_3:'engine',frenagem_2:'brake',frenagem_3:'brake',decolagem_2:'engine',decolagem_3:'engine',decolagem_4:'engine',ding_2:'ui',clique_2:'ui',terminal_2:'amb',
   pouso:'engine',frenagem:'brake',decolagem:'engine',patio_turbina:'engine',turbina_desliga:'engine',motor_partida:'engine',passagem:'engine',
   ambiente_patio:'amb',terminal:'amb',tempestade:'amb',trovao_longe:'amb',bagagem:'amb',combustivel:'amb',
-  pneu:'brake',pneu_real:'brake',menu_bing:'ui',portao_chime:'ui',piloto_decolagem:'ui',cintos_voz:'ui',ding:'ui',mayday:'ui',bipe:'ui',clique:'ui',plaquinha:'flap'};
+  pneu:'brake',pneu_real:'brake',menu_bing:'ui',portao_chime:'ui',cabine_ambiente:'ui',piloto_decolagem:'ui',cintos_voz:'ui',ding:'ui',mayday:'ui',bipe:'ui',clique:'ui',plaquinha:'flap'};
 var SB={},LOOPS={};
 function loadSnd(k){if(SB[k]||!SFX[k]||loadSnd[k])return;loadSnd[k]=1;fetch(`sons/${k}.mp3?v=${typeof APPV!=='undefined'?APPV:1}`).then(r=>r.ok?r.arrayBuffer():Promise.reject()).then(b=>new Promise((ok,no)=>{const r=AC.decodeAudioData(b,ok,no);if(r&&r.then)r.then(ok,no)})).then(buf=>{SB[k]=buf;if(k===pk('ambiente'))ambStart()}).catch(()=>{loadSnd[k]=0})}
 function loadSounds(){const need=new Set(['bipe']);SLOTS.forEach(x=>need.add(PICK[x.k]));need.forEach(loadSnd)}
@@ -1969,7 +1969,7 @@ var SLOTS=[
   {k:'aviso',n:'Aviso (voo pronto)',o:[['ding','Ding dong'],['ding_2','Carrilhão suave'],['off','Desligado']]},
   {k:'cabine',n:'Botões da cabine',o:[['ding','Ding dong (voo pronto)'],['ding_2','Carrilhão suave'],['cinto','Sino sintetizado'],['off','Desligado']]},
   {k:'piloto',n:'Piloto no rádio (decolagem)',o:[['piloto_decolagem','Autorizado para decolagem'],['off','Desligado']]},
-  {k:'portao',n:'Escolha de portão',o:[['portao_chime','Chime de cabine'],['off','Desligado']]},
+  {k:'portao',n:'Escolha de portão',o:[['cabine_ambiente','Cabine por dentro'],['portao_chime','Chime de comissária'],['off','Desligado']]},
   {k:'clique',n:'Clique dos botões',o:[['menu_bing','Bing (menus)'],['clique','Clique digital'],['clique_2','Clique macio'],['off','Desligado']]},
   {k:'painel',n:'Painel de plaquinhas',o:[['plaquinha','Clique real'],['synth','Sintetizado'],['off','Desligado']]},
   {k:'mayday',n:'Sirene de MAYDAY',o:[['off','Desligado'],['bipe','Bipe curto de cabine'],['mayday','Alarme de emergência']]},
@@ -1986,6 +1986,7 @@ try{const m=JSON.parse(localStorage.getItem('departure_pick')||'null');if(m)PICK
   if(!localStorage.getItem('departure_pick_v2')){PICK.mayday='off';PICK.estaciona='off';localStorage.setItem('departure_pick_v2','1');localStorage.setItem('departure_pick',JSON.stringify(PICK))}}catch(e){}
 try{if(localStorage.getItem('departure_pick_v5')!=='1'){PICK.clique='menu_bing';localStorage.setItem('departure_pick_v5','1');localStorage.setItem('departure_pick',JSON.stringify(PICK))}}catch(e){}
 try{if(localStorage.getItem('departure_pick_v4')!=='1'){if(PICK.pneu==='pneu')PICK.pneu='pneu_real';localStorage.setItem('departure_pick_v4','1');localStorage.setItem('departure_pick',JSON.stringify(PICK))}}catch(e){}
+try{if(localStorage.getItem('departure_pick_v9')!=='1'){PICK.portao='cabine_ambiente';localStorage.setItem('departure_pick',JSON.stringify(PICK));localStorage.setItem('departure_pick_v9','1')}}catch(e){}
 var pk=k=>PICK[k];
 function ambStart(){const a=pk('ambiente');['ambiente_patio','terminal','terminal_2'].forEach(x=>{if(x!==a)loop(x,false)});if(a!=='off')loop(a,true,.8)}
 /* ---------- sons sintetizados (reserva) ---------- */
