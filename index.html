@@ -890,7 +890,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795564295';
+var APPV='1795564877';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1009,7 +1009,7 @@ var TH={"10":60,"28":1590};
 // layouts: 1 = Galeão original (1 pista), 2 = expansão (2 pistas, Terminal 1 e 2)
 var CN2=[224,584,1197,1595,1920];
 var LAYS={
- 1:{id:1,W:966,H:1628,ps:1.25,cover:1,G:[{id:'A',rx:243,twy:357,lane:420,sg:1,conn:[307,848,1460],entry:null,th:{"10":200,"28":1428},nm:{"10":"10","28":"28"},lt:[198,10,10],reil:[186,300],lbx:120,ap:{"10":[6,18],"28":[1600,1612]},edge:[195,290]}],
+ 1:{id:1,W:966,H:1628,ps:1.25,cover:1,hg:[562,714,863],hgx:88,G:[{id:'A',rx:243,twy:357,lane:420,sg:1,conn:[307,848,1460],entry:null,th:{"10":200,"28":1428},nm:{"10":"10","28":"28"},lt:[198,10,10],reil:[186,300],lbx:120,ap:{"10":[6,18],"28":[1600,1612]},edge:[195,290]}],
    labels:[],
    mk:()=>[[255,7,6],[358,6],[460,6],[564,6],[725,3],[822,3],[1049,5],[1140,5],[1239,6],[1334,7,6]].map(([y,m,mn],i)=>({n:i+1,x:i===4||i===5?530:563,y,max:m,min:mn||1,bd:1,g:'A',sx:672,sy:y})).concat([{n:11,x:522,y:150,max:4,remote:1,lab:'R1',bd:0,g:'A',sx:603,sy:96},{n:12,x:547,y:1458,max:4,remote:1,lab:'R2',bd:0,g:'A',sx:603,sy:1518}])},
  2:{id:2,W:941,H:1672,ps:1.35,G:[
@@ -1408,10 +1408,18 @@ function mxWear(f){if(!f.k)return;const m=mxOf(f.k),r=Math.random,z=(DIFF==='fac
   if(mn<=0)toast(`🔧 ${f.depNo} sem condições de voo · faça a manutenção`);
   else if(mn<25){addSat(f.al,-1.5);if(!camp.auto)toast(`🔧 ${f.depNo} precisa de manutenção`)}}
 function mxStart(f){if(!f||f.state!=='parked'||!f.k||(f.mnt&&!f.mnt.done))return false;
+  if(LAY.hg){if(!LAY.hg.some((_,i)=>!hgBusy(i))){if(!FAST&&Date.now()-(mxStart.t||0)>8000){mxStart.t=Date.now();toast('🔧 Hangares ocupados · a revisão começa quando um liberar')}camp.mxq=camp.mxq||{};camp.mxq[f.k]=1;return false}}
   const fee=mxPrice(f.k,f.cls),cost=Math.round(fee*.65/1000)*1000;f.mnt={s:now,d:mxDur(f.k),fee,cost};
+  if(LAY.hg){const st=sn(f.stand);toHangar(f);f.mnt.s=null;camp.money-=cost;score.mxc=(score.mxc||0)+cost;if(camp.mxq)delete camp.mxq[f.k];toast(`🔧 ${f.depNo} sai do portão ${st} para o hangar · ${f.mnt.d} min de revisão`);return true}
   camp.money-=cost;score.mxc=(score.mxc||0)+cost;if(camp.mxq)delete camp.mxq[f.k];
   toast(`🔧 Manutenção de ${f.depNo} no portão ${sn(f.stand)} · ${f.mnt.d} min`);dirty=true;return true}
-function mxTick(){for(const f of flights){if(f.state!=='parked')continue;
+function mxTick(){for(const f of flights){
+    if(f.state==='hangar'){
+      if(!f.mnt.done&&now>=f.mnt.s+f.mnt.d){f.mnt.done=true;camp.mx[f.k]={e:100,b:100,t:100};camp.money+=f.mnt.fee;score.mxr=(score.mxr||0)+f.mnt.fee;addSat(f.al,3);if(!FAST)toast(`✅ ${f.depNo} revisado · +${money(f.mnt.fee)} · procurando portão`);dirty=true}
+      if(f.mnt.done&&!fromHangar(f)){const w=now-(f.mnt.s+f.mnt.d),pen=Math.round(f.cls*120*(now-(f.hgT||now)));if(pen>0){camp.money-=pen;score.pen=(score.pen||0)+pen;addSat(f.al,-.02*(now-(f.hgT||now)))}f.hgT=now;
+        if(!f.hgWarn&&w>2){f.hgWarn=1;if(!FAST)toast(`⏳ ${f.depNo} pronto no hangar, mas sem portão livre · prejuízo a cada minuto`)}}
+      continue}
+    if(f.state!=='parked')continue;
     if(!f.mnt||f.mnt.done){if(f.k&&((camp.mxq&&camp.mxq[f.k])||(camp.auto&&mxMin(f.k)<30)||(FAST&&mxMin(f.k)<=0)))mxStart(f);continue}
     if(now>=f.mnt.s+f.mnt.d){f.mnt.done=true;camp.mx[f.k]={e:100,b:100,t:100};camp.money+=f.mnt.fee;score.mxr=(score.mxr||0)+f.mnt.fee;addSat(f.al,3);
       if(!FAST)toast(`✅ ${f.depNo} revisado · +${money(f.mnt.fee)}`);dirty=true}}}
@@ -1460,6 +1468,8 @@ function step(){
     if(f.state==="arriving"&&!f.tdSnd&&now>=f.path.segs[1].t){f.tdSnd=true;if(pk('pneu')!=='off'){loadSnd(pk('pneu'));play(pk('pneu'),{vol:.95,rate:.95+Math.random()*.1})}jet("touchdown");jet("brake");smoke(f)}
     if(f.state==="arriving"&&now>=f.path.end){mxWear(f);if(pk('estaciona')!=='off')play('turbina_desliga',{vol:.6,dur:14});f.state="parked";f.tPark=now;f.path=null;score.landed++;initSvc(f);chargeFine(f);
       if(f.emerg){camp.rep=clamp(camp.rep+2,0,100);toast(`${f.arrNo} pousou em segurança · emergência resolvida`)}dirty=true}
+    if(f.state==="toHg"&&now>=f.path.end){f.state='hangar';f.path=null;f.mnt.s=now;f.hgT=now;dirty=true}
+    if(f.state==="fromHg"&&now>=f.path.end){f.state='parked';f.path=null;f.tPark=now;f.hg=null;f.hgWarn=0;initSvc(f);toast(`${f.depNo} de volta ao portão ${sn(f.stand)} · serviços liberados`);dirty=true}
     if(f.state==="moving"&&now>=f.path.end){f.state="parked";f.path=null;f.tPark=now;initSvc(f);toast(`${f.depNo} na posição ${sn(f.stand)} · serviços liberados`);dirty=true}
     if(f.state==="parked"&&f.blk){const m=Math.floor((now-f.tPark)/5);if(m>(f.blkPen||0)){f.blkPen=m;camp.rep=clamp(camp.rep-1,0,100);camp.money-=500;score.pen=(score.pen||0)+500;dirty=true}}
     if(f.state==="parked"&&!f.readyNotified&&isReady(f)){f.readyNotified=true;toast(`${f.depNo} pronto para partir · posição ${sn(f.stand)}`);if(pk('aviso')!=='off')play(pk('aviso'));if(pk('cintos')!=='off'&&!FAST&&Date.now()-(window.__cv||0)>6000){window.__cv=Date.now();loadSnd(pk('cintos'));setTimeout(()=>play(pk('cintos'),{vol:1}),1300)}dirty=true}
@@ -1503,6 +1513,21 @@ function depart(f){
   toast(`${f.depNo} liberado · taxiando para a cabeceira ${gid(f.g).nm[f.rwy]}`);dirty=true;
 }
 var fits=(s,c)=>c<=s.max&&c>=(s.min||1);
+/* ---------- hangares de manutenção: o avião sai do portão, revisa no hangar e volta para um portão livre ---------- */
+var hgBusy=i=>flights.some(f=>f.hg===i&&['toHg','hangar','fromHg'].includes(f.state));
+var hgPos=(f,i)=>{const L=spr(f)[f.cls-1][1]*PS();return [LAY.hgx+L/2,LAY.hg[i]]};
+function hgRoute(f,from,to,y0,y1){const g=LAY.G[0],c=nearest(g.conn,(y0+y1)/2);return [[g.lane,y0],[g.lane,c],[g.twy,c],[g.twy,y1]]}
+function toHangar(f){const s=STANDS[f.stand-1],g=grpOf(s);let i=-1;for(let k=0;k<LAY.hg.length;k++)if(!hgBusy(k)){i=k;break}if(i<0)return false;
+  const a=parkPos(f,s),b=hgPos(f,i),hy=LAY.hg[i],hd=headOf(s);s.res=null;f.stand=null;f.hg=i;
+  const segs=[{b:[g.lane,s.y],d:1,e:'io',h:hd}];let prev=[g.lane,s.y];
+  for(const q of [[g.lane,nearest(g.conn,(s.y+hy)/2)],[g.twy,nearest(g.conn,(s.y+hy)/2)],[g.twy,hy],[b[0]+40,hy]]){const d=dist(prev,q);if(d>1)segs.push({b:q,d:Math.max(.2,d/260)});prev=q}
+  segs.push({b,d:Math.max(.3,dist(prev,b)/120),e:'out'});f.path=mkPath(a,segs,now,hd);f.state='toHg';f.svs=null;dirty=true;return true}
+function fromHangar(f){const fr=STANDS.filter(x=>x.res==null&&fits(x,f.cls)).sort((a,b)=>(a.remote?1:0)-(b.remote?1:0)||a.max-b.max);const s=fr[0];if(!s)return false;
+  const g=grpOf(s),hy=LAY.hg[f.hg],a=hgPos(f,f.hg);s.res=f.i;f.stand=s.n;
+  const segs=[{b:[a[0]+50,hy],d:1.2,e:'io',h:270}];let prev=[a[0]+50,hy];const c=nearest(g.conn,(s.y+hy)/2);
+  for(const q of [[g.twy,hy],[g.twy,c],[g.lane,c],[g.lane,s.y]]){const d=dist(prev,q);if(d>1)segs.push({b:q,d:Math.max(.2,d/260)});prev=q}
+  segs.push({b:parkPos(f,s),d:Math.max(.3,dist(prev,parkPos(f,s))/180),e:'out'});f.path=mkPath(a,segs,now,90);f.state='fromHg';dirty=true;
+  toast(`${f.depNo} saindo do hangar para o portão ${sn(s.n)}`);return true}
 function assign(f,s){
   if(f.state==="parked"){return moveTo(f,s)}
   if(s.res!=null&&s.res!==f.i)return toast(`Posição ${sn(s.n)} está ocupada`);
@@ -1652,6 +1677,7 @@ function drawPlanes(){
     let p=null;
     if(f.path)p=pose(f);
     else if(f.state==="parked"){const st=STANDS[f.stand-1];if(!st)continue;const q=parkPos(f,st);p={x:q[0],y:q[1],h:headOf(st),s:1,al:0}}
+    else if(f.state==="hangar"&&LAY.hg){const q=hgPos(f,f.hg);p={x:q[0],y:q[1],h:270,s:1,al:0}}
     if(!p||f.state==="gone")continue;
     live.add(f.i);
     let el=planeEls.get(f.i);
@@ -2523,6 +2549,9 @@ var reg=k=>{let h=0;for(const c of k)h=(h*31+c.charCodeAt(0))>>>0;const L='ABCDE
   return (nat==='BR'?'PR-':nat==='US'?'N':al+'-')+L[h%23]+L[(h>>5)%23]+L[(h>>10)%23]};
 function mxLoc(k){const fs=flights.filter(f=>f.k===k&&!['gone','old'].includes(f.state)).sort((a,b)=>a.eta-b.eta);const f=fs.find(f=>f.state!=='inbound')||fs[0];
   if(!f)return {t:'Fora da base',f:null};
+  if(f.state==='toHg')return {t:'Taxiando para o hangar',f};
+  if(f.state==='hangar')return {t:f.mnt&&f.mnt.done?'Revisado · esperando portão livre':`No hangar ${f.hg+1} · em revisão`,f};
+  if(f.state==='fromHg')return {t:'Voltando do hangar',f};
   if(f.state==='parked')return {t:f.mnt&&!f.mnt.done?`Em manutenção · portão ${sn(f.stand)}`:`No pátio · portão ${sn(f.stand)}`,f};
   if(f.state==='arriving'||f.state==='moving')return {t:'Taxiando para o pátio',f};
   if(['departing','lineup','takeoff'].includes(f.state))return {t:'Decolando',f};
@@ -2534,12 +2563,13 @@ function drawMx(){$('mxMoney').textContent=money(camp.money);const own=camp.deal
     $('mxList').innerHTML=als.length?`<div class="dl-grid">${als.map(al=>{const ks=own.filter(k=>k.startsWith(al)),bad=ks.filter(k=>mxMin(k)<30).length;
       return `<button class="dl-al" data-mal="${al}">${alCover(al)}<div class="dl-alf"><span>${ks.length} aeronave${ks.length>1?'s':''}</span><span class="mx-al">${bad?`<b>${bad} precisa${bad>1?'m':''} de revisão</b>`:'tudo em dia'}</span></div></button>`}).join('')}</div>`
       :'<div class="dl-empty">Você ainda não administra nenhuma companhia.<br><small style="color:var(--g);font-weight:600">Feche acordos no Negócios para ter aeronaves.</small></div>';return}
-  const al=mxAl,ks=own.filter(k=>k.startsWith(al));$('mxSub').textContent='Motor, freios e pneus gastam a cada pouso. A revisão bloqueia o portão até terminar.';
+  const al=mxAl,ks=own.filter(k=>k.startsWith(al));$('mxSub').textContent=(LAY.hg?'Motor, freios e pneus gastam a cada pouso. A revisão é feita nos hangares; depois o avião precisa de um portão livre para voltar.':'Motor, freios e pneus gastam a cada pouso. A revisão bloqueia o portão até terminar.');
   $('mxList').innerHTML=`<button class="dl-back" data-mback>‹ Companhias</button>${alCover(al,true)}`+ks.map(k=>{const m=mxOf(k),L=mxLoc(k),f=L.f,ln=ALL_LINES.find(l=>l.k===k.split('#')[0]),cls=f?f.cls:(ln&&ln.cls?Math.max(...[].concat(ln.cls)):4),def=mxDef(k);
     let act;
-    if(f&&f.mnt&&!f.mnt.done){const p=clamp((now-f.mnt.s)/f.mnt.d,0,1);act=`<div class="mx-pr">Revisão em andamento · ${Math.round(p*100)}% · termina ${fmt(f.mnt.s+f.mnt.d)}<i><b style="width:${p*100}%"></b></i></div>`}
+    if(f&&f.mnt&&!f.mnt.done&&f.mnt.s==null)act='<div class="mx-pr">Taxiando para o hangar…</div>';
+    else if(f&&f.mnt&&!f.mnt.done){const p=clamp((now-f.mnt.s)/f.mnt.d,0,1);act=`<div class="mx-pr">Revisão em andamento · ${Math.round(p*100)}% · termina ${fmt(f.mnt.s+f.mnt.d)}<i><b style="width:${p*100}%"></b></i></div>`}
     else if(def<1)act='<div class="dl-on">✓ Revisada · 100%</div>';
-    else if(f&&f.state==='parked'){const fee=mxPrice(k,cls);act=`<button class="dl-b" data-mx="${k}">${mxAsk===k?'Confirmar':'Fazer manutenção agora'} · ${mxDur(k)} min · +${money(fee)}</button>`}
+    else if(f&&f.state==='parked'){const fee=mxPrice(k,cls);act=`<button class="dl-b" data-mx="${k}">${mxAsk===k?'Confirmar':LAY.hg?'Levar ao hangar':'Fazer manutenção agora'} · ${mxDur(k)} min · +${money(fee)}</button>`}
     else{const q=camp.mxq&&camp.mxq[k];act=`<button class="dl-b${q?' dl-more':''}" data-mq="${k}">${q?'✓ Agendada para o próximo pouso · cancelar':'Agendar no próximo pouso'}</button>`}
     return `<div class="mx-c"><div class="mx-h"><b>${reg(k)}</b><span>${ln?HOME()+' ⇄ '+ln.ap:''} · classe ${cls}</span></div><div class="mx-st">${L.t}</div>
       ${MXK.map(x=>{const v=Math.round(m[x]);return `<div class="mx-b"><span>${MXN[x]}</span><i><b style="width:${v}%;background:${mxCol(v)}"></b></i><em style="color:${mxCol(v)}">${v}%</em></div>`}).join('')}${act}</div>`}).join('');}
