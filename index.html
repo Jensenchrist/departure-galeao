@@ -815,7 +815,7 @@ body.cbar .toast{bottom:calc(var(--panh,0px) + 12px)!important}
 body.cbar .zhint{top:auto;bottom:calc(var(--panh,0px) + 14px)}
 
 /* lingueta PRÓXIMOS (esquerda) */
-#aqp{position:absolute;left:0;top:calc(var(--barh,0px) + 96px);z-index:10;display:flex;align-items:stretch;transition:transform .35s cubic-bezier(.2,.8,.2,1);cursor:pointer;-webkit-tap-highlight-color:transparent}
+#aqp{position:absolute;left:0;top:calc(var(--barh,0px) + 6px);z-index:10;display:flex;align-items:stretch;transition:transform .35s cubic-bezier(.2,.8,.2,1);cursor:pointer;-webkit-tap-highlight-color:transparent}
 #aqp.shut{transform:translateX(calc(-100% + 26px))}
 .aq-in{width:118px;padding:9px 9px 10px;box-sizing:border-box;background:linear-gradient(145deg,rgba(36,37,41,.96),rgba(24,25,28,.96));border-radius:0 0 18px 0;box-shadow:6px 6px 16px rgba(0,0,0,.55)}
 .aq-hd{font:900 10px/1 system-ui,sans-serif;letter-spacing:.12em;color:var(--y);text-align:center;margin-bottom:7px}
@@ -863,7 +863,7 @@ body.land #mxTab{bottom:16px;left:0}body.land #aqp{left:0}
 .ln-o h4{margin:0;font:900 20px/1 system-ui,sans-serif;color:var(--y)}.ln-o .gs-row{margin-top:6px}
 .ln-o .dl-b{margin-top:10px;width:100%}
 .ln-pg{height:7px;border-radius:4px;background:#2c2c30;margin-top:8px;overflow:hidden}.ln-pg b{display:block;height:100%;background:var(--gr)}
-#mxTab{display:none!important}#edMx{position:relative}#edMx .mxd{position:absolute;top:8px;left:8px;width:9px;height:9px;border-radius:50%;background:var(--r);box-shadow:0 0 8px var(--r);display:none}#edMx.warn .mxd{display:block}body.spec #edMx{opacity:.35}
+#edMx{position:relative}#edMx .mxd{position:absolute;top:8px;left:8px;width:9px;height:9px;border-radius:50%;background:var(--r);box-shadow:0 0 8px var(--r);display:none}#edMx.warn .mxd{display:block}body.spec #edMx{opacity:.35}
 #ovOpt{position:absolute;left:50%;bottom:calc(100% + 10px);transform:translateX(-50%);z-index:30;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;width:min(92vw,360px);padding:12px;box-sizing:border-box;border-radius:24px;background:linear-gradient(145deg,#26272b,#1b1c1f);box-shadow:0 10px 30px rgba(0,0,0,.65),0 0 0 1px rgba(253,233,52,.08)}
 #ovOpt[hidden]{display:none}
 #ovOpt button{min-width:52px;height:52px;border:0;border-radius:16px;background:#2a2b30;color:#eee;font:800 14px/1 system-ui,sans-serif;display:flex;align-items:center;justify-content:center;gap:4px;box-shadow:4px 4px 10px rgba(0,0,0,.5),-2px -2px 6px rgba(255,255,255,.03);cursor:pointer;padding:0 10px}
@@ -871,7 +871,7 @@ body.land #mxTab{bottom:16px;left:0}body.land #aqp{left:0}
 #ovOpt button .ico{width:28px;height:28px}
 #ovMore.on{background:radial-gradient(circle at 50% 40%,#2a2b2f,#1b1c1f 70%);box-shadow:0 0 0 2px #121315,inset 0 3px 8px rgba(0,0,0,.8)}
 #ovMore.on svg{filter:drop-shadow(0 0 5px rgba(253,233,52,.85))}
-#ovMore svg{width:46%;height:46%;fill:var(--y)}
+#ovMore svg,#ovDeal svg{width:46%;height:46%;fill:var(--y)}body.spec #ovDeal{opacity:.35}
 body.spec #ovMore{opacity:.35}
 #fmC{display:block;width:100%;height:44px;flex:0 0 44px;background:#050505;border-bottom:1px solid #1a1a1a}
 .sign .cls{display:none!important}
@@ -891,7 +891,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795568236';
+var APPV='1795571486';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -920,7 +920,7 @@ chk();document.addEventListener('visibilitychange',function(){if(!document.hidde
     <div id="deals" hidden><div class="yd-box"><div class="yd-h"><button id="dlBk" aria-label="Voltar">‹</button><b>Negócios</b><span id="dlMoney"></span><button id="dlX" aria-label="Fechar">×</button></div><div class="dl-tabs"><button data-dt="deals" class="on">Acordos</button><button data-dt="gest">Gestão</button><button data-dt="fin">Finanças</button><button data-dt="loan">Crédito</button></div><small class="dl-sub" id="dlSub">Traga novas rotas para o Galeão. Do mais barato ao mais caro.</small><div id="dlList"></div></div></div><div id="mxp" hidden><div class="yd-box"><div class="yd-h"><button id="mxBk" aria-label="Voltar">‹</button><b>Manutenção</b><span id="mxMoney"></span><button id="mxX" aria-label="Fechar">×</button></div><small class="dl-sub" id="mxSub">Escolha a companhia para ver as aeronaves.</small><div id="mxList"></div></div></div><div id="wxp" hidden><div class="yd-box"><div class="yd-h"><b>Tempo · Galeão</b><span id="wxD"></span><button id="wxX" aria-label="Fechar">×</button></div><div id="wxB"></div></div></div><div id="yard" hidden><div class="yd-box"><div class="yd-h"><b>Pátio</b><span id="ydSum"></span><button id="ydX" aria-label="Fechar">×</button></div><div class="yd-crew" id="ydCrew"></div><div class="yd-g" id="ydG"></div><small class="yd-lg"><i class="ok"></i>pronto <i class="run"></i>em serviço <i class="idle"></i>parado <i class="bad"></i>provisória <i class="in"></i>chegando</small></div></div><div id="autoBan">PILOTO AUTOMÁTICO · toque para desligar</div><div id="hud"><div class="mclock" id="mclock"><b id="mcT">11:52<i>:00</i></b><small id="mcS">10×</small></div><div id="windBox"></div></div><button id="mxTab" aria-label="Manutenção"><span class="ico"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span><i id="mxDot"></i></button><div id="specBar"><span id="specT">ESPECTADOR</span><button id="specX">Voltar ao meu aeroporto</button></div><div id="aqp"><div class="aq-in"><div class="aq-hd">PRÓXIMOS</div><div id="aqL"></div></div><button class="aq-tab" id="aqTab" aria-label="Próximos voos"><span>PRÓXIMOS</span><i>›</i></button></div><div id="cbar"><canvas id="cbC" aria-label="Relógio"></canvas></div><div id="ovh"><div class="ov-tray">
       <button class="ov-b" id="ovAuto" aria-label="Piloto automático"><svg viewBox="0 0 24 24"></svg></button>
       <button class="ov-b" id="ovSnd" aria-label="Som"><svg viewBox="0 0 24 24"></svg></button>
-      <button class="ov-b" id="ovPause" aria-label="Pausar"><svg viewBox="0 0 24 24"></svg></button><button class="ov-b" id="ovMore" aria-label="Opções"><svg viewBox="0 0 24 24"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg></button></div><div id="ovOpt" hidden></div></div>
+      <button class="ov-b" id="ovPause" aria-label="Pausar"><svg viewBox="0 0 24 24"></svg></button><button class="ov-b" id="ovDeal" aria-label="Negócios"><svg viewBox="0 0 24 24"><path d="M10 4h4a2 2 0 0 1 2 2v1h3a2 2 0 0 1 2 2v3H3V9a2 2 0 0 1 2-2h3V6a2 2 0 0 1 2-2zm0 3h4V6h-4zM3 13.5h7V15h4v-1.5h7V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></button><button class="ov-b" id="ovMore" aria-label="Opções"><svg viewBox="0 0 24 24"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg></button></div><div id="ovOpt" hidden></div></div>
     <div id="fltPg"><div class="fp-top"><button id="fpBack" aria-label="Voltar ao mapa">‹</button><div class="fp-route"><span class="fp-c">GIG</span><small>RIO DE JANEIRO · GALEÃO</small></div><span class="fp-clock" id="fpClock">--:--</span></div><div class="fp-sheet"><i class="fp-grab"></i><h3 id="fpCount">Voos ativos</h3><div id="fltList"></div></div></div>
     <button id="fltTab" hidden><span>✈</span><b id="fltN">0</b><i>‹</i></button>
     <div class="rail" id="rail" aria-label="Voos chegando e prontos"></div>
@@ -2721,15 +2721,14 @@ if(TWO){
   // opções saem da lateral e vão para o botão redondo do painel de baixo
   {const src=$('edOptP'),dst=$('ovOpt');if(src&&dst){[...src.children].forEach(c=>dst.appendChild(c));src.parentNode.remove()}
    const close=()=>{dst.hidden=true;$('ovMore').classList.remove('on')};
+   $('ovDeal').addEventListener('click',e=>{e.stopPropagation();audioInit();chime();openDeals(!dealsOn)});
    $('ovMore').addEventListener('click',e=>{e.stopPropagation();const o=dst.hidden;dst.hidden=!o;$('ovMore').classList.toggle('on',o);if(o)chime()});
    dst.addEventListener('click',e=>{const b=e.target.closest('button');if(b&&b.id!=='clockBtn'&&!b.classList.contains('spdb'))setTimeout(close,80)});
    document.addEventListener('pointerdown',e=>{if(!dst.hidden&&!e.target.closest('#ovOpt,#ovMore'))close()},true)}
   {const w=document.createElement('div');w.className='edw';w.innerHTML=`<button class="edt" id="edYard" aria-label="Pátio e serviços">${ic('yard')}<i>‹</i></button>`;edge.appendChild(w);
    w.querySelector('.edt').addEventListener('click',e=>{e.stopPropagation();edge.querySelectorAll('.edw').forEach(x=>x.classList.remove('open'));openYard(!yardOn)})}
-  {const w=document.createElement('div');w.className='edw';w.innerHTML=`<button class="edt" id="edDeal" aria-label="Acordos comerciais">${ic('deal')}<i>‹</i></button>`;edge.appendChild(w);
-   w.querySelector('.edt').addEventListener('click',e=>{e.stopPropagation();edge.querySelectorAll('.edw').forEach(x=>x.classList.remove('open'));openDeals(!dealsOn)})}
-  {const w=document.createElement('div');w.className='edw';w.innerHTML=`<button class="edt" id="edMx" aria-label="Manutenção"><span class="ico"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span><b class="mxd"></b><i>‹</i></button>`;edge.appendChild(w);
-   w.querySelector('.edt').addEventListener('click',e=>{e.stopPropagation();edge.querySelectorAll('.edw').forEach(x=>x.classList.remove('open'));openMx(!mxOn)})}
+  /* Negócios foi para o painel de baixo */
+  /* manutenção virou lingueta à esquerda */
   // abas reordenáveis: segure meio segundo e arraste para cima/baixo; encaixam como ímã
   {const key=el=>el.id==='fltTab'?'flt':(el.querySelector('.edt')||{}).id;
    try{const ord=JSON.parse(localStorage.getItem('departure_edge')||'null');if(ord)ord.forEach(k=>{const el=[...edge.children].find(c=>key(c)===k);if(el)edge.appendChild(el)})}catch(e){}
@@ -2790,7 +2789,7 @@ function tick(t){
   if(!dayOver&&started&&dayOf(now)>camp.cur){if(camp.auto)autoDay();else endDay()}
   if(camp.auto&&started&&!dayOver)autoStep();
   if(mxOn&&Date.now()-(drawMx.t||0)>700){drawMx.t=Date.now();drawMx()}
-  if(started&&Date.now()-(mxWarnT||0)>1500){mxWarnT=Date.now();{const w=(camp.deals||[]).some(k=>mxMin(k)<30);$('mxTab').classList.toggle('warn',w);const t=$('edMx');if(t)t.classList.toggle('warn',w)}}
+  if(started&&Date.now()-(mxWarnT||0)>1500){mxWarnT=Date.now();{const w=(camp.deals||[]).some(k=>mxMin(k)<30);$('mxTab').classList.toggle('warn',w);}}
   skyTick();ovSync();
   if(assignFor!=null&&assignFor!==lastAF&&pk('portao')!=='off'){loadSnd(pk('portao'));play(pk('portao'),{vol:.8})}lastAF=assignFor;
   flipTick(t);
