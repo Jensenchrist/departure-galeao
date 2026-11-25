@@ -930,7 +930,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795612463';
+var APPV='1795617401';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1050,7 +1050,7 @@ var TH={"10":60,"28":1590};
 // layouts: 1 = Galeão original (1 pista), 2 = expansão (2 pistas, Terminal 1 e 2)
 var CN2=[224,584,1197,1595,1920];
 var LAYS={
- 1:{id:1,W:966,H:1628,ps:1.35,cover:1,endOnly:1,hg:[562,714,863],hgx:88,G:[{id:'A',rx:243,twy:357,lane:420,sg:1,conn:[307,1460],entry:[307,848,1460],th:{"10":200,"28":1428},nm:{"10":"10","28":"28"},lt:[198,10,10],reil:[186,300],lbx:120,ap:{"10":[6,18],"28":[1600,1612]},edge:[195,290]}],
+ 1:{id:1,W:966,H:1628,ps:1.35,cover:1,endOnly:1,hg:[562,714,863],hgx:88,hgEdge:96,hgAp:186,G:[{id:'A',rx:243,twy:357,lane:420,sg:1,conn:[307,1460],entry:[307,848,1460],th:{"10":200,"28":1428},nm:{"10":"10","28":"28"},lt:[198,10,10],reil:[186,300],lbx:120,ap:{"10":[6,18],"28":[1600,1612]},edge:[195,290]}],
    labels:[],
    mk:()=>[[214,255,7,6],[322,358,6],[428,460,6],[529,564,6],[684,725,3],[789,822,3],[1012,1049,5],[1113,1140,5],[1208,1239,6],[1301,1334,7,6]].map(([y,by,m,mn],i)=>({n:i+1,x:i===4||i===5?542:578,y,max:m,min:mn||1,bd:0,g:'A',sx:672,sy:by})).concat([{n:11,x:520,y:147,max:4,remote:1,lab:'R1',bd:0,g:'A',sx:603,sy:96},{n:12,x:546,y:1463,max:4,remote:1,lab:'R2',bd:0,g:'A',sx:603,sy:1518}])},
  2:{id:2,W:941,H:1672,ps:1.44,G:[
@@ -1605,18 +1605,25 @@ function depart(f){
 var fits=(s,c)=>c<=s.max&&c>=(s.min||1);
 /* ---------- hangares de manutenção: o avião sai do portão, revisa no hangar e volta para um portão livre ---------- */
 var hgBusy=i=>flights.some(f=>f.hg===i&&['toHg','hangar','fromHg'].includes(f.state));
-var hgPos=(f,i)=>{const L=spr(f)[f.cls-1][1]*PS();return [LAY.hgx+L/2,LAY.hg[i]]};
+// avião entra de bico no hangar: a ponta fica escondida sob o telhado e a cauda não invade a pista
+var hgPos=(f,i)=>{const L=spr(f)[f.cls-1][1]*PS();if(!LAY.hgEdge)return [LAY.hgx+L/2,LAY.hg[i]];
+  const nose=Math.min(LAY.hgEdge-Math.min(22,L*.2),LAY.hgAp-L);return [nose+L/2,LAY.hg[i]]};
+var hgEntry=(g,hy)=>nearest(g.entry||g.conn,hy);
+function rwyBlock(f,P,pt){const g=grpOf(STANDS[0]);let t=now;for(const x of P.segs){t=x.t+x.d;if(Math.abs(x.b[0]-pt[0])<.5&&Math.abs(x.b[1]-pt[1])<.5)break}
+  const id=f.g||g.id||'A';runwayFree[id]=Math.max(runwayFree[id]||0,t+.2)}
 function hgRoute(f,from,to,y0,y1){const g=LAY.G[0],c=nearest(g.conn,(y0+y1)/2);return [[g.lane,y0],[g.lane,c],[g.twy,c],[g.twy,y1]]}
 function toHangar(f){const s=STANDS[f.stand-1],g=grpOf(s);let i=-1;for(let k=0;k<LAY.hg.length;k++)if(!hgBusy(k)){i=k;break}if(i<0)return false;
-  const a=parkPos(f,s),b=hgPos(f,i),hy=LAY.hg[i],hd=headOf(s);s.res=null;f.stand=null;f.hg=i;
+  const a=parkPos(f,s),b=hgPos(f,i),hy=LAY.hg[i],hd=headOf(s),e=hgEntry(g,hy),ap=[LAY.hgAp||b[0]+40,hy];s.res=null;f.stand=null;f.hg=i;
+  // pátio → linha amarela até a entrada da pista → anda pela pista até o hangar → entra de bico
   const segs=[{b:[g.lane,s.y],d:1,e:'io',h:hd}];let prev=[g.lane,s.y];
-  for(const q of [[g.lane,nearest(g.entry||g.conn,(s.y+hy)/2)],[g.twy,nearest(g.entry||g.conn,(s.y+hy)/2)],[g.twy,hy],[b[0]+40,hy]]){const d=dist(prev,q);if(d>1)segs.push({b:q,d:Math.max(.2,d/260)});prev=q}
-  segs.push({b,d:Math.max(.3,dist(prev,b)/120),e:'out'});f.path=mkPath(a,segs,now,hd);f.state='toHg';f.svs=null;dirty=true;return true}
+  for(const q of [[g.lane,e],[g.twy,e],[g.rx,e],[g.rx,hy],ap]){const d=dist(prev,q);if(d>1)segs.push({b:q,d:Math.max(.2,d/260)});prev=q}
+  segs.push({b,d:Math.max(.3,dist(prev,b)/110),e:'out'});f.path=mkPath(a,segs,now,hd);rwyBlock(f,f.path,ap);f.state='toHg';f.svs=null;dirty=true;return true}
 function fromHangar(f){const fr=STANDS.filter(x=>x.res==null&&fits(x,f.cls)).sort((a,b)=>(a.remote?1:0)-(b.remote?1:0)||a.max-b.max);const s=fr[0];if(!s)return false;
-  const g=grpOf(s),hy=LAY.hg[f.hg],a=hgPos(f,f.hg);s.res=f.i;f.stand=s.n;
-  const segs=[{b:[a[0]+50,hy],d:1.2,e:'io',h:270}];let prev=[a[0]+50,hy];const c=nearest(g.entry||g.conn,(s.y+hy)/2);
-  for(const q of [[g.twy,hy],[g.twy,c],[g.lane,c],[g.lane,s.y]]){const d=dist(prev,q);if(d>1)segs.push({b:q,d:Math.max(.2,d/260)});prev=q}
-  segs.push({b:parkPos(f,s),d:Math.max(.3,dist(prev,parkPos(f,s))/180),e:'out'});f.path=mkPath(a,segs,now,90);f.state='fromHg';dirty=true;
+  const g=grpOf(s),hy=LAY.hg[f.hg],a=hgPos(f,f.hg),e=hgEntry(g,hy);s.res=f.i;f.stand=s.n;
+  // sai de ré do hangar até a pista, segue pela pista até a entrada e volta pela linha amarela
+  const segs=[{b:[g.rx,hy],d:1.4,e:'io',h:270}];let prev=[g.rx,hy];
+  for(const q of [[g.rx,e],[g.twy,e],[g.lane,e],[g.lane,s.y]]){const d=dist(prev,q);if(d>1)segs.push({b:q,d:Math.max(.2,d/260)});prev=q}
+  segs.push({b:parkPos(f,s),d:Math.max(.3,dist(prev,parkPos(f,s))/180),e:'out'});f.path=mkPath(a,segs,now,270);rwyBlock(f,f.path,[g.twy,e]);f.state='fromHg';dirty=true;
   toast(`${f.depNo} saindo do hangar para o portão ${sn(s.n)}`);return true}
 function assign(f,s){
   if(f.state==="parked"){return moveTo(f,s)}
@@ -1777,6 +1784,7 @@ function drawPlanes(){
     el.style.zIndex=p.al>0?8:3;
     el.style.opacity=p.al>.88?Math.max(0,(1-p.al)/.12):1;
     
+    if(LAY.hgEdge&&f.hg!=null&&(f.state==='hangar'||f.state==='toHg'||f.state==='fromHg')&&p.x-wpx<LAY.hgEdge){const cx=(LAY.hgEdge-(p.x-wpx/2))/wpx*100;el.style.clipPath=`polygon(${cx}% -300%,400% -300%,400% 400%,${cx}% 400%)`}else if(el.style.clipPath)el.style.clipPath='';
     el.firstChild.style.transform=`rotate(${p.h}deg) scale(${p.s})`;
     const tg=el.lastChild,show=sel&&sel.i===f.i;
     tg.hidden=!show;if(show){tg.textContent=`${f.state==="arriving"?f.arrNo:f.depNo}`;const [sw,sl]=spr(f)[f.cls-1],hr=p.h*Math.PI/180,half=(Math.abs(Math.cos(hr))*sl+Math.abs(Math.sin(hr))*sw)/2*p.s;tg.style.cssText=ROTM?(()=>{const hx=(Math.abs(Math.sin(hr))*sl+Math.abs(Math.cos(hr))*sw)/2*p.s;return `left:${50-hx/sw*100-6}%;top:50%;transform:translate(-50%,-50%) rotate(90deg)`})():`left:50%;top:${50+half/sl*100+3}%`}
