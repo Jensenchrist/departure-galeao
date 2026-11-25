@@ -42,7 +42,7 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
 /* plaquinhas e áreas de clique */
 .sign{position:absolute;transform:translate(-50%,-50%) scale(.9);display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 3px rgba(0,0,0,.6));pointer-events:none;z-index:3}
 .sign .plate{background:var(--k);border-radius:4px;padding:1px 6px 2px;color:var(--y);font-weight:800;font-size:max(13px,min(2.2vh,24px));letter-spacing:-.04em;line-height:1.1;border:2px solid transparent;transition:.2s}
-.sign .pct{background:var(--k);color:var(--y);font-weight:800;font-size:max(8px,min(1.05vh,11px));padding:0 4px;border-radius:3px;margin-bottom:1px;font-variant-numeric:tabular-nums;border:1px solid #444}
+.sign .pct{position:absolute;left:calc(100% + 3px);top:50%;transform:translateY(-50%);margin:0!important;white-space:nowrap;background:var(--k);color:var(--y);font-weight:800;font-size:max(8px,min(1.05vh,11px));padding:0 4px;border-radius:3px;margin-bottom:1px;font-variant-numeric:tabular-nums;border:1px solid #444}
 .sign .pct.full{color:var(--k);background:#5dff8f;border-color:#5dff8f}
 .sign .cls{background:var(--y);color:var(--k);font-weight:800;font-size:max(7px,min(.95vh,10px));padding:0 4px;border-radius:2px;margin-top:1px}
 .sign.sel .plate{border-color:var(--y);background:var(--y);color:var(--k)}
@@ -899,7 +899,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795564877';
+var APPV='1795566001';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1019,16 +1019,16 @@ var TH={"10":60,"28":1590};
 // layouts: 1 = Galeão original (1 pista), 2 = expansão (2 pistas, Terminal 1 e 2)
 var CN2=[224,584,1197,1595,1920];
 var LAYS={
- 1:{id:1,W:966,H:1628,ps:1.25,cover:1,hg:[562,714,863],hgx:88,G:[{id:'A',rx:243,twy:357,lane:420,sg:1,conn:[307,848,1460],entry:null,th:{"10":200,"28":1428},nm:{"10":"10","28":"28"},lt:[198,10,10],reil:[186,300],lbx:120,ap:{"10":[6,18],"28":[1600,1612]},edge:[195,290]}],
+ 1:{id:1,W:966,H:1628,ps:1.5,cover:1,endOnly:1,hg:[562,714,863],hgx:88,G:[{id:'A',rx:243,twy:357,lane:420,sg:1,conn:[307,1460],entry:[307,848,1460],th:{"10":200,"28":1428},nm:{"10":"10","28":"28"},lt:[198,10,10],reil:[186,300],lbx:120,ap:{"10":[6,18],"28":[1600,1612]},edge:[195,290]}],
    labels:[],
-   mk:()=>[[255,7,6],[358,6],[460,6],[564,6],[725,3],[822,3],[1049,5],[1140,5],[1239,6],[1334,7,6]].map(([y,m,mn],i)=>({n:i+1,x:i===4||i===5?530:563,y,max:m,min:mn||1,bd:1,g:'A',sx:672,sy:y})).concat([{n:11,x:522,y:150,max:4,remote:1,lab:'R1',bd:0,g:'A',sx:603,sy:96},{n:12,x:547,y:1458,max:4,remote:1,lab:'R2',bd:0,g:'A',sx:603,sy:1518}])},
- 2:{id:2,W:941,H:1672,ps:1.35,G:[
+   mk:()=>[[214,255,7,6],[322,358,6],[428,460,6],[529,564,6],[684,725,3],[789,822,3],[1012,1049,5],[1113,1140,5],[1208,1239,6],[1301,1334,7,6]].map(([y,by,m,mn],i)=>({n:i+1,x:i===4||i===5?542:578,y,max:m,min:mn||1,bd:0,g:'A',sx:672,sy:by})).concat([{n:11,x:520,y:147,max:4,remote:1,lab:'R1',bd:0,g:'A',sx:603,sy:96},{n:12,x:546,y:1463,max:4,remote:1,lab:'R2',bd:0,g:'A',sx:603,sy:1518}])},
+ 2:{id:2,W:941,H:1672,ps:1.6,G:[
    {id:'A',rx:84,twy:355,lane:397,sg:1,conn:[255,256,1399,1400],entry:null,th:{"10":168,"28":1489},nm:{"10":"10L","28":"28R"},lt:[58,6.5,9],reil:[50,118],lbx:30,ap:{"10":[100,117,134,151],"28":[1505,1520,1535,1550,1565]},edge:[57,111]},
    {id:'B',rx:266,twy:355,lane:397,sg:1,conn:[240,480,838,1248,1500],entry:null,th:{"10":93,"28":1489},nm:{"10":"10R","28":"28L"},lt:[234,8,9],reil:[226,306],lbx:325,ap:{"10":[25,42,59,76],"28":[1505,1520,1535,1550,1565]},edge:[233,299]}],
    labels:[],
    mk:()=>[{n:1,x:536,y:312,max:5},{n:2,x:535,y:422,max:5},{n:3,x:536,y:530,max:5},{n:4,x:534,y:635,max:6},{n:5,x:500,y:730,max:7},{n:6,x:504,y:862,max:7},{n:7,x:546,y:960,max:6},{n:8,x:567,y:1065,max:5},{n:9,x:567,y:1175,max:5},{n:10,x:565,y:1285,max:5},
      {n:11,x:430,y:1360,max:4,remote:1,lab:'R1'},{n:12,x:565,y:1360,max:5,remote:1,lab:'R2'}].map(s=>Object.assign(s,{bd:s.remote?0:s.n<=6?-1:1,g:s.remote||s.n>=6?'A':'B',sx:s.remote?(s.n===11?395:610):640,sy:s.remote?s.y+50:s.y}))},
- 3:{id:3,W:941,H:1672,ps:1.05,G:[
+ 3:{id:3,W:941,H:1672,ps:1.25,G:[
    {id:'A',rx:102,twy:150,lane:198,sg:1,conn:[120,330,455,760,971,1186,1420],entry:[330,455,760,971,1186],th:{"10":75,"28":1455},nm:{"10":"14L","28":"32R"},lt:[67,9,9],reil:[57,149],lbx:34,ap:{"10":[12,26,40,54],"28":[1480,1496,1512,1528,1544]},edge:[66,139]},
    {id:'B',rx:839,twy:791,lane:743,sg:-1,conn:[120,330,455,760,971,1186,1420],entry:[330,455,760,971,1186],th:{"10":75,"28":1455},nm:{"10":"14R","28":"32L"},lt:[803,9,9],reil:[792,884],lbx:907,ap:{"10":[12,26,40,54],"28":[1480,1496,1512,1528,1544]},edge:[802,875]}],
    labels:[],
@@ -1230,7 +1230,7 @@ var DIFFS={
 var DIFF="normal",camp={day:1,stars:0,rep:70,money:0},storms=[],dayOver=false;
 var D=()=>DIFFS[DIFF];
 var START_MONEY={facil:400000,normal:250000,dificil:150000};
-var newCamp=()=>({lay1v:7,day:1,stars:0,rep:70,money:START_MONEY[DIFF]||250000,deals:[],crews:DIFF==='facil'?undefined:{fuel:2,cat:2,clean:2}});
+var newCamp=()=>({lay1v:8,day:1,stars:0,rep:70,money:START_MONEY[DIFF]||250000,deals:[],crews:DIFF==='facil'?undefined:{fuel:2,cat:2,clean:2}});
 var flights,now,speed=10,tab="arr",sel=null,assignFor=null,runwayFree,score,lastWind=-1;
 var $=id=>document.getElementById(id);
 var map=$('map'),fixed=$('fixed'),planesEl=$('planes'),board=$('board'),detail=$('detail'),side=$('side'),cards=$('cards');
@@ -1296,7 +1296,7 @@ function landingPath(f,r,s){
   const ok=CONN.filter(c=>down?c>=td+minRoll:c<=td-minRoll&&c>g.th["10"]+100);
   // aviões grandes (classe 5+) usam a pista toda e saem no fim; os médios saem no meio
   const endC=down?CONN[CONN.length-1]:CONN[0];
-  const c=f.cls>=5?endC:f.cls>=3?(down?CONN[2]:CONN[1]):(ok.length?ok.reduce((a,b)=>Math.abs(b-s.y)<Math.abs(a-s.y)?b:a):endC);
+  const c=LAY.endOnly||f.cls>=5?endC:f.cls>=3?(down?CONN[2]:CONN[1]):(ok.length?ok.reduce((a,b)=>Math.abs(b-s.y)<Math.abs(a-s.y)?b:a):endC);
   const p=parkPos(f,s);
   const pts=[[RX,c-dir*28],[RX+g.sg*45,c],[g.twy,c],...viaApron(g,s)];
   const segs=[{b:[RX,td],d:1.6,s0:1.9,s:1,a0:1,al:0},{b:pts[0],d:Math.max(.9,Math.abs(pts[0][1]-td)/480),e:'out'}];
@@ -1530,11 +1530,11 @@ function hgRoute(f,from,to,y0,y1){const g=LAY.G[0],c=nearest(g.conn,(y0+y1)/2);r
 function toHangar(f){const s=STANDS[f.stand-1],g=grpOf(s);let i=-1;for(let k=0;k<LAY.hg.length;k++)if(!hgBusy(k)){i=k;break}if(i<0)return false;
   const a=parkPos(f,s),b=hgPos(f,i),hy=LAY.hg[i],hd=headOf(s);s.res=null;f.stand=null;f.hg=i;
   const segs=[{b:[g.lane,s.y],d:1,e:'io',h:hd}];let prev=[g.lane,s.y];
-  for(const q of [[g.lane,nearest(g.conn,(s.y+hy)/2)],[g.twy,nearest(g.conn,(s.y+hy)/2)],[g.twy,hy],[b[0]+40,hy]]){const d=dist(prev,q);if(d>1)segs.push({b:q,d:Math.max(.2,d/260)});prev=q}
+  for(const q of [[g.lane,nearest(g.entry||g.conn,(s.y+hy)/2)],[g.twy,nearest(g.entry||g.conn,(s.y+hy)/2)],[g.twy,hy],[b[0]+40,hy]]){const d=dist(prev,q);if(d>1)segs.push({b:q,d:Math.max(.2,d/260)});prev=q}
   segs.push({b,d:Math.max(.3,dist(prev,b)/120),e:'out'});f.path=mkPath(a,segs,now,hd);f.state='toHg';f.svs=null;dirty=true;return true}
 function fromHangar(f){const fr=STANDS.filter(x=>x.res==null&&fits(x,f.cls)).sort((a,b)=>(a.remote?1:0)-(b.remote?1:0)||a.max-b.max);const s=fr[0];if(!s)return false;
   const g=grpOf(s),hy=LAY.hg[f.hg],a=hgPos(f,f.hg);s.res=f.i;f.stand=s.n;
-  const segs=[{b:[a[0]+50,hy],d:1.2,e:'io',h:270}];let prev=[a[0]+50,hy];const c=nearest(g.conn,(s.y+hy)/2);
+  const segs=[{b:[a[0]+50,hy],d:1.2,e:'io',h:270}];let prev=[a[0]+50,hy];const c=nearest(g.entry||g.conn,(s.y+hy)/2);
   for(const q of [[g.twy,hy],[g.twy,c],[g.lane,c],[g.lane,s.y]]){const d=dist(prev,q);if(d>1)segs.push({b:q,d:Math.max(.2,d/260)});prev=q}
   segs.push({b:parkPos(f,s),d:Math.max(.3,dist(prev,parkPos(f,s))/180),e:'out'});f.path=mkPath(a,segs,now,90);f.state='fromHg';dirty=true;
   toast(`${f.depNo} saindo do hangar para o portão ${sn(s.n)}`);return true}
@@ -2826,7 +2826,7 @@ function loadGame(d){
   ROT=d.ROT;flights=d.flights;now=d.now;buildLines();runwayFree=typeof d.runwayFree==='object'&&d.runwayFree?d.runwayFree:{A:0,B:0};score=d.score;
   setLayout(camp.lay||1);STANDS.forEach((x,i)=>x.res=d.stands[i]==null?null:d.stands[i]);
   if(camp.lay===2&&camp.layv!==2){camp.layv=2;migrateLay();runwayFree={A:0,B:0}}
-  if((camp.lay||1)===1&&camp.lay1v!==7){camp.lay1v=7;migrateLay();runwayFree={A:0,B:0}}
+  if((camp.lay||1)===1&&camp.lay1v!==8){camp.lay1v=8;migrateLay();runwayFree={A:0,B:0}}
   flights.forEach(f=>{if(f.svs)f.svs.forEach(v=>{if(v.q==null)v.q=true})});
   speed=nz(d.speed,10);if(speed)rescalePaths(pathK(speed));document.querySelectorAll('#speed button[data-s]').forEach(x=>x.classList.toggle('on',+x.dataset.s===speed));
   $('spdLbl').textContent=speed?speed+'×':'pausa';
