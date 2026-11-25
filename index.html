@@ -654,6 +654,7 @@ body.two #speed{display:none!important}
 .dl-back{color:var(--y);font-weight:800;font-size:14px;padding:4px 0}
 .dl-sum{font-size:12px;color:var(--g);margin:0 0 8px}
 .dl .dl-r{display:flex;align-items:center;justify-content:space-between;margin-top:0}
+.dl-cx{background:transparent!important;color:#ff6b5e!important;border:1px solid rgba(255,107,94,.55);margin-top:6px}
 .dl-more{background:#1b1b1b!important;color:var(--y)!important;border:1px solid var(--y)}
 .dl-on{margin-top:10px;padding:10px;border-radius:10px;background:#0f2a18;color:var(--gr);font-weight:800;text-align:center}
 #wxp{position:fixed;top:0;right:0;bottom:0;left:0;z-index:40;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;padding:max(14px,env(safe-area-inset-top)) 12px max(14px,env(safe-area-inset-bottom))}
@@ -891,7 +892,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795571917';
+var APPV='1795572692';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1140,6 +1141,9 @@ var INTL=[["TP","LIS",[5,6],"1111111","19:10"],["EK","DXB",[7,6],"1111111","17:4
  ["CM","PTY",[2,3],"1111111","12:40"],["CM","PTY",[3],"1111111","22:50"],["AV","BOG",[2,3],"1111111","13:50"],["AV","UIO",[2,3],"0101010","15:30"],["LA","LIM",[3,4],"1111111","09:40"],
  ["AM","MEX",[5,4],"1010110","18:00"],["PZ","ASU",[1,2],"0111110","10:50"],["G3","ASU",[1,2],"1010101","17:20"],["OB","VVI",[2,3],"0101010","12:20"],["PU","MVD",[2,3],"0111110","09:10"],
  ["G3","MVD",[2],"1111111","16:40"],["TA","SAL",[3,4],"0010101","14:40"],["TA","SJO",[3],"0100100","15:20"],["CU","HAV",[4,5],"0001001","20:10"],["JM","KIN",[3,4],"0101010","15:50"],["AC","YYZ",[5,6],"1010101","21:05"],["NZ","AKL",[7,6],"0100100","05:40"],["CO","EWR",[5,4],"1010100","07:15"],["CO","IAH",[4,5],"0101010","06:40"],["US","CLT",[4,5],"1101010","07:05"],["AS","SEA",[4,5],"0010001","09:20"],["WA","LAX",[5,4],"0100100","08:10"],["TK","IST",[6,7],"1111111","19:15"],["VA","SYD",[6],"0010010","06:10"],["TN","PPT",[6,5],"1000100","04:50"],["FJ","NAN",[5,6],"0001000","05:20"],["MH","KUL",[6,7],"0100010","19:40"],["TG","BKK",[7,6],"0010100","20:30"],["BR","TPE",[6],"1001000","21:10"],["KE","ICN",[7,6],"0101001","22:05"],["CX","HKG",[6,7],"1010010","20:50"],["V0","CCS",[3,4],"0100100","13:10"]];
+// VASP: 8 nacionais + 2 internacionais
+var VPDOM=[["GRU",[2,3]],["CGH",[1,2]],["BSB",[2,3]],["CNF",[2]],["SSA",[2,3]],["REC",[3]],["FOR",[3]],["POA",[2,3]]];
+var VPINT=[["MIA",[5,4],"1010101","06:25"],["JFK",[6,5],"0101010","07:45"]];
 var LINES=[];
 function buildLines(){
   const r=rng(camp.seed||1),K=D().keep||[1,1],used=new Set();let out=[];
@@ -1155,6 +1159,13 @@ function buildLines(){
       arrs.forEach((a,i)=>out.push({k:al+ap,al,ap,cls:[c],days:"1111111",arr:a,dep:home&&i===arrs.length-1?dep0:null,no:num(al),kp}));
     }
   }
+  // VASP: rotas extras para comprar em Negócios (rng próprio para não mexer nos jogos salvos)
+  {const rv=rng((camp.seed||1)+7777),hasA=a=>DF.some(x=>x[0]===a);
+   for(const [ap,cls] of VPDOM){if(!hasA(ap)&&ap!=='GIG')continue;if(HOME()==='GRU'&&ap==='GRU')continue;const apx=(HOME()==='GRU'&&ap==='CGH')?null:ap;if(!apx)continue;
+     const c=cls[Math.floor(rv()*cls.length)],g=GROUND[c-1],gA=Math.round(g*.9),dur=durA(apx),cyc=2*dur+gA+g,home=rv()<.5,j=Math.round(rv()*50),arrs=[];let dep0=null;
+     if(home){dep0=360+j;for(let a=dep0+2*dur+gA;a<=1395;a+=cyc)arrs.push(a)}else{for(let a=390+j;a+g<=1320;a+=cyc)arrs.push(a)}
+     arrs.forEach((a,i)=>out.push({k:'VP'+apx,al:'VP',ap:apx,cls:[c],days:"1111111",arr:a,dep:home&&i===arrs.length-1?dep0:null,no:num('VP'),kp:false}))}
+   for(const [ap,cls,days,t] of VPINT)out.push({k:'VP'+ap,al:'VP',ap,cls,days,arr:toMin(t),dep:null,no:num('VP'),kp:false})}
   for(const [al,ap,cls,days,t] of INTL){const ln={k:al+ap,al,ap,cls,days,arr:toMin(t),dep:null,no:num(al)};ln.kp=al==='SU'||r()<K[1];out.push(ln)}
   ALL_LINES=out;
   const extra=[];
@@ -2667,7 +2678,7 @@ function drawDeals(){
     const al=dealsAl,ds=L.filter(d=>d.al===al).sort((a,b)=>a.price-b.price),av=ds.filter(d=>!own.has(d.k)),mi=ds.filter(d=>own.has(d.k));
     const card=d=>`<div class="dl"><div class="dl-r"><span class="dl-ap">${HOME()} ⇄ <b>${d.ap}</b> ${CITY[d.ap]}</span><em class="dl-c ${d.cat}">${d.cat==='nac'?'Nacional':d.cat==='reg'?'Américas':'Longa distância'}</em></div>
       <div class="dl-i"><span>${freqTxt(d)}</span><span>classe ${Math.min(...d.cls)}${d.cls.length>1?'–'+Math.max(...d.cls):''}</span><span>~${money(Math.round(d.rev))}/sem</span></div>
-      ${own.has(d.k)?`<div class="dl-on">✓ Em operação · ${nPl(d.k)} avi${nPl(d.k)>1?'ões':'ão'}</div>${camp.money>=d.price?`<button class="dl-b dl-more" data-buy="${d.k}+">${dealAsk===d.k+'+'?'Confirmar':'+ Mais um avião'} · ${money(d.price)}</button>`:`<span class="dl-p">+ avião ${money(d.price)}<small>faltam ${money(d.price-camp.money)}</small></span>`}`:btn(d.k,d.price)}</div>`;
+      ${own.has(d.k)?`<div class="dl-on">✓ Em operação · ${nPl(d.k)} avi${nPl(d.k)>1?'ões':'ão'}</div><button class="dl-b dl-cx" data-cx="${d.k}">${dealAsk==='cx'+d.k?'Confirmar desacordo':'Desacordo comercial'} · recebe ${money(refundOf(d.k))}</button>${camp.money>=d.price?`<button class="dl-b dl-more" data-buy="${d.k}+">${dealAsk===d.k+'+'?'Confirmar':'+ Mais um avião'} · ${money(d.price)}</button>`:`<span class="dl-p">+ avião ${money(d.price)}<small>faltam ${money(d.price-camp.money)}</small></span>`}`:btn(d.k,d.price)}</div>`;
     $('dlList').innerHTML=`<button class="dl-back" id="dlBack">‹ Companhias</button>${alCover(al,true)}<div class="dl-sum">${mi.length} de ${ds.length} destinos em operação</div>`+av.map(card).join('')+mi.map(card).join('');
     return;
   }
@@ -2679,13 +2690,22 @@ function drawDeals(){
     +(HOME()!=='GIG'?`<div class="dl exp apt"><div class="dl-h"><span class="tk-fl">🗼</span><b>Galeão (GIG)</b><em class="dl-c nac">Aeroporto</em></div><div class="dl-on">✓ Seu aeroporto</div><button class="dl-b dl-go" data-goapt="GIG">Ir para GIG</button></div>`:'')
     +`<div class="dl-grid">${als.map(a=>`<button class="dl-al" data-al="${a.al}">${alCover(a.al)}<div class="dl-alf"><span>${a.on?`<b class="on">${a.on}/${a.n} rotas</b>`:`${a.n} destino${a.n>1?'s':''}`}</span><span>${a.min!=null?'a partir de <b>'+money(a.min)+'</b>':'<b class="on">todas em operação</b>'}</span></div></button>`).join('')}</div>`;
 }
+// desacordo comercial: desfaz o último avião da rota e devolve 70% do que foi pago
+function lastKey(k){const ks=(camp.deals||[]).filter(x=>x===k||x.startsWith(k+'#'));return ks.sort((a,b)=>(+(a.split('#')[1]||1))-(+(b.split('#')[1]||1))).pop()}
+function refundOf(k){const lk=lastKey(k);if(!lk)return 0;const P=camp.dealP||{};if(P[lk]!=null)return Math.round(P[lk]*.7);
+  if(lk===k&&ALL_LINES.some(l=>l.k===k&&l.kp))return 0;const d=dealList().find(x=>x.k===k);return d?Math.round(d.price*.7):0}
+function cancelDeal(k){if(!camp.deals)camp.deals=ALL_LINES.filter(l=>l.kp).map(l=>l.k);const lk=lastKey(k);if(!lk)return;
+  const v=refundOf(k),al=k.slice(0,2);camp.deals=camp.deals.filter(x=>x!==lk);if(camp.dealP)delete camp.dealP[lk];if(camp.dealT)delete camp.dealT[lk];
+  for(const f of flights)if(f.k===lk&&f.state==="inbound"&&now<f.eta-f.dur)flights[f.i]={i:f.i,state:"old",sched:f.sched,depSched:f.depSched};
+  camp.money+=v;score.inv=(score.inv||0)-v;addSat(al,-8);buildLines();
+  toast(`Desacordo comercial: ${AIRLINES[al]} ⇄ ${CITY[k.slice(2)]||k.slice(2)} · você recebeu ${money(v)} (70%)`);writeKey(AUTO_KEY,false);dirty=true;drawDeals()}
 function buyDeal(k){
   if(k==='EXP'){buildExpansion();openDeals(false);return}
   if(k.indexOf('APT:')===0){buyApt(k.slice(4));openDeals(false);return}
   const base=k.split('#')[0],d=dealList().find(x=>x.k===base);if(!d||camp.money<d.price)return;
   if(!camp.deals)camp.deals=ALL_LINES.filter(l=>l.kp).map(l=>l.k);
   if(camp.deals.includes(base)){let n=2;while(camp.deals.includes(base+'#'+n))n++;k=base+'#'+n}
-  camp.money-=d.price;score.inv=(score.inv||0)+d.price;camp.deals.push(k);camp.dealT=camp.dealT||{};camp.dealT[k]=dayOf(now);buildLines();
+  camp.money-=d.price;score.inv=(score.inv||0)+d.price;camp.deals.push(k);camp.dealP=camp.dealP||{};camp.dealP[k]=d.price;camp.dealT=camp.dealT||{};camp.dealT[k]=dayOf(now);buildLines();
   let first=null;for(let dd=dayOf(now);dd<=camp.gen;dd++)for(const ln of LINES)if(ln.k===k&&runs(ln,dd)&&dd*1440+ln.arr>now+45){mkRot(ln,dd);const t=dd*1440+ln.arr;if(first==null||t<first)first=t}
   toast(`${k.indexOf('#')>0?'Mais um avião':'Acordo fechado'}: ${AIRLINES[d.al]} ⇄ ${CITY[d.ap]}${first!=null?' · 1º voo '+(dayOf(first)>dayOf(now)?dateLbl(first)+' ':'')+fmt(first):''}`);
   writeKey(AUTO_KEY,false);dirty=true;drawDeals();
@@ -2704,6 +2724,7 @@ $('deals').addEventListener('click',e=>{if(e.target.id==='deals')return openDeal
   {const lb=e.target.closest('[data-loan]');if(lb){const k='ln'+lb.dataset.loan;if(dealAsk!==k){dealAsk=k;drawDeals();setTimeout(()=>{if(dealAsk===k){dealAsk=null;if(dealsOn)drawDeals()}},4000);return}dealAsk=null;takeLoan(+lb.dataset.loan);return}}
   {const lp=e.target.closest('[data-lpay]');if(lp){const i=+lp.dataset.lpay,k='lp'+i;if(dealAsk!==k){dealAsk=k;drawDeals();setTimeout(()=>{if(dealAsk===k){dealAsk=null;if(dealsOn)drawDeals()}},4000);return}dealAsk=null;
     const l=camp.loans[i],v=Math.round(l.par*l.left*.96);if(camp.money<v)return;camp.money-=v;score.loan=(score.loan||0)+v;camp.loans.splice(i,1);toast('Empréstimo quitado');drawDeals();return}}
+  {const cx=e.target.closest('[data-cx]');if(cx){const k='cx'+cx.dataset.cx;if(dealAsk!==k){dealAsk=k;drawDeals();setTimeout(()=>{if(dealAsk===k){dealAsk=null;if(dealsOn)drawDeals()}},4000);return}dealAsk=null;cancelDeal(cx.dataset.cx);return}}
   const b=e.target.closest('[data-buy]');if(!b)return;
   let k=b.dataset.buy;if(dealAsk!==k){dealAsk=k;drawDeals();setTimeout(()=>{if(dealAsk===k){dealAsk=null;if(dealsOn)drawDeals()}},4000);return}dealAsk=null;buyDeal(k.replace('+',''))});
 function openFlt(on){const pg=$('fltPg');pg.classList.toggle('open',on);document.body.classList.toggle('fltOpen',on)}
