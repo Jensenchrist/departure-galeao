@@ -876,6 +876,20 @@ body.land #mxTab{bottom:16px;left:0}body.land #aqp{left:0}
 body.spec #ovMore{opacity:.35}
 #fmC{display:block;width:100%;height:44px;flex:0 0 44px;background:#050505;border-bottom:1px solid #1a1a1a}
 .sign .cls{display:none!important}
+#ovFin{position:relative}#ovFin svg{width:42%;height:42%;fill:var(--y);margin-top:-8px}
+#ovFin .finb{position:absolute;left:22%;right:22%;bottom:22%;height:6px;border-radius:4px;background:#121314;box-shadow:inset 0 1px 2px rgba(0,0,0,.8);overflow:hidden}
+#ovFin .finb::after{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(255,255,255,.25)}
+#ovFin .finb b{position:absolute;top:0;bottom:0;border-radius:4px;transition:left .5s,width .5s;background-size:200% 100%;animation:finRun 1.4s linear infinite}
+#ovFin .finb.mid b{background-image:linear-gradient(90deg,#ff9f1a,#ffd37a,#ff9f1a)}
+#ovFin .finb.pos b{background-image:linear-gradient(90deg,#2fd06b,#9dffbf,#2fd06b)}
+#ovFin .finb.neg b{background-image:linear-gradient(90deg,#ff4b3e,#ff9d94,#ff4b3e)}
+@keyframes finRun{from{background-position:200% 0}to{background-position:0 0}}
+.adm{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06)}.adm:last-of-type{border-bottom:0}
+.adm-h{display:flex;justify-content:space-between;align-items:center;font-size:15px}.adm-h em{font-style:normal;font-weight:900;font-family:ui-monospace,monospace}
+.adm input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:10px;margin:10px 0 6px;border-radius:6px;background:linear-gradient(90deg,#ff4b3e,#ff9f1a 50%,#2fd06b);outline:none}
+.adm input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--y);border:3px solid #1b1b1b;box-shadow:0 2px 8px rgba(0,0,0,.6)}
+.adm input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--y);border:3px solid #1b1b1b}
+.adm-f{display:flex;justify-content:space-between;gap:10px;align-items:baseline}.adm-f small{color:#aaa;font-size:12px;line-height:1.3;flex:1;min-width:0}.adm-f b{color:var(--r);font-size:13px;white-space:nowrap;flex:none}
 /* LITE */
 .lt.w,.lt.reil{animation:none!important;opacity:.7}
 .lt.e{animation:none!important}#glow{display:none}
@@ -901,7 +915,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795572692';
+var APPV='1795600986';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -930,7 +944,7 @@ chk();document.addEventListener('visibilitychange',function(){if(!document.hidde
     <div class="pop" id="pop" hidden><span class="pop-t"></span><div><button data-pm="svc" aria-label="Serviços"><span class="ico"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span><small>Serviços</small></button><button data-pm="data" aria-label="Dados do voo"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></span><small>Voo</small></button></div></div>
     <div id="deals" hidden><div class="yd-box"><div class="yd-h"><button id="dlBk" aria-label="Voltar">‹</button><b>Negócios</b><span id="dlMoney"></span><button id="dlX" aria-label="Fechar">×</button></div><div class="dl-tabs"><button data-dt="deals" class="on">Acordos</button><button data-dt="gest">Gestão</button><button data-dt="fin">Finanças</button><button data-dt="loan">Crédito</button></div><small class="dl-sub" id="dlSub">Traga novas rotas para o Galeão. Do mais barato ao mais caro.</small><div id="dlList"></div></div></div><div id="mxp" hidden><div class="yd-box"><div class="yd-h"><button id="mxBk" aria-label="Voltar">‹</button><b>Manutenção</b><span id="mxMoney"></span><button id="mxX" aria-label="Fechar">×</button></div><small class="dl-sub" id="mxSub">Escolha a companhia para ver as aeronaves.</small><div id="mxList"></div></div></div><div id="wxp" hidden><div class="yd-box"><div class="yd-h"><b>Tempo · Galeão</b><span id="wxD"></span><button id="wxX" aria-label="Fechar">×</button></div><div id="wxB"></div></div></div><div id="yard" hidden><div class="yd-box"><div class="yd-h"><b>Pátio</b><span id="ydSum"></span><button id="ydX" aria-label="Fechar">×</button></div><div class="yd-crew" id="ydCrew"></div><div class="yd-g" id="ydG"></div><small class="yd-lg"><i class="ok"></i>pronto <i class="run"></i>em serviço <i class="idle"></i>parado <i class="bad"></i>provisória <i class="in"></i>chegando</small></div></div><div id="autoBan">PILOTO AUTOMÁTICO · toque para desligar</div><div id="hud"><div class="mclock" id="mclock"><b id="mcT">11:52<i>:00</i></b><small id="mcS">10×</small></div><div id="windBox"></div></div><button id="mxTab" aria-label="Manutenção"><span class="ico"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span><i id="mxDot"></i></button><div id="specBar"><span id="specT">ESPECTADOR</span><button id="specX">Voltar ao meu aeroporto</button></div><div id="aqp"><div class="aq-in"><div class="aq-hd">PRÓXIMOS</div><div id="aqL"></div></div><button class="aq-tab" id="aqTab" aria-label="Próximos voos"><span>PRÓXIMOS</span><i>›</i></button></div><div id="cbar"><canvas id="cbC" aria-label="Relógio"></canvas></div><div id="ovh"><div class="ov-tray">
       <button class="ov-b" id="ovAuto" aria-label="Piloto automático"><svg viewBox="0 0 24 24"></svg></button>
-      <button class="ov-b" id="ovSnd" aria-label="Som"><svg viewBox="0 0 24 24"></svg></button>
+      <button class="ov-b" id="ovFin" aria-label="Finanças"><svg viewBox="0 0 24 24"><path d="M4 19h16v2H4zM5 10h3v7H5zm5.5-4h3v11h-3zM16 13h3v4h-3z"/></svg><i class="finb"><b></b></i></button>
       <button class="ov-b" id="ovPause" aria-label="Pausar"><svg viewBox="0 0 24 24"></svg></button><button class="ov-b" id="ovDeal" aria-label="Negócios"><svg viewBox="0 0 24 24"><path d="M10 4h4a2 2 0 0 1 2 2v1h3a2 2 0 0 1 2 2v3H3V9a2 2 0 0 1 2-2h3V6a2 2 0 0 1 2-2zm0 3h4V6h-4zM3 13.5h7V15h4v-1.5h7V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></button><button class="ov-b" id="ovMore" aria-label="Opções"><svg viewBox="0 0 24 24"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg></button></div><div id="ovOpt" hidden></div></div>
     <div id="fltPg"><div class="fp-top"><button id="fpBack" aria-label="Voltar ao mapa">‹</button><div class="fp-route"><span class="fp-c">GIG</span><small>RIO DE JANEIRO · GALEÃO</small></div><span class="fp-clock" id="fpClock">--:--</span></div><div class="fp-sheet"><i class="fp-grab"></i><h3 id="fpCount">Voos ativos</h3><div id="fltList"></div></div></div>
     <button id="fltTab" hidden><span>✈</span><b id="fltN">0</b><i>‹</i></button>
@@ -1365,6 +1379,42 @@ function chargeFine(f){const e=ECO();if(!e||!f.extLate||f.extLate<=15||f.fined)r
   if(e.policy&&camp.forgive){addSat(f.al,.6);score.forg=(score.forg||0)+v;return}
   camp.money+=v;score.fine=(score.fine||0)+v;if(e.fineSat)addSat(f.al,-e.fineSat);
   if(f.extLate>60)toast(`${f.arrNo} chegou fora do slot (+${Math.round(f.extLate)} min) · multa ${money(v)}`)}
+/* ---------- administração: orçamento por setor (−100 a +100) ---------- */
+var ADM=[
+ {k:'en',n:'Energia',w:.20,lo:'Corte: apagões à noite e pátio lento no escuro',hi:'Investimento: pátio mais rápido à noite'},
+ {k:'lp',n:'Limpeza',w:.15,lo:'Corte: limpeza demora e companhias reclamam',hi:'Investimento: limpeza rápida e companhias satisfeitas'},
+ {k:'pt',n:'Pátio e veículos',w:.18,lo:'Corte: combustível e catering mais lentos',hi:'Investimento: combustível e catering mais rápidos'},
+ {k:'sg',n:'Segurança e polícia',w:.17,lo:'Corte: risco de incidente, voo segurado e multa',hi:'Investimento: companhias se sentem seguras'},
+ {k:'al',n:'Alfândega e imigração',w:.10,lo:'Frouxa: desembarque rápido, mas a Receita pode multar',hi:'Rigorosa: internacionais demoram, mas rende apreensões'},
+ {k:'mp',n:'Manutenção predial',w:.20,lo:'Corte: fingers e equipamentos dão pane',hi:'Investimento: menos imprevistos, companhias satisfeitas'}];
+var ADM_FIX=1500,ADM_VAR=.8,TERC=.18;
+var bud=k=>((camp.bud||{})[k]||0)/100,admMul=k=>1+bud(k)*.6;
+function admBase(){const t=(camp.deals||[]).join()+'|'+STANDS.length+'|'+HOME();if(admBase.c!=null&&admBase.t===t)return admBase.c;
+  const own=camp.deals||[...new Set(ALL_LINES.filter(l=>l.kp).map(l=>l.k))],by={};dealList().forEach(d=>by[d.k]=d);
+  let v=0;for(const k of own){const d=by[k.split('#')[0]];if(d)v+=d.rev/7}
+  admBase.t=t;admBase.c=STANDS.length*ADM_FIX+v*ADM_VAR;return admBase.c}
+var admCost=s=>admBase()*s.w*admMul(s.k),admTotal=()=>ADM.reduce((a,s)=>a+admCost(s),0);
+function admStep(dm){if(!ECO()||dm<=0)return;const c=admTotal()*dm/1440;camp.money-=c;score.adm=(score.adm||0)+c;
+  const h=Math.floor(now/60);if(camp.admH!==h){if(camp.admH!=null)admEvent();camp.admH=h}}
+function svMul(f,i){if(!ECO())return 1;let m=1;const c=CREW[i],t=tod(now);
+  if(c==='clean')m*=1-bud('lp')*.3;else if(c)m*=1-bud('pt')*.3;
+  if(t>=1140||t<360)m*=1-bud('en')*.25;
+  if(i<=1&&!DOMAP.has(f.ap))m*=1+bud('al')*.25;return m}
+function admEvent(){
+  const pk=flights.filter(f=>f.state==="parked"&&f.svs),night=tod(now)>=1140||tod(now)<360,rnd=()=>pk.length?pk[Math.floor(Math.random()*pk.length)]:null,T=m=>{if(!FAST)toast(m)};
+  const delay=(f,m)=>{if(!f)return;const v=f.svs.find(v=>v.s!=null&&now<v.s+v.d)||f.svs.find(v=>v.s==null&&!v.skip);if(v)v.d+=m};
+  const pay=c=>{camp.money-=c;score.pen=(score.pen||0)+c};
+  const e=bud('en'),g=bud('sg'),a=bud('al'),p=bud('mp');
+  if(night&&e<-.25&&Math.random()<(-e-.25)*.3){pk.forEach(f=>delay(f,5));pay(Math.round(admBase()*.02));T('⚡ Apagão no pátio · serviços parados por alguns minutos')}
+  if(g<-.25&&Math.random()<(-g-.25)*.14){const f=rnd();if(f){delay(f,12);const c=f.cls*6000;pay(c);addSat(f.al,-2);T(`🛡 Incidente de segurança no ${f.depNo} · multa ${money(c)}`)}}
+  if(p<-.25&&Math.random()<(-p-.25)*.16){const f=rnd();if(f){delay(f,8);const c=12000+Math.round(Math.random()*15000);pay(c);T(`🔧 Pane no finger do ${f.depNo} · reparo ${money(c)}`)}}
+  if(a<-.25&&Math.random()<(-a-.25)*.08){const c=30000+Math.round(Math.random()*50000);pay(c);T(`🛂 Receita Federal multou a alfândega frouxa · ${money(c)}`)}
+  if(a>.25&&Math.random()<(a-.25)*.08){const c=15000+Math.round(Math.random()*30000);camp.money+=c;score.apr=(score.apr||0)+c;T(`🛂 Apreensão na alfândega · bônus ${money(c)}`)}}
+function admDay(){if(!ECO())return;const d=bud('lp')*3+bud('sg')*3+bud('mp')*2+bud('en');if(Math.abs(d)<.01)return;
+  [...new Set((camp.deals||[]).map(k=>k.slice(0,2)))].forEach(al=>addSat(al,d))}
+function finRatio(){const e=ECO();if(!e)return 0;const c=crewCap(),fr=tod(now)/1440,
+  rec=(score.rev||0)+(score.fine||0)+(score.mxr||0)+(score.apr||0),dsp=(c.fuel+c.cat+c.clean)*e.wage*fr+(score.pen||0)+(score.mxc||0)+(score.adm||0)+(score.terc||0);
+  return clamp((rec-dsp)/Math.max(rec,dsp,1),-1,1)}
 function payWages(){const e=ECO();if(!e)return 0;const c=crewCap(),n=c.fuel+c.cat+c.clean,v=n*e.wage;camp.money-=v;return v}
 // renovação semanal: companhia insatisfeita vai embora
 function renewals(){const e=ECO();if(!e||!camp.deals)return;camp.dealT=camp.dealT||{};const gone=[];
@@ -1392,7 +1442,7 @@ function initSvc(f){
   if(f.fuelArr==null)f.fuelArr=clamp((nz(f.fuelPlan,D().fuel+10))-(f.holdMin||0),5,capF(f));
   const lack=Math.max(0,needF(f)-f.fuelArr);
   const rm=f.stand&&STANDS[f.stand-1].remote?1.35:1;
-  f.svs=SVF.map((k,i)=>({s:null,d:(i===4?Math.max(3,lack/capF(f)*FULLT[f.cls-1]):k*f.ground)*rm,q:!!D().auto}));
+  f.svs=SVF.map((k,i)=>({s:null,d:(i===4?Math.max(3,lack/capF(f)*FULLT[f.cls-1]):k*f.ground)*rm*svMul(f,i),q:!!D().auto}));
   if(lack<=0){const v=f.svs[4];v.s=now;v.d=.01;v.skip=true}
 }
 var svDone=(f,i)=>f.svs&&f.svs[i].s!=null&&now>=f.svs[i].s+f.svs[i].d;
@@ -1512,7 +1562,7 @@ function step(){
     if(f.state==="takeoff"&&now>=f.path.end){
       f.state="gone";f.tOff=now;f.path=null;score.departed++;linkNext(f);const late=Math.max(0,Math.round(nz(f.tPush,now)-Math.max(f.depSched,nz(f.tPark,0)+f.ground)));
       if(late<=15){score.onTime++;camp.rep=clamp(camp.rep+1,0,100);addSat(f.al,1)}else{score.lateMin+=late;camp.rep=clamp(camp.rep-(late>40?2:1),0,100);addSat(f.al,late>40?-3:-2)}
-      {const rv=Math.round(fareOf(f.cls,DOMAP.has(f.ap))*revMul(f.al))-Math.max(0,late-15)*40;camp.money+=rv;score.rev=(score.rev||0)+rv}
+      {let rv=Math.round(fareOf(f.cls,DOMAP.has(f.ap))*revMul(f.al))-Math.max(0,late-15)*40;if(camp.auto&&ECO()&&rv>0){const fe=Math.round(rv*TERC);camp.money-=fe;score.terc=(score.terc||0)+fe}camp.money+=rv;score.rev=(score.rev||0)+rv}
       if(RECOV()&&(f.extLate||0)>15){const real=Math.max(0,Math.round(nz(f.tPush,now)-f.depSched)),got=Math.round(Math.max(f.extLate,nz(f.tPark,f.sched)-f.sched)-real);
         if(real<=15||got>=Math.max(4,f.ground*.12)){const bonus=Math.min(f.cls*3000,Math.max(f.cls*800,f.cls*120*got));camp.money+=bonus;score.rev=(score.rev||0)+bonus;score.recN=(score.recN||0)+1;score.recMin=(score.recMin||0)+Math.max(0,got);
           if(ECO()){camp.sat=camp.sat||{};camp.sat[f.al]=clamp(satOf(f.al)+(RECOV()===2?4:3),0,100)}
@@ -2381,10 +2431,11 @@ $('specX').addEventListener('click',e=>{e.stopPropagation();specExit()});
 document.addEventListener('click',e=>{if(!SPEC)return;if(e.target.closest('#specBar,#edApt,#edAptP,#ovSnd,#aqp,#zreset,#windBox,#cbar'))return;e.stopPropagation();e.preventDefault()},true);
 {const a=$('aqp');try{if(localStorage.getItem('departure_aq')==='0')a.classList.add('shut')}catch(e){}
  a.addEventListener('click',()=>{const sh=a.classList.toggle('shut');try{localStorage.setItem('departure_aq',sh?'0':'1')}catch(e){}})}
-$('ovAuto').addEventListener('click',()=>{audioInit();chime();setAuto(!camp.auto)});$('ovSnd').addEventListener('click',()=>{audioInit();const on=!soundOn;setSound(on);if(on)setTimeout(chime,60)});$('ovPause').addEventListener('click',()=>{audioInit();chime();togglePause()});
-var ovLast='';function ovSync(){const k=(camp.auto?1:0)+'|'+(soundOn?1:0)+'|'+(speed?1:0);if(k===ovLast)return;ovLast=k;
+$('ovAuto').addEventListener('click',()=>{audioInit();chime();setAuto(!camp.auto)});$('ovFin').addEventListener('click',e=>{e.stopPropagation();audioInit();chime();if(dealsOn&&dealTab==='fin')return openDeals(false);openDeals(true);const tb=document.querySelector('.dl-tabs [data-dt="fin"]');if(tb)tb.click()});$('ovPause').addEventListener('click',()=>{audioInit();chime();togglePause()});
+var ovLast='';function ovSync(){{const t=Date.now();if(t-(ovSync.ft||0)>500){ovSync.ft=t;const b=document.querySelector('#ovFin .finb');if(b){const r=ECO()&&started?finRatio():0,f=b.firstChild;
+    f.style.left=(r<0?50+r*50:50)+'%';f.style.width=Math.max(4,Math.abs(r)*50)+'%';b.className='finb '+(r<-.1?'neg':r>.1?'pos':'mid');if(Math.abs(r)<.04){f.style.left='46%';f.style.width='8%'}}}}const k=(camp.auto?1:0)+'|'+(soundOn?1:0)+'|'+(speed?1:0);if(k===ovLast)return;ovLast=k;
   const st=(id,on,ico)=>{const b=$(id);b.classList.toggle('on',on);b.firstChild.innerHTML=ico};
-  st('ovAuto',!!camp.auto,ICONS.auto);st('ovSnd',!soundOn,soundOn?ICONS.vol:'<path d="M3 9v6h4l5 5V4L7 9H3zm13.6 3 2.7-2.7-1.2-1.2-2.7 2.7-2.7-2.7-1.2 1.2 2.7 2.7-2.7 2.7 1.2 1.2 2.7-2.7 2.7 2.7 1.2-1.2z"/>');
+  st('ovAuto',!!camp.auto,ICONS.auto);
   st('ovPause',!speed,speed?ICONS.pause:ICONS.playI)}$('cbar').addEventListener('click',togglePause);
 
 /* ---------- mapa fixo na tela: pinça para aproximar, arrastar só com zoom ---------- */
@@ -2642,18 +2693,29 @@ function drawGest(){
         return `<div class="gs-al"><span>${flag(al)} <b>${AIRLINES[al]}</b><small>${ks.length} rota${ks.length>1?'s':''} · renova em ${nx} dia${nx>1?'s':''} · taxa ×${revMul(al).toFixed(2)}</small></span><em style="color:${col}">${v}</em><i><b style="width:${v}%;background:${col}"></b></i></div>`}).join(''):'<small class="gs-s">Nenhuma companhia operando ainda.</small>'}
       <small class="gs-s">Sobe com partida no horário e multa perdoada. Cai com atraso seu, desvio e vaga provisória.</small></div>`;
 }
+var admCol=v=>v<=-40?'var(--r)':v<0?'#ff9f1a':v>0?'var(--gr)':'#ccc';
+function admRow(s){const v=(camp.bud||{})[s.k]||0;
+  return `<div class="adm"><div class="adm-h"><b>${s.n}</b><em id="admV_${s.k}" style="color:${admCol(v)}">${v>0?'+':''}${v}</em></div>
+  <input type="range" min="-100" max="100" step="10" value="${v}" data-adm="${s.k}">
+  <div class="adm-f"><small id="admT_${s.k}">${v<0?s.lo:v>0?s.hi:'Padrão'}</small><b id="admC_${s.k}">−${money(admCost(s))}/dia</b></div></div>`}
+function admInput(el){const k=el.dataset.adm,v=+el.value,s=ADM.find(x=>x.k===k);camp.bud=camp.bud||{};camp.bud[k]=v;drawFin.t=Date.now()+2500;
+  const V=$('admV_'+k);V.textContent=(v>0?'+':'')+v;V.style.color=admCol(v);$('admT_'+k).textContent=v<0?s.lo:v>0?s.hi:'Padrão';
+  $('admC_'+k).textContent='−'+money(admCost(s))+'/dia';$('admTot').textContent='−'+money(admTotal());writeKey(AUTO_KEY,false)}
 function drawFin(){
   $('dlMoney').textContent=money(camp.money);
   const e=ECO(),c=crewCap(),wageT=e?(c.fuel+c.cat+c.clean)*e.wage:0;
-  const recT=(score.rev||0)+(score.fine||0)+(score.mxr||0),depT=wageT+(score.pen||0)+(score.inv||0)+(score.mxc||0)+(score.loan||0),res=recT-depT,opr=recT-wageT-(score.pen||0)-(score.mxc||0);
-  const H=(camp.hist||[]).slice(-7).map(h=>({l:dateLbl(h.d*1440).split(' ').slice(0,2).join(' '),r:h.rev+h.fine+(h.mxr||0),x:h.wage+h.pen+h.inv+(h.mxc||0)+(h.loan||0),inv:h.inv}));
+  const recT=(score.rev||0)+(score.fine||0)+(score.mxr||0)+(score.apr||0),admT=(score.adm||0)+(score.terc||0),depT=wageT+(score.pen||0)+(score.inv||0)+(score.mxc||0)+(score.loan||0)+admT,res=recT-depT,opr=recT-wageT-(score.pen||0)-(score.mxc||0)-admT;
+  const H=(camp.hist||[]).slice(-7).map(h=>({l:dateLbl(h.d*1440).split(' ').slice(0,2).join(' '),r:h.rev+h.fine+(h.mxr||0)+(h.apr||0),x:h.wage+h.pen+h.inv+(h.mxc||0)+(h.loan||0)+(h.adm||0)+(h.terc||0),inv:h.inv}));
   H.push({l:'Hoje',r:recT,x:depT,inv:score.inv||0,now:1});
   const mx=Math.max(1,...H.map(h=>Math.max(h.r,h.x)));
   const tr=H.reduce((a,h)=>a+h.r,0),tx=H.reduce((a,h)=>a+h.x,0);
   const row=(t,v,cl)=>`<div class="gs-row"><span>${t}</span><b class="${cl}">${cl==='n'?'−':cl==='p'?'+':''}${money(Math.abs(v))}</b></div>`;
-  $('dlList').innerHTML=`<div class="gs"><div class="gs-h">Hoje <span>${dateLbl(now)} · até ${fmt(now)}</span></div>
-    <div class="fin-k">Receitas</div>${row('Voos (taxas de pouso e embarque)',score.rev||0,'p')}${row('Multas de atraso recebidas',score.fine||0,'p')}${row('Manutenção (serviço às companhias)',score.mxr||0,'p')}
-    <div class="fin-k">Despesas</div>${e?row('Salários das equipes (pago à meia-noite)',wageT,'n'):''}${row('Penalidades (desvios, vaga provisória)',score.pen||0,'n')}${row('Investimentos (acordos e obras)',score.inv||0,'n')}${row('Peças de manutenção',score.mxc||0,'n')}${row('Parcelas de empréstimos',score.loan||0,'n')}
+  const admS=e?`<div class="gs"><div class="gs-h">Administração <span>orçamento por setor</span></div>${ADM.map(admRow).join('')}
+    <div class="gs-tot"><span>Custo administrativo por dia</span><b class="n" id="admTot">−${money(admTotal())}</b></div>
+    <small class="gs-s">Arraste para a esquerda para economizar (com riscos) ou para a direita para investir. O custo cresce com o número de portões e de rotas.${camp.auto?' Piloto automático ligado: a administração terceirizada fica com '+Math.round(TERC*100)+'% da receita dos voos.':''}</small></div>`:'';
+  $('dlList').innerHTML=admS+`<div class="gs"><div class="gs-h">Hoje <span>${dateLbl(now)} · até ${fmt(now)}</span></div>
+    <div class="fin-k">Receitas</div>${row('Voos (taxas de pouso e embarque)',score.rev||0,'p')}${row('Multas de atraso recebidas',score.fine||0,'p')}${row('Manutenção (serviço às companhias)',score.mxr||0,'p')}${score.apr?row('Apreensões da alfândega',score.apr,'p'):''}
+    <div class="fin-k">Despesas</div>${e?row('Salários das equipes (pago à meia-noite)',wageT,'n'):''}${row('Penalidades (desvios, vaga provisória)',score.pen||0,'n')}${row('Investimentos (acordos e obras)',score.inv||0,'n')}${row('Peças de manutenção',score.mxc||0,'n')}${row('Parcelas de empréstimos',score.loan||0,'n')}${e?row('Administração do aeroporto',score.adm||0,'n'):''}${score.terc?row('Administração terceirizada (piloto automático)',score.terc,'n'):''}
     <div class="gs-tot"><span>Resultado do dia</span><b style="color:${res>=0?'var(--gr)':'var(--r)'}">${res>=0?'+':'−'}${money(Math.abs(res))}</b></div>
     <small class="gs-s">Sem investimentos, a operação dá ${opr>=0?'+':'−'}${money(Math.abs(opr))} hoje.</small></div>
     <div class="gs"><div class="gs-h">Últimos dias <span><i class="fl-r"></i>receitas <i class="fl-x"></i>despesas</span></div>
@@ -2721,6 +2783,8 @@ function buyDeal(k){
   writeKey(AUTO_KEY,false);dirty=true;drawDeals();
 }
 $('dlX').addEventListener('click',()=>openDeals(false));
+$('deals').addEventListener('input',e=>{if(e.target.dataset&&e.target.dataset.adm)admInput(e.target)});
+$('deals').addEventListener('pointerdown',e=>{if(e.target.dataset&&e.target.dataset.adm)drawFin.t=Date.now()+4000});
 $('dlBk').addEventListener('click',()=>{if(dealsAl){dealsAl=null;dealAsk=null;drawDeals();$('dlList').scrollTop=0}else if(dealTab!=='deals'){const b=document.querySelector('.dl-tabs [data-dt="deals"]');b.click()}else openDeals(false)});
 $('deals').addEventListener('click',e=>{if(e.target.id==='deals')return openDeals(false);
   const tb=e.target.closest('[data-dt]');if(tb){dealTab=tb.dataset.dt;dealsAl=null;document.querySelectorAll('.dl-tabs button').forEach(x=>x.classList.toggle('on',x===tb));$('dlSub').textContent=dealTab==='gest'?'Custos, equipes e a relação com as companhias.':dealTab==='fin'?'Receitas x despesas do aeroporto.':dealTab==='loan'?'Dinheiro agora, pago em parcelas diárias.':'Traga novas rotas para '+(HOME()==='GIG'?'o Galeão':'Guarulhos')+'. Do mais barato ao mais caro.';drawDeals();$('dlList').scrollTop=0;return}
@@ -2816,7 +2880,7 @@ function tick(t){
   if(catchLeft>0)catchUp();
   if(started&&flights)rwActStep();
   if(yardOn&&Date.now()-(drawYard.touch||0)>700&&(dirty||Date.now()-(drawYard.t||0)>400)){drawYard.t=Date.now();drawYard()}if(wxOn&&dirty&&Date.now()-(drawWx.t||0)>1500){drawWx.t=Date.now();drawWx()}if(dealsOn&&dirty&&!dealAsk){$('dlMoney').textContent=money(camp.money);if(dealTab==='fin'&&Date.now()-(drawFin.t||0)>1000){drawFin.t=Date.now();const st=$('dlList').scrollTop;drawFin();$('dlList').scrollTop=st}}
-  if(started&&!dayOver)now+=dt*speed/60;
+  if(started&&!dayOver){const dm=dt*speed/60;now+=dm;admStep(dm)}
   if(!dayOver&&started&&dayOf(now)>camp.cur){if(camp.auto)autoDay();else endDay()}
   if(camp.auto&&started&&!dayOver)autoStep();
   if(mxOn&&Date.now()-(drawMx.t||0)>700){drawMx.t=Date.now();drawMx()}
@@ -2977,12 +3041,13 @@ function endDay(){
     <div class="day-row"><span>Multas de atraso das companhias</span><b style="color:var(--gr)">+${money(score.fine||0)}</b></div>
     ${score.forg?`<div class="day-row"><span>Multas perdoadas</span><b>${money(score.forg)}</b></div>`:''}
     <div class="day-row"><span>Salários das equipes (${(()=>{const c=crewCap();return c.fuel+c.cat+c.clean})()})</span><b style="color:var(--r)">−${money((()=>{const c=crewCap();return (c.fuel+c.cat+c.clean)*ECO().wage})())}</b></div>`:''}
+    ${ECO()?`<div class="day-row"><span>Administração do aeroporto</span><b style="color:var(--r)">−${money(score.adm||0)}</b></div>${score.terc?`<div class="day-row"><span>Administração terceirizada (piloto automático)</span><b style="color:var(--r)">−${money(score.terc)}</b></div>`:''}`:''}
     <div class="day-row"><span>Reputação · caixa</span><b>${camp.rep} · ${money(camp.money)}</b></div>
     <button class="day-go" id="nextDay">Continuar · ${dateLbl((camp.cur+1)*1440)}</button>`;
   $('dayDlg').hidden=false;
 }
-function rollDay(){score.wage=payWages();score.loan=(score.loan||0)+payLoans();camp.lastDay={rev:score.rev||0,fine:score.fine||0,forg:score.forg||0,wage:score.wage||0,lost:score.lost||null};
-  camp.hist=(camp.hist||[]).concat([{d:camp.cur,rev:score.rev||0,fine:score.fine||0,wage:score.wage||0,pen:score.pen||0,inv:score.inv||0,mxr:score.mxr||0,mxc:score.mxc||0,loan:score.loan||0}]).slice(-14);camp.day++;camp.cur=dayOf(now);renewals();genUpTo(camp.cur+1);pruneWorld();score={landed:0,departed:0,onTime:0,lateMin:0,diverted:0,emerg:0};dayOver=false;rowsTab=null}
+function rollDay(){admDay();score.wage=payWages();score.loan=(score.loan||0)+payLoans();camp.lastDay={rev:score.rev||0,fine:score.fine||0,forg:score.forg||0,wage:score.wage||0,lost:score.lost||null};
+  camp.hist=(camp.hist||[]).concat([{d:camp.cur,rev:score.rev||0,fine:score.fine||0,wage:score.wage||0,pen:score.pen||0,inv:score.inv||0,mxr:score.mxr||0,mxc:score.mxc||0,loan:score.loan||0,adm:Math.round(score.adm||0),terc:score.terc||0,apr:score.apr||0}]).slice(-14);camp.day++;camp.cur=dayOf(now);renewals();genUpTo(camp.cur+1);pruneWorld();score={landed:0,departed:0,onTime:0,lateMin:0,diverted:0,emerg:0};dayOver=false;rowsTab=null}
 $('dayDlg').addEventListener('click',e=>{if(!e.target.closest('#nextDay'))return;
   rollDay();$('dayDlg').hidden=true;writeKey(AUTO_KEY,false);toast(`${dateLbl(now)} · madrugada em ${APN().n}`);dirty=true});
 /* ---------- piloto automático ---------- */
@@ -3049,7 +3114,7 @@ function buyApt(code){if(SPEC){toast('Saia do modo espectador para comprar');ret
   toast(`Administração de ${a.n} comprada!`);switchApt(code)}
 function catchUp(){
   const t0=performance.now();FAST=true;
-  while(catchLeft>0&&performance.now()-t0<40){const d=Math.min(.25,catchLeft);now+=d;catchLeft-=d;
+  while(catchLeft>0&&performance.now()-t0<40){const d=Math.min(.25,catchLeft);now+=d;catchLeft-=d;admStep(d);
     if(dayOf(now)>camp.cur)autoDay();step();autoStep()}
   FAST=false;
   if(catchLeft<=0){catchLeft=0;planeEls.forEach(e=>e.remove());planeEls.clear();loop('tempestade',!!stormNow()&&pk('chuva')!=='off',1);toast(catchMsg||`Piloto automático em dia · ${dateLbl(now)} ${fmt(now)}`);catchMsg=null}
