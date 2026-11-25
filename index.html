@@ -890,7 +890,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795566001';
+var APPV='1795566557';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1009,16 +1009,16 @@ var TH={"10":60,"28":1590};
 // layouts: 1 = Galeão original (1 pista), 2 = expansão (2 pistas, Terminal 1 e 2)
 var CN2=[224,584,1197,1595,1920];
 var LAYS={
- 1:{id:1,W:966,H:1628,ps:1.5,cover:1,endOnly:1,hg:[562,714,863],hgx:88,G:[{id:'A',rx:243,twy:357,lane:420,sg:1,conn:[307,1460],entry:[307,848,1460],th:{"10":200,"28":1428},nm:{"10":"10","28":"28"},lt:[198,10,10],reil:[186,300],lbx:120,ap:{"10":[6,18],"28":[1600,1612]},edge:[195,290]}],
+ 1:{id:1,W:966,H:1628,ps:1.35,cover:1,endOnly:1,hg:[562,714,863],hgx:88,G:[{id:'A',rx:243,twy:357,lane:420,sg:1,conn:[307,1460],entry:[307,848,1460],th:{"10":200,"28":1428},nm:{"10":"10","28":"28"},lt:[198,10,10],reil:[186,300],lbx:120,ap:{"10":[6,18],"28":[1600,1612]},edge:[195,290]}],
    labels:[],
    mk:()=>[[214,255,7,6],[322,358,6],[428,460,6],[529,564,6],[684,725,3],[789,822,3],[1012,1049,5],[1113,1140,5],[1208,1239,6],[1301,1334,7,6]].map(([y,by,m,mn],i)=>({n:i+1,x:i===4||i===5?542:578,y,max:m,min:mn||1,bd:0,g:'A',sx:672,sy:by})).concat([{n:11,x:520,y:147,max:4,remote:1,lab:'R1',bd:0,g:'A',sx:603,sy:96},{n:12,x:546,y:1463,max:4,remote:1,lab:'R2',bd:0,g:'A',sx:603,sy:1518}])},
- 2:{id:2,W:941,H:1672,ps:1.6,G:[
+ 2:{id:2,W:941,H:1672,ps:1.44,G:[
    {id:'A',rx:84,twy:355,lane:397,sg:1,conn:[255,256,1399,1400],entry:null,th:{"10":168,"28":1489},nm:{"10":"10L","28":"28R"},lt:[58,6.5,9],reil:[50,118],lbx:30,ap:{"10":[100,117,134,151],"28":[1505,1520,1535,1550,1565]},edge:[57,111]},
    {id:'B',rx:266,twy:355,lane:397,sg:1,conn:[240,480,838,1248,1500],entry:null,th:{"10":93,"28":1489},nm:{"10":"10R","28":"28L"},lt:[234,8,9],reil:[226,306],lbx:325,ap:{"10":[25,42,59,76],"28":[1505,1520,1535,1550,1565]},edge:[233,299]}],
    labels:[],
    mk:()=>[{n:1,x:536,y:312,max:5},{n:2,x:535,y:422,max:5},{n:3,x:536,y:530,max:5},{n:4,x:534,y:635,max:6},{n:5,x:500,y:730,max:7},{n:6,x:504,y:862,max:7},{n:7,x:546,y:960,max:6},{n:8,x:567,y:1065,max:5},{n:9,x:567,y:1175,max:5},{n:10,x:565,y:1285,max:5},
      {n:11,x:430,y:1360,max:4,remote:1,lab:'R1'},{n:12,x:565,y:1360,max:5,remote:1,lab:'R2'}].map(s=>Object.assign(s,{bd:s.remote?0:s.n<=6?-1:1,g:s.remote||s.n>=6?'A':'B',sx:s.remote?(s.n===11?395:610):640,sy:s.remote?s.y+50:s.y}))},
- 3:{id:3,W:941,H:1672,ps:1.25,G:[
+ 3:{id:3,W:941,H:1672,ps:1.12,G:[
    {id:'A',rx:102,twy:150,lane:198,sg:1,conn:[120,330,455,760,971,1186,1420],entry:[330,455,760,971,1186],th:{"10":75,"28":1455},nm:{"10":"14L","28":"32R"},lt:[67,9,9],reil:[57,149],lbx:34,ap:{"10":[12,26,40,54],"28":[1480,1496,1512,1528,1544]},edge:[66,139]},
    {id:'B',rx:839,twy:791,lane:743,sg:-1,conn:[120,330,455,760,971,1186,1420],entry:[330,455,760,971,1186],th:{"10":75,"28":1455},nm:{"10":"14R","28":"32L"},lt:[803,9,9],reil:[792,884],lbx:907,ap:{"10":[12,26,40,54],"28":[1480,1496,1512,1528,1544]},edge:[802,875]}],
    labels:[],
@@ -1834,7 +1834,8 @@ function clack(){
   src.connect(bp).connect(g).connect(BUS.flap);src.start();
 }
 document.addEventListener('pointerdown',audioInit);
-document.addEventListener('click',e=>{if(e.target.closest('button')&&!e.target.closest('.ov-b')&&pk('clique')!=='off')play(pk('clique'),{vol:.5})},true);
+document.addEventListener('click',e=>{if(e.target.closest('button')&&!e.target.closest('.ov-b')&&pk('clique')!=='off'){loadSnd(pk('clique'));play(pk('clique'),{vol:.5})}},true);
+var lastAF=null;
 /* ---------- aviso de apertar os cintos (sintetizado: sino suave de cabine) ---------- */
 function chime(){if(!soundOn||!AC||AC.state!=="running"||pk('cabine')==='off')return;if(pk('cabine')!=='cinto'){loadSnd(pk('cabine'));play(pk('cabine'),{vol:.8});return}
   const t=AC.currentTime,out=AC.createGain(),lp=AC.createBiquadFilter();lp.type='lowpass';lp.frequency.value=5200;out.gain.value=.55*nz(SVOL.cabine,100)/100;lp.connect(out).connect(BUS.ui);
@@ -1851,7 +1852,7 @@ function musicSync(){const a=MUS.el;if(!a)return;const on=soundOn&&MIX.music>0;i
 var SFX={pouso_2:'engine',pouso_3:'engine',frenagem_2:'brake',frenagem_3:'brake',decolagem_2:'engine',decolagem_3:'engine',decolagem_4:'engine',ding_2:'ui',clique_2:'ui',terminal_2:'amb',
   pouso:'engine',frenagem:'brake',decolagem:'engine',patio_turbina:'engine',turbina_desliga:'engine',motor_partida:'engine',passagem:'engine',
   ambiente_patio:'amb',terminal:'amb',tempestade:'amb',trovao_longe:'amb',bagagem:'amb',combustivel:'amb',
-  pneu:'brake',pneu_real:'brake',cintos_voz:'ui',ding:'ui',mayday:'ui',bipe:'ui',clique:'ui',plaquinha:'flap'};
+  pneu:'brake',pneu_real:'brake',menu_bing:'ui',portao_chime:'ui',cintos_voz:'ui',ding:'ui',mayday:'ui',bipe:'ui',clique:'ui',plaquinha:'flap'};
 var SB={},LOOPS={};
 function loadSnd(k){if(SB[k]||!SFX[k]||loadSnd[k])return;loadSnd[k]=1;fetch(`sons/${k}.mp3?v=${typeof APPV!=='undefined'?APPV:1}`).then(r=>r.ok?r.arrayBuffer():Promise.reject()).then(b=>new Promise((ok,no)=>{const r=AC.decodeAudioData(b,ok,no);if(r&&r.then)r.then(ok,no)})).then(buf=>{SB[k]=buf;if(k===pk('ambiente'))ambStart()}).catch(()=>{loadSnd[k]=0})}
 function loadSounds(){const need=new Set(['bipe']);SLOTS.forEach(x=>need.add(PICK[x.k]));need.forEach(loadSnd)}
@@ -1880,7 +1881,8 @@ var SLOTS=[
   {k:'ambiente',n:'Ambiente de fundo',o:[['ambiente_patio','Pátio com turbinas'],['terminal','Saguão movimentado'],['terminal_2','Saguão grande, murmúrio'],['off','Desligado']]},
   {k:'aviso',n:'Aviso (voo pronto)',o:[['ding','Ding dong'],['ding_2','Carrilhão suave'],['off','Desligado']]},
   {k:'cabine',n:'Botões da cabine',o:[['ding','Ding dong (voo pronto)'],['ding_2','Carrilhão suave'],['cinto','Sino sintetizado'],['off','Desligado']]},
-  {k:'clique',n:'Clique dos botões',o:[['clique','Clique digital'],['clique_2','Clique macio'],['off','Desligado']]},
+  {k:'portao',n:'Escolha de portão',o:[['portao_chime','Chime de cabine'],['off','Desligado']]},
+  {k:'clique',n:'Clique dos botões',o:[['menu_bing','Bing (menus)'],['clique','Clique digital'],['clique_2','Clique macio'],['off','Desligado']]},
   {k:'painel',n:'Painel de plaquinhas',o:[['plaquinha','Clique real'],['synth','Sintetizado'],['off','Desligado']]},
   {k:'mayday',n:'Sirene de MAYDAY',o:[['off','Desligado'],['bipe','Bipe curto de cabine'],['mayday','Alarme de emergência']]},
   {k:'bipe',n:'Bipe ao escolher posição',o:[['bipe','Bipe de cabine'],['off','Desligado']]},
@@ -1894,6 +1896,7 @@ var slotVol=k=>{for(const x of SLOTS)if(x.o.some(o=>o[0]===k)&&PICK[x.k]===k)ret
 var lastMay=-99,lastClk='';var PICK={};SLOTS.forEach(x=>PICK[x.k]=x.o[0][0]);
 try{const m=JSON.parse(localStorage.getItem('departure_pick')||'null');if(m)PICK={...PICK,...m};if(localStorage.getItem('departure_pick_v3')!=='1'){localStorage.setItem('departure_pick_v2','');localStorage.setItem('departure_pick_v3','1')}
   if(!localStorage.getItem('departure_pick_v2')){PICK.mayday='off';PICK.estaciona='off';localStorage.setItem('departure_pick_v2','1');localStorage.setItem('departure_pick',JSON.stringify(PICK))}}catch(e){}
+try{if(localStorage.getItem('departure_pick_v5')!=='1'){PICK.clique='menu_bing';localStorage.setItem('departure_pick_v5','1');localStorage.setItem('departure_pick',JSON.stringify(PICK))}}catch(e){}
 try{if(localStorage.getItem('departure_pick_v4')!=='1'){if(PICK.pneu==='pneu')PICK.pneu='pneu_real';localStorage.setItem('departure_pick_v4','1');localStorage.setItem('departure_pick',JSON.stringify(PICK))}}catch(e){}
 var pk=k=>PICK[k];
 function ambStart(){const a=pk('ambiente');['ambiente_patio','terminal','terminal_2'].forEach(x=>{if(x!==a)loop(x,false)});if(a!=='off')loop(a,true,.8)}
@@ -2787,6 +2790,7 @@ function tick(t){
   if(mxOn&&Date.now()-(drawMx.t||0)>700){drawMx.t=Date.now();drawMx()}
   if(started&&Date.now()-(mxWarnT||0)>1500){mxWarnT=Date.now();{const w=(camp.deals||[]).some(k=>mxMin(k)<30);$('mxTab').classList.toggle('warn',w);const t=$('edMx');if(t)t.classList.toggle('warn',w)}}
   skyTick();ovSync();
+  if(assignFor!=null&&assignFor!==lastAF&&pk('portao')!=='off'){loadSnd(pk('portao'));play(pk('portao'),{vol:.8})}lastAF=assignFor;
   flipTick(t);
   step();
   const w=activeRwy();if(w!==lastWind){if(lastWind!==-1)toast(`O vento mudou · ${rwLbl(w).toLowerCase()} em uso`);lastWind=w;drawLights();dirty=true}
