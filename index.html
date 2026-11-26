@@ -36,6 +36,7 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
 /* aviões */
 .pl{position:absolute;transform:translate(-50%,-50%);pointer-events:none;will-change:left,top}
 .pl img{display:block;width:100%;transform-origin:50% 50%}
+#brg{position:absolute;left:77.8468%;top:47.5927%;width:20.0828%;height:4.4199%;z-index:3;pointer-events:none}#brg img{position:absolute;left:0;top:0;width:100%;height:100%}#brgT,#brgN,#brgF{opacity:0}body:not(.l1x) #brg{display:block}
 .vh{position:absolute;transform-origin:50% 50%;pointer-events:none;z-index:2;will-change:left,top,transform}
 .vh img{display:block;width:100%;height:100%}
 .vh.car::before,.vh.car::after{content:"";position:absolute;bottom:92%;width:70%;height:240%;left:-20%;background:radial-gradient(ellipse at 50% 100%,rgba(255,244,205,.85),rgba(255,236,180,.25) 45%,transparent 72%);opacity:calc((var(--nt,0) - .35)*1.6);mix-blend-mode:screen}
@@ -844,9 +845,9 @@ body.cbar .zhint{top:auto;bottom:calc(var(--panh,0px) + 14px)}
 #edge #aqp{position:relative;top:auto;left:auto;transform:none!important;align-items:flex-start}
 #edge #aqp.shut .aq-in{display:none}
 #edge #aqp .aq-in{position:absolute;right:100%;bottom:0;border:2px solid var(--y);border-right:0;border-radius:12px 0 0 12px;margin-right:-2px}
-#edge #aqp .aq-tab{width:auto;height:auto;padding:10px 6px 8px 8px;border-radius:12px 0 0 12px;background:var(--k);border:2px solid var(--y);border-right:0;box-shadow:none;align-self:flex-start;gap:4px}
-#edge #aqp .aq-tab span{font-size:9px}
-#edge #aqp:not(.shut) .aq-tab{background:var(--y)}#edge #aqp:not(.shut) .aq-tab span,#edge #aqp:not(.shut) .aq-tab i{color:var(--k)}
+#edge #aqp .aq-tab{width:auto;height:auto;padding:10px 6px 8px 8px;border-radius:12px 0 0 12px;background:var(--y);border:2px solid var(--y);border-right:0;box-shadow:none;align-self:flex-start;gap:4px}
+#edge #aqp .aq-tab span,#edge #aqp .aq-tab i{font-size:9px;color:var(--k)}#edge #aqp .aq-tab i{font-size:16px}
+#edge #aqp:not(.shut) .aq-tab{background:var(--k)}#edge #aqp:not(.shut) .aq-tab span,#edge #aqp:not(.shut) .aq-tab i{color:var(--y)}
 #edge #aqp .aq-tab i{transform:none}#edge #aqp.shut .aq-tab i{transform:none}#edge #aqp:not(.shut) .aq-tab i{transform:rotate(180deg)}
 /* abas laterais cabem entre o painel de LED e o painel de botões */
 body.cbar #edge{top:calc(var(--barh,0px) + 74px);transform:scale(var(--eds,1));transform-origin:100% 0}
@@ -940,7 +941,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795728316';
+var APPV='1795730330';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -962,7 +963,7 @@ chk();document.addEventListener('visibilitychange',function(){if(!document.hidde
     <button class="zreset" id="zreset" hidden>⤢ Tirar zoom</button><div class="zhint" id="zhint">Dois dedos para aproximar · arraste para os lados</div>
     <div class="map" id="map">
       <div id="bgH"><i id="skyTh"></i><i id="skyNh"></i><i id="skyFh"></i></div><div class="sky" id="skyT"></div><div class="sky" id="skyN"></div><div class="sky" id="skyF"></div><div id="glow"></div><div id="lights"></div><div id="fixed"></div>
-      <div id="cars"></div><div id="veh"></div><div id="planes"></div>
+      <div id="cars"></div><div id="brg"><img src="brg_d.jpg" alt=""><img id="brgT" src="brg_t.jpg" alt=""><img id="brgN" src="brg_n.jpg" alt=""><img id="brgF" src="brg_f.jpg" alt=""></div><div id="veh"></div><div id="planes"></div>
     </div>
     <div id="storm"></div><video id="rainVid" src="chuva.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
     <div class="pop" id="pop" hidden><span class="pop-t"></span><div><button data-pm="svc" aria-label="Serviços"><span class="ico"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span><small>Serviços</small></button><button data-pm="data" aria-label="Dados do voo"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></span><small>Voo</small></button></div></div>
@@ -1059,7 +1060,7 @@ var TH={"10":60,"28":1590};
 // layouts: 1 = Galeão original (1 pista), 2 = expansão (2 pistas, Terminal 1 e 2)
 var CN2=[224,584,1197,1595,1920];
 var LAYS={
- 1:{id:1,W:966,H:1267,ps:1.35,cover:1,ax:40,lts:4.5,endOnly:1,hg:[0,1],hgV:[{x:412,door:52,dir:-1},{x:412,door:1230,dir:1}],G:[{lp:{edge:[[65.0,117.0],[65.0,147.5],[65.0,178.8],[65.0,238.0],[65.0,268.5],[65.0,298.0],[65.0,330.0],[65.0,351.5],[63.0,386.0],[62.5,420.5],[63.0,456.0],[62.8,491.0],[62.8,525.0],[62.8,559.5],[62.5,594.0],[62.5,630.0],[62.8,664.0],[62.8,698.5],[62.8,734.8],[62.8,769.0],[62.8,803.0],[63.0,838.5],[62.8,872.5],[62.8,908.5],[65.0,941.0],[65.0,970.5],[65.0,1001.5],[65.0,1031.0],[65.0,1061.5],[65.0,1121.0],[65.0,1152.5],[65.0,1185.5],[160.5,117.0],[160.5,147.5],[160.5,178.5],[160.5,238.0],[160.2,268.5],[160.0,298.0],[163.0,386.0],[163.0,420.5],[163.0,456.0],[163.0,491.0],[163.0,525.0],[163.0,559.5],[163.0,594.0],[163.0,630.0],[163.0,664.0],[163.0,698.5],[163.0,735.0],[163.0,769.0],[163.0,803.0],[163.0,838.5],[163.0,872.5],[160.2,970.0],[160.2,1000.5],[160.2,1030.5],[160.2,1060.5],[160.2,1120.5],[160.5,1152.0],[160.0,1185.0]],th:{"10":[209,[65,75.5,89.5,104.5,122,138,151,160.5]],"28":[1091,[65,74.5,88.5,104,122,136.5,151,160.2]]},ap:{"10":[[77.2,[87.2,100.2,113.5,126.5,139.5]],[42,[113.2]]],"28":[[1211,[91,104,117,130.2,143.2]],[1243.8,[111.5]]]}},id:'A',rx:110,twy:236,lane:412,sg:1,conn:[337,925],entry:[231,1017],th:{"10":213,"28":1084},nm:{"10":"10","28":"28"},lt:[66,12,8],reil:[55,165],lbx:28,ap:{"10":[20,40,60],"28":[1210,1230,1250]},edge:[63,159]}],
+ 1:{id:1,W:966,H:1267,ps:1.35,cover:1,ax:40,lts:4.5,endOnly:1,hg:[0,1],hgV:[{x:412,door:52,dir:-1},{x:412,door:1244,dir:1}],G:[{lp:{edge:[[65.0,117.0],[65.0,147.5],[65.0,178.8],[65.0,238.0],[65.0,268.5],[65.0,298.0],[65.0,330.0],[65.0,351.5],[63.0,386.0],[62.5,420.5],[63.0,456.0],[62.8,491.0],[62.8,525.0],[62.8,559.5],[62.5,594.0],[62.5,630.0],[62.8,664.0],[62.8,698.5],[62.8,734.8],[62.8,769.0],[62.8,803.0],[63.0,838.5],[62.8,872.5],[62.8,908.5],[65.0,941.0],[65.0,970.5],[65.0,1001.5],[65.0,1031.0],[65.0,1061.5],[65.0,1121.0],[65.0,1152.5],[65.0,1185.5],[160.5,117.0],[160.5,147.5],[160.5,178.5],[160.5,238.0],[160.2,268.5],[160.0,298.0],[163.0,386.0],[163.0,420.5],[163.0,456.0],[163.0,491.0],[163.0,525.0],[163.0,559.5],[163.0,594.0],[163.0,630.0],[163.0,664.0],[163.0,698.5],[163.0,735.0],[163.0,769.0],[163.0,803.0],[163.0,838.5],[163.0,872.5],[160.2,970.0],[160.2,1000.5],[160.2,1030.5],[160.2,1060.5],[160.2,1120.5],[160.5,1152.0],[160.0,1185.0]],th:{"10":[209,[65,75.5,89.5,104.5,122,138,151,160.5]],"28":[1091,[65,74.5,88.5,104,122,136.5,151,160.2]]},ap:{"10":[[77.2,[87.2,100.2,113.5,126.5,139.5]],[42,[113.2]]],"28":[[1211,[91,104,117,130.2,143.2]],[1243.8,[111.5]]]}},id:'A',rx:110,twy:236,lane:412,sg:1,conn:[337,925],entry:[231,1017],th:{"10":213,"28":1084},nm:{"10":"10","28":"28"},lt:[66,12,8],reil:[55,165],lbx:28,ap:{"10":[20,40,60],"28":[1210,1230,1250]},edge:[63,159]}],
    labels:[],
    // portões do terminal (bico para o leste) + remotas a oeste da faixa do pátio (bico para o oeste)
    mk:()=>[[520,152,7,6],[602,282,6],[600,385,6],[600,480,6],[554,605,3],[554,701,3],[605,813,5],[605,911,5],[605,1017,6],[525,1117,7,6]].map(([x,y,m,mn],i)=>({n:i+1,x,y,max:m,min:mn||1,bd:0,g:'A',sx:x+70,sy:i===9?y+20:y-18}))
@@ -1357,6 +1358,7 @@ function fillet(P,r){if(P.length<3)return P.slice();const out=[P[0]];
     for(let k=1;k<8;k++){const t=k/8,m=1-t;out.push([m*m*p1[0]+2*m*t*b[0]+t*t*p2[0],m*m*p1[1]+2*m*t*b[1]+t*t*p2[1]])}out.push(p2)}
   out.push(P[P.length-1]);return out}
 // pushback em curva: empurra para a faixa do pátio já virando para o lado em que vai taxiar
+function pbMark(f,s,P,n){const g=P.segs[n-1];f._pb={s:s.n,end:P.pbEnd,x:g.b[0],y:g.b[1],h:g.h}}
 function pushArc(f,s,dirY,R){const g=grpOf(s),sg=sgOf(s),hd=headOf(s),Q=[g.lane+sg*R,s.y],C=[g.lane+sg*R,s.y-dirY*R],segs=[];
   const p=parkPos(f,s);if(dist(p,Q)>1)segs.push({b:Q,d:Math.max(.4,dist(p,Q)/90),e:'io',h:hd});
   let prev=Q;const a0=Math.atan2(Q[1]-C[1],Q[0]-C[0]),a1=Math.atan2(0,-sg);let da=a1-a0;while(da>Math.PI)da-=2*Math.PI;while(da<-Math.PI)da+=2*Math.PI;
@@ -1386,16 +1388,17 @@ function taxiOutPath(f,r,s){
   const pts=g.entry?(()=>{const e=bestEntry(g,s.y,c);return [[g.lane,s.y],[g.lane,e],[g.twy,e],[g.twy,c],[g.rx+g.sg*68,c]]})():[[g.lane,s.y],[g.twy,s.y],[g.twy,c],[g.rx+g.sg*68,c]];
   const nx=pts.find(q=>Math.abs(q[1]-s.y)>2)||[0,c],dirY=Math.abs(pts[1][1]-s.y)>=40?Math.sign(pts[1][1]-s.y):Math.sign(c-s.y)||1;
   const pa=LAY.id===1&&!s.bd?pushArc(f,s,dirY,30):{segs:[{b:pts[0],d:1,e:'io',h:hd}],end:pts[0],n:1},segs=pa.segs;
+  if(LAY.id===1)segs.push({b:pa.end,d:.7,h:segs[pa.n-1].h});   // espera o trator desengatar e sair
   segsAlong(fillet([pa.end,...pts.slice(1)],40),260,segs);
-  const P=mkPath(p,segs,now,hd);P.pbEnd=P.segs[pa.n-1].t+P.segs[pa.n-1].d;return P;
+  const P=mkPath(p,segs,now,hd);P.pbEnd=P.segs[pa.n-1].t+P.segs[pa.n-1].d;pbMark(f,s,P,pa.n);return P;
 }
 function takeoffPath(f,r){
   const g=gid(f.g),RX=g.rx,down=r==="10",c=down?g.conn[0]:g.conn[g.conn.length-1];
   return mkPath([RX+g.sg*68,c],[
     {b:[RX,c],d:.5,e:'out'},
     {b:[RX,c+(down?2:-2)],d:.15,h:down?180:0},
-    {b:[RX,down?c+810:c-900],d:1,e:'in'},
-    {b:[RX,down?H+320:-320],d:.8,s:1.8,al:1}
+    {b:[RX,down?c+(LAY.id===1?520:810):c-(LAY.id===1?520:900)],d:LAY.id===1?.8:1,e:'in'},
+    {b:[RX,down?H+320:-320],d:LAY.id===1?1.1:.8,s:1.8,al:1}
   ],now,g.sg>0?270:90);
 }
 function pose(f){
@@ -1657,8 +1660,9 @@ function toHangarV(f){const s=STANDS[f.stand-1],g=grpOf(s);const fr=LAY.hgV.map(
   const i=fr[0],v=LAY.hgV[i],a=parkPos(f,s),b=hgPos(f,i),hd=headOf(s);s.res=null;f.stand=null;f.hg=i;
   // empurra até a faixa do pátio, segue a linha amarela e entra de bico no hangar
   const L=spr(f)[f.cls-1][1]*PS(),ap=[v.x,v.door-v.dir*(L+40)],pa=pushArc(f,s,v.dir<0?-1:1,30),segs=pa.segs;
+  segs.push({b:pa.end,d:.7,h:segs[pa.n-1].h});
   segsAlong(fillet([pa.end,ap],40),260,segs);
-  segs.push({b,d:Math.max(.3,dist(ap,b)/110),e:'out'});f.path=mkPath(a,segs,now,hd);f.path.pbEnd=f.path.segs[pa.n-1].t+f.path.segs[pa.n-1].d;f.state='toHg';f.svs=null;dirty=true;return true}
+  segs.push({b,d:Math.max(.3,dist(ap,b)/110),e:'out'});f.path=mkPath(a,segs,now,hd);f.path.pbEnd=f.path.segs[pa.n-1].t+f.path.segs[pa.n-1].d;pbMark(f,s,f.path,pa.n);f.state='toHg';f.svs=null;dirty=true;return true}
 function toHangar(f){if(LAY.hgV)return toHangarV(f);const s=STANDS[f.stand-1],g=grpOf(s);let i=-1;for(let k=0;k<LAY.hg.length;k++)if(!hgBusy(k)){i=k;break}if(i<0)return false;
   const a=parkPos(f,s),b=hgPos(f,i),hy=LAY.hg[i],hd=headOf(s),e=hgEntry(g,hy),ap=[LAY.hgAp||b[0]+40,hy];s.res=null;f.stand=null;f.hg=i;
   // pátio → linha amarela até a entrada da pista → anda pela pista até o hangar → entra de bico
@@ -2980,21 +2984,44 @@ function vehEl(key,spr,car){let el=vehEls.get(key);
   el._live=1;return el}
 function vehPut(el,x,y,h,o){el.style.left=(x/W*100)+'%';el.style.top=(y/H*100)+'%';el.style.transform=`translate(-50%,-50%) rotate(${h}deg)`;el.style.opacity=o;el.style.filter=`drop-shadow(-1px 1.5px 1px rgba(0,0,0,.45)) brightness(${PB})`}
 // o veículo percorre a rota (com curvas) até ficar de frente para a vaga, espera e depois volta de ré e vai embora
-function vehRun(key,spr,route,T,hf,t0,t1){
-  const len=VEH[spr][1],f0=hv(hf,len*.9,0),pre=[T[0]-f0[0],T[1]-f0[1]],k=pathK(speed)||1,tin=Math.min(Math.max(.2,(t1-t0)*.35),1.4*k),tout=1.2*k;
-  if(now<t0||now>t1+tout)return;
-  const P0=[...route,pre,T].filter((q,i,a)=>!i||dist(q,a[i-1])>1),P=fillet(P0,14);const Ls=[];let tot=0;for(let i=1;i<P.length;i++){const d=dist(P[i-1],P[i]);Ls.push(d);tot+=d}
-  const at=dd=>{let i=0;while(i<Ls.length-1&&dd>Ls[i]){dd-=Ls[i];i++}const u=Ls[i]?Math.min(1,dd/Ls[i]):1,a=P[i],b=P[i+1];return {x:lerp(a[0],b[0],u),y:lerp(a[1],b[1],u),h:i===Ls.length-1?hf:angTo(a,b)}};
-  let q,o=1;
-  if(now<t0+tin){const u=(now-t0)/tin;o=Math.min(1,u/.12);q=at(EASE.out(u)*tot)}
+// caminho feito de trechos: "fwd" (de frente) e "rev" (de ré); a direção nunca dá saltos
+function legPts(legs){const pts=[],hs=[];const add=(q,h)=>{if(pts.length&&dist(q,pts[pts.length-1])<.3){hs[hs.length-1]=h;return}pts.push(q);hs.push(h)};
+  for(const L of legs){
+    if(L.arc){let p=L.from,h=L.h0;add(p,h);const n=10,ds=L.R*Math.PI/2/n;for(let i=0;i<n;i++){const hm=L.h0+L.sd*90*(i+.5)/n,st=hv(hm,-ds,0);p=[p[0]+st[0],p[1]+st[1]];h=L.h0+L.sd*90*(i+1)/n;add(p,h)}L.end=p;L.hE=h}
+    else{const P=L.fillet?fillet(L.pts.filter((q,i,a)=>!i||dist(q,a[i-1])>.8),L.fillet):L.pts;for(let i=0;i<P.length;i++){const a=P[Math.max(0,i-1)],b=P[Math.min(P.length-1,i===0?1:i)],h=angTo(a,b)+(L.rev?180:0);add(P[i],i===0&&pts.length?hs[hs.length-1]:h)}}}
+  const Ls=[];let tot=0;for(let i=1;i<pts.length;i++){const d=dist(pts[i-1],pts[i]);Ls.push(d);tot+=d}
+  return {tot,at(dd){let i=0;while(i<Ls.length-1&&dd>Ls[i]){dd-=Ls[i];i++}const u=Ls[i]?Math.min(1,dd/Ls[i]):1,a=pts[i],b=pts[i+1]||a;let h0=hs[i],h1=hs[i+1]!=null?hs[i+1]:h0,dh=((h1-h0)%360+540)%360-180;return {x:lerp(a[0],b[0],u),y:lerp(a[1],b[1],u),h:h0+dh*u}}}}
+// arco de ré de 90°: começa na posição p com proa h0 e termina virado para o lado sd
+var revArc=(p,h0,sd,R)=>({arc:1,from:p,h0,sd,R:R||12});
+var dirOk=(h,v)=>{const d=hv(h,1,0);return d[0]*v[0]+d[1]*v[1]};
+function vehRun(key,spr,v,g,T,hf,t0,t1){
+  const len=VEH[spr][1],k=pathK(speed)||1,f0=hv(hf,len*.9,0),pre=[T[0]-f0[0],T[1]-f0[1]];
+  // saída do pátio de equipamentos: ré, giro para o leste e segue de frente pela faixa do pátio
+  const top=v.top,exY=top?100:1118,lnY=top?112:1106,inY=top?130:1090;
+  const a1=revArc([v.x,exY],v.h,top?1:-1,12);
+  const inL=legPts([{pts:[[v.x,v.y],[v.x,exY]],rev:1},a1]);const E1=a1.end;
+  const IN=legPts([{pts:[[v.x,v.y],[v.x,exY]],rev:1},a1,{pts:[E1,[E1[0]+8,E1[1]],[g.lane,E1[1]],[g.lane,pre[1]],pre,T],fillet:14}]);
+  const tin=Math.max(.3,IN.tot/320)*k;if(now<t0)return false;
+  let q;
+  if(now<t0+tin){q=IN.at(EASE.io((now-t0)/tin)*IN.tot)}
   else if(now<=t1){q={x:T[0],y:T[1],h:hf}}
-  else{const u=(now-t1)/tout;o=Math.min(1,(1-u)/.12);q=at((1-EASE.in(u))*tot);if(q.h!==hf)q.h=(q.h+180)%360;if(u>.25&&Ls.length>1){/* já saiu da vaga: segue de frente */}}
-  vehPut(vehEl(key,spr),q.x,q.y,q.h,o.toFixed(2))}
+  else{// sai de ré girando para o lado da faixa, volta de frente e estaciona na mesma vaga
+    const want=[g.lane-T[0],(top?-1:1)*.3],sd=dirOk(hf+90,want)>=dirOk(hf-90,want)?1:-1,a2=revArc(T,hf,sd,12);legPts([a2]);
+    const OUT=legPts([a2,{pts:[a2.end,(()=>{const d=hv(a2.hE!=null?a2.hE:hf+sd*90,8,0);return [a2.end[0]+d[0],a2.end[1]+d[1]]})(),[g.lane,a2.end[1]],[g.lane,inY],[v.x,inY],[v.x,v.y]],fillet:14}]);
+    const tout=Math.max(.3,OUT.tot/320)*k,u=(now-t1)/tout;if(u>=1)return 'done';q=OUT.at(EASE.io(u)*OUT.tot)}
+  vehPut(vehEl(key,spr),q.x,q.y,q.h,1);return true}
 var svW=(f,i)=>{const v=f.svs&&f.svs[i];return !v||v.s==null||v.skip?null:[v.s,v.s+v.d]};
 var svEnd=(f,i)=>{if(!f.svs)return Infinity;const v=f.svs[i];if(v.skip)return (f.tPark||now)+.3;return v.s==null?Infinity:v.s+v.d};
 var PRE=new Set(['approach','holding','inbound','arriving','parked']);
+var GSE=null,VJOB={};
+function mkFleet(){const T=[],B=[];for(let i=0;i<10;i++)T.push([252+i*9.4,70]);for(let i=0;i<15;i++)B.push([252+i*9.4,1150]);
+  const types=['combustivel','catering','esteira','trem_bagagem','escada','onibus','esteira','trem_bagagem','combustivel','catering','onibus','escada','esteira'];
+  const F=[];T.forEach((q,i)=>F.push({t:types[i%types.length],x:q[0],y:q[1],h:0,top:1}));B.forEach((q,i)=>F.push({t:types[(i+5)%types.length],x:q[0],y:q[1],h:180,top:0}));return F}
+// rota do pátio de equipamentos até a faixa do pátio
+var depotRoute=(v,g)=>v.top?[[v.x,v.y],[v.x,150],[g.lane,150]]:[[v.x,v.y],[v.x,1085],[g.lane,1085]];
 function drawVeh(){
   for(const el of vehEls.values())el._live=0;
+  if(LAY.id===1&&!GSE)GSE=mkFleet();const seen={},used={};
   if(LAY.id===1&&flights)for(const f of flights){if(!f.cls||f.stand==null)continue;const s=STANDS[f.stand-1];if(!s)continue;
     const remPre=s.remote&&f.tAsg!=null&&PRE.has(f.state)&&!f.blk;
     if(!remPre&&(f.state!=='parked'||!f.svs))continue;
@@ -3002,7 +3029,10 @@ function drawVeh(){
     const at=(fd,rt)=>{const d=hv(h,fd,rt);return [C[0]+d[0],C[1]+d[1]]};
     const viaRoad=!s.remote&&s.n!==1&&s.n!==10;
     // todos vêm pela faixa do pátio (atrás da cauda) e entram reto pela linha até a vaga; nunca passam por cima do terminal
-    const run=(key,spr,T,hf,t0,t1)=>{const f0=hv(hf,VEH[spr][1]*.9,0),pre=[T[0]-f0[0],T[1]-f0[1]];vehRun(key,spr,[[g.lane,s.y+(s.y<640?-150:150)],[g.lane,pre[1]]],T,hf,t0,t1)};
+    const run=(key,spr,T,hf,t0,t1)=>{if(now<t0)return;seen[key]=1;let J=VJOB[key];
+      if(!J){const busy=new Set(Object.values(VJOB).map(j=>j.vi));let best=-1,bd=1e9;GSE.forEach((v,i)=>{if(v.t!==spr||busy.has(i))return;const d=Math.abs(v.y-s.y);if(d<bd){bd=d;best=i}});if(best<0)return;J=VJOB[key]={vi:best}}
+      const v=GSE[J.vi],f0=hv(hf,VEH[spr][1]*.9,0),pre=[T[0]-f0[0],T[1]-f0[1]];
+      Object.assign(J,{spr,g,T,hf,t0,t1})};
     // posições: combustível à frente da asa direita, catering na porta traseira direita, esteira e trem no porão esquerdo, escada e ônibus na porta dianteira esquerda
     const T4=at(L*.06+13,Wd*.27),T3=at(-L*.27,fw+9.5),Te=at(L*.2,-(fw+7)),Tt=at(L*.02,-(fw+19)),Ts=at(L*.33,-(fw+7.5)),Tb=at(L*.05,-(fw+32));
     let w;
@@ -3019,44 +3049,91 @@ function drawVeh(){
     if(w=svW(f,3))run(f.i+'c','catering',T3,h-90,w[0],w[1]);
     for(const i of [1,5])if(w=svW(f,i)){run(f.i+'e'+i,'esteira',Te,h+70,w[0],w[1]);run(f.i+'t'+i,'trem_bagagem',Tt,h,w[0]-.2,w[1]+.2)}
   }
-  if(LAY.id===1&&flights)for(const f of flights){if(!f.cls||!f.k&&!f.al)continue;if(!['parked','departing','toHg'].includes(f.state)&&!f._tug)continue;
-    // trator de pushback: espera no bico quando o avião fica pronto, empurra e depois volta para o portão
-    const L=spr(f)[f.cls-1][1]*PS(),tl=VEH.pushback[1],at=(p,h)=>{const d=hv(h,L/2+tl/2-1,0);return [p.x+d[0],p.y+d[1]]};
-    let p=null,o=1;
-    if(f.state==='parked'&&f.stand!=null&&f.svs&&isReady(f)){const st=STANDS[f.stand-1];if(st){const q=parkPos(f,st);p={x:q[0],y:q[1],h:headOf(st)};o=f._tugIn==null?(f._tugIn=now,0):Math.min(1,(now-f._tugIn)/(.6*(pathK(speed)||1)))}}
-    else if((f.state==='departing'||f.state==='toHg')&&f.path){const g0=f.path.segs[0],pe=f.path.pbEnd||g0.t+g0.d;if(now<pe){p=pose(f);f._tug={x:p.x,y:p.y,h:p.h,t:pe,sh:f.stand&&STANDS[f.stand-1]?headOf(STANDS[f.stand-1]):f._tugSh}}}
-    if(f.state!=='parked')f._tugIn=null;else if(f.stand&&STANDS[f.stand-1])f._tugSh=headOf(STANDS[f.stand-1]);
-    if(p){const q=at(p,p.h);vehPut(vehEl(f.i+'pb','pushback'),q[0],q[1],p.h+180,o.toFixed(2));continue}
-    const T=f._tug;if(T&&f.state!=='gone'){const k=pathK(speed)||1,u=(now-T.t)/(1.2*k);if(u>=0&&u<1){const q=at(T,T.h),hh=T.sh!=null?T.sh:T.h,d=hv(hh,u*40,0);vehPut(vehEl(f.i+'pb','pushback'),q[0]+d[0],q[1]+d[1],hh,Math.min(1,(1-u)/.25).toFixed(2))}else if(u>=1)f._tug=null}
-  }
+  if(LAY.id===1&&GSE){
+    // cada trabalho segue até o fim mesmo se o avião já saiu: o veículo sempre volta e estaciona
+    for(const k in VJOB){const J=VJOB[k];if(!J.T){delete VJOB[k];continue}if(!seen[k]&&J.t1>now&&J.t1!==J.cut){J.t1=Math.max(J.t0,now);J.cut=J.t1}
+      used[J.vi]=1;if(vehRun('fl'+J.vi,J.spr,GSE[J.vi],J.g,J.T,J.hf,J.t0,J.t1)==='done'){delete VJOB[k];used[J.vi]=0}}
+    GSE.forEach((v,i)=>{if(!used[i])vehPut(vehEl('fl'+i,v.t),v.x,v.y,v.h,1)})}
+  if(LAY.id===1&&flights)for(const s of STANDS)tugStep(s);
   carsStep();
   for(const [k,el] of vehEls)if(!el._live){el.remove();vehEls.delete(k)}
 }
 // carros na via de acesso do terminal (tempo real; param quando o jogo está pausado)
 var CARS=[],carT=0,carLast=performance.now(),CARSPR=['taxi','taxi','carro_branco','carro_vermelho','carro_preto','suv_azul','carro_branco','policia'];
-var CROUTES=()=>CR0().map(r=>fillet(r,12));var CR0=()=>[[[929.5,-20],[929.5,1287]],[[924.5,1287],[924.5,-20]],
+// estacionamento (lote ao lado do terminal): 2 corredores, vagas dos dois lados
+var STALLS=(()=>{const a=[];for(const [ax,cols] of [[847.5,[[835,270],[859.5,90]]],[897,[[885,270],[909.5,90]]]])for(const [cx,h] of cols)for(let i=0;i<19;i++)a.push({ax,x:cx,y:150+7.5*i,h,c:null});return a})();
+var CR0=()=>[[[929.5,-20],[929.5,1287]],[[924.5,1287],[924.5,-20]],
   [[929.5,-20],[929.5,296],[920,310],[797,310],[786,322],[786,760,'stop'],[786,930],[798,946],[912,946],[929.5,962],[929.5,1287]]];
+var CROUTES=()=>CR0().map(r=>fillet(r,12));
+// entra pela via, (às vezes deixa alguém no meio-fio) e termina parado numa vaga
+function parkRoute(st,curb){const head=curb?[[929.5,-20],[929.5,296],[920,310],[797,310],[786,322],[786,760,'stop'],[786,930],[798,946],[912,946],[924.5,932],[924.5,330],[912,310]]:[[929.5,-20],[929.5,296],[918,310]];
+  return fillet([...head,[st.ax,310],[st.ax,st.y],[st.x,st.y]],7)}
+function leaveRoute(st){return [fillet([[st.x,st.y],[st.ax,st.y],[st.ax,st.y-12]],7),fillet([[st.ax,st.y-12],[st.ax,310],[918,310],[929.5,324],[929.5,1287]],7)]}
+function carPose(P,d){let k=0;while(k<P.length-1){const L=dist(P[k],P[k+1]);if(d<=L)break;d-=L;k++}if(k>=P.length-1)return null;const a=P[k],b=P[k+1],L=dist(a,b)||1,u=d/L;return {k,a,b,u,x:lerp(a[0],b[0],u),y:lerp(a[1],b[1],u),h:angTo(a,b)}}
 function carsStep(){const t=performance.now(),dt=Math.min(.1,(t-carLast)/1000);carLast=t;
   if(LAY.id!==1){CARS.length=0;return}
+  if(!carsStep.init){carsStep.init=1;STALLS.forEach((st,i)=>{if(Math.random()<.4){const c={id:'car'+i+'p',spr:CARSPR[Math.floor(Math.random()*6)],parked:st};st.c=c;CARS.push(c)}})}
   const run=started&&speed>0&&!dayOver;
-  if(run){carT-=dt;if(carT<=0&&CARS.length<(camp.closed?2:7)){carT=1.8+Math.random()*3.2;const R=CROUTES(),r=Math.random()<.45?2:Math.random()<.5?0:1;
-    const sp=CARSPR[Math.floor(Math.random()*CARSPR.length)];CARS.push({id:'car'+Math.random().toString(36).slice(2,8),r:R[r],d:0,v:(r===2?24:32)+Math.random()*10,spr:r===2||sp!=='policia'?sp:'taxi',w:0})}}
-  for(let i=CARS.length-1;i>=0;i--){const c=CARS[i],P=c.r;
+  if(run){carT-=dt;if(carT<=0&&CARS.filter(c=>!c.parked).length<(camp.closed?2:7)){carT=1.8+Math.random()*3.2;
+    const sp=CARSPR[Math.floor(Math.random()*CARSPR.length)],free=STALLS.filter(x=>!x.c),r=Math.random();
+    if(r<.55&&free.length&&sp!=='policia'){const st=free[Math.floor(Math.random()*free.length)],c={id:'car'+Math.random().toString(36).slice(2,8),spr:sp,r:parkRoute(st,Math.random()<.5),d:0,v:22+Math.random()*8,w:0,to:st};st.c=c;CARS.push(c)}
+    else{const R=CROUTES(),k=Math.random()<.5?0:1;CARS.push({id:'car'+Math.random().toString(36).slice(2,8),spr:sp,r:R[k],d:0,v:30+Math.random()*10,w:0})}
+    // lote cheio: o mais antigo vai embora
+    if(STALLS.filter(x=>x.c).length>46){const st=STALLS.find(x=>x.c&&x.c.parked);if(st){const c=st.c;c.parked=null;const lr=leaveRoute(st);c.r=lr[0];c.next=lr[1];c.d=0;c.v=12;c.rev=1;c.w=0;st.c=null}}}}
+  for(let i=CARS.length-1;i>=0;i--){const c=CARS[i];
+    if(c.parked){const st=c.parked;vehPut(vehEl(c.id,c.spr,1),st.x,st.y,st.h,1);continue}
     if(run){if(c.w>0)c.w-=dt;else c.d+=c.v*dt}
-    let d=c.d,k=0;while(k<P.length-1){const L=dist(P[k],P[k+1]);if(d<=L)break;d-=L;k++}
-    if(k>=P.length-1){CARS.splice(i,1);continue}
-    const a=P[k],b=P[k+1],L=dist(a,b)||1,u=d/L;
-    if(b[2]==='stop'&&!c.st&&u>.97&&(c.spr==='taxi'||Math.random()<.5)){c.st=1;c.w=2+Math.random()*3}else if(b[2]==='stop'&&u>.97)c.st=1;
-    vehPut(vehEl(c.id,c.spr,1),lerp(a[0],b[0],u),lerp(a[1],b[1],u),angTo(a,b),1)}
+    const q=carPose(c.r,c.d);
+    if(!q&&c.next){c.r=c.next;c.next=null;c.rev=0;c.d=0;c.v=24;i++;continue}
+    if(!q){if(c.to){c.parked=c.to;c.to=null;const st=c.parked;vehPut(vehEl(c.id,c.spr,1),st.x,st.y,st.h,1)}else CARS.splice(i,1);continue}
+    if(q.b[2]==='stop'&&!c.st&&q.u>.97&&(c.spr==='taxi'||Math.random()<.5)){c.st=1;c.w=2+Math.random()*3}else if(q.b[2]==='stop'&&q.u>.97)c.st=1;
+    // saindo da vaga: primeiro dá ré até o corredor
+    const h=c.rev?(q.h+180)%360:q.h;
+    vehPut(vehEl(c.id,c.spr,1),q.x,q.y,h,1)}
 }
 
+
+// ---------- trator de pushback: cada posição tem o seu, sempre visível ----------
+// fica na caixa de equipamentos; quando o avião estaciona vai até o bico e engata; empurra como carreta
+// (o trator vira para o lado contrário da curva); desengata, se afasta e volta para a caixa
+var tugBox=s=>{const sg=sgOf(s);return s.remote?[s.x-sg*18,s.y-28]:s.n===10?[s.x-4,s.y+28]:[s.x-4,s.y-26]};
+function tugPath(pts){const P=fillet(pts.filter((q,i,a)=>!i||dist(q,a[i-1])>.8),12),Ls=[];let tot=0;for(let i=1;i<P.length;i++){const d=dist(P[i-1],P[i]);Ls.push(d);tot+=d}
+  return {P,Ls,tot,at(dd){let i=0;while(i<Ls.length-1&&dd>Ls[i]){dd-=Ls[i];i++}const u=Ls[i]?Math.min(1,dd/Ls[i]):1,a=P[i],b=P[i+1];return {x:lerp(a[0],b[0],u),y:lerp(a[1],b[1],u),h:angTo(a,b)}}}}
+function tugStep(s){const B=tugBox(s),bs=Math.sign(B[1]-s.y)||-1,hPark=bs<0?180:0,sg=sgOf(s),tl=VEH.pushback[1],k=pathK(speed)||1;
+  let q={x:B[0],y:B[1],h:hPark};
+  const pf=flights.filter(f=>f._pb&&f._pb.s===s.n&&f.cls).sort((a,b)=>b._pb.end-a._pb.end)[0];
+  const pk=flights.find(f=>f.cls&&f.state==='parked'&&f.stand===s.n);
+  let busy=false;
+  if(pf&&now<pf._pb.end&&pf.path&&now>=pf.path.segs[0].t){busy=true;
+    // engatado, empurrando: o trator pivota no trem do nariz e abre para fora da curva
+    const p=pose(pf),L=spr(pf)[pf.cls-1][1]*PS(),P=pf.path;let ci=P.segs.findIndex(x=>now<x.t+x.d);if(ci<0)ci=0;
+    const nx=P.segs[Math.min(ci+1,P.segs.length-1)],dh=(((nx.h-P.segs[ci].h)%360)+540)%360-180;
+    const tgt=Math.abs(dh)>.5?-Math.sign(dh)*Math.min(32,Math.atan(.4*L/30)*180/Math.PI):0;
+    pf._phi=pf._phi==null?0:pf._phi+(tgt-pf._phi)*.12;
+    const hb=p.h+pf._phi,n=hv(p.h,L/2-1,0),d=hv(hb,tl/2,0);q={x:p.x+n[0]+d[0],y:p.y+n[1]+d[1],h:hb+180}}
+  else if(pf&&now<pf._pb.end+3*k){
+    // desengata: dá ré para longe do bico e volta andando para a caixa
+    const L=spr(pf)[pf.cls-1][1]*PS(),b=pf._pb,n=hv(b.h,L/2-1+tl/2,0),D=[b.x+n[0],b.y+n[1]],Q=[B[0],B[1]+bs*24],hT=b.h+180;
+    // ré em curva: o trator gira 90° para o lado da caixa enquanto se afasta do bico
+    const sd=(()=>{const v=hv(hT+90,1,0);return v[0]*(Q[0]-D[0])+v[1]*(Q[1]-D[1])>0?1:-1})(),R=14,arc=[D];let hx=hT,px=D;
+    for(let i=0;i<8;i++){const hm=hT+sd*90*(i+.5)/8,st=hv(hm,-R*Math.PI/2/8,0);px=[px[0]+st[0],px[1]+st[1]];arc.push(px)}
+    const D1=px,hD=hT+sd*90,f1=hv(hD,10,0),T=tugPath([D1,[D1[0]+f1[0],D1[1]+f1[1]],[Q[0],Q[1]],B]),back=.45*k,dur=Math.max(.4,T.tot/160)*k,u=now-b.end;
+    if(u<back){const v=EASE.io(u/back),fi=v*8,ii=Math.min(7,Math.floor(fi)),w=fi-ii;q={x:lerp(arc[ii][0],arc[ii+1][0],w),y:lerp(arc[ii][1],arc[ii+1][1],w),h:hT+sd*90*v}}
+    else if(u<back+dur){const v=EASE.io((u-back)/dur),z=T.at(v*T.tot);q=v>=1?{x:B[0],y:B[1],h:hPark}:z}
+    if(u<back+dur)busy=true}
+  if(!busy&&pk){
+    // avião estacionado: sai da caixa, contorna e encaixa de ré na frente do bico
+    const L=spr(pk)[pk.cls-1][1]*PS(),C=parkPos(pk,s),hp=headOf(s),n=hv(hp,L/2-1+tl/2,0),S=[C[0]+n[0],C[1]+n[1]],Wp=[S[0]-sg*26,s.y];
+    const T=tugPath([B,[B[0],s.y-bs*0+bs*0],Wp].map((x,i)=>i===1?[B[0],s.y]:x)),dur=Math.max(.4,T.tot/160)*k,rv=.45*k,t0=Math.max(pk.tPark||0,pf?pf._pb.end+3*k:0)+.3*k,u=now-t0;
+    if(u>=0){if(u<dur){q=T.at(EASE.io(u/dur)*T.tot)}else if(u<dur+rv){const v=EASE.io((u-dur)/rv);q={x:lerp(Wp[0],S[0],v),y:lerp(Wp[1],S[1],v),h:hp+180}}else q={x:S[0],y:S[1],h:hp+180}}}
+  vehPut(vehEl('tug'+s.n,'pushback'),q.x,q.y,q.h,1)}
 /* ---------- tarde e noite ---------- */
 var ramp=(a,b)=>clamp((tod(now)-toMin(a))/(toMin(b)-toMin(a)),0,1);
 var PB=1,NT=0,lastPart="";
 function skyTick(){
   const t=ramp("15:30","17:00")*(1-ramp("17:45","19:00")),n=Math.max(ramp("18:30","18:50"),1-ramp("05:40","06:00"));
   $('skyT').style.opacity=t;$('skyN').style.opacity=n;$('skyTh').style.opacity=t;$('skyNh').style.opacity=n;{const c=camp.closed?1:0;$('skyF').style.opacity=c;$('skyFh').style.opacity=c;document.body.classList.toggle('closed',!!camp.closed)}
-  PB=1-.28*n;NT=n;map.style.setProperty('--nt',(.12+.88*Math.max(n,t*.45)).toFixed(3));
+  PB=1-.28*n;NT=n;{const b=$('brg');if(b){b.style.display=LAY.id===1?'':'none';$('brgT').style.opacity=t;$('brgN').style.opacity=n;$('brgF').style.opacity=camp.closed?1:0}}map.style.setProperty('--nt',(.12+.88*Math.max(n,t*.45)).toFixed(3));
   const part=n>.5?"Noite":t>.5?"Tarde":"Dia";
   if(part!==lastPart){lastPart=part;const el=document.querySelector('.wind small');if(el)el.dataset.p=part;dirty=true}
 }
