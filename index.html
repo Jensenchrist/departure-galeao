@@ -930,7 +930,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795726421';
+var APPV='1795726654';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1083,12 +1083,12 @@ var MODB=["737-700","737-800","757-200","767-300ER","787-9","777-300ER","747-8"]
 var FLEET={CO:'B',US:'AB',AS:'B',WA:'B',TK:'AB',VA:'B',TN:'B',FJ:'A',MH:'A',TG:'AB',BR:'B',KE:'AB',CX:'A',NZ:'AB',JM:'B',AC:'AB',SC:'AB',PB:'AB',G3:'B',AD:'A',LA:'A',TP:'A',EK:'AB',AF:'AB',BA:'AB',AA:'B',DL:'AB',UA:'B',PA:'B',RG:'B',VP:'B',TR:'AB',AR:'B',CM:'B',QR:'AB',LH:'AB',IB:'A',KL:'B',AV:'A',AZ:'AB',JL:'B',QF:'AB',SA:'A',CA:'AB',SQ:'AB',DT:'B',ET:'B',AT:'B',MS:'AB',VR:'B',SR:'AB',SK:'A',AM:'B',PZ:'A',OB:'B',PU:'B',TA:'A',CU:'AB',V0:'A',H2:'A',SU:'AB',TW:'B',WN:'B',LB:'B'};
 function pickMk(al,cls){let f=FLEET[al]||'AB';if(al==='LA'&&cls>=5)f='B';if(al==='EK'&&cls===7)f='A';if(al==='SQ'&&cls===7)f='A';if(al==='QF'&&cls===7)f='A';return f.length>1?(Math.random()<.5?'A':'B'):f}
 // variações de pintura/modelo por classe: cada aeronave (f.k) mantém sempre a mesma
-var VARS={"p":[[["n1",208,220]],[["n3",229,240]],[["n4",292,313]],[["n8",310,308]],[["p5",396,390],["p5_1",391,394]],[["n6",409,403]],[["n7",496,477]]],"b":[[["b1",212,217],["b1_1",200,231]],[["b2",229,265],["b2_1",243,249]],[["n9",282,295]],[["b4",324,355],["b4_1",341,337]],[["n5",384,377],["n11",387,377]],[["n10",460,471]],[["n0",546,553]]]};
+var VARS={"p":[[["n1",208,220],["n2",167,168,"ATR 72-600","ATR"]],[["n3",229,240]],[["n4",292,313]],[["n8",310,308]],[["p5",396,390],["p5_1",391,394]],[["n6",409,403]],[["n7",496,477]]],"b":[[["b1",212,217],["b1_1",200,231]],[["b2",229,265],["b2_1",243,249]],[["n9",282,295]],[["b4",324,355],["b4_1",341,337]],[["n5",384,377],["n11",387,377]],[["n10",460,471]],[["n0",546,553]]]};
 var vOf=f=>{const L=VARS[f.mk==='B'?'b':'p'][f.cls-1];let h=0;for(const ch of String(f.k||f.i))h=(h*31+ch.charCodeAt(0))>>>0;return L[h%L.length]};
 var spr=f=>{const t=(f.mk==='B'?SPRB:SPR).slice(),v=vOf(f);t[f.cls-1]=[v[1],v[2]];return t};
 var pimg=f=>vOf(f)[0]+'.png?v=4';
-var model=f=>(f.mk==='B'?MODB:MODA)[f.cls-1];
-var mkName=f=>f.mk==='B'?'Boeing':'Airbus';
+var model=f=>vOf(f)[3]||(f.mk==='B'?MODB:MODA)[f.cls-1];
+var mkName=f=>vOf(f)[4]||(f.mk==='B'?'Boeing':'Airbus');
 var GROUND=[20,30,40,55,70,90,120];
 var MODELS=["A220 / 737-700","A320 / 737-800","A321neo / 737 MAX","767-300 / A330-200","787-9 / A330-900","777-300ER / A350-1000","A380 / 747-8"];
 // país de cada companhia (bandeira)
@@ -2144,7 +2144,7 @@ function drawDetail(){
     <div class="grid">
       <div><small>Previsto</small><b>${fmt(arr?f.sched:f.depSched)}</b></div>
       <div><small>Estimado</small><b>${fmt(arr?f.eta:depEst(f))}${arr&&f.eta>f.sched?` (+${Math.round(f.eta-f.sched)})`:''}</b></div>
-      <div style="grid-column:1/-1"><small>Aeronave · ${mkName(f)} · classe ${f.cls} de 7</small><b>${mkName(f)} ${model(f)}</b></div>
+      <div style="grid-column:1/-1"><small>Aeronave · ${mkName(f)} · classe ${f.cls} de 7</small><b>${model(f).startsWith(mkName(f))?model(f):mkName(f)+' '+model(f)}</b></div>
       <div><small>Tempo de voo</small><b>${fmtDur(f.dur)}</b></div>
       <div><small>Tempo em solo</small><b>${f.ground} min</b></div>
       ${fuelNow(f)!=null?`<div style="grid-column:1/-1"><small>Combustível no tanque · ${Math.round(fuelNow(f))} min de voo (${Math.round(fuelNow(f)/capF(f)*100)}%)</small>${fuelBar(f,false)}</div>`:''}
