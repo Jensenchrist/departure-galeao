@@ -49,8 +49,8 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
 
 /* plaquinhas e áreas de clique */
 .sign{position:absolute;transform:translate(-50%,-50%) scale(.9);display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 3px rgba(0,0,0,.6));pointer-events:none;z-index:4}
-.sign .plate{background:var(--k);border-radius:4px;padding:1px 6px 2px;color:var(--y);font-weight:800;font-size:max(13px,min(2.2vh,24px));letter-spacing:-.04em;line-height:1.1;border:2px solid transparent;transition:.2s}
-.sign .pct{position:absolute;left:calc(100% + 3px);top:50%;transform:translateY(-50%);margin:0!important;white-space:nowrap;background:var(--k);color:var(--y);font-weight:800;font-size:max(8px,min(1.05vh,11px));padding:0 4px;border-radius:3px;margin-bottom:1px;font-variant-numeric:tabular-nums;border:1px solid #444}
+.sign .plate{background:var(--k);border-radius:4px;padding:0 4px 1px;color:var(--y);font-weight:800;font-size:max(10px,min(1.55vh,17px));letter-spacing:-.04em;line-height:1.1;border:1.5px solid transparent;transition:.2s}
+.sign .pct{position:absolute;left:calc(100% + 3px);top:50%;transform:translateY(-50%);margin:0!important;white-space:nowrap;background:var(--k);color:var(--y);font-weight:800;font-size:max(7px,min(.9vh,9px));padding:0 3px;border-radius:3px;margin-bottom:1px;font-variant-numeric:tabular-nums;border:1px solid #444}
 .sign .pct.full{color:var(--k);background:#5dff8f;border-color:#5dff8f}
 .sign .cls{background:var(--y);color:var(--k);font-weight:800;font-size:max(7px,min(.95vh,10px));padding:0 4px;border-radius:2px;margin-top:1px}
 .sign.sel .plate{border-color:var(--y);background:var(--y);color:var(--k)}
@@ -67,7 +67,7 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
 .tag{position:absolute;transform:translate(-50%,0);background:rgba(0,0,0,.82);color:var(--w);font-size:max(7px,min(.85vh,9px));font-weight:700;padding:1px 4px;border-radius:2px;line-height:1.2;white-space:nowrap;border-left:2px solid var(--y);pointer-events:none;z-index:5}
 
 /* luzes de cabeceira */
-.lt{position:absolute;width:calc(var(--mk,1)*7px);height:calc(var(--mk,1)*7px);border-radius:50%;transform:translate(-50%,-50%);z-index:2}
+.lt{position:absolute;width:calc(var(--mk,1)*var(--lts,7)*1px);height:calc(var(--mk,1)*var(--lts,7)*1px);border-radius:50%;transform:translate(-50%,-50%);z-index:2}
 .lt.g{background:#5dff8f;box-shadow:0 0 6px 2px #2cff6a}
 .lt.r{background:#ff3b30;box-shadow:0 0 6px 2px #ff1a0d}
 .lt.w{background:#fff;box-shadow:0 0 8px 3px #fff;opacity:0;animation:rabbit 1.2s infinite}
@@ -525,9 +525,9 @@ body.neo .aq-t:empty{background:#1d1e21;box-shadow:inset 3px 3px 6px rgba(0,0,0,
 
   .close{display:flex}
   .side.showDetail .stats,.side.showDetail .goals,.side.showDetail .speed,.side.showDetail .campl{display:none}
-  .sign .pct{font-size:2.3vw}
+  .sign .pct{font-size:1.9vw}
   .tag{font-size:2vw}
-  .sign .plate{font-size:4.2vw}.sign .cls{font-size:1.9vw}.rwy{font-size:2.4vw}
+  .sign .plate{font-size:3vw}.sign .cls{font-size:1.6vw}.rwy{font-size:2.4vw}
   .toast{position:fixed;top:auto;bottom:18px;max-width:calc(100% - 150px);left:calc(50% - 30px)}
 }
 @media(prefers-reduced-motion:reduce){.sign.ok .plate{animation:none!important}}
@@ -824,8 +824,8 @@ body.cbar .toast{bottom:calc(var(--panh,0px) + 12px)!important}
 body.cbar .zhint{top:auto;bottom:calc(var(--panh,0px) + 14px)}
 
 /* lingueta PRÓXIMOS (esquerda) */
-#aqp{position:absolute;left:0;top:calc(var(--barh,0px) + 6px);z-index:10;display:flex;align-items:stretch;transition:transform .35s cubic-bezier(.2,.8,.2,1);cursor:pointer;-webkit-tap-highlight-color:transparent}
-#aqp.shut{transform:translateX(calc(-100% + 26px))}
+#aqp{position:absolute;left:0;top:calc(var(--barh,0px) + 134px);z-index:10;display:flex;align-items:stretch;transition:transform .35s cubic-bezier(.2,.8,.2,1);cursor:pointer;-webkit-tap-highlight-color:transparent}
+#aqp.shut{transform:translateX(calc(-100% + 30px))}
 .aq-in{width:118px;padding:9px 9px 10px;box-sizing:border-box;background:linear-gradient(145deg,rgba(36,37,41,.96),rgba(24,25,28,.96));border-radius:0 0 18px 0;box-shadow:6px 6px 16px rgba(0,0,0,.55)}
 .aq-hd{font:900 10px/1 system-ui,sans-serif;letter-spacing:.12em;color:var(--y);text-align:center;margin-bottom:7px}
 .aq-r{height:38px;border-radius:9px;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-top:6px;opacity:.88}
@@ -833,7 +833,7 @@ body.cbar .zhint{top:auto;bottom:calc(var(--panh,0px) + 14px)}
 .aq-r b{font:800 11px/1.1 system-ui,sans-serif;color:#111;text-align:center;padding:0 4px}
 .aq-r.e{background:#1c1d20;box-shadow:inset 3px 3px 6px rgba(0,0,0,.6),inset -2px -2px 5px rgba(255,255,255,.03);opacity:.7}
 .aq-r.on{opacity:1;box-shadow:0 0 0 2px var(--y),0 0 12px rgba(253,233,52,.5)}
-.aq-tab{width:26px;border:0;padding:0;margin:0;background:linear-gradient(145deg,#2a2b30,#1c1d20);border-radius:0 14px 14px 0;box-shadow:6px 6px 14px rgba(0,0,0,.5);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;align-self:flex-start;height:120px}
+.aq-tab{width:30px;border:0;padding:0;margin:0;background:linear-gradient(145deg,#2a2b30,#1c1d20);border-radius:0 14px 14px 0;box-shadow:6px 6px 14px rgba(0,0,0,.5);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;align-self:flex-start;height:120px}
 .aq-tab span{writing-mode:vertical-rl;transform:rotate(180deg);font:900 9px/1 system-ui,sans-serif;letter-spacing:.14em;color:var(--y)}
 .aq-tab i{font-style:normal;color:var(--y);font-size:16px;font-weight:900;transition:transform .3s}
 #aqp:not(.shut) .aq-tab i{transform:rotate(180deg)}
@@ -854,11 +854,11 @@ body.spec #hud{top:calc(var(--barh,0px) + 48px)}
 #mxp[hidden]{display:none}#mxp .yd-box{max-height:100%;display:flex;flex-direction:column}#mxList{overflow:auto;-webkit-overflow-scrolling:touch;margin-top:8px}
 #mxBk{width:34px;height:34px;border-radius:50%;border:0;background:#222;color:var(--y);font-size:22px;font-weight:900;cursor:pointer}
 #mxX{margin-left:auto}
-#mxTab{position:absolute;left:0;bottom:calc(var(--panh,0px) + 14px);z-index:10;width:52px;height:56px;border:0;padding:0 0 0 6px;border-radius:0 18px 18px 0;background:linear-gradient(145deg,#2a2b30,#1c1d20);box-shadow:6px 6px 14px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;cursor:pointer}
-#mxTab .ico{width:34px;height:34px}
+#mxTab{position:absolute;left:0;top:calc(var(--barh,0px) + 74px);z-index:10;width:44px;height:52px;border:0;padding:0 0 0 6px;border-radius:0 18px 18px 0;background:linear-gradient(145deg,#2a2b30,#1c1d20);box-shadow:6px 6px 14px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;cursor:pointer}
+#mxTab .ico{width:30px;height:30px}
 #mxDot{position:absolute;top:6px;right:6px;width:10px;height:10px;border-radius:50%;background:var(--r);box-shadow:0 0 8px var(--r);display:none}
 #mxTab.warn #mxDot{display:block}
-body.land #mxTab{bottom:16px;left:0}body.land #aqp{left:0}
+body.land #mxTab{left:0}body.land #aqp{left:0}
 .mx-c{background:#1b1b1d;border-radius:16px;padding:12px;margin-top:10px;box-shadow:inset 0 0 0 1px #2a2a2d}
 .mx-h{display:flex;align-items:baseline;gap:8px}.mx-h b{font:900 16px/1 system-ui,sans-serif;color:#fff;letter-spacing:.04em}.mx-h span{font-size:12px;color:#aaa;font-weight:700}
 .mx-st{font-size:12px;color:var(--y);font-weight:800;margin:6px 0 8px}
@@ -930,7 +930,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795724773';
+var APPV='1795726421';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1049,11 +1049,11 @@ var TH={"10":60,"28":1590};
 // layouts: 1 = Galeão original (1 pista), 2 = expansão (2 pistas, Terminal 1 e 2)
 var CN2=[224,584,1197,1595,1920];
 var LAYS={
- 1:{id:1,W:966,H:1267,ps:1.35,cover:1,ax:40,endOnly:1,hg:[0,1],hgV:[{x:412,door:52,dir:-1},{x:412,door:1212,dir:1}],G:[{id:'A',rx:110,twy:236,lane:412,sg:1,conn:[337,925],entry:[231,1017],th:{"10":213,"28":1084},nm:{"10":"10","28":"28"},lt:[66,12,8],reil:[55,165],lbx:28,ap:{"10":[20,40,60],"28":[1210,1230,1250]},edge:[63,159]}],
+ 1:{id:1,W:966,H:1267,ps:1.35,cover:1,ax:40,lts:4.5,endOnly:1,hg:[0,1],hgV:[{x:412,door:52,dir:-1},{x:412,door:1212,dir:1}],G:[{lp:{edge:[[65.0,117.0],[65.0,147.5],[65.0,178.8],[65.0,238.0],[65.0,268.5],[65.0,298.0],[65.0,330.0],[65.0,351.5],[63.0,386.0],[62.5,420.5],[63.0,456.0],[62.8,491.0],[62.8,525.0],[62.8,559.5],[62.5,594.0],[62.5,630.0],[62.8,664.0],[62.8,698.5],[62.8,734.8],[62.8,769.0],[62.8,803.0],[63.0,838.5],[62.8,872.5],[62.8,908.5],[65.0,941.0],[65.0,970.5],[65.0,1001.5],[65.0,1031.0],[65.0,1061.5],[65.0,1121.0],[65.0,1152.5],[65.0,1185.5],[160.5,117.0],[160.5,147.5],[160.5,178.5],[160.5,238.0],[160.2,268.5],[160.0,298.0],[163.0,386.0],[163.0,420.5],[163.0,456.0],[163.0,491.0],[163.0,525.0],[163.0,559.5],[163.0,594.0],[163.0,630.0],[163.0,664.0],[163.0,698.5],[163.0,735.0],[163.0,769.0],[163.0,803.0],[163.0,838.5],[163.0,872.5],[160.2,970.0],[160.2,1000.5],[160.2,1030.5],[160.2,1060.5],[160.2,1120.5],[160.5,1152.0],[160.0,1185.0]],th:{"10":[209,[65,75.5,89.5,104.5,122,138,151,160.5]],"28":[1091,[65,74.5,88.5,104,122,136.5,151,160.2]]},ap:{"10":[[77.2,[87.2,100.2,113.5,126.5,139.5]],[42,[113.2]]],"28":[[1211,[91,104,117,130.2,143.2]],[1243.8,[111.5]]]}},id:'A',rx:110,twy:236,lane:412,sg:1,conn:[337,925],entry:[231,1017],th:{"10":213,"28":1084},nm:{"10":"10","28":"28"},lt:[66,12,8],reil:[55,165],lbx:28,ap:{"10":[20,40,60],"28":[1210,1230,1250]},edge:[63,159]}],
    labels:[],
    // portões do terminal (bico para o leste) + remotas a oeste da faixa do pátio (bico para o oeste)
-   mk:()=>[[520,152,7,6],[602,282,6],[600,385,6],[600,480,6],[554,605,3],[554,701,3],[605,813,5],[605,911,5],[605,1017,6],[525,1117,7,6]].map(([x,y,m,mn],i)=>({n:i+1,x,y,max:m,min:mn||1,bd:0,g:'A',sx:x+30,sy:i===9?y+25:y-22}))
-     .concat([390,480,605,701,813,911].map((y,i)=>({n:11+i,x:302,y,max:4,remote:1,lab:'R'+(i+1),bd:0,g:'A',sg:-1,sx:272,sy:y-22})))},
+   mk:()=>[[520,152,7,6],[602,282,6],[600,385,6],[600,480,6],[554,605,3],[554,701,3],[605,813,5],[605,911,5],[605,1017,6],[525,1117,7,6]].map(([x,y,m,mn],i)=>({n:i+1,x,y,max:m,min:mn||1,bd:0,g:'A',sx:x+24,sy:i===9?y+20:y-18}))
+     .concat([390,480,605,701,813,911].map((y,i)=>({n:11+i,x:302,y,max:4,remote:1,lab:'R'+(i+1),bd:0,g:'A',sg:-1,sx:286,sy:y-20})))},
  2:{id:2,W:941,H:1672,ps:1.44,G:[
    {id:'A',rx:84,twy:355,lane:397,sg:1,conn:[255,256,1399,1400],entry:null,th:{"10":168,"28":1489},nm:{"10":"10L","28":"28R"},lt:[58,6.5,9],reil:[50,118],lbx:30,ap:{"10":[100,117,134,151],"28":[1505,1520,1535,1550,1565]},edge:[57,111]},
    {id:'B',rx:266,twy:355,lane:397,sg:1,conn:[240,480,838,1248,1500],entry:null,th:{"10":93,"28":1489},nm:{"10":"10R","28":"28L"},lt:[234,8,9],reil:[226,306],lbx:325,ap:{"10":[25,42,59,76],"28":[1505,1520,1535,1550,1565]},edge:[233,299]}],
@@ -1083,10 +1083,10 @@ var MODB=["737-700","737-800","757-200","767-300ER","787-9","777-300ER","747-8"]
 var FLEET={CO:'B',US:'AB',AS:'B',WA:'B',TK:'AB',VA:'B',TN:'B',FJ:'A',MH:'A',TG:'AB',BR:'B',KE:'AB',CX:'A',NZ:'AB',JM:'B',AC:'AB',SC:'AB',PB:'AB',G3:'B',AD:'A',LA:'A',TP:'A',EK:'AB',AF:'AB',BA:'AB',AA:'B',DL:'AB',UA:'B',PA:'B',RG:'B',VP:'B',TR:'AB',AR:'B',CM:'B',QR:'AB',LH:'AB',IB:'A',KL:'B',AV:'A',AZ:'AB',JL:'B',QF:'AB',SA:'A',CA:'AB',SQ:'AB',DT:'B',ET:'B',AT:'B',MS:'AB',VR:'B',SR:'AB',SK:'A',AM:'B',PZ:'A',OB:'B',PU:'B',TA:'A',CU:'AB',V0:'A',H2:'A',SU:'AB',TW:'B',WN:'B',LB:'B'};
 function pickMk(al,cls){let f=FLEET[al]||'AB';if(al==='LA'&&cls>=5)f='B';if(al==='EK'&&cls===7)f='A';if(al==='SQ'&&cls===7)f='A';if(al==='QF'&&cls===7)f='A';return f.length>1?(Math.random()<.5?'A':'B'):f}
 // variações de pintura/modelo por classe: cada aeronave (f.k) mantém sempre a mesma
-var VARS={"p":[[["p1",215,220],["p1_1",218,216],["p1_2",214,221]],[["p2",242,240],["p2_1",237,244],["p2_2",238,243]],[["p3",257,313]],[["p4",305,308],["p4_1",309,304]],[["p5",396,390],["p5_1",391,394]],[["p6",409,403],["p6_1",404,408]],[["p7",537,477]]],"b":[[["b1",212,217],["b1_1",200,231]],[["b2",229,265],["b2_1",243,249]],[["b3",256,295],["b3_1",263,288]],[["b4",324,355],["b4_1",341,337]],[["b5",382,377],["b5_1",363,397]],[["b6",396,471]],[["b7",504,553]]]};
+var VARS={"p":[[["n1",208,220]],[["n3",229,240]],[["n4",292,313]],[["n8",310,308]],[["p5",396,390],["p5_1",391,394]],[["n6",409,403]],[["n7",496,477]]],"b":[[["b1",212,217],["b1_1",200,231]],[["b2",229,265],["b2_1",243,249]],[["n9",282,295]],[["b4",324,355],["b4_1",341,337]],[["n5",384,377],["n11",387,377]],[["n10",460,471]],[["n0",546,553]]]};
 var vOf=f=>{const L=VARS[f.mk==='B'?'b':'p'][f.cls-1];let h=0;for(const ch of String(f.k||f.i))h=(h*31+ch.charCodeAt(0))>>>0;return L[h%L.length]};
 var spr=f=>{const t=(f.mk==='B'?SPRB:SPR).slice(),v=vOf(f);t[f.cls-1]=[v[1],v[2]];return t};
-var pimg=f=>vOf(f)[0]+'.png?v=3';
+var pimg=f=>vOf(f)[0]+'.png?v=4';
 var model=f=>(f.mk==='B'?MODB:MODA)[f.cls-1];
 var mkName=f=>f.mk==='B'?'Boeing':'Airbus';
 var GROUND=[20,30,40,55,70,90,120];
@@ -1724,7 +1724,15 @@ function rwActStep(){const a={};
 function drawLights(){
   const r=activeRwy(),w=windNow();let h='';
   // luzes de cabeceira (verde = pouso, vermelha = fim), luzes de borda piscando, sequenciais de aproximação
+  map.style.setProperty('--lts',LAY.lts||7);
   for(const g of LAY.G){h+=`<div class="lgr${rwAct[g.id]?' act':''}" data-g="${g.id}">`;
+    if(g.lp){const P=g.lp,down=r==="10",ys=P.edge.map(q=>q[1]),y0=Math.min(...ys),y1=Math.max(...ys);
+      // mesmas posições das luzes desenhadas no mapa: borda em onda no sentido do pouso
+      for(const [x,y] of P.edge){const k=(y-y0)/(y1-y0||1);h+=`<i class="lt e" style="left:${x/W*100}%;top:${y/H*100}%;animation-delay:${((down?k:1-k)*2.2).toFixed(2)}s"></i>`}
+      for(const end of ["10","28"]){const on=end===r&&!stormNow(),[y,xs]=P.th[end];
+        for(const x of xs)h+=`<i class="lt ${on?'g':'r'}" style="left:${x/W*100}%;top:${y/H*100}%"></i>`;
+        if(on){const bars=[...P.ap[end]].reverse();bars.forEach(([yy,xx],k)=>xx.forEach(x=>h+=`<i class="lt w" style="left:${x/W*100}%;top:${yy/H*100}%;animation-delay:${(k*.15).toFixed(2)}s"></i>`))}}
+      h+='</div>';continue}
     // luzes de borda em onda, no sentido do pouso
     {const ys=[];for(let y=g.th["10"]+40;y<g.th["28"]-20;y+=88)ys.push(y);const n=ys.length,down=r==="10";
      ys.forEach((y,k)=>{const d=((down?k:n-1-k)/n*2.2).toFixed(2);for(const x of g.edge)h+=`<i class="lt e" style="left:${x/W*100}%;top:${y/H*100}%;animation-delay:${d}s"></i>`})}
@@ -1736,7 +1744,7 @@ function drawLights(){
         ord.forEach((yy,k)=>h+=`<i class="lt w" style="left:${g.rx/W*100}%;top:${yy/H*100}%;animation-delay:${(k*.12).toFixed(2)}s"></i>`);
         h+=`<i class="lt reil" style="left:${g.reil[0]/W*100}%;top:${y/H*100}%"></i><i class="lt reil" style="left:${g.reil[1]/W*100}%;top:${y/H*100}%"></i>`;
       }
-      h+=`<div class="rwy ${on?'on':'off'}" style="left:${g.lbx/W*100}%;top:${(end==="10"?y+40:y-40)/H*100}%">${g.nm[end]}<br>${stormNow()?'FECHADA':on?'POUSO':'FIM'}</div>`;
+      // placas POUSO/FIM removidas: as luzes da pista já indicam
     }
     h+='</div>';
   }
@@ -2484,7 +2492,7 @@ $('mclock').addEventListener('click',togglePause);
 $('specX').addEventListener('click',e=>{e.stopPropagation();specExit()});
 // espectador: só olhar — bloqueia toques de ação (arrastar/aproximar o mapa continua)
 document.addEventListener('click',e=>{if(!SPEC)return;if(e.target.closest('#specBar,#edApt,#edAptP,#ovSnd,#aqp,#zreset,#windBox,#cbar'))return;e.stopPropagation();e.preventDefault()},true);
-{const a=$('aqp');try{if(localStorage.getItem('departure_aq')==='0')a.classList.add('shut')}catch(e){}
+{const a=$('aqp');a.classList.add('shut');try{if(localStorage.getItem('departure_aq')==='1')a.classList.remove('shut')}catch(e){}
  a.addEventListener('click',()=>{const sh=a.classList.toggle('shut');try{localStorage.setItem('departure_aq',sh?'0':'1')}catch(e){}})}
 $('ovAuto').addEventListener('click',()=>{audioInit();chime();setAuto(!camp.auto)});$('ovFin').addEventListener('click',e=>{e.stopPropagation();audioInit();chime();if(dealsOn&&dealMode==='gest')return openDeals(false);openDeals(true,'gest')});$('ovPause').addEventListener('click',()=>{audioInit();chime();togglePause()});
 var ovLast='';function ovSync(){{const t=Date.now();if(t-(ovSync.ft||0)>500){ovSync.ft=t;const b=document.querySelector('#ovFin .finb');if(b){const r=ECO()&&started?finRatio():0,f=b.firstChild;
@@ -2558,7 +2566,8 @@ var ptrs=new Map();var pinch=null,dragged=false,moved=0;
 var rel=e=>{const r=stage.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}};
 stage.addEventListener('pointerdown',e=>{
   if(e.target.closest('.abar,.zreset,.rail'))return;
-  ptrs.set(e.pointerId,rel(e));if(ptrs.size===1){dragged=false;moved=0;swp={x:e.clientX,y:e.clientY,t:Date.now(),ok:true,edge:!canPan()||ZX<=SW-dispW()*zk+2}}else swp=null;
+  if(e.isPrimary||e.pointerType==='mouse'){ptrs.clear();pinch=null}
+  ptrs.set(e.pointerId,rel(e));if(ptrs.size>2){const k=[...ptrs.keys()];ptrs.clear();ptrs.set(k[k.length-1],rel(e))}if(ptrs.size===1){dragged=false;moved=0;swp={x:e.clientX,y:e.clientY,t:Date.now(),ok:true,edge:!canPan()||ZX<=SW-dispW()*zk+2}}else swp=null;
   if(ptrs.size===2){const[a,b]=[...ptrs.values()],m={x:(a.x+b.x)/2,y:(a.y+b.y)/2};
     pinch={d:Math.hypot(a.x-b.x,a.y-b.y)||1,k:zk,u:(m.x-ZX)/zk,v:(m.y-ZY)/zk}}
 });
@@ -2571,7 +2580,7 @@ stage.addEventListener('pointermove',e=>{
 });
 var swp=null;
 var up=e=>{if(swp&&ptrs.size===1&&e.type==='pointerup'){const dx=e.clientX-swp.x,dy=e.clientY-swp.y;if(TWO&&zk<=1.02&&swp.edge&&dx<-60&&Math.abs(dy)<Math.abs(dx)*.7&&Date.now()-swp.t<800){dragged=true;openFlt(true)}}if(e.type==='pointerup')swp=null;ptrs.delete(e.pointerId);if(ptrs.size<2)pinch=null};
-stage.addEventListener('pointerup',up);stage.addEventListener('pointercancel',up);
+addEventListener('pointerup',up);addEventListener('pointercancel',up);
 stage.addEventListener('click',e=>{if(dragged){e.stopPropagation();e.preventDefault();dragged=false}},true);
 stage.addEventListener('wheel',e=>{e.preventDefault();const p=rel(e);zoomAt(p.x,p.y,zk*Math.exp(-e.deltaY*.0015));$('zhint').style.opacity=0},{passive:false});
 $('zreset').addEventListener('click',()=>{zk=1;laidOut=false;layoutMap()});
@@ -2931,7 +2940,7 @@ if(!matchMedia('(pointer:coarse)').matches)$('zhint').textContent='Role para apr
 
 
 /* ---------- veículos: serviços de pátio (pelo relógio do jogo) e carros na via de acesso ---------- */
-var VEH={carrinho:[3.25,6.75],carro_branco:[3,6.75],carro_preto:[2.75,6.25],carro_vermelho:[3.25,6.25],catering:[4.75,17.75],combustivel:[5.75,22.25],dolly:[3.5,5.75],escada:[5.25,15.75],esteira:[5.25,15.75],onibus:[4.25,17.25],policia:[2.5,5.5],suv_azul:[2.75,6],taxi:[3,6.25],trem_bagagem:[4.5,32.25]};
+var VEH={carrinho:[3.25,6.75],carro_branco:[3,6.75],carro_preto:[2.75,6.25],carro_vermelho:[3.25,6.25],catering:[4.75,17.75],combustivel:[5.75,22.25],pushback:[5.76,15],dolly:[3.5,5.75],escada:[5.25,15.75],esteira:[5.25,15.75],onibus:[4.25,17.25],policia:[2.5,5.5],suv_azul:[2.75,6],taxi:[3,6.25],trem_bagagem:[4.5,32.25]};
 var vehEls=new Map(),SVCROAD=625;
 var hv=(h,f,r)=>{const a=h*Math.PI/180;return [Math.sin(a)*f+Math.cos(a)*r,-Math.cos(a)*f+Math.sin(a)*r]};
 var angTo=(a,b)=>Math.atan2(b[0]-a[0],-(b[1]-a[1]))*180/Math.PI;
@@ -2967,6 +2976,16 @@ function drawVeh(){
     for(const i of [1,5])if(w=svW(f,i)){const T=at(L*.2,-(fw+7)),T2=at(L*.06,-(fw+19));vehRun(f.i+'e'+i,'esteira',src(T,-1),T,h+70,w[0],w[1]);vehRun(f.i+'t'+i,'trem_bagagem',src(T2,-1),T2,h+180,w[0]-.2,w[1]+.2)}
     // remotas: escada na porta dianteira esquerda e ônibus com os passageiros
     if(s.remote)for(const i of [0,6])if(w=svW(f,i)){const T=at(L*.33,-(fw+7.5)),T2=at(L*.1,-(fw+30));vehRun(f.i+'s'+i,'escada',src(T,-1),T,h+90,w[0]-.3,w[1]+.3);vehRun(f.i+'b'+i,'onibus',src(T2,-1),T2,h,w[0],w[1])}
+  }
+  if(LAY.id===1&&flights)for(const f of flights){
+    // trator de pushback: espera no bico quando o avião fica pronto, empurra e depois volta para o portão
+    const L=spr(f)[f.cls-1][1]*PS(),tl=VEH.pushback[1],at=(p,h)=>{const d=hv(h,L/2+tl/2-1,0);return [p.x+d[0],p.y+d[1]]};
+    let p=null,o=1;
+    if(f.state==='parked'&&f.stand!=null&&f.svs&&isReady(f)){const st=STANDS[f.stand-1];if(st){const q=parkPos(f,st);p={x:q[0],y:q[1],h:headOf(st)};o=f._tugIn==null?(f._tugIn=now,0):Math.min(1,(now-f._tugIn)/(.6*(pathK(speed)||1)))}}
+    else if((f.state==='departing'||f.state==='toHg')&&f.path){const g0=f.path.segs[0];if(now<g0.t+g0.d){p=pose(f);f._tug={x:p.x,y:p.y,h:p.h,t:g0.t+g0.d}}}
+    if(f.state!=='parked')f._tugIn=null;
+    if(p){const q=at(p,p.h);vehPut(vehEl(f.i+'pb','pushback'),q[0],q[1],p.h+180,o.toFixed(2));continue}
+    const T=f._tug;if(T&&f.state!=='gone'){const k=pathK(speed)||1,u=(now-T.t)/(1.2*k);if(u>=0&&u<1){const q=at(T,T.h),d=hv(T.h,u*40,0);vehPut(vehEl(f.i+'pb','pushback'),q[0]+d[0],q[1]+d[1],T.h,Math.min(1,(1-u)/.25).toFixed(2))}else if(u>=1)f._tug=null}
   }
   carsStep();
   for(const [k,el] of vehEls)if(!el._live){el.remove();vehEls.delete(k)}
