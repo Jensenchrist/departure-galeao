@@ -838,6 +838,16 @@ body.cbar .zhint{top:auto;bottom:calc(var(--panh,0px) + 14px)}
 .aq-tab i{font-style:normal;color:var(--y);font-size:16px;font-weight:900;transition:transform .3s}
 #aqp:not(.shut) .aq-tab i{transform:rotate(180deg)}
 #aqp:not(.shut) .aq-tab{border-radius:0 14px 14px 0}
+
+#edge #mxTab{position:relative;top:auto;left:auto;bottom:auto;width:auto;height:auto;padding:10px 6px 8px 8px;border-radius:12px 0 0 12px;background:var(--k);border:2px solid var(--y);border-right:0;box-shadow:none;flex-direction:column}
+#edge #mxTab .ico{width:30px;height:30px}#edge #mxTab svg{fill:var(--y)}#edge #mxTab #mxDot{top:4px;right:4px}
+#edge #aqp{position:relative;top:auto;left:auto;transform:none!important;align-items:flex-start}
+#edge #aqp.shut .aq-in{display:none}
+#edge #aqp .aq-in{position:absolute;right:100%;bottom:0;border:2px solid var(--y);border-right:0;border-radius:12px 0 0 12px;margin-right:-2px}
+#edge #aqp .aq-tab{width:auto;height:auto;padding:10px 6px 8px 8px;border-radius:12px 0 0 12px;background:var(--k);border:2px solid var(--y);border-right:0;box-shadow:none;align-self:flex-start;gap:4px}
+#edge #aqp .aq-tab span{font-size:9px}
+#edge #aqp:not(.shut) .aq-tab{background:var(--y)}#edge #aqp:not(.shut) .aq-tab span,#edge #aqp:not(.shut) .aq-tab i{color:var(--k)}
+#edge #aqp .aq-tab i{transform:none}#edge #aqp.shut .aq-tab i{transform:none}#edge #aqp:not(.shut) .aq-tab i{transform:rotate(180deg)}
 /* abas laterais cabem entre o painel de LED e o painel de botões */
 body.cbar #edge{top:calc(var(--barh,0px) + 74px);transform:scale(var(--eds,1));transform-origin:100% 0}
 body.cbar #edge>*+*{margin-top:7px}
@@ -930,7 +940,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795726654';
+var APPV='1795727591';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -956,7 +966,7 @@ chk();document.addEventListener('visibilitychange',function(){if(!document.hidde
     </div>
     <div id="storm"></div><video id="rainVid" src="chuva.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
     <div class="pop" id="pop" hidden><span class="pop-t"></span><div><button data-pm="svc" aria-label="Serviços"><span class="ico"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span><small>Serviços</small></button><button data-pm="data" aria-label="Dados do voo"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></span><small>Voo</small></button></div></div>
-    <div id="deals" hidden><div class="yd-box"><div class="yd-h"><button id="dlBk" aria-label="Voltar">‹</button><b id="dlTtl">Acordos</b><span id="dlMoney"></span><button id="dlX" aria-label="Fechar">×</button></div><div class="dl-tabs"><button data-dt="deals" class="on">Acordos</button><button data-dt="fin">Finanças</button><button data-dt="gest">Equipes</button><button data-dt="loan">Crédito</button></div><small class="dl-sub" id="dlSub">Traga novas rotas para o Galeão. Do mais barato ao mais caro.</small><div id="dlList"></div></div></div><div id="mxp" hidden><div class="yd-box"><div class="yd-h"><button id="mxBk" aria-label="Voltar">‹</button><b>Manutenção</b><span id="mxMoney"></span><button id="mxX" aria-label="Fechar">×</button></div><small class="dl-sub" id="mxSub">Escolha a companhia para ver as aeronaves.</small><div id="mxList"></div></div></div><div id="wxp" hidden><div class="yd-box"><div class="yd-h"><b>Tempo · Galeão</b><span id="wxD"></span><button id="wxX" aria-label="Fechar">×</button></div><div id="wxB"></div></div></div><div id="yard" hidden><div class="yd-box"><div class="yd-h"><b>Pátio</b><span id="ydSum"></span><button id="ydX" aria-label="Fechar">×</button></div><div class="yd-crew" id="ydCrew"></div><div class="yd-g" id="ydG"></div><small class="yd-lg"><i class="ok"></i>pronto <i class="run"></i>em serviço <i class="idle"></i>parado <i class="bad"></i>provisória <i class="in"></i>chegando</small></div></div><div id="autoBan">PILOTO AUTOMÁTICO · toque para desligar</div><div id="hud"><div class="mclock" id="mclock"><b id="mcT">11:52<i>:00</i></b><small id="mcS">10×</small></div><div id="windBox"></div></div><button id="mxTab" aria-label="Manutenção"><span class="ico"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span><i id="mxDot"></i></button><div id="specBar"><span id="specT">ESPECTADOR</span><button id="specX">Voltar ao meu aeroporto</button></div><div id="aqp"><div class="aq-in"><div class="aq-hd">PRÓXIMOS</div><div id="aqL"></div></div><button class="aq-tab" id="aqTab" aria-label="Próximos voos"><span>PRÓXIMOS</span><i>›</i></button></div><div id="cbar"><canvas id="cbC" aria-label="Relógio"></canvas></div><div id="ovh"><div class="ov-tray">
+    <div id="deals" hidden><div class="yd-box"><div class="yd-h"><button id="dlBk" aria-label="Voltar">‹</button><b id="dlTtl">Acordos</b><span id="dlMoney"></span><button id="dlX" aria-label="Fechar">×</button></div><div class="dl-tabs"><button data-dt="deals" class="on">Acordos</button><button data-dt="fin">Finanças</button><button data-dt="gest">Equipes</button><button data-dt="loan">Crédito</button></div><small class="dl-sub" id="dlSub">Traga novas rotas para o Galeão. Do mais barato ao mais caro.</small><div id="dlList"></div></div></div><div id="mxp" hidden><div class="yd-box"><div class="yd-h"><button id="mxBk" aria-label="Voltar">‹</button><b>Manutenção</b><span id="mxMoney"></span><button id="mxX" aria-label="Fechar">×</button></div><small class="dl-sub" id="mxSub">Escolha a companhia para ver as aeronaves.</small><div id="mxList"></div></div></div><div id="wxp" hidden><div class="yd-box"><div class="yd-h"><b>Tempo · Galeão</b><span id="wxD"></span><button id="wxX" aria-label="Fechar">×</button></div><div id="wxB"></div></div></div><div id="yard" hidden><div class="yd-box"><div class="yd-h"><b>Pátio</b><span id="ydSum"></span><button id="ydX" aria-label="Fechar">×</button></div><div class="yd-crew" id="ydCrew"></div><div class="yd-g" id="ydG"></div><small class="yd-lg"><i class="ok"></i>pronto <i class="run"></i>em serviço <i class="idle"></i>parado <i class="bad"></i>provisória <i class="in"></i>chegando</small></div></div><div id="autoBan">PILOTO AUTOMÁTICO · toque para desligar</div><div id="hud"><div class="mclock" id="mclock"><b id="mcT">11:52<i>:00</i></b><small id="mcS">10×</small></div><div id="windBox"></div></div><button id="mxTab" aria-label="Manutenção"><span class="ico"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span><i id="mxDot"></i></button><div id="specBar"><span id="specT">ESPECTADOR</span><button id="specX">Voltar ao meu aeroporto</button></div><div id="aqp"><div class="aq-in"><div class="aq-hd">PRÓXIMOS</div><div id="aqL"></div></div><button class="aq-tab" id="aqTab" aria-label="Próximos voos"><span>PRÓXIMOS</span><i>‹</i></button></div><div id="cbar"><canvas id="cbC" aria-label="Relógio"></canvas></div><div id="ovh"><div class="ov-tray">
       <button class="ov-b" id="ovAuto" aria-label="Piloto automático"><svg viewBox="0 0 24 24"></svg></button>
       <button class="ov-b" id="ovFin" aria-label="Gestão"><svg viewBox="0 0 24 24"><path d="M4 19h16v2H4zM5 10h3v7H5zm5.5-4h3v11h-3zM16 13h3v4h-3z"/></svg><i class="finb"><b></b></i></button>
       <button class="ov-b" id="ovPause" aria-label="Pausar"><svg viewBox="0 0 24 24"></svg></button><button class="ov-b" id="ovDeal" aria-label="Negócios"><svg viewBox="0 0 24 24"><path d="M10 4h4a2 2 0 0 1 2 2v1h3a2 2 0 0 1 2 2v3H3V9a2 2 0 0 1 2-2h3V6a2 2 0 0 1 2-2zm0 3h4V6h-4zM3 13.5h7V15h4v-1.5h7V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></button><button class="ov-b" id="ovMore" aria-label="Opções"><svg viewBox="0 0 24 24"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg></button></div><div id="ovOpt" hidden></div></div>
@@ -1337,6 +1347,22 @@ function viaApron(g,s,c0){                         // da taxiway até a posiçã
   const e=bestEntry(g,c0!=null?c0:s.y,s.y);
   return [[g.twy,e],[g.lane,e],[g.lane,s.y]];
 }
+// arredonda as quinas de um caminho (curvas como as das linhas amarelas)
+function fillet(P,r){if(P.length<3)return P.slice();const out=[P[0]];
+  for(let i=1;i<P.length-1;i++){const a=P[i-1],b=P[i],c=P[i+1],d1=dist(a,b),d2=dist(b,c);
+    if(d1<1||d2<1){out.push(b);continue}
+    const u1=[(b[0]-a[0])/d1,(b[1]-a[1])/d1],u2=[(c[0]-b[0])/d2,(c[1]-b[1])/d2],cr=u1[0]*u2[1]-u1[1]*u2[0],dt=u1[0]*u2[0]+u1[1]*u2[1];
+    if(Math.abs(cr)<.03&&dt>0){out.push(b);continue}
+    const rr=Math.min(r,d1/2,d2/2),p1=[b[0]-u1[0]*rr,b[1]-u1[1]*rr],p2=[b[0]+u2[0]*rr,b[1]+u2[1]*rr];out.push(p1);
+    for(let k=1;k<8;k++){const t=k/8,m=1-t;out.push([m*m*p1[0]+2*m*t*b[0]+t*t*p2[0],m*m*p1[1]+2*m*t*b[1]+t*t*p2[1]])}out.push(p2)}
+  out.push(P[P.length-1]);return out}
+// pushback em curva: empurra para a faixa do pátio já virando para o lado em que vai taxiar
+function pushArc(f,s,dirY,R){const g=grpOf(s),sg=sgOf(s),hd=headOf(s),Q=[g.lane+sg*R,s.y],C=[g.lane+sg*R,s.y-dirY*R],segs=[];
+  const p=parkPos(f,s);if(dist(p,Q)>1)segs.push({b:Q,d:Math.max(.4,dist(p,Q)/90),e:'io',h:hd});
+  let prev=Q;const a0=Math.atan2(Q[1]-C[1],Q[0]-C[0]),a1=Math.atan2(0,-sg);let da=a1-a0;while(da>Math.PI)da-=2*Math.PI;while(da<-Math.PI)da+=2*Math.PI;
+  for(let k=1;k<=8;k++){const a=a0+da*k/8,q=[C[0]+Math.cos(a)*R,C[1]+Math.sin(a)*R],h=Math.atan2(q[0]-prev[0],-(q[1]-prev[1]))*180/Math.PI+180;segs.push({b:q,d:Math.max(.05,dist(prev,q)/60),h,e:k===8?'out':'lin'});prev=q}
+  return {segs,end:prev,n:segs.length}}
+var segsAlong=(pts,v,segs)=>{let prev=pts[0];for(const q of pts.slice(1)){const d=dist(prev,q);if(d>.5)segs.push({b:q,d:Math.max(.004,d/v)});prev=q}return segs};
 function landingPath(f,r,s){
   const g=grpOf(s),CONN=g.conn,RX=g.rx;
   const down=r==="10",dir=down?1:-1,td=g.th[r]+(down?200:-200),minRoll=250+f.cls*40;
@@ -1345,21 +1371,23 @@ function landingPath(f,r,s){
   const endC=down?CONN[CONN.length-1]:CONN[0];
   const c=LAY.endOnly||f.cls>=5?endC:f.cls>=3?(down?CONN[2]:CONN[1]):(ok.length?ok.reduce((a,b)=>Math.abs(b-s.y)<Math.abs(a-s.y)?b:a):endC);
   const p=parkPos(f,s);
-  const pts=[[RX,c-dir*28],[RX+g.sg*45,c],[g.twy,c],...viaApron(g,s,c)];
+  const raw=[[RX,c-dir*28],[RX+g.sg*45,c],[g.twy,c],...viaApron(g,s,c)];
+  const last=raw[raw.length-1],pre=[last[0]+(p[0]-last[0])*.35,last[1]];
+  const pts=fillet([...raw,pre],38);
   const segs=[{b:[RX,td],d:1.6,s0:1.9,s:1,a0:1,al:0},{b:pts[0],d:Math.max(.9,Math.abs(pts[0][1]-td)/480),e:'out'}];
-  let prev=pts[0];
-  for(const q of pts.slice(1)){const d=dist(prev,q);if(d>1)segs.push({b:q,d:Math.max(.08,d/280)});prev=q}
-  segs.push({b:p,d:Math.max(.2,dist(prev,p)/180),e:'out'});
+  segsAlong(pts,280,segs);
+  segs.push({b:p,d:Math.max(.2,dist(pts[pts.length-1],p)/150),e:'out'});
   const P=mkPath([RX,down?-320:H+320],segs,now,down?180:0);f.g=g.id;
-  P.offRwy=P.segs[2].t+P.segs[2].d;            // pista livre ao chegar na taxiway
+  {const k=P.segs.findIndex((x,i)=>i>1&&(x.b[0]-g.twy)*g.sg>=-6);P.offRwy=k>=0?P.segs[k].t+P.segs[k].d:P.segs[2].t+P.segs[2].d}  // pista livre ao chegar na taxiway
   return P;
 }
 function taxiOutPath(f,r,s){
   const g=grpOf(s),hd=headOf(s),p=parkPos(f,s),c=r==="10"?g.conn[0]:g.conn[g.conn.length-1];f.g=g.id;
   const pts=g.entry?(()=>{const e=bestEntry(g,s.y,c);return [[g.lane,s.y],[g.lane,e],[g.twy,e],[g.twy,c],[g.rx+g.sg*68,c]]})():[[g.lane,s.y],[g.twy,s.y],[g.twy,c],[g.rx+g.sg*68,c]];
-  const segs=[{b:pts[0],d:1,e:'io',h:hd}];let prev=pts[0];
-  for(const q of pts.slice(1)){const d=dist(prev,q);if(d>1)segs.push({b:q,d:Math.max(.08,d/260)});prev=q}
-  return mkPath(p,segs,now,hd);
+  const nx=pts.find(q=>Math.abs(q[1]-s.y)>2)||[0,c],dirY=Math.abs(pts[1][1]-s.y)>=40?Math.sign(pts[1][1]-s.y):Math.sign(c-s.y)||1;
+  const pa=LAY.id===1&&!s.bd?pushArc(f,s,dirY,30):{segs:[{b:pts[0],d:1,e:'io',h:hd}],end:pts[0],n:1},segs=pa.segs;
+  segsAlong(fillet([pa.end,...pts.slice(1)],40),260,segs);
+  const P=mkPath(p,segs,now,hd);P.pbEnd=P.segs[pa.n-1].t+P.segs[pa.n-1].d;return P;
 }
 function takeoffPath(f,r){
   const g=gid(f.g),RX=g.rx,down=r==="10",c=down?g.conn[0]:g.conn[g.conn.length-1];
@@ -1628,9 +1656,9 @@ function hgRoute(f,from,to,y0,y1){const g=LAY.G[0],c=nearest(g.conn,(y0+y1)/2);r
 function toHangarV(f){const s=STANDS[f.stand-1],g=grpOf(s);const fr=LAY.hgV.map((v,k)=>k).filter(k=>!hgBusy(k)).sort((a,b)=>Math.abs(LAY.hgV[a].door-s.y)-Math.abs(LAY.hgV[b].door-s.y));if(!fr.length)return false;
   const i=fr[0],v=LAY.hgV[i],a=parkPos(f,s),b=hgPos(f,i),hd=headOf(s);s.res=null;f.stand=null;f.hg=i;
   // empurra até a faixa do pátio, segue a linha amarela e entra de bico no hangar
-  const segs=[{b:[g.lane,s.y],d:1,e:'io',h:hd}];let prev=[g.lane,s.y];const L=spr(f)[f.cls-1][1]*PS(),ap=[v.x,v.door-v.dir*(L+40)];
-  for(const q of [ap]){const d=dist(prev,q);if(d>1)segs.push({b:q,d:Math.max(.2,d/260)});prev=q}
-  segs.push({b,d:Math.max(.3,dist(prev,b)/110),e:'out'});f.path=mkPath(a,segs,now,hd);f.state='toHg';f.svs=null;dirty=true;return true}
+  const L=spr(f)[f.cls-1][1]*PS(),ap=[v.x,v.door-v.dir*(L+40)],pa=pushArc(f,s,v.dir<0?-1:1,30),segs=pa.segs;
+  segsAlong(fillet([pa.end,ap],40),260,segs);
+  segs.push({b,d:Math.max(.3,dist(ap,b)/110),e:'out'});f.path=mkPath(a,segs,now,hd);f.path.pbEnd=f.path.segs[pa.n-1].t+f.path.segs[pa.n-1].d;f.state='toHg';f.svs=null;dirty=true;return true}
 function toHangar(f){if(LAY.hgV)return toHangarV(f);const s=STANDS[f.stand-1],g=grpOf(s);let i=-1;for(let k=0;k<LAY.hg.length;k++)if(!hgBusy(k)){i=k;break}if(i<0)return false;
   const a=parkPos(f,s),b=hgPos(f,i),hy=LAY.hg[i],hd=headOf(s),e=hgEntry(g,hy),ap=[LAY.hgAp||b[0]+40,hy];s.res=null;f.stand=null;f.hg=i;
   // pátio → linha amarela até a entrada da pista → anda pela pista até o hangar → entra de bico
@@ -1640,9 +1668,9 @@ function toHangar(f){if(LAY.hgV)return toHangarV(f);const s=STANDS[f.stand-1],g=
 function fromHangar(f){const fr=STANDS.filter(x=>x.res==null&&fits(x,f.cls)).sort((a,b)=>(a.remote?1:0)-(b.remote?1:0)||a.max-b.max);const s=fr[0];if(!s)return false;
   if(LAY.hgV){const g=grpOf(s),v=LAY.hgV[f.hg],a=hgPos(f,f.hg),L=spr(f)[f.cls-1][1]*PS(),hd=hgHd(f.hg),o=[v.x,v.door-v.dir*(L+40)];s.res=f.i;f.stand=s.n;
     // sai de ré do hangar e volta pela faixa do pátio
-    const segs=[{b:o,d:1.4,e:'io',h:hd}];let prev=o;
-    for(const q of [[g.lane,s.y]]){const d=dist(prev,q);if(d>1)segs.push({b:q,d:Math.max(.2,d/260)});prev=q}
-    segs.push({b:parkPos(f,s),d:Math.max(.3,dist(prev,parkPos(f,s))/180),e:'out'});f.path=mkPath(a,segs,now,hd);f.state='fromHg';dirty=true;
+    const segs=[{b:o,d:1.4,e:'io',h:hd}],pp=parkPos(f,s),pts=fillet([o,[g.lane,s.y],[g.lane+(pp[0]-g.lane)*.35,s.y]],40);
+    segsAlong(pts,260,segs);
+    segs.push({b:pp,d:Math.max(.3,dist(pts[pts.length-1],pp)/150),e:'out'});f.path=mkPath(a,segs,now,hd);f.state='fromHg';dirty=true;
     toast(`${f.depNo} saindo do hangar para o portão ${sn(s.n)}`);return true}
   const g=grpOf(s),hy=LAY.hg[f.hg],a=hgPos(f,f.hg),e=hgEntry(g,hy);s.res=f.i;f.stand=s.n;
   // sai de ré do hangar até a pista, segue pela pista até a entrada e volta pela linha amarela
@@ -1661,7 +1689,7 @@ function assign(f,s){
     toast(`${f.arrNo} vai para a posição ${sn(s.n)} provisoriamente · sem serviços até a vaga certa`);dirty=true;return}
   f.blk=false;
   if(f.stand!=null)STANDS[f.stand-1].res=null;
-  s.res=f.i;f.stand=s.n;assignFor=null;openTab=null;
+  s.res=f.i;f.stand=s.n;f.tAsg=now;assignFor=null;openTab=null;
   toast(`${f.arrNo} vai desembarcar na posição ${sn(s.n)}`);if(pk('bipe')!=='off')play('bipe',{vol:.6});dirty=true;
 }
 
@@ -2900,7 +2928,9 @@ if(TWO){
   {const w=document.createElement('div');w.className='edw';w.innerHTML=`<button class="edt" id="edYard" aria-label="Pátio e serviços">${ic('yard')}<i>‹</i></button>`;edge.appendChild(w);
    w.querySelector('.edt').addEventListener('click',e=>{e.stopPropagation();edge.querySelectorAll('.edw').forEach(x=>x.classList.remove('open'));openYard(!yardOn)})}
   /* Negócios foi para o painel de baixo */
-  /* manutenção virou lingueta à esquerda */
+  /* manutenção e PRÓXIMOS: linguetas na lateral direita, junto das outras */
+  {const w=document.createElement('div');w.className='edw';const mt=$('mxTab');mt.classList.add('edt');mt.insertAdjacentHTML('beforeend','<i>‹</i>');w.appendChild(mt);edge.appendChild(w);
+   const a=$('aqp');edge.appendChild(a);$('aqTab').classList.add('edt')}
   // abas reordenáveis: segure meio segundo e arraste para cima/baixo; encaixam como ímã
   {const key=el=>el.id==='fltTab'?'flt':(el.querySelector('.edt')||{}).id;
    try{const ord=JSON.parse(localStorage.getItem('departure_edge')||'null');if(ord)ord.forEach(k=>{const el=[...edge.children].find(c=>key(c)===k);if(el)edge.appendChild(el)})}catch(e){}
@@ -2949,40 +2979,51 @@ function vehEl(key,spr,car){let el=vehEls.get(key);
     const d=VEH[spr];el.style.width=(d[0]/W*100)+'%';el.style.height=(d[1]/H*100)+'%'}
   el._live=1;return el}
 function vehPut(el,x,y,h,o){el.style.left=(x/W*100)+'%';el.style.top=(y/H*100)+'%';el.style.transform=`translate(-50%,-50%) rotate(${h}deg)`;el.style.opacity=o;el.style.filter=`drop-shadow(-1px 1.5px 1px rgba(0,0,0,.45)) brightness(${PB})`}
-// entra pela via de serviço, encosta no avião, espera o serviço e vai embora
-function vehRun(key,spr,S,T,hf,t0,t1){
-  const len=VEH[spr][1],pre=[T[0]-hv(hf,len*.9,0)[0],T[1]-hv(hf,len*.9,0)[1]],k=pathK(speed)||1,tin=Math.min((t1-t0)*.35,1.1*k),tout=1.1*k;
-  if(now<t0||now>t1+tout)return;let x,y,h,o=1;
-  if(now<t0+tin){const u=(now-t0)/tin;o=Math.min(1,u/.15);
-    if(u<.7){const v=EASE.io?u/.7:u/.7;x=lerp(S[0],pre[0],v);y=lerp(S[1],pre[1],v);h=angTo(S,pre)}else{const v=(u-.7)/.3;x=lerp(pre[0],T[0],v);y=lerp(pre[1],T[1],v);h=hf}}
-  else if(now<=t1){x=T[0];y=T[1];h=hf}
-  else{const u=(now-t1)/tout;o=Math.min(1,(1-u)/.15);
-    if(u<.3){const v=u/.3;x=lerp(T[0],pre[0],v);y=lerp(T[1],pre[1],v);h=hf}else{const v=(u-.3)/.7;x=lerp(pre[0],S[0],v);y=lerp(pre[1],S[1],v);h=angTo(pre,S)}}
-  vehPut(vehEl(key,spr),x,y,h,o.toFixed(2))}
+// o veículo percorre a rota (com curvas) até ficar de frente para a vaga, espera e depois volta de ré e vai embora
+function vehRun(key,spr,route,T,hf,t0,t1){
+  const len=VEH[spr][1],f0=hv(hf,len*.9,0),pre=[T[0]-f0[0],T[1]-f0[1]],k=pathK(speed)||1,tin=Math.min(Math.max(.2,(t1-t0)*.35),1.4*k),tout=1.2*k;
+  if(now<t0||now>t1+tout)return;
+  const P=fillet([...route,pre],14);P.push(T);const Ls=[];let tot=0;for(let i=1;i<P.length;i++){const d=dist(P[i-1],P[i]);Ls.push(d);tot+=d}
+  const at=dd=>{let i=0;while(i<Ls.length-1&&dd>Ls[i]){dd-=Ls[i];i++}const u=Ls[i]?Math.min(1,dd/Ls[i]):1,a=P[i],b=P[i+1];return {x:lerp(a[0],b[0],u),y:lerp(a[1],b[1],u),h:i===Ls.length-1?hf:angTo(a,b)}};
+  let q,o=1;
+  if(now<t0+tin){const u=(now-t0)/tin;o=Math.min(1,u/.12);q=at(EASE.out(u)*tot)}
+  else if(now<=t1){q={x:T[0],y:T[1],h:hf}}
+  else{const u=(now-t1)/tout;o=Math.min(1,(1-u)/.12);q=at((1-EASE.in(u))*tot);if(q.h!==hf)q.h=(q.h+180)%360;if(u>.25&&Ls.length>1){/* já saiu da vaga: segue de frente */}}
+  vehPut(vehEl(key,spr),q.x,q.y,q.h,o.toFixed(2))}
 var svW=(f,i)=>{const v=f.svs&&f.svs[i];return !v||v.s==null||v.skip?null:[v.s,v.s+v.d]};
+var svEnd=(f,i)=>{if(!f.svs)return Infinity;const v=f.svs[i];if(v.skip)return (f.tPark||now)+.3;return v.s==null?Infinity:v.s+v.d};
+var PRE=new Set(['approach','holding','inbound','arriving','parked']);
 function drawVeh(){
   for(const el of vehEls.values())el._live=0;
-  if(LAY.id===1&&flights)for(const f of flights){if(f.state!=='parked'||!f.svs||f.stand==null)continue;const s=STANDS[f.stand-1];if(!s)continue;
+  if(LAY.id===1&&flights)for(const f of flights){if(!f.cls||f.stand==null)continue;const s=STANDS[f.stand-1];if(!s)continue;
+    const remPre=s.remote&&f.tAsg!=null&&PRE.has(f.state)&&!f.blk;
+    if(!remPre&&(f.state!=='parked'||!f.svs))continue;
     const C=parkPos(f,s),h=headOf(s),L=spr(f)[f.cls-1][1]*PS(),Wd=spr(f)[f.cls-1][0]*PS(),fw=Wd*.055,g=grpOf(s);
     const at=(fd,rt)=>{const d=hv(h,fd,rt);return [C[0]+d[0],C[1]+d[1]]};
     const viaRoad=!s.remote&&s.n!==1&&s.n!==10;
-    const src=(T,side)=>viaRoad?[SVCROAD,T[1]+side*6]:[g.lane,T[1]+hv(h,0,side*Wd*.55)[1]];
+    // remotas: vêm pela faixa do pátio e entram reto pela linha da posição
+    const route=(T,side)=>s.remote?[[g.lane-6,s.y+(s.y<640?-150:150)],[g.lane-6,T[1]]]:viaRoad?[[SVCROAD,T[1]+side*6]]:[[g.lane,T[1]+hv(h,0,side*Wd*.55)[1]]];
     let w;
-    // abastecimento: caminhão-tanque à frente da asa direita, virado para a cauda
-    if(w=svW(f,4)){const T=at(L*.06+13,Wd*.27);vehRun(f.i+'f','combustivel',src(T,1),T,h+180,w[0],w[1])}
-    // catering: porta traseira direita, encosta de ré
-    if(w=svW(f,3)){const T=at(-L*.27,fw+9.5);vehRun(f.i+'c','catering',src(T,1),T,h+90,w[0],w[1])}
-    // descarga e carga: esteira no porão dianteiro esquerdo + trem de bagagem
-    for(const i of [1,5])if(w=svW(f,i)){const T=at(L*.2,-(fw+7)),T2=at(L*.06,-(fw+19));vehRun(f.i+'e'+i,'esteira',src(T,-1),T,h+70,w[0],w[1]);vehRun(f.i+'t'+i,'trem_bagagem',src(T2,-1),T2,h+180,w[0]-.2,w[1]+.2)}
-    // remotas: escada na porta dianteira esquerda e ônibus com os passageiros
-    if(s.remote)for(const i of [0,6])if(w=svW(f,i)){const T=at(L*.33,-(fw+7.5)),T2=at(L*.1,-(fw+30));vehRun(f.i+'s'+i,'escada',src(T,-1),T,h+90,w[0]-.3,w[1]+.3);vehRun(f.i+'b'+i,'onibus',src(T2,-1),T2,h,w[0],w[1])}
+    if(remPre){const t0=f.tAsg,un=(i)=>svEnd(f,i);
+      const T4=at(L*.06+13,Wd*.27),T3=at(-L*.27,fw+9.5),Te=at(L*.2,-(fw+7)),Tt=at(L*.06,-(fw+19)),Ts=at(L*.33,-(fw+7.5)),Tb=at(L*.1,-(fw+30));
+      vehRun(f.i+'f','combustivel',route(T4,1),T4,h+180,t0,un(4));
+      vehRun(f.i+'c','catering',route(T3,1),T3,h+90,t0+.15,un(3));
+      vehRun(f.i+'e','esteira',route(Te,-1),Te,h+70,t0+.1,Math.max(un(1),un(5)));
+      vehRun(f.i+'t','trem_bagagem',route(Tt,-1),Tt,h+180,t0+.2,Math.max(un(1),un(5))+.2);
+      vehRun(f.i+'s','escada',route(Ts,-1),Ts,h+90,t0+.05,Math.max(un(0),un(6))+.3);
+      vehRun(f.i+'b','onibus',route(Tb,-1),Tb,h,t0+.25,Math.max(un(0),un(6)));
+      continue}
+    // terminal: cada veículo chega quando o serviço começa
+    if(w=svW(f,4)){const T=at(L*.06+13,Wd*.27);vehRun(f.i+'f','combustivel',route(T,1),T,h+180,w[0],w[1])}
+    if(w=svW(f,3)){const T=at(-L*.27,fw+9.5);vehRun(f.i+'c','catering',route(T,1),T,h+90,w[0],w[1])}
+    for(const i of [1,5])if(w=svW(f,i)){const T=at(L*.2,-(fw+7)),T2=at(L*.06,-(fw+19));vehRun(f.i+'e'+i,'esteira',route(T,-1),T,h+70,w[0],w[1]);vehRun(f.i+'t'+i,'trem_bagagem',route(T2,-1),T2,h+180,w[0]-.2,w[1]+.2)}
   }
-  if(LAY.id===1&&flights)for(const f of flights){
+  if(LAY.id===1&&flights)for(const f of flights){if(!f.cls||!f.k&&!f.al)continue;if(!['parked','departing','toHg'].includes(f.state)&&!f._tug)continue;
     // trator de pushback: espera no bico quando o avião fica pronto, empurra e depois volta para o portão
     const L=spr(f)[f.cls-1][1]*PS(),tl=VEH.pushback[1],at=(p,h)=>{const d=hv(h,L/2+tl/2-1,0);return [p.x+d[0],p.y+d[1]]};
     let p=null,o=1;
     if(f.state==='parked'&&f.stand!=null&&f.svs&&isReady(f)){const st=STANDS[f.stand-1];if(st){const q=parkPos(f,st);p={x:q[0],y:q[1],h:headOf(st)};o=f._tugIn==null?(f._tugIn=now,0):Math.min(1,(now-f._tugIn)/(.6*(pathK(speed)||1)))}}
-    else if((f.state==='departing'||f.state==='toHg')&&f.path){const g0=f.path.segs[0];if(now<g0.t+g0.d){p=pose(f);f._tug={x:p.x,y:p.y,h:p.h,t:g0.t+g0.d}}}
+    else if((f.state==='departing'||f.state==='toHg')&&f.path){const g0=f.path.segs[0],pe=f.path.pbEnd||g0.t+g0.d;if(now<pe){p=pose(f);f._tug={x:p.x,y:p.y,h:p.h,t:pe}}}
     if(f.state!=='parked')f._tugIn=null;
     if(p){const q=at(p,p.h);vehPut(vehEl(f.i+'pb','pushback'),q[0],q[1],p.h+180,o.toFixed(2));continue}
     const T=f._tug;if(T&&f.state!=='gone'){const k=pathK(speed)||1,u=(now-T.t)/(1.2*k);if(u>=0&&u<1){const q=at(T,T.h),d=hv(T.h,u*40,0);vehPut(vehEl(f.i+'pb','pushback'),q[0]+d[0],q[1]+d[1],T.h,Math.min(1,(1-u)/.25).toFixed(2))}else if(u>=1)f._tug=null}
@@ -2992,7 +3033,7 @@ function drawVeh(){
 }
 // carros na via de acesso do terminal (tempo real; param quando o jogo está pausado)
 var CARS=[],carT=0,carLast=performance.now(),CARSPR=['taxi','taxi','carro_branco','carro_vermelho','carro_preto','suv_azul','carro_branco','policia'];
-var CROUTES=()=>[[[929.5,-20],[929.5,1287]],[[924.5,1287],[924.5,-20]],
+var CROUTES=()=>CR0().map(r=>fillet(r,12));var CR0=()=>[[[929.5,-20],[929.5,1287]],[[924.5,1287],[924.5,-20]],
   [[929.5,-20],[929.5,296],[920,310],[797,310],[786,322],[786,760,'stop'],[786,930],[798,946],[912,946],[929.5,962],[929.5,1287]]];
 function carsStep(){const t=performance.now(),dt=Math.min(.1,(t-carLast)/1000);carLast=t;
   if(LAY.id!==1){CARS.length=0;return}
