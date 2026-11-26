@@ -49,7 +49,7 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
 
 /* plaquinhas e áreas de clique */
 .sign{position:absolute;transform:translate(-50%,-50%) scale(.9);display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 3px rgba(0,0,0,.6));pointer-events:none;z-index:4}
-.sign .plate{background:var(--k);border-radius:4px;padding:0 4px 1px;color:var(--y);font-weight:800;font-size:max(10px,min(1.55vh,17px));letter-spacing:-.04em;line-height:1.1;border:1.5px solid transparent;transition:.2s}
+.sign .plate{background:var(--k);border-radius:4px;padding:0 4px 1px;color:var(--y);font-weight:800;font-size:max(9px,min(1.4vh,15px));letter-spacing:-.04em;line-height:1.1;border:1.5px solid transparent;transition:.2s}
 .sign .pct{position:absolute;left:calc(100% + 3px);top:50%;transform:translateY(-50%);margin:0!important;white-space:nowrap;background:var(--k);color:var(--y);font-weight:800;font-size:max(7px,min(.9vh,9px));padding:0 3px;border-radius:3px;margin-bottom:1px;font-variant-numeric:tabular-nums;border:1px solid #444}
 .sign .pct.full{color:var(--k);background:#5dff8f;border-color:#5dff8f}
 .sign .cls{background:var(--y);color:var(--k);font-weight:800;font-size:max(7px,min(.95vh,10px));padding:0 4px;border-radius:2px;margin-top:1px}
@@ -527,7 +527,7 @@ body.neo .aq-t:empty{background:#1d1e21;box-shadow:inset 3px 3px 6px rgba(0,0,0,
   .side.showDetail .stats,.side.showDetail .goals,.side.showDetail .speed,.side.showDetail .campl{display:none}
   .sign .pct{font-size:1.9vw}
   .tag{font-size:2vw}
-  .sign .plate{font-size:3vw}.sign .cls{font-size:1.6vw}.rwy{font-size:2.4vw}
+  .sign .plate{font-size:2.7vw}.sign .cls{font-size:1.6vw}.rwy{font-size:2.4vw}
   .toast{position:fixed;top:auto;bottom:18px;max-width:calc(100% - 150px);left:calc(50% - 30px)}
 }
 @media(prefers-reduced-motion:reduce){.sign.ok .plate{animation:none!important}}
@@ -940,7 +940,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795727591';
+var APPV='1795728316';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1059,11 +1059,11 @@ var TH={"10":60,"28":1590};
 // layouts: 1 = Galeão original (1 pista), 2 = expansão (2 pistas, Terminal 1 e 2)
 var CN2=[224,584,1197,1595,1920];
 var LAYS={
- 1:{id:1,W:966,H:1267,ps:1.35,cover:1,ax:40,lts:4.5,endOnly:1,hg:[0,1],hgV:[{x:412,door:52,dir:-1},{x:412,door:1212,dir:1}],G:[{lp:{edge:[[65.0,117.0],[65.0,147.5],[65.0,178.8],[65.0,238.0],[65.0,268.5],[65.0,298.0],[65.0,330.0],[65.0,351.5],[63.0,386.0],[62.5,420.5],[63.0,456.0],[62.8,491.0],[62.8,525.0],[62.8,559.5],[62.5,594.0],[62.5,630.0],[62.8,664.0],[62.8,698.5],[62.8,734.8],[62.8,769.0],[62.8,803.0],[63.0,838.5],[62.8,872.5],[62.8,908.5],[65.0,941.0],[65.0,970.5],[65.0,1001.5],[65.0,1031.0],[65.0,1061.5],[65.0,1121.0],[65.0,1152.5],[65.0,1185.5],[160.5,117.0],[160.5,147.5],[160.5,178.5],[160.5,238.0],[160.2,268.5],[160.0,298.0],[163.0,386.0],[163.0,420.5],[163.0,456.0],[163.0,491.0],[163.0,525.0],[163.0,559.5],[163.0,594.0],[163.0,630.0],[163.0,664.0],[163.0,698.5],[163.0,735.0],[163.0,769.0],[163.0,803.0],[163.0,838.5],[163.0,872.5],[160.2,970.0],[160.2,1000.5],[160.2,1030.5],[160.2,1060.5],[160.2,1120.5],[160.5,1152.0],[160.0,1185.0]],th:{"10":[209,[65,75.5,89.5,104.5,122,138,151,160.5]],"28":[1091,[65,74.5,88.5,104,122,136.5,151,160.2]]},ap:{"10":[[77.2,[87.2,100.2,113.5,126.5,139.5]],[42,[113.2]]],"28":[[1211,[91,104,117,130.2,143.2]],[1243.8,[111.5]]]}},id:'A',rx:110,twy:236,lane:412,sg:1,conn:[337,925],entry:[231,1017],th:{"10":213,"28":1084},nm:{"10":"10","28":"28"},lt:[66,12,8],reil:[55,165],lbx:28,ap:{"10":[20,40,60],"28":[1210,1230,1250]},edge:[63,159]}],
+ 1:{id:1,W:966,H:1267,ps:1.35,cover:1,ax:40,lts:4.5,endOnly:1,hg:[0,1],hgV:[{x:412,door:52,dir:-1},{x:412,door:1230,dir:1}],G:[{lp:{edge:[[65.0,117.0],[65.0,147.5],[65.0,178.8],[65.0,238.0],[65.0,268.5],[65.0,298.0],[65.0,330.0],[65.0,351.5],[63.0,386.0],[62.5,420.5],[63.0,456.0],[62.8,491.0],[62.8,525.0],[62.8,559.5],[62.5,594.0],[62.5,630.0],[62.8,664.0],[62.8,698.5],[62.8,734.8],[62.8,769.0],[62.8,803.0],[63.0,838.5],[62.8,872.5],[62.8,908.5],[65.0,941.0],[65.0,970.5],[65.0,1001.5],[65.0,1031.0],[65.0,1061.5],[65.0,1121.0],[65.0,1152.5],[65.0,1185.5],[160.5,117.0],[160.5,147.5],[160.5,178.5],[160.5,238.0],[160.2,268.5],[160.0,298.0],[163.0,386.0],[163.0,420.5],[163.0,456.0],[163.0,491.0],[163.0,525.0],[163.0,559.5],[163.0,594.0],[163.0,630.0],[163.0,664.0],[163.0,698.5],[163.0,735.0],[163.0,769.0],[163.0,803.0],[163.0,838.5],[163.0,872.5],[160.2,970.0],[160.2,1000.5],[160.2,1030.5],[160.2,1060.5],[160.2,1120.5],[160.5,1152.0],[160.0,1185.0]],th:{"10":[209,[65,75.5,89.5,104.5,122,138,151,160.5]],"28":[1091,[65,74.5,88.5,104,122,136.5,151,160.2]]},ap:{"10":[[77.2,[87.2,100.2,113.5,126.5,139.5]],[42,[113.2]]],"28":[[1211,[91,104,117,130.2,143.2]],[1243.8,[111.5]]]}},id:'A',rx:110,twy:236,lane:412,sg:1,conn:[337,925],entry:[231,1017],th:{"10":213,"28":1084},nm:{"10":"10","28":"28"},lt:[66,12,8],reil:[55,165],lbx:28,ap:{"10":[20,40,60],"28":[1210,1230,1250]},edge:[63,159]}],
    labels:[],
    // portões do terminal (bico para o leste) + remotas a oeste da faixa do pátio (bico para o oeste)
-   mk:()=>[[520,152,7,6],[602,282,6],[600,385,6],[600,480,6],[554,605,3],[554,701,3],[605,813,5],[605,911,5],[605,1017,6],[525,1117,7,6]].map(([x,y,m,mn],i)=>({n:i+1,x,y,max:m,min:mn||1,bd:0,g:'A',sx:x+24,sy:i===9?y+20:y-18}))
-     .concat([390,480,605,701,813,911].map((y,i)=>({n:11+i,x:302,y,max:4,remote:1,lab:'R'+(i+1),bd:0,g:'A',sg:-1,sx:286,sy:y-20})))},
+   mk:()=>[[520,152,7,6],[602,282,6],[600,385,6],[600,480,6],[554,605,3],[554,701,3],[605,813,5],[605,911,5],[605,1017,6],[525,1117,7,6]].map(([x,y,m,mn],i)=>({n:i+1,x,y,max:m,min:mn||1,bd:0,g:'A',sx:x+70,sy:i===9?y+20:y-18}))
+     .concat([390,480,605,701,813,911].map((y,i)=>({n:11+i,x:302,y,max:4,remote:1,lab:'R'+(i+1),bd:0,g:'A',sg:-1,sx:330,sy:y-30})))},
  2:{id:2,W:941,H:1672,ps:1.44,G:[
    {id:'A',rx:84,twy:355,lane:397,sg:1,conn:[255,256,1399,1400],entry:null,th:{"10":168,"28":1489},nm:{"10":"10L","28":"28R"},lt:[58,6.5,9],reil:[50,118],lbx:30,ap:{"10":[100,117,134,151],"28":[1505,1520,1535,1550,1565]},edge:[57,111]},
    {id:'B',rx:266,twy:355,lane:397,sg:1,conn:[240,480,838,1248,1500],entry:null,th:{"10":93,"28":1489},nm:{"10":"10R","28":"28L"},lt:[234,8,9],reil:[226,306],lbx:325,ap:{"10":[25,42,59,76],"28":[1505,1520,1535,1550,1565]},edge:[233,299]}],
@@ -2983,7 +2983,7 @@ function vehPut(el,x,y,h,o){el.style.left=(x/W*100)+'%';el.style.top=(y/H*100)+'
 function vehRun(key,spr,route,T,hf,t0,t1){
   const len=VEH[spr][1],f0=hv(hf,len*.9,0),pre=[T[0]-f0[0],T[1]-f0[1]],k=pathK(speed)||1,tin=Math.min(Math.max(.2,(t1-t0)*.35),1.4*k),tout=1.2*k;
   if(now<t0||now>t1+tout)return;
-  const P=fillet([...route,pre],14);P.push(T);const Ls=[];let tot=0;for(let i=1;i<P.length;i++){const d=dist(P[i-1],P[i]);Ls.push(d);tot+=d}
+  const P0=[...route,pre,T].filter((q,i,a)=>!i||dist(q,a[i-1])>1),P=fillet(P0,14);const Ls=[];let tot=0;for(let i=1;i<P.length;i++){const d=dist(P[i-1],P[i]);Ls.push(d);tot+=d}
   const at=dd=>{let i=0;while(i<Ls.length-1&&dd>Ls[i]){dd-=Ls[i];i++}const u=Ls[i]?Math.min(1,dd/Ls[i]):1,a=P[i],b=P[i+1];return {x:lerp(a[0],b[0],u),y:lerp(a[1],b[1],u),h:i===Ls.length-1?hf:angTo(a,b)}};
   let q,o=1;
   if(now<t0+tin){const u=(now-t0)/tin;o=Math.min(1,u/.12);q=at(EASE.out(u)*tot)}
@@ -3001,32 +3001,33 @@ function drawVeh(){
     const C=parkPos(f,s),h=headOf(s),L=spr(f)[f.cls-1][1]*PS(),Wd=spr(f)[f.cls-1][0]*PS(),fw=Wd*.055,g=grpOf(s);
     const at=(fd,rt)=>{const d=hv(h,fd,rt);return [C[0]+d[0],C[1]+d[1]]};
     const viaRoad=!s.remote&&s.n!==1&&s.n!==10;
-    // remotas: vêm pela faixa do pátio e entram reto pela linha da posição
-    const route=(T,side)=>s.remote?[[g.lane-6,s.y+(s.y<640?-150:150)],[g.lane-6,T[1]]]:viaRoad?[[SVCROAD,T[1]+side*6]]:[[g.lane,T[1]+hv(h,0,side*Wd*.55)[1]]];
+    // todos vêm pela faixa do pátio (atrás da cauda) e entram reto pela linha até a vaga; nunca passam por cima do terminal
+    const run=(key,spr,T,hf,t0,t1)=>{const f0=hv(hf,VEH[spr][1]*.9,0),pre=[T[0]-f0[0],T[1]-f0[1]];vehRun(key,spr,[[g.lane,s.y+(s.y<640?-150:150)],[g.lane,pre[1]]],T,hf,t0,t1)};
+    // posições: combustível à frente da asa direita, catering na porta traseira direita, esteira e trem no porão esquerdo, escada e ônibus na porta dianteira esquerda
+    const T4=at(L*.06+13,Wd*.27),T3=at(-L*.27,fw+9.5),Te=at(L*.2,-(fw+7)),Tt=at(L*.02,-(fw+19)),Ts=at(L*.33,-(fw+7.5)),Tb=at(L*.05,-(fw+32));
     let w;
     if(remPre){const t0=f.tAsg,un=(i)=>svEnd(f,i);
-      const T4=at(L*.06+13,Wd*.27),T3=at(-L*.27,fw+9.5),Te=at(L*.2,-(fw+7)),Tt=at(L*.06,-(fw+19)),Ts=at(L*.33,-(fw+7.5)),Tb=at(L*.1,-(fw+30));
-      vehRun(f.i+'f','combustivel',route(T4,1),T4,h+180,t0,un(4));
-      vehRun(f.i+'c','catering',route(T3,1),T3,h+90,t0+.15,un(3));
-      vehRun(f.i+'e','esteira',route(Te,-1),Te,h+70,t0+.1,Math.max(un(1),un(5)));
-      vehRun(f.i+'t','trem_bagagem',route(Tt,-1),Tt,h+180,t0+.2,Math.max(un(1),un(5))+.2);
-      vehRun(f.i+'s','escada',route(Ts,-1),Ts,h+90,t0+.05,Math.max(un(0),un(6))+.3);
-      vehRun(f.i+'b','onibus',route(Tb,-1),Tb,h,t0+.25,Math.max(un(0),un(6)));
+      run(f.i+'f','combustivel',T4,h,t0,un(4));
+      run(f.i+'c','catering',T3,h-90,t0+.15,un(3));
+      run(f.i+'e','esteira',Te,h+70,t0+.1,Math.max(un(1),un(5)));
+      run(f.i+'t','trem_bagagem',Tt,h,t0+.2,Math.max(un(1),un(5))+.2);
+      run(f.i+'s','escada',Ts,h+90,t0+.05,Math.max(un(0),un(6))+.3);
+      run(f.i+'b','onibus',Tb,h,t0+.25,Math.max(un(0),un(6)));
       continue}
     // terminal: cada veículo chega quando o serviço começa
-    if(w=svW(f,4)){const T=at(L*.06+13,Wd*.27);vehRun(f.i+'f','combustivel',route(T,1),T,h+180,w[0],w[1])}
-    if(w=svW(f,3)){const T=at(-L*.27,fw+9.5);vehRun(f.i+'c','catering',route(T,1),T,h+90,w[0],w[1])}
-    for(const i of [1,5])if(w=svW(f,i)){const T=at(L*.2,-(fw+7)),T2=at(L*.06,-(fw+19));vehRun(f.i+'e'+i,'esteira',route(T,-1),T,h+70,w[0],w[1]);vehRun(f.i+'t'+i,'trem_bagagem',route(T2,-1),T2,h+180,w[0]-.2,w[1]+.2)}
+    if(w=svW(f,4))run(f.i+'f','combustivel',T4,h,w[0],w[1]);
+    if(w=svW(f,3))run(f.i+'c','catering',T3,h-90,w[0],w[1]);
+    for(const i of [1,5])if(w=svW(f,i)){run(f.i+'e'+i,'esteira',Te,h+70,w[0],w[1]);run(f.i+'t'+i,'trem_bagagem',Tt,h,w[0]-.2,w[1]+.2)}
   }
   if(LAY.id===1&&flights)for(const f of flights){if(!f.cls||!f.k&&!f.al)continue;if(!['parked','departing','toHg'].includes(f.state)&&!f._tug)continue;
     // trator de pushback: espera no bico quando o avião fica pronto, empurra e depois volta para o portão
     const L=spr(f)[f.cls-1][1]*PS(),tl=VEH.pushback[1],at=(p,h)=>{const d=hv(h,L/2+tl/2-1,0);return [p.x+d[0],p.y+d[1]]};
     let p=null,o=1;
     if(f.state==='parked'&&f.stand!=null&&f.svs&&isReady(f)){const st=STANDS[f.stand-1];if(st){const q=parkPos(f,st);p={x:q[0],y:q[1],h:headOf(st)};o=f._tugIn==null?(f._tugIn=now,0):Math.min(1,(now-f._tugIn)/(.6*(pathK(speed)||1)))}}
-    else if((f.state==='departing'||f.state==='toHg')&&f.path){const g0=f.path.segs[0],pe=f.path.pbEnd||g0.t+g0.d;if(now<pe){p=pose(f);f._tug={x:p.x,y:p.y,h:p.h,t:pe}}}
-    if(f.state!=='parked')f._tugIn=null;
+    else if((f.state==='departing'||f.state==='toHg')&&f.path){const g0=f.path.segs[0],pe=f.path.pbEnd||g0.t+g0.d;if(now<pe){p=pose(f);f._tug={x:p.x,y:p.y,h:p.h,t:pe,sh:f.stand&&STANDS[f.stand-1]?headOf(STANDS[f.stand-1]):f._tugSh}}}
+    if(f.state!=='parked')f._tugIn=null;else if(f.stand&&STANDS[f.stand-1])f._tugSh=headOf(STANDS[f.stand-1]);
     if(p){const q=at(p,p.h);vehPut(vehEl(f.i+'pb','pushback'),q[0],q[1],p.h+180,o.toFixed(2));continue}
-    const T=f._tug;if(T&&f.state!=='gone'){const k=pathK(speed)||1,u=(now-T.t)/(1.2*k);if(u>=0&&u<1){const q=at(T,T.h),d=hv(T.h,u*40,0);vehPut(vehEl(f.i+'pb','pushback'),q[0]+d[0],q[1]+d[1],T.h,Math.min(1,(1-u)/.25).toFixed(2))}else if(u>=1)f._tug=null}
+    const T=f._tug;if(T&&f.state!=='gone'){const k=pathK(speed)||1,u=(now-T.t)/(1.2*k);if(u>=0&&u<1){const q=at(T,T.h),hh=T.sh!=null?T.sh:T.h,d=hv(hh,u*40,0);vehPut(vehEl(f.i+'pb','pushback'),q[0]+d[0],q[1]+d[1],hh,Math.min(1,(1-u)/.25).toFixed(2))}else if(u>=1)f._tug=null}
   }
   carsStep();
   for(const [k,el] of vehEls)if(!el._live){el.remove();vehEls.delete(k)}
