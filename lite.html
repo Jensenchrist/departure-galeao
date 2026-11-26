@@ -196,7 +196,7 @@ body.land .rail{top:84px}
 @media(max-height:520px){body.land .mobileBar{gap:4px}body.land .mobileBar .tab,body.land .mobileBar .mb{width:40px;height:40px;border-radius:9px}body.land .mobileBar .tab .ico,body.land .mobileBar .mb .ico{width:24px;height:24px}body.land .mobileBar .mb.clockb .clock{font-size:11px}body.land .mobileBar .mb.clockb small{display:none}body.land .rail{top:70px}}
 
 .sky{position:absolute;top:0;right:0;bottom:0;left:0;background:center/100% 100% no-repeat;opacity:0;pointer-events:none}
-#skyT{background-image:url(lite_map.jpg?v=20261124g)}#skyN{background-image:url(lite_map_noite.jpg?v=20261124g)}
+#skyT{background-image:url(lite_map.jpg?v=20261124g)}#skyF{background-image:url(map_fechado.jpg?v=20261124g);transition:opacity 2.5s}#skyFh{background-image:url(maph_fechado.jpg?v=20261124g)!important;transition:opacity 2.5s}body.l2 #skyF{background-image:url(map2_fechado.jpg?v=20261124g)}body.l3 #skyF{background-image:url(map3_fechado.jpg?v=20261124g)}body.l2 #skyFh{background-image:url(maph2_fechado.jpg?v=20261124g)!important}body.l3 #skyFh{background-image:url(maph3_fechado.jpg?v=20261124g)!important}body.closed #lights{opacity:0;transition:opacity 2s}#skyN{background-image:url(lite_map_noite.jpg?v=20261124g)}
 body.l2 .map{background-image:url(lite_map2.jpg?v=20261124g)}body.l2 #skyT{background-image:url(lite_map2.jpg?v=20261124g)}body.l2 #skyN{background-image:url(lite_map2_noite.jpg?v=20261124g)}
 body.l2 .stage::before{background-image:url(lite_map2.jpg?v=20261124g)}
 body.l3 .map{background-image:url(lite_map3.jpg?v=20261124g)}body.l3 #skyT{background-image:url(lite_map3.jpg?v=20261124g)}body.l3 #skyN{background-image:url(lite_map3_noite.jpg?v=20261124g)}
@@ -905,6 +905,7 @@ body.spec #ovMore{opacity:.35}
 .mn-sg b{font-size:16px;font-weight:900;text-transform:uppercase;letter-spacing:.04em}
 .mn-s p{margin:8px 2px 0;font-size:15px;line-height:1.45;font-weight:500}.mn-s p b{font-weight:900}
 .cv-row{grid-template-columns:1fr 1fr 1fr!important}.cv-row.hc{grid-template-columns:1fr 1fr 1fr 1fr!important}
+.clx .dl-b{width:100%;margin:8px 0 6px}.clx.on{background:linear-gradient(180deg,#141a2b,#0d1018)!important}.clx.on .dl-b{background:var(--y);color:#000}.clx .dl-b[disabled]{opacity:.4}
 /* LITE */
 .lt.w,.lt.reil{animation:none!important;opacity:.7}
 .lt.e{animation:none!important}#glow{display:none}
@@ -930,7 +931,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795617401';
+var APPV='1795651896';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -952,7 +953,7 @@ chk();document.addEventListener('visibilitychange',function(){if(!document.hidde
   <div class="stage" id="stage">
     <button class="zreset" id="zreset" hidden>⤢ Tirar zoom</button><div class="zhint" id="zhint">Dois dedos para aproximar · arraste para os lados</div>
     <div class="map" id="map">
-      <div id="bgH"><i id="skyTh"></i><i id="skyNh"></i></div><div class="sky" id="skyT"></div><div class="sky" id="skyN"></div><div id="glow"></div><div id="lights"></div><div id="fixed"></div>
+      <div id="bgH"><i id="skyTh"></i><i id="skyNh"></i><i id="skyFh"></i></div><div class="sky" id="skyT"></div><div class="sky" id="skyN"></div><div class="sky" id="skyF"></div><div id="glow"></div><div id="lights"></div><div id="fixed"></div>
       <div id="planes"></div>
     </div>
     <div id="storm"></div><video id="rainVid" src="chuva.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
@@ -1406,14 +1407,20 @@ var ADM=[
  {k:'al',n:'Alfândega e imigração',w:.10,lo:'Frouxa: desembarque rápido, mas a Receita pode multar',hi:'Rigorosa: internacionais demoram, mas rende apreensões'},
  {k:'mp',n:'Manutenção predial',w:.20,lo:'Corte: fingers e equipamentos dão pane',hi:'Investimento: menos imprevistos, companhias satisfeitas'}];
 var ADM_FIX=1500,ADM_VAR=.8,TERC=.18;
-var bud=k=>((camp.bud||{})[k]||0)/100,admMul=k=>1+bud(k)*.6;
+var bud=k=>((camp.bud||{})[k]||0)/100,CLOSE_CUT={en:.25,lp:.25,pt:.25,al:.25},admMul=k=>(1+bud(k)*.6)*(camp.closed&&CLOSE_CUT[k]?CLOSE_CUT[k]:1);
 function admBase(){const t=(camp.deals||[]).join()+'|'+STANDS.length+'|'+HOME();if(admBase.c!=null&&admBase.t===t)return admBase.c;
   const own=camp.deals||[...new Set(ALL_LINES.filter(l=>l.kp).map(l=>l.k))],by={};dealList().forEach(d=>by[d.k]=d);
   let v=0;for(const k of own){const d=by[k.split('#')[0]];if(d)v+=d.rev/7}
   admBase.t=t;admBase.c=STANDS.length*ADM_FIX+v*ADM_VAR;return admBase.c}
 var admCost=s=>admBase()*s.w*admMul(s.k),admTotal=()=>ADM.reduce((a,s)=>a+admCost(s),0);
+// fechamento do aeroporto (só custos; o tempo continua normal)
+var BUSY=new Set(['approach','holding','arriving','parked','moving','departing','lineup','takeoff','toHg','fromHg']);
+function closeBlock(){const b=flights.find(f=>BUSY.has(f.state));if(b)return `${b.depNo||b.arrNo} ainda está em operação`;
+  const n=flights.filter(f=>f.state==='inbound'&&f.eta-now<60).sort((a,b)=>a.eta-b.eta)[0];if(n)return `${n.arrNo} chega às ${fmt(n.eta)}`;return null}
+function setClosed(on){if(on){const b=closeBlock();if(b){toast('Não dá para fechar agora: '+b);return}}
+  camp.closed=!!on;admBase.c=null;skyTick();toast(on?'🌙 Aeroporto fechado · custos de energia, limpeza, pátio e alfândega reduzidos':'☀️ Aeroporto aberto');writeKey(AUTO_KEY,false);dirty=true;if(dealsOn)drawDeals()}
 function admStep(dm){if(!ECO()||dm<=0)return;const c=admTotal()*dm/1440;camp.money-=c;score.adm=(score.adm||0)+c;
-  const h=Math.floor(now/60);if(camp.admH!==h){if(camp.admH!=null)admEvent();camp.admH=h}}
+  const h=Math.floor(now/60);if(camp.admH!==h){if(camp.admH!=null&&!camp.closed)admEvent();camp.admH=h;if(camp.closed&&h%24===5)setClosed(false)}}
 function svMul(f,i){if(!ECO())return 1;let m=1;const c=CREW[i],t=tod(now);
   if(c==='clean')m*=1-bud('lp')*.3;else if(c)m*=1-bud('pt')*.3;
   if(t>=1140||t<360)m*=1-bud('en')*.25;
@@ -1528,11 +1535,11 @@ function fuelBar(f,mark){
   return `<div class="fbar"><i style="width:${fr*100}%;background:${col}"></i>${mark?`<em style="left:${Math.min(100,need/cap*100)}%"></em>`:''}</div>`;
 }
 var stormNow=()=>storms.find(x=>now>=x.s&&now<x.e);
-function divert(f){
+function divert(f,msg){
   if(f.stand!=null&&STANDS[f.stand-1].res===f.i)STANDS[f.stand-1].res=null;
   f.state="diverted";score.diverted++;camp.rep=clamp(camp.rep-6,0,100);camp.money-=8000;score.pen=(score.pen||0)+8000;addSat(f.al,-6);
   if(assignFor===f.i)assignFor=null;
-  toast(`${f.arrNo} sem combustível · desviado para Guarulhos`);dirty=true;
+  toast(msg||`${f.arrNo} sem combustível · desviado para Guarulhos`);dirty=true;
 }
 
 function step(){
@@ -1541,6 +1548,7 @@ function step(){
   const r=activeRwy();
   // chegadas
   for(const f of flights){
+    if(f.state==="inbound"&&now>=f.eta-20&&camp.closed){divert(f,`${f.arrNo} desviado: aeroporto fechado`);continue}
     if(f.state==="inbound"&&now>=f.eta-20){f.state="approach";f.extLate=Math.max(0,f.eta-f.sched);dirty=true}
     if((f.state==="approach"||f.state==="holding")&&now>=f.eta-1.3){
       const stm=stormNow();
@@ -2746,7 +2754,10 @@ function drawFin(){
   const admS=e?`<div class="gs"><div class="gs-h">Administração <span>orçamento por setor</span></div>${ADM.map(admRow).join('')}
     <div class="gs-tot"><span>Custo administrativo por dia</span><b class="n" id="admTot">−${money(admTotal())}</b></div>
     <small class="gs-s">Arraste para a esquerda para economizar (com riscos) ou para a direita para investir. O custo cresce com o número de portões e de rotas.${camp.auto?' Piloto automático ligado: a administração terceirizada fica com '+Math.round(TERC*100)+'% da receita dos voos.':''}</small></div>`:'';
-  $('dlList').innerHTML=admS+`<div class="gs"><div class="gs-h">Hoje <span>${dateLbl(now)} · até ${fmt(now)}</span></div>
+  const cb=closeBlock(),clS=e?`<div class="gs clx${camp.closed?' on':''}"><div class="gs-h">${camp.closed?'🌙 Aeroporto fechado':'☀️ Aeroporto aberto'} <span>${camp.closed?'reabre sozinho às 05:00':'feche quando não houver mais voos'}</span></div>
+    <button class="dl-b" id="clB" ${!camp.closed&&cb?'disabled':''}>${camp.closed?'Abrir o aeroporto':'Fechar o aeroporto'}</button>
+    <small class="gs-s">${camp.closed?'Energia, limpeza, pátio e alfândega a 25% do custo. Segurança, manutenção e salários continuam. Voo que chegar agora é desviado.':cb?'Agora não: '+cb+'.':'Fechado, energia, limpeza, pátio e alfândega custam 25%. Voo que chegar com o aeroporto fechado é desviado, com multa.'}</small></div>`:'';
+  $('dlList').innerHTML=clS+admS+`<div class="gs"><div class="gs-h">Hoje <span>${dateLbl(now)} · até ${fmt(now)}</span></div>
     <div class="fin-k">Receitas</div>${row('Voos (taxas de pouso e embarque)',score.rev||0,'p')}${row('Multas de atraso recebidas',score.fine||0,'p')}${row('Manutenção (serviço às companhias)',score.mxr||0,'p')}${score.apr?row('Apreensões da alfândega',score.apr,'p'):''}
     <div class="fin-k">Despesas</div>${e?row('Salários das equipes (pago à meia-noite)',wageT,'n'):''}${row('Penalidades (desvios, vaga provisória)',score.pen||0,'n')}${row('Investimentos (acordos e obras)',score.inv||0,'n')}${row('Peças de manutenção',score.mxc||0,'n')}${row('Parcelas de empréstimos',score.loan||0,'n')}${e?row('Administração do aeroporto',score.adm||0,'n'):''}${score.terc?row('Administração terceirizada (piloto automático)',score.terc,'n'):''}
     <div class="gs-tot"><span>Resultado do dia</span><b style="color:${res>=0?'var(--gr)':'var(--r)'}">${res>=0?'+':'−'}${money(Math.abs(res))}</b></div>
@@ -2818,6 +2829,7 @@ function buyDeal(k){
 $('dlX').addEventListener('click',()=>openDeals(false));
 $('manB').addEventListener('click',e=>{e.stopPropagation();try{audioInit();chime()}catch(_){}$('manual').hidden=false;document.querySelector('#manual .mn-list').scrollTop=0});
 $('mnX').addEventListener('click',()=>{$('manual').hidden=true});
+$('deals').addEventListener('click',e=>{if(e.target.id==='clB'){e.stopPropagation();setClosed(!camp.closed)}});
 $('deals').addEventListener('input',e=>{if(e.target.dataset&&e.target.dataset.adm)admInput(e.target)});
 $('deals').addEventListener('pointerdown',e=>{if(e.target.dataset&&e.target.dataset.adm)drawFin.t=Date.now()+4000});
 $('dlBk').addEventListener('click',()=>{if(dealsAl){dealsAl=null;dealAsk=null;drawDeals();$('dlList').scrollTop=0}else if(dealMode!=='gest'&&dealTab!=='deals'){const b=document.querySelector('.dl-tabs [data-dt="deals"]');b.click()}else openDeals(false)});
@@ -2901,7 +2913,7 @@ var ramp=(a,b)=>clamp((tod(now)-toMin(a))/(toMin(b)-toMin(a)),0,1);
 var PB=1,lastPart="";
 function skyTick(){
   const t=ramp("15:30","17:00")*(1-ramp("17:45","19:00")),n=Math.max(ramp("18:30","18:50"),1-ramp("05:40","06:00"));
-  $('skyT').style.opacity=t;$('skyN').style.opacity=n;$('skyTh').style.opacity=t;$('skyNh').style.opacity=n;
+  $('skyT').style.opacity=t;$('skyN').style.opacity=n;$('skyTh').style.opacity=t;$('skyNh').style.opacity=n;{const c=camp.closed?1:0;$('skyF').style.opacity=c;$('skyFh').style.opacity=c;document.body.classList.toggle('closed',!!camp.closed)}
   PB=1-.28*n;map.style.setProperty('--nt',(.12+.88*Math.max(n,t*.45)).toFixed(3));
   const part=n>.5?"Noite":t>.5?"Tarde":"Dia";
   if(part!==lastPart){lastPart=part;const el=document.querySelector('.wind small');if(el)el.dataset.p=part;dirty=true}
@@ -3090,7 +3102,7 @@ function autoDay(){const gs=goals(),st=gs.filter(g=>g.ok).length;if(camp.scored!
   const L=camp.alog||(camp.alog={l:0,d:0,dv:0,days:0,stars:0});L.l+=score.landed;L.d+=score.departed;L.dv+=score.diverted;L.days++;L.stars+=st;rollDay()}
 function autoStep(){
   for(const f of flights){
-    if((f.state==="inbound"||f.state==="approach"||f.state==="holding")&&f.stand==null&&now>=f.eta-25){
+    if(!camp.closed&&(f.state==="inbound"||f.state==="approach"||f.state==="holding")&&f.stand==null&&now>=f.eta-25){
       const fr=STANDS.filter(x=>x.res==null);
       const pref=LAY.id>=2?(DOMAP.has(f.ap)?'A':'B'):null;
       const s=fr.filter(x=>fits(x,f.cls)).sort((a,b)=>(pref?(a.g===pref?0:1)-(b.g===pref?0:1):0)||(a.remote?1:0)-(b.remote?1:0)||a.max-b.max)[0]||fr.filter(x=>!x.remote&&fits(x,f.cls)-2&&f.cls>=(x.min||1)).sort((a,b)=>b.max-a.max)[0];
