@@ -678,6 +678,22 @@ body.two #speed{display:none!important}
 .wx-h{flex:0 0 64px;display:flex;flex-direction:column;align-items:center;background:#111;border:1px solid #2c2c2c;border-radius:10px;padding:6px 2px;margin-right:6px}.wx-h i{font-style:normal;font-size:22px;margin:2px 0}.wx-h b{font-size:15px}.wx-h small{font-size:10px;color:var(--g)}.wx-h.st{border-color:var(--r)}
 #yard{position:fixed;top:0;right:0;bottom:0;left:0;z-index:40;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;padding:max(14px,env(safe-area-inset-top)) 12px max(14px,env(safe-area-inset-bottom))}
 #yard[hidden]{display:none}
+
+/* celular: o topo do painel vira a barra de LED padrão + uma placa de aeroporto grande */
+#sdC,.sgn{display:none}
+body.cbar #side #sdC{display:block;width:100%;height:44px;flex:none;background:#050505}
+body.cbar #side .top{display:none!important}
+body.cbar #side .sgn{display:flex!important;align-items:center;gap:16px;flex:none;background:#141518!important;padding:16px 18px 14px;border-bottom:4px solid var(--y)!important;position:relative;border-radius:0!important}
+body.cbar #side .sgn-i{width:56px;height:56px;border:3px solid #f2f2f2;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:none}
+body.cbar #side .sgn-i svg{width:36px;height:36px;fill:#f2f2f2}
+body.cbar #side .sgn b{font-size:38px;font-weight:700;letter-spacing:-.01em;color:#f2f2f2;line-height:1}
+body.cbar #side #campl,body.cbar #side #stats,body.cbar #side #goals{display:none!important}
+body.cbar #side .sgn .close{position:absolute;right:14px;top:50%;margin-top:-22px;display:flex}
+/* resumo do dia em Gestão */
+.rs-h{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;font-size:13px;color:#cfcfcf}.rs-h b{color:var(--y);font-size:14px}
+.rs-t{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
+.rs-t div{background:#0e0e10;border-radius:12px;padding:10px 6px;text-align:center}.rs-t small{display:block;font-size:9.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#9a9a9a;text-transform:uppercase;letter-spacing:.04em}.rs-t b{display:block;font-size:20px;margin-top:3px;color:#fff}.rs-t b.bad{color:var(--r)}
+.rs-g{display:flex;align-items:center;gap:10px;padding:7px 0;border-top:1px solid #222;font-size:14px;color:#cfcfcf}.rs-g i{width:22px;height:22px;border-radius:50%;background:#2a2a2a;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:12px;flex:none}.rs-g.ok i{background:var(--gr);color:#000}.rs-g.ok{color:#fff}.rs-g b{margin-left:auto;color:#fff}.rs-g.ok b{color:var(--gr)}
 .dl-w{display:block;color:#ffb020;font-size:12px;margin-top:4px;text-align:center}.yd-box{background:rgba(0,0,0,.85);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:2px solid var(--y);border-radius:18px;padding:14px;width:min(560px,100%);max-height:100%;overflow-y:auto;color:#fff}
 .yd-h{display:flex;align-items:center}.yd-h b{font-size:20px;color:var(--y);flex:1}.yd-h span{font-size:12px;color:var(--g);margin-right:10px}
 #ydX{width:36px;height:36px;border-radius:10px;background:var(--y);color:var(--k);font-size:24px;font-weight:900;line-height:1}
@@ -978,7 +994,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795823419';
+var APPV='1795823828';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1017,7 +1033,7 @@ chk();document.addEventListener('visibilitychange',function(){if(!document.hidde
   </div>
 
   <aside class="side" id="side">
-    <div class="top"><h1><span id="topT">PARTIDAS</span> <span class="apt">LITE · GIG · Galeão</span></h1><div class="tclk"><div class="clock" id="clock">--:--</div><small id="clockD"></small></div><button class="close" id="closeSide" aria-label="Fechar painel"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
+    <canvas id="sdC" aria-label="Relógio"></canvas><div class="sgn"><span class="sgn-i" id="sgnI"><svg viewBox="0 0 24 24"><path d="M2.5 19h19v2h-19zM9.2 13.7l4.3 1.2 5.3 1.4c.8.2 1.6-.3 1.8-1.1.2-.8-.3-1.6-1.1-1.8l-5.3-1.4-2.8-9-1.9-.5v8.3L4.5 9.4l-.9-2.4-1.4-.4v5.2z"/></svg></span><b id="sgnT">Partidas</b></div><div class="top"><h1><span id="topT">PARTIDAS</span> <span class="apt">LITE · GIG · Galeão</span></h1><div class="tclk"><div class="clock" id="clock">--:--</div><small id="clockD"></small></div><button class="close" id="closeSide" aria-label="Fechar painel"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
     <div class="campl" id="campl"></div>
     <div class="stats" id="stats"></div>
     <div class="goals" id="goals"></div>
@@ -1192,7 +1208,7 @@ function dotSvg(t,cls){let x=0,h='';for(const ch of t){const g=DOT[ch]||DOT['0']
 var WDA=['DOM','SEG','TER','QUA','QUI','SEX','SAB'];
 var ledDate=m=>{const d=dateOf(dayOf(m));return WDA[d.getDay()]+' '+String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')};
 // painel de LED de fora a fora: grade contínua de bolinhas, texto 5×7 aceso em amarelo
-function ledDraw(t,d,sp){if(document.body.classList.contains('cbar'))ledOne($('cbC'),t,d,sp);const fm=$('fmap');if(fm&&!fm.hidden)ledOne($('fmC'),t,d,sp)}
+function ledDraw(t,d,sp){if(document.body.classList.contains('cbar')){ledOne($('cbC'),t,d,sp);const sd=$('sdC');if(sd&&sd.offsetParent)ledOne(sd,t,d,sp)}const fm=$('fmap');if(fm&&!fm.hidden)ledOne($('fmC'),t,d,sp)}
 // painel do relógio: alterna a hora com os próximos voos chegando (companhia+número, origem e hora do pouso)
 var ledFold=x=>x.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z0-9 :\/]/g,'');
 function ledArr(){const A=flights.filter(f=>f.cls&&(f.state==='inbound'||f.state==='approach'||f.state==='holding'||f.state==='arriving')&&f.eta-now<180).sort((a,b)=>a.eta-b.eta).slice(0,5);
@@ -2518,7 +2534,9 @@ document.addEventListener('keydown',e=>{if(e.key==="Escape"&&mapOpen)closeMap()}
 
 /* ---------- interação ---------- */
 var mobile=()=>matchMedia('(max-width:820px)').matches||document.body.classList.contains('land');
-function setTabs(){if($('topT'))$('topT').textContent=tab==='arr'?'CHEGADAS':'PARTIDAS';document.querySelectorAll('.tab[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t===tab&&(!mobile()||side.classList.contains('open'))))}
+var SGN_DEP='<svg viewBox="0 0 24 24"><path d="M2.5 19h19v2h-19zm19.57-9.36c-.21-.8-1.04-1.28-1.84-1.06L14.92 10l-6.9-6.43-1.93.51 4.14 7.17-4.97 1.33-1.97-1.54-1.45.39 1.82 3.16.77 1.33 1.6-.43 5.31-1.42 4.35-1.16L21 11.49c.81-.23 1.28-1.05 1.07-1.85z"/></svg>',SGN_ARR=null;
+function sgnClose(){const c=$('closeSide'),g=document.querySelector('#side .sgn');if(c&&g&&c.parentNode!==g&&document.body.classList.contains('cbar'))g.appendChild(c);else if(c&&g&&c.parentNode===g&&!document.body.classList.contains('cbar'))document.querySelector('#side .top').appendChild(c)}
+function setTabs(){sgnClose();if($('topT'))$('topT').textContent=tab==='arr'?'CHEGADAS':'PARTIDAS';if($('sgnT')){SGN_ARR=SGN_ARR||$('sgnI').innerHTML;$('sgnT').textContent=tab==='arr'?'Chegadas':'Partidas';$('sgnI').innerHTML=tab==='arr'?SGN_ARR:SGN_DEP}document.querySelectorAll('.tab[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t===tab&&(!mobile()||side.classList.contains('open'))))}
 function openFlight(f,t){sel=f;tab=t;side.classList.add('open');setTabs();dirty=true}
 
 document.querySelectorAll('.tab[data-t]').forEach(b=>b.addEventListener('click',()=>{
@@ -2866,6 +2884,11 @@ function admInput(el){const k=el.dataset.adm,v=+el.value,s=ADM.find(x=>x.k===k);
 function freeCash(){const e=ECO(),c=crewCap(),wage=e?(c.fuel+c.cat+c.clean)*e.wage:0,loan=(camp.loans||[]).reduce((a,l)=>a+(l.left>0?l.par:0),0),fix=(e?admTotal():0)+wage+loan,res=3*fix;
   const H=(camp.hist||[]).slice(-7),avg=H.length?H.reduce((a,h)=>a+h.rev+h.fine+(h.mxr||0)+(h.apr||0)-(h.wage+h.pen+(h.mxc||0)+(h.loan||0)+(h.adm||0)+(h.terc||0)),0)/H.length:null;
   return {fix,res,free:Math.max(0,Math.round(camp.money-res)),avg}}
+function dayBlock(){const pct=score.departed?Math.round(score.onTime/score.departed*100)+'%':'--';
+  return `<div class="gs"><div class="gs-h">📋 Resumo do dia <span>${dateLbl(now)} · ${D().name}</span></div>
+    <div class="rs-h"><span>Estrelas <b>★ ${camp.stars}</b></span><span>Caixa <b>${money(camp.money)}</b></span></div>
+    <div class="rs-t"><div><small>Pousos</small><b>${score.landed}</b></div><div><small>Decolag.</small><b>${score.departed}</b></div><div><small>Pontual.</small><b>${pct}</b></div><div><small>Reputação</small><b class="${camp.rep<40?'bad':''}">${camp.rep}</b></div></div>
+    <small class="gs-s" style="margin:0 0 4px">Metas do dia</small>${goals().map(g=>`<div class="rs-g${g.ok?' ok':''}"><i>${g.ok?'✓':''}</i><span>${g.t}</span><b>${g.v}</b></div>`).join('')}</div>`}
 function freeBlock(){const F=freeCash(),L=dealList().filter(d=>!(camp.deals||[]).includes(d.k)),ok=L.filter(d=>d.price<=F.free).sort((a,b)=>b.price-a.price),best=ok[0];
   return `<div class="gs"><div class="gs-h">💰 Livre para investir</div>
     <div class="gs-tot"><span>Pode gastar em novas rotas</span><b style="color:${F.free>0?'var(--gr)':'var(--r)'}">${money(F.free)}</b></div>
@@ -2888,7 +2911,7 @@ function drawFin(){
   const cb=closeBlock(),clS=e?`<div class="gs clx${camp.closed?' on':''}"><div class="gs-h">${camp.closed?'🌙 Aeroporto fechado':'☀️ Aeroporto aberto'} <span>${camp.closed?'reabre sozinho às 05:00':'feche quando não houver mais voos'}</span></div>
     <button class="dl-b" id="clB" ${!camp.closed&&cb?'disabled':''}>${camp.closed?'Abrir o aeroporto':'Fechar o aeroporto'}</button>
     <small class="gs-s">${camp.closed?'Energia, limpeza, pátio e alfândega a 25% do custo. Segurança, manutenção e salários continuam. Voo que chegar agora é desviado.':cb?'Agora não: '+cb+'.':'Fechado, energia, limpeza, pátio e alfândega custam 25%. Voo que chegar com o aeroporto fechado é desviado, com multa.'}</small></div>`:'';
-  $('dlList').innerHTML=freeBlock()+clS+admS+`<div class="gs"><div class="gs-h">Hoje <span>${dateLbl(now)} · até ${fmt(now)}</span></div>
+  $('dlList').innerHTML=dayBlock()+freeBlock()+clS+admS+`<div class="gs"><div class="gs-h">Hoje <span>${dateLbl(now)} · até ${fmt(now)}</span></div>
     <div class="fin-k">Receitas</div>${row('Voos (taxas de pouso e embarque)',score.rev||0,'p')}${row('Multas de atraso recebidas',score.fine||0,'p')}${row('Manutenção (serviço às companhias)',score.mxr||0,'p')}${score.apr?row('Apreensões da alfândega',score.apr,'p'):''}
     <div class="fin-k">Despesas</div>${e?row('Salários das equipes (pago à meia-noite)',wageT,'n'):''}${row('Penalidades (desvios, vaga provisória)',score.pen||0,'n')}${row('Investimentos (acordos e obras)',score.inv||0,'n')}${row('Peças de manutenção',score.mxc||0,'n')}${row('Parcelas de empréstimos',score.loan||0,'n')}${e?row('Administração do aeroporto',score.adm||0,'n'):''}${score.terc?row('Administração terceirizada (piloto automático)',score.terc,'n'):''}
     <div class="gs-tot"><span>Resultado do dia</span><b style="color:${res>=0?'var(--gr)':'var(--r)'}">${res>=0?'+':'−'}${money(Math.abs(res))}</b></div>
@@ -3244,7 +3267,7 @@ function hrStep(){
 }
 
 // círculo que desliza até a aba aberta na barra de baixo
-function edgeDot(){const e=$('edge');if(!e||!document.body.classList.contains('cbar'))return;let d=$('edgeDot');if(!d){d=document.createElement('i');d.id='edgeDot';e.prepend(d)}
+function edgeDot(){sgnClose();const e=$('edge');if(!e||!document.body.classList.contains('cbar'))return;let d=$('edgeDot');if(!d){d=document.createElement('i');d.id='edgeDot';e.prepend(d)}
   let a=null;const w=e.querySelector('.edw.open .edt');if(w)a=w;else if(typeof yardOn!=='undefined'&&yardOn)a=$('edYard');else if($('aqp')&&!$('aqp').classList.contains('shut'))a=$('aqTab');else if(typeof mxOn!=='undefined'&&mxOn)a=$('mxTab');
   e.querySelectorAll('.on-dot').forEach(x=>x!==a&&x.classList.remove('on-dot'));
   if(!a){d.style.opacity=0;return}a.classList.add('on-dot');const er=e.getBoundingClientRect(),r=a.getBoundingClientRect();
