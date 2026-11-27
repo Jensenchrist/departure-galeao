@@ -851,20 +851,24 @@ body.cbar .zhint{top:auto;bottom:calc(var(--panh,0px) + var(--rbh,0px) + 14px)}
 #edge #aqp:not(.shut) .aq-tab{background:var(--k)}#edge #aqp:not(.shut) .aq-tab span,#edge #aqp:not(.shut) .aq-tab i{color:var(--y)}
 #edge #aqp .aq-tab i{transform:none}#edge #aqp.shut .aq-tab i{transform:none}#edge #aqp:not(.shut) .aq-tab i{transform:rotate(180deg)}
 
-/* celular: as abas laterais viram uma barra preta de ponta a ponta, logo acima dos botões */
-body.cbar #edge{position:absolute!important;left:0!important;right:0!important;top:auto!important;bottom:var(--panh,0px)!important;height:var(--rbh,50px);transform:none!important;flex-direction:row;align-items:center;justify-content:space-evenly;background:#000;border-top:1px solid #1d1d1d;box-sizing:border-box;padding:0 6px}
+/* celular: barra em pílula estilo neo, com um círculo amarelo que desliza até a aba aberta */
+body.cbar #edge{position:absolute!important;left:0!important;right:0!important;top:auto!important;bottom:var(--panh,0px)!important;height:var(--rbh,58px);transform:none!important;display:flex;flex-direction:row!important;align-items:center;justify-content:center;background:#000;box-sizing:border-box;padding:0 10px;pointer-events:none}
+body.cbar #edge::before{content:"";position:absolute;left:10px;right:10px;top:5px;bottom:5px;border-radius:999px;background:linear-gradient(180deg,#141517,#1d1e21);box-shadow:inset 0 3px 8px rgba(0,0,0,.8),inset 0 -1px 0 rgba(255,255,255,.05),0 1px 0 rgba(255,255,255,.04)}
+body.cbar #edge>*{position:relative;z-index:1;flex:1;display:flex;justify-content:center;pointer-events:auto}
 body.cbar #edge>*+*{margin-top:0}
+body.cbar #edge #edgeDot{position:absolute;z-index:0;flex:none;top:50%;left:0;width:44px;height:44px;margin-top:-22px;border-radius:50%;background:linear-gradient(145deg,#ffe95c,#e8c600);box-shadow:0 4px 10px rgba(0,0,0,.55),0 0 14px rgba(255,220,0,.35),inset 0 1px 0 rgba(255,255,255,.5);transition:transform .35s cubic-bezier(.3,1.4,.5,1),opacity .2s;opacity:0;pointer-events:none}
+body.cbar #edge .edt,body.cbar #edge #fltTab,body.cbar #edge #aqp .aq-tab,body.cbar #edge #mxTab{position:relative!important;top:auto!important;right:auto!important;transform:none!important;flex-direction:row!important;gap:3px;height:44px!important;min-width:44px;padding:0 6px!important;border:0!important;border-radius:22px!important;box-shadow:none!important;background:transparent!important;justify-content:center;align-items:center}
+body.cbar #edge .ico{background:transparent!important;box-shadow:none!important}
+body.cbar #edge .edt .ico,body.cbar #edge #mxTab .ico,body.cbar #edge #fltTab .ico{width:24px!important;height:24px!important;margin:0!important}
+body.cbar #edge .ico svg,body.cbar #edge #mxTab svg{fill:#d9d9d9!important}
+body.cbar #edge #aqp .aq-tab .aqi{width:23px;height:23px;color:#d9d9d9!important}
+body.cbar #edge #fltTab b{font-size:14px;color:#fff}body.cbar #edge #fltTab span{font-size:18px;color:#d9d9d9}body.cbar #edge #fltTab.on-dot span{color:#111}
+body.cbar #edge .on-dot .ico svg,body.cbar #edge .on-dot svg{fill:#111!important}body.cbar #edge .on-dot .aqi{color:#111!important}body.cbar #edge .on-dot b{color:#111!important}
 body.cbar #edge .edw{position:static}
-body.cbar #edge .edt,body.cbar #edge #fltTab,body.cbar #edge #aqp .aq-tab,body.cbar #edge #mxTab{position:relative!important;flex-direction:row!important;gap:5px;height:38px!important;min-width:44px;padding:0 9px!important;border:0!important;border-radius:10px!important;box-shadow:none!important;background:#141414!important;justify-content:center;align-items:center}
-body.cbar #edge .edt .ico,body.cbar #edge #mxTab .ico,body.cbar #edge #fltTab .ico{width:26px!important;height:26px!important;margin:0!important}
-body.cbar #edge #fltTab b{font-size:15px}body.cbar #edge #fltTab{top:auto!important;right:auto!important;transform:none!important}
-body.cbar #edge .edw.open .edt,body.cbar #edge #aqp:not(.shut) .aq-tab{background:var(--y)!important}
-body.cbar #edge #aqp .aq-tab{background:var(--y)!important}body.cbar #edge #aqp:not(.shut) .aq-tab{background:#141414!important}body.cbar #edge #aqp:not(.shut) .aq-tab .aqi{color:var(--y)}
-body.cbar #edge #aqp .aq-tab .aqi{width:24px;height:24px}
-body.cbar #edge .edp{position:absolute;left:8px;right:8px;bottom:calc(100% + 8px);margin:0;border:2px solid var(--y)!important;border-radius:16px!important;max-width:none;justify-content:center}
+body.cbar #edge .edp{position:absolute;left:8px;right:8px;bottom:calc(100% + 6px);margin:0;border:0!important;border-radius:22px!important;max-width:none;justify-content:center;background:linear-gradient(145deg,#232428,#1a1b1e)!important;box-shadow:0 10px 24px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.05)!important}
 body.cbar #edge #aqp{position:static!important}
-body.cbar #edge #aqp .aq-in{position:absolute;right:8px;left:auto;bottom:calc(100% + 8px);border:2px solid var(--y);border-radius:16px}
-body.cbar #edge #mxTab #mxDot{top:3px;right:3px}
+body.cbar #edge #aqp .aq-in{position:absolute;right:10px;left:auto;bottom:calc(100% + 6px);border:0;border-radius:20px;box-shadow:0 10px 24px rgba(0,0,0,.6)}
+body.cbar #edge #mxTab #mxDot{top:6px;right:6px}
 /* farol giratório no topo da torre de controle */
 #beacon{position:absolute;z-index:4;pointer-events:none;width:0;height:0}
 #beacon i{position:absolute;left:0;top:0;width:calc(var(--mk,1)*150px);height:calc(var(--mk,1)*150px);transform:translate(-50%,-50%);border-radius:50%;background:conic-gradient(from 0deg,rgba(255,255,240,.0) 0deg,rgba(255,255,235,.85) 8deg,rgba(255,255,240,0) 26deg,transparent 180deg,rgba(90,255,150,.0) 180deg,rgba(90,255,150,.8) 188deg,rgba(90,255,150,0) 206deg,transparent 360deg);-webkit-mask:radial-gradient(circle,#000 0,#000 35%,transparent 70%);mask:radial-gradient(circle,#000 0,#000 35%,transparent 70%);mix-blend-mode:screen;animation:bspin 3s linear infinite;opacity:calc(.25 + var(--nt,0)*.75)}
@@ -973,7 +977,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795741162';
+var APPV='1795741691';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -2578,7 +2582,7 @@ var dispW=()=>(ROTM?bh:bw),dispH=()=>(ROTM?bw:bh);
 function layoutMap(){
   const r=stage.getBoundingClientRect();SW=r.width;SH=r.height;
   const fitW=!ROTM&&SW/SH<W/H*1.15&&matchMedia('(pointer:coarse)').matches;
-  const sq=W/H>.8,RBH=fitW?50:0,PANH0=fitW?Math.round((sq?66:Math.min(110,Math.max(62,SH-44-SW/W*H)))*.9):0,PANH=PANH0+RBH;
+  const sq=W/H>.8,RBH=fitW?58:0,PANH0=fitW?Math.round((sq?66:Math.min(110,Math.max(62,SH-44-SW/W*H)))*.9):0,PANH=PANH0+RBH;
   const sc=fitW?(sq||LAY.cover?Math.max(SW/W,(SH-44-PANH)/H):Math.min(SW/W,(SH-44-PANH)/H)):ROTM?Math.max(SW/H,SH/W):(SW/SH<W/H*1.15?Math.max(SW/W,SH/H):SH/H);
   const cu=(SW/2-ZX)/(dispW()*zk),cv=(SH/2-ZY)/(dispH()*zk);
   barH=fitW?44:0;document.body.classList.toggle('cbar',fitW);$('cbar').style.height=barH+'px';document.body.style.setProperty('--barh',barH+'px');document.body.style.setProperty('--panh',PANH0+'px');document.body.style.setProperty('--rbh',RBH+'px');PANHV=PANH;lastClk='';requestAnimationFrame(edFit);
@@ -3208,6 +3212,13 @@ function hrStep(){
       im.dataset.k=k;im.decoding='async';im.alt='';im.style.cssText=`left:${tx*HR_T/W*100}%;top:${ty*HR_T/H*100}%;width:${(w+.4)/W*100}%;height:${(h+.4)/H*100}%;opacity:0;transition:opacity .25s`;
       im.onload=()=>{im.style.opacity=1};im.src=`hr/${v}/${k}.jpg`;box.appendChild(im)}}
 }
+
+// círculo que desliza até a aba aberta na barra de baixo
+function edgeDot(){const e=$('edge');if(!e||!document.body.classList.contains('cbar'))return;let d=$('edgeDot');if(!d){d=document.createElement('i');d.id='edgeDot';e.prepend(d)}
+  let a=null;const w=e.querySelector('.edw.open .edt');if(w)a=w;else if(typeof yardOn!=='undefined'&&yardOn)a=$('edYard');else if($('aqp')&&!$('aqp').classList.contains('shut'))a=$('aqTab');else if(typeof mxOn!=='undefined'&&mxOn)a=$('mxTab');
+  e.querySelectorAll('.on-dot').forEach(x=>x!==a&&x.classList.remove('on-dot'));
+  if(!a){d.style.opacity=0;return}a.classList.add('on-dot');const er=e.getBoundingClientRect(),r=a.getBoundingClientRect();
+  const sz=Math.max(44,r.width+6);d.style.width=sz+'px';d.style.height='44px';d.style.borderRadius='22px';d.style.transform=`translateX(${(r.left+r.width/2-er.left-sz/2).toFixed(1)}px)`;d.style.opacity=1}
 /* ---------- tarde e noite ---------- */
 var ramp=(a,b)=>clamp((tod(now)-toMin(a))/(toMin(b)-toMin(a)),0,1);
 var PB=1,NT=0,SKT=0,SKN=0,lastPart="";
@@ -3239,7 +3250,7 @@ function tick(t){
   const w=activeRwy();if(w!==lastWind){if(lastWind!==-1)toast(`O vento mudou · ${rwLbl(w).toLowerCase()} em uso`);lastWind=w;drawLights();dirty=true}
   const q=Math.floor(now*4);if(q!==lastQ){lastQ=q;dirty=true}
   if(dirty){dirty=false;drawUI()}
-  if((liteF=(liteF+1)%2)===0){drawPlanes();drawVeh()}
+  if((liteF=(liteF+1)%2)===0){drawPlanes();drawVeh();edgeDot()}
   if(mapOpen)drawFM(t);
   {const ss=Math.floor((now%1)*60),tx=fmt(now)+'|'+ss+'|'+speed;if(tx!==lastClk){lastClk=tx;$('mcT').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('mcS').textContent=dateLbl(now)+' · '+(speed?speed+'×':'PAUSA');ledDraw(fmt(now)+':'+String(ss).padStart(2,'0'),ledDate(now),speed?speed+'X':'PAUSA');$('clock').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('clockD').textContent=dateLbl(now)}}
   requestAnimationFrame(tick);
