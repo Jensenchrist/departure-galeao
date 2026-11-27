@@ -978,7 +978,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795744197';
+var APPV='1795744412';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1276,13 +1276,16 @@ function buildLines(){
 }
 var ALL_LINES=[];
 var runs=(ln,d)=>ln.days==='q3'?((d%3)+3)%3===0:ln.days[dateOf(d).getDay()]==='1';
+// voo nacional que chega depois das 22h (ou de madrugada) dorme no Galeão e sai cedo, entre 6h e 7h30
+function pernoite(ln,sched,g){if(!DOMAP.has(ln.ap))return sched+g;const t=((sched%1440)+1440)%1440;if(t<1320&&t>=300)return sched+g;
+  let h=0;for(const c of ln.k)h=(h*31+c.charCodeAt(0))%997;const sai=360+(h%7)*15;return sched-t+(t>=1320?1440:0)+sai}
 function mkRot(ln,d){
   const cls=pick(ln.cls),g=GROUND[cls-1],sched=d*1440+ln.arr;
   let eta=sched+(Math.random()<.18?5+Math.floor(Math.random()*25):0);
   const pi=camp.pend.findIndex(p=>p.k===ln.k&&sched>=p.min);
   if(pi>=0){eta=Math.max(eta,camp.pend[pi].avail);camp.pend.splice(pi,1)}
   const i=flights.length;
-  flights.push({i,k:ln.k,al:ln.al,arrNo:ln.al+ln.no,depNo:ln.al+(ln.no+1),ap:ln.ap,cls,sched,eta,ground:g,depSched:ln.dep!=null?(d+1)*1440+ln.dep:sched+g,
+  flights.push({i,k:ln.k,al:ln.al,arrNo:ln.al+ln.no,depNo:ln.al+(ln.no+1),ap:ln.ap,cls,sched,eta,ground:g,depSched:ln.dep!=null?(d+1)*1440+ln.dep:pernoite(ln,sched,g),
     dur:durA(ln.ap),state:"inbound",stand:null,path:null,fuelPlan:D().fuel+5+Math.round(Math.random()*.12*durA(ln.ap)),mk:pickMk(ln.al,cls)});
 }
 function genUpTo(dEnd){
