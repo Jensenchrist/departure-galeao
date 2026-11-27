@@ -852,8 +852,8 @@ body.cbar .zhint{top:auto;bottom:calc(var(--panh,0px) + var(--rbh,0px) + 14px)}
 #edge #aqp .aq-tab i{transform:none}#edge #aqp.shut .aq-tab i{transform:none}#edge #aqp:not(.shut) .aq-tab i{transform:rotate(180deg)}
 
 /* celular: barra em pílula estilo neo, com um círculo amarelo que desliza até a aba aberta */
-body.cbar #edge{position:absolute!important;left:0!important;right:0!important;top:auto!important;bottom:var(--panh,0px)!important;height:var(--rbh,58px);transform:none!important;display:flex;flex-direction:row!important;align-items:center;justify-content:center;background:#000;box-sizing:border-box;padding:0 10px;pointer-events:none}
-body.cbar #edge::before{content:"";position:absolute;left:10px;right:10px;top:5px;bottom:5px;border-radius:999px;background:linear-gradient(180deg,#141517,#1d1e21);box-shadow:inset 0 3px 8px rgba(0,0,0,.8),inset 0 -1px 0 rgba(255,255,255,.05),0 1px 0 rgba(255,255,255,.04)}
+body.cbar #edge{position:absolute!important;left:0!important;right:0!important;top:auto!important;bottom:var(--panh,0px)!important;height:var(--rbh,58px);transform:none!important;display:flex;flex-direction:row!important;align-items:center;justify-content:center;background:#000;box-sizing:border-box;padding:0 12px;pointer-events:none}
+body.cbar #edge::before{content:"";position:absolute;left:0;right:0;top:0;bottom:0;border-radius:0;background:linear-gradient(180deg,#141517,#1d1e21);box-shadow:inset 0 3px 8px rgba(0,0,0,.8),inset 0 -1px 0 rgba(255,255,255,.05),0 1px 0 rgba(255,255,255,.04)}
 body.cbar #edge>*{position:relative;z-index:1;flex:1;display:flex;justify-content:center;pointer-events:auto}
 body.cbar #edge>*+*{margin-top:0}
 body.cbar #edge #edgeDot{position:absolute;z-index:0;flex:none;top:50%;left:0;width:44px;height:44px;margin-top:-22px;border-radius:50%;background:linear-gradient(145deg,#ffe95c,#e8c600);box-shadow:0 4px 10px rgba(0,0,0,.55),0 0 14px rgba(255,220,0,.35),inset 0 1px 0 rgba(255,255,255,.5);transition:transform .35s cubic-bezier(.3,1.4,.5,1),opacity .2s;opacity:0;pointer-events:none}
@@ -977,7 +977,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795741691';
+var APPV='1795741954';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
