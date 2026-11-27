@@ -978,7 +978,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795742989';
+var APPV='1795743027';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1891,8 +1891,8 @@ function drawPlanes(){
     if(LAY.hgV&&f.hg!=null&&LAY.hgV[f.hg]&&(f.state==='hangar'||f.state==='toHg'||f.state==='fromHg')){const v=LAY.hgV[f.hg],L=spr(f)[f.cls-1][1]*PS(),cy=(v.door-(p.y-L/2))/L*100;el.style.clipPath=v.dir<0?`polygon(-300% ${cy}%,400% ${cy}%,400% 400%,-300% 400%)`:`polygon(-300% -300%,400% -300%,400% ${cy}%,-300% ${cy}%)`}
     else if(LAY.hgEdge&&f.hg!=null&&(f.state==='hangar'||f.state==='toHg'||f.state==='fromHg')&&p.x-wpx<LAY.hgEdge){const cx=(LAY.hgEdge-(p.x-wpx/2))/wpx*100;el.style.clipPath=`polygon(${cx}% -300%,400% -300%,400% 400%,${cx}% 400%)`}else if(el.style.clipPath)el.style.clipPath='';
     el.firstChild.style.transform=`rotate(${p.h}deg) scale(${p.s})`;
-    {const ll=el.children[1],g=gid(f.g),on=(f.state==='arriving'||f.state==='takeoff'||f.state==='approach')&&Math.abs(p.x-g.rx)<60&&!camp.closed;
-     const o=on?(.5+.5*NT).toFixed(2):'0';if(ll.style.opacity!==o)ll.style.opacity=o;if(on)ll.style.transform=`rotate(${p.h}deg) scale(${p.s})`}
+    {const ll=el.children[1],g=gid(f.g),rw=Math.abs(p.x-g.rx)<60,on=!camp.closed&&(f.state==='arriving'||f.state==='takeoff'||f.state==='approach'||(f.state==='departing'&&f.path&&now>(f.path.pbEnd||0)));
+     const o=on?((rw?.5:.35)+(rw?.5:.4)*NT).toFixed(2):'0';if(ll.style.opacity!==o)ll.style.opacity=o;if(on)ll.style.transform=`rotate(${p.h}deg) scale(${p.s})`}
     const tg=el.lastChild,show=sel&&sel.i===f.i;
     tg.hidden=!show;if(show){tg.textContent=`${f.state==="arriving"?f.arrNo:f.depNo}`;const [sw,sl]=spr(f)[f.cls-1],hr=p.h*Math.PI/180,half=(Math.abs(Math.cos(hr))*sl+Math.abs(Math.sin(hr))*sw)/2*p.s;tg.style.cssText=ROTM?(()=>{const hx=(Math.abs(Math.sin(hr))*sl+Math.abs(Math.cos(hr))*sw)/2*p.s;return `left:${50-hx/sw*100-6}%;top:50%;transform:translate(-50%,-50%) rotate(90deg)`})():`left:50%;top:${50+half/sl*100+3}%`}
   }
