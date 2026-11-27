@@ -969,7 +969,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795745603';
+var APPV='1795746953';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1548,7 +1548,11 @@ function svcStep(){
   const busy=crewBusy(),cap=crewCap();
   const parked=flights.filter(f=>f.state==="parked").sort((a,b)=>(b.prio?1:0)-(a.prio?1:0)||a.tPark-b.tPark);
   for(const f of parked){if(!f.svs)initSvc(f);if(f.blk)continue;
-    f.svs.forEach((v,i)=>{if(v.s!=null||!v.q||!depsOk(f,i)){v.wait=false;return}const c=CREW[i];
+    const night=f.depSched-(f.tPark||now)>300;
+    f.svs.forEach((v,i)=>{if(v.s!=null||!v.q||!depsOk(f,i)){v.wait=false;return}
+      // avião que dormiu aqui: malas e passageiros só embarcam 20 min antes da decolagem
+      if(night&&(i===5||i===6)){if(now<f.depSched-20){v.wait=false;v.hold=true;return}v.hold=false;v.d=Math.min(v.d,18)}
+      const c=CREW[i];
       if(c){if(busy[c]>=cap[c]){v.wait=true;return}busy[c]++;if(v.x){if(busy[c]<cap[c]){busy[c]++;v.d*=XK}else v.x=false}}v.wait=false;v.s=now;if(i===4&&!v.skip&&pk('comb')!=='off')play('combustivel',{vol:.7});if((i===1||i===5)&&pk('bag')!=='off')play('bagagem',{vol:.6,dur:10});dirty=true})}
 }
 // liga/desliga a 2ª equipe num serviço (só antes de terminar; em andamento ela só pode entrar)
@@ -2192,7 +2196,7 @@ function drawDetail(){
   }
   if(false){
     const ready=isReady(f),busy=crewBusy(),cap=crewCap();
-    const rows=SERV.map(([n,a,b,k],i)=>{const v=svP(f,i),w=waitingCrew(f,i);return `<div class="sv${v>=1?' done':''}${w?' wait':''}"><span class="svn">${ic(k)}${n}</span><div class="b"><i style="width:${v*100}%"></i></div><span class="p">${v>=1?'✓':w?'fila':Math.round(v*100)+'%'}</span></div>`}).join('')
+    const rows=SERV.map(([n,a,b,k],i)=>{const v=svP(f,i),w=waitingCrew(f,i);return `<div class="sv${v>=1?' done':''}${w?' wait':''}"><span class="svn">${ic(k)}${n}</span><div class="b"><i style="width:${v*100}%"></i></div><span class="p">${v>=1?'✓':w?'fila':(f.svs[i].hold&&f.svs[i].s==null)?fmt(f.depSched-20):Math.round(v*100)+'%'}</span></div>`}).join('')
       +`<div class="crews">Equipes livres: ${Object.keys(CREWNAME).map(c=>`<span>${CREWNAME[c]} <b>${cap[c]>8?'∞':Math.max(0,cap[c]-busy[c])+'/'+cap[c]}</b></span>`).join('')}</div>`;
     const est=depEst(f),late=Math.round(est-f.depSched);
     extra=`<div class="svc"><h3>Serviços em solo <span>Posição ${sn(f.stand)} · ${f.ground} min</span></h3>${rows}
