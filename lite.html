@@ -822,8 +822,8 @@ body.cbar #ovh{display:flex}body.cbar #autoBan{display:none!important}
 .ov-b.on{background:radial-gradient(circle at 50% 40%,#2a2b2f,#1b1c1f 70%);box-shadow:0 0 0 2px #121315,inset 0 3px 8px rgba(0,0,0,.8),inset 0 -1px 0 rgba(255,255,255,.06)}
 .ov-b.on svg{opacity:1;filter:drop-shadow(0 0 5px rgba(253,233,52,.85))}
 #ovSnd.on svg{fill:#8b8d92;filter:none}
-body.cbar .toast{bottom:calc(var(--panh,0px) + 12px)!important}
-body.cbar .zhint{top:auto;bottom:calc(var(--panh,0px) + 14px)}
+body.cbar .toast{bottom:calc(var(--panh,0px) + var(--rbh,0px) + 12px)!important}
+body.cbar .zhint{top:auto;bottom:calc(var(--panh,0px) + var(--rbh,0px) + 14px)}
 
 /* lingueta PRÓXIMOS (esquerda) */
 #aqp{position:absolute;left:0;top:calc(var(--barh,0px) + 134px);z-index:10;display:flex;align-items:stretch;transition:transform .35s cubic-bezier(.2,.8,.2,1);cursor:pointer;-webkit-tap-highlight-color:transparent}
@@ -850,6 +850,26 @@ body.cbar .zhint{top:auto;bottom:calc(var(--panh,0px) + 14px)}
 #edge #aqp .aq-tab span,#edge #aqp .aq-tab i{font-size:9px;color:var(--k)}#edge #aqp .aq-tab i{font-size:16px}
 #edge #aqp:not(.shut) .aq-tab{background:var(--k)}#edge #aqp:not(.shut) .aq-tab span,#edge #aqp:not(.shut) .aq-tab i{color:var(--y)}
 #edge #aqp .aq-tab i{transform:none}#edge #aqp.shut .aq-tab i{transform:none}#edge #aqp:not(.shut) .aq-tab i{transform:rotate(180deg)}
+
+/* celular: as abas laterais viram uma barra preta de ponta a ponta, logo acima dos botões */
+body.cbar #edge{position:absolute!important;left:0!important;right:0!important;top:auto!important;bottom:var(--panh,0px)!important;height:var(--rbh,50px);transform:none!important;flex-direction:row;align-items:center;justify-content:space-evenly;background:#000;border-top:1px solid #1d1d1d;box-sizing:border-box;padding:0 6px}
+body.cbar #edge>*+*{margin-top:0}
+body.cbar #edge .edw{position:static}
+body.cbar #edge .edt,body.cbar #edge #fltTab,body.cbar #edge #aqp .aq-tab,body.cbar #edge #mxTab{position:relative!important;flex-direction:row!important;gap:5px;height:38px!important;min-width:44px;padding:0 9px!important;border:0!important;border-radius:10px!important;box-shadow:none!important;background:#141414!important;justify-content:center;align-items:center}
+body.cbar #edge .edt .ico,body.cbar #edge #mxTab .ico,body.cbar #edge #fltTab .ico{width:26px!important;height:26px!important;margin:0!important}
+body.cbar #edge #fltTab b{font-size:15px}body.cbar #edge #fltTab{top:auto!important;right:auto!important;transform:none!important}
+body.cbar #edge .edw.open .edt,body.cbar #edge #aqp:not(.shut) .aq-tab{background:var(--y)!important}
+body.cbar #edge #aqp .aq-tab{background:var(--y)!important}body.cbar #edge #aqp:not(.shut) .aq-tab{background:#141414!important}body.cbar #edge #aqp:not(.shut) .aq-tab .aqi{color:var(--y)}
+body.cbar #edge #aqp .aq-tab .aqi{width:24px;height:24px}
+body.cbar #edge .edp{position:absolute;left:8px;right:8px;bottom:calc(100% + 8px);margin:0;border:2px solid var(--y)!important;border-radius:16px!important;max-width:none;justify-content:center}
+body.cbar #edge #aqp{position:static!important}
+body.cbar #edge #aqp .aq-in{position:absolute;right:8px;left:auto;bottom:calc(100% + 8px);border:2px solid var(--y);border-radius:16px}
+body.cbar #edge #mxTab #mxDot{top:3px;right:3px}
+/* farol giratório no topo da torre de controle */
+#beacon{position:absolute;z-index:4;pointer-events:none;width:0;height:0}
+#beacon i{position:absolute;left:0;top:0;width:calc(var(--mk,1)*150px);height:calc(var(--mk,1)*150px);transform:translate(-50%,-50%);border-radius:50%;background:conic-gradient(from 0deg,rgba(255,255,240,.0) 0deg,rgba(255,255,235,.85) 8deg,rgba(255,255,240,0) 26deg,transparent 180deg,rgba(90,255,150,.0) 180deg,rgba(90,255,150,.8) 188deg,rgba(90,255,150,0) 206deg,transparent 360deg);-webkit-mask:radial-gradient(circle,#000 0,#000 35%,transparent 70%);mask:radial-gradient(circle,#000 0,#000 35%,transparent 70%);mix-blend-mode:screen;animation:bspin 3s linear infinite;opacity:calc(.25 + var(--nt,0)*.75)}
+#beacon b{position:absolute;left:0;top:0;width:calc(var(--mk,1)*5px);height:calc(var(--mk,1)*5px);transform:translate(-50%,-50%);border-radius:50%;background:#fff;box-shadow:0 0 6px 3px rgba(255,255,230,.9)}
+@keyframes bspin{to{transform:translate(-50%,-50%) rotate(360deg)}}
 /* abas laterais cabem entre o painel de LED e o painel de botões */
 body.cbar #edge{top:calc(var(--barh,0px) + 74px);transform:scale(var(--eds,.9));transform-origin:100% 0}
 #edge .edt>i:not(#mxDot){display:none!important}#fltTab>i{display:none!important}#edge #aqp .aq-tab{background:var(--y)!important;border-color:var(--y)!important}#edge #aqp:not(.shut) .aq-tab{background:var(--k)!important}
@@ -953,7 +973,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795740265';
+var APPV='1795741162';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -976,7 +996,7 @@ chk();document.addEventListener('visibilitychange',function(){if(!document.hidde
     <button class="zreset" id="zreset" hidden>⤢ Tirar zoom</button><div class="zhint" id="zhint">Dois dedos para aproximar · arraste para os lados</div>
     <div class="map" id="map">
       <div id="bgH"><i id="skyTh"></i><i id="skyNh"></i><i id="skyFh"></i></div><div class="hr" id="hrD"></div><div class="sky" id="skyT"></div><div class="hr" id="hrT"></div><div class="sky" id="skyN"></div><div class="hr" id="hrN"></div><div class="sky" id="skyF"></div><div id="glow"></div><div id="lights"></div><div id="fixed"></div>
-      <div id="cars"></div><div id="brg"><img src="brg_d.jpg" alt=""><img id="brgT" src="brg_t.jpg" alt=""><img id="brgN" src="brg_n.jpg" alt=""><img id="brgF" src="brg_f.jpg" alt=""></div><div id="veh"></div><div id="planes"></div>
+      <div id="cars"></div><div id="brg"><img src="brg_d.jpg" alt=""><img id="brgT" src="brg_t.jpg" alt=""><img id="brgN" src="brg_n.jpg" alt=""><img id="brgF" src="brg_f.jpg" alt=""></div><div id="veh"></div><div id="planes"></div><div id="beacon"><i></i><b></b></div>
     </div>
     <div id="storm"></div><video id="rainVid" src="chuva.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
     <div class="pop" id="pop" hidden><span class="pop-t"></span><div><button data-pm="svc" aria-label="Serviços"><span class="ico"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span><small>Serviços</small></button><button data-pm="data" aria-label="Dados do voo"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></span><small>Voo</small></button></div></div>
@@ -2558,16 +2578,16 @@ var dispW=()=>(ROTM?bh:bw),dispH=()=>(ROTM?bw:bh);
 function layoutMap(){
   const r=stage.getBoundingClientRect();SW=r.width;SH=r.height;
   const fitW=!ROTM&&SW/SH<W/H*1.15&&matchMedia('(pointer:coarse)').matches;
-  const sq=W/H>.8,PANH=fitW?(sq?66:Math.min(110,Math.max(62,SH-44-SW/W*H))):0;
+  const sq=W/H>.8,RBH=fitW?50:0,PANH0=fitW?Math.round((sq?66:Math.min(110,Math.max(62,SH-44-SW/W*H)))*.9):0,PANH=PANH0+RBH;
   const sc=fitW?(sq||LAY.cover?Math.max(SW/W,(SH-44-PANH)/H):Math.min(SW/W,(SH-44-PANH)/H)):ROTM?Math.max(SW/H,SH/W):(SW/SH<W/H*1.15?Math.max(SW/W,SH/H):SH/H);
   const cu=(SW/2-ZX)/(dispW()*zk),cv=(SH/2-ZY)/(dispH()*zk);
-  barH=fitW?44:0;document.body.classList.toggle('cbar',fitW);$('cbar').style.height=barH+'px';document.body.style.setProperty('--barh',barH+'px');document.body.style.setProperty('--panh',PANH+'px');PANHV=PANH;lastClk='';requestAnimationFrame(edFit);
+  barH=fitW?44:0;document.body.classList.toggle('cbar',fitW);$('cbar').style.height=barH+'px';document.body.style.setProperty('--barh',barH+'px');document.body.style.setProperty('--panh',PANH0+'px');document.body.style.setProperty('--rbh',RBH+'px');PANHV=PANH;lastClk='';requestAnimationFrame(edFit);
   bw=W*sc;bh=H*sc;map.style.width=bw+'px';map.style.height=bh+'px';map.style.setProperty('--mk',(bw/W).toFixed(4));
   const bg=$('bgH');bg.style.width=bh+'px';bg.style.height=bw+'px';bg.style.transform=`translateX(${bw}px) rotate(90deg)`;
   if(!laidOut){ZX=LAY.ax!=null&&!ROTM&&dispW()>SW?clamp(-LAY.ax*bw/W,SW-dispW(),0):(SW-dispW())/2;ZY=ROTM?(SH-dispH())/2:barH;laidOut=true}else{ZX=SW/2-cu*dispW()*zk;ZY=SH/2-cv*dispH()*zk}
   clampZ();applyZ();
 }
-function edFit(){const e=$('edge');if(!e)return;e.style.setProperty('--eds',.9);if(!document.body.classList.contains('cbar'))return;
+function edFit(){const e=$('edge');if(!e)return;e.style.setProperty('--eds',.9);if(document.body.classList.contains('cbar'))return;if(!document.body.classList.contains('cbar'))return;
   const avail=SH-barH-PANHV-74-10,h=e.offsetHeight;e.style.setProperty('--eds',Math.min(.9,h>avail?Math.max(.6,avail/h):.9).toFixed(3))}
 function clampZ(){
   zk=clamp(zk,1,4);const dw=dispW()*zk,dh=dispH()*zk,avail=SH-barH-panH();
@@ -2949,6 +2969,7 @@ if(TWO){
    w.querySelector('.edt').addEventListener('click',e=>{e.stopPropagation();edge.querySelectorAll('.edw').forEach(x=>x.classList.remove('open'));openYard(!yardOn)})}
   /* Negócios foi para o painel de baixo */
   /* manutenção e PRÓXIMOS: linguetas na lateral direita, junto das outras */
+  {const ft=$('fltTab');if(ft&&ft.parentNode!==edge)edge.prepend(ft)}
   {const w=document.createElement('div');w.className='edw';const mt=$('mxTab');mt.classList.add('edt');mt.insertAdjacentHTML('beforeend','<i>‹</i>');w.appendChild(mt);edge.appendChild(w);
    const a=$('aqp');edge.appendChild(a);$('aqTab').classList.add('edt')}
   // abas reordenáveis: segure meio segundo e arraste para cima/baixo; encaixam como ímã
@@ -3193,7 +3214,7 @@ var PB=1,NT=0,SKT=0,SKN=0,lastPart="";
 function skyTick(){
   const t=ramp("15:30","17:00")*(1-ramp("17:45","19:00")),n=Math.max(ramp("18:30","18:50"),1-ramp("05:40","06:00"));
   SKT=t;SKN=n;$('skyT').style.opacity=t;$('skyN').style.opacity=n;$('skyTh').style.opacity=t;$('skyNh').style.opacity=n;{const c=camp.closed?1:0;$('skyF').style.opacity=c;$('skyFh').style.opacity=c;document.body.classList.toggle('closed',!!camp.closed)}
-  PB=1-.28*n;NT=n;{const b=$('brg');if(b){b.style.display=LAY.id===1?'':'none';$('brgT').style.opacity=t;$('brgN').style.opacity=n;$('brgF').style.opacity=camp.closed?1:0}}map.style.setProperty('--nt',(.12+.88*Math.max(n,t*.45)).toFixed(3));
+  PB=1-.28*n;NT=n;{const bc=$('beacon');if(bc){bc.style.display=LAY.id===1&&!camp.closed?'':'none';bc.style.left=(842/966*100)+'%';bc.style.top=(1139/1267*100)+'%';map.style.setProperty('--nt',n.toFixed(2))}}{const b=$('brg');if(b){b.style.display=LAY.id===1?'':'none';$('brgT').style.opacity=t;$('brgN').style.opacity=n;$('brgF').style.opacity=camp.closed?1:0}}map.style.setProperty('--nt',(.12+.88*Math.max(n,t*.45)).toFixed(3));
   const part=n>.5?"Noite":t>.5?"Tarde":"Dia";
   if(part!==lastPart){lastPart=part;const el=document.querySelector('.wind small');if(el)el.dataset.p=part;dirty=true}
 }
