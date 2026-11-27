@@ -859,9 +859,9 @@ body.cbar #edge>*{position:relative;z-index:1;flex:1;display:flex;justify-conten
 body.cbar #edge>*+*{margin-top:0}
 body.cbar #edge #edgeDot{position:absolute;z-index:0;flex:none;top:50%;left:0;width:36px;height:34px;margin-top:-17px;border-radius:50%;background:linear-gradient(145deg,#2a2b2f,#141518);box-shadow:0 4px 10px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.08);transition:transform .35s cubic-bezier(.3,1.4,.5,1),opacity .2s;opacity:0;pointer-events:none}
 body.cbar #edge .edt,body.cbar #edge #fltTab,body.cbar #edge #aqp .aq-tab,body.cbar #edge #mxTab{position:relative!important;top:auto!important;right:auto!important;transform:none!important;flex-direction:row!important;gap:3px;height:34px!important;min-width:40px;padding:0 6px!important;border:0!important;border-radius:17px!important;box-shadow:none!important;background:transparent!important;justify-content:center;align-items:center}
-body.cbar #edge .ico{background:transparent!important;box-shadow:none!important}
+body.cbar #edge .edt .ico,body.cbar #edge #fltTab .ico{background:transparent!important;box-shadow:none!important}
 body.cbar #edge .edt .ico,body.cbar #edge #mxTab .ico,body.cbar #edge #fltTab .ico{width:22px!important;height:22px!important;margin:0!important}
-body.cbar #edge .ico svg,body.cbar #edge #mxTab svg{fill:#111!important}
+body.cbar #edge .edt .ico svg,body.cbar #edge #fltTab .ico svg,body.cbar #edge #mxTab svg{fill:#111!important}
 body.cbar #edge #aqp .aq-tab .aqi{width:23px;height:23px;color:#111!important}
 body.cbar #edge #fltTab b{font-size:14px;color:#111}body.cbar #edge #fltTab span{font-size:18px;color:#111}body.cbar #edge #fltTab.on-dot span{color:var(--y)}
 body.cbar #edge .on-dot .ico svg,body.cbar #edge .on-dot svg{fill:var(--y)!important}body.cbar #edge .on-dot .aqi{color:var(--y)!important}body.cbar #edge .on-dot b{color:var(--y)!important}
@@ -978,7 +978,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795743027';
+var APPV='1795743117';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
