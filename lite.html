@@ -953,7 +953,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795740109';
+var APPV='1795740265';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -3039,8 +3039,11 @@ function mkFleet(){const F=[];
       add('combustivel',xr('combustivel'),s.y-40,270);add('catering',xr('catering'),s.y-19,270);
       add('esteira',xr('esteira'),s.y+12,270);add('trem_bagagem',xr('trem_bagagem'),s.y+19,270);add('escada',xr('escada'),s.y+26,270);add('onibus',xr('onibus'),s.y+33,270)}}
   // só o caminhão de combustível trabalha; os outros ficam só alguns, parados, de enfeite
-  const deco={2:1,4:1,7:1,9:1,11:1,13:1};
-  return F.filter(v=>v.t==='combustivel'||(deco[v.s]&&(v.t==='trem_bagagem'||v.t==='esteira'||v.t==='escada'||v.t==='onibus')))}
+  const deco={2:1,4:1,7:1,9:1};
+  // posições conferidas contra o desenho do mapa (nada em cima de placa, finger ou prédio)
+  const FIX={'2esteira':[581,230],'4trem_bagagem':[567,437],'4esteira':[587,440],'7esteira':[584,761],'9esteira':[595,966],'12combustivel':[278.2,447],'14combustivel':[282.2,664]};
+  for(const v of F){const q=FIX[v.s+v.t];if(q){v.x=q[0];v.y=q[1]}}
+  return F.filter(v=>v.t==='combustivel'||(deco[v.s]&&(v.t==='trem_bagagem'||v.t==='esteira')))}
 function drawVeh(){
   for(const el of vehEls.values())el._live=0;
   if(LAY.id===1&&!GSE)GSE=mkFleet();const seen={},used={};
@@ -3055,7 +3058,7 @@ function drawVeh(){
       if(!J){const busy=new Set(Object.values(VJOB).map(j=>j.vi)),vi=GSE.findIndex(v=>v.s===s.n&&v.t===spr);if(vi<0||busy.has(vi))return;J=VJOB[key]={vi,st:Math.max(t0,now)}}
       t0=J.st;
       // veículos paralelos ao avião encostam no sentido em que chegam (sem dar meia-volta)
-      if(spr==='combustivel'||spr==='trem_bagagem'||spr==='onibus'){const v=GSE[J.vi];if(dirOk(hf,[T[0]-v.x,T[1]-v.y])<0)hf+=180}
+      if(!s.remote&&(spr==='combustivel'||spr==='trem_bagagem'||spr==='onibus')){const v=GSE[J.vi];if(dirOk(hf,[T[0]-v.x,T[1]-v.y])<0)hf+=180}
       const v=GSE[J.vi],f0=hv(hf,VEH[spr][1]*.9,0),pre=[T[0]-f0[0],T[1]-f0[1]];
       Object.assign(J,{spr,g,T,hf,t0,t1})};
     // posições: combustível à frente da asa direita, catering na porta traseira direita, esteira e trem no porão esquerdo, escada e ônibus na porta dianteira esquerda
@@ -3134,7 +3137,7 @@ function carsStep(){const t=performance.now(),dt=Math.min(.1,(t-carLast)/1000);c
 // ---------- trator de pushback: cada posição tem o seu, sempre visível ----------
 // fica na caixa de equipamentos; quando o avião estaciona vai até o bico e engata; empurra como carreta
 // (o trator vira para o lado contrário da curva); desengata, se afasta e volta para a caixa
-var tugBox=s=>{const sg=sgOf(s);return s.remote?[s.x-24,s.y-20]:s.n===10?[s.x+24,s.y-20]:[s.x+24,s.y+20]};
+var tugBox=s=>{const sg=sgOf(s);return s.remote?[s.x-14,s.y-20]:s.n===10?[s.x+24,s.y-20]:[s.x+(s.n>=7?23:24),s.y+20]};
 function tugPath(pts){const P=fillet(pts.filter((q,i,a)=>!i||dist(q,a[i-1])>.8),12),Ls=[];let tot=0;for(let i=1;i<P.length;i++){const d=dist(P[i-1],P[i]);Ls.push(d);tot+=d}
   return {P,Ls,tot,at(dd){let i=0;while(i<Ls.length-1&&dd>Ls[i]){dd-=Ls[i];i++}const u=Ls[i]?Math.min(1,dd/Ls[i]):1,a=P[i],b=P[i+1];return {x:lerp(a[0],b[0],u),y:lerp(a[1],b[1],u),h:angTo(a,b)}}}}
 function tugStep(s){const B=tugBox(s),bs=Math.sign(B[1]-s.y)||-1,hPark=bs<0?180:0,sg=sgOf(s),tl=VEH.pushback[1],k=pathK(speed)||1;
