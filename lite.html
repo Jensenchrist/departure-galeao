@@ -978,7 +978,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795744048';
+var APPV='1795744197';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -2807,7 +2807,7 @@ function openDeals(on,mode){dealsOn=on;$('deals').hidden=!on;dealAsk=null;dealsA
   drawDeals()}
 
 // cores de cada companhia: [principal, destaque]
-var BRAND={PY:['#127A3A','#F2C200'],BW:['#C8102E','#00A6A6'],SR:['#E30613','#fff'],SK:['#0B1F5C','#C8102E'],DT:['#FF1A00','#111'],ET:['#00843D','#FCDD09'],AT:['#C1272D','#006233'],MS:['#00265C','#C5A100'],VR:['#003893','#F7D116'],
+var BRAND={PY:['#E8323F','#fff'],BW:['#A0207F','#D91F7A'],SR:['#E30613','#fff'],SK:['#0B1F5C','#C8102E'],DT:['#FF1A00','#111'],ET:['#00843D','#FCDD09'],AT:['#C1272D','#006233'],MS:['#00265C','#C5A100'],VR:['#003893','#F7D116'],
  RG:['#00377A','#F2A900'],VP:['#0A88B5','#F5C400'],TR:['#2B3990','#F7B500'],SC:['#1B2A5C','#2290C8'],PB:['#1E7B3C','#F2F2F2'],JM:['#0B5BA8','#E92C89'],AC:['#D9232B','#111111'],NZ:['#111111','#00A3AD'],CO:['#0033A0','#B9C4D6'],US:['#0D2C5E','#C8102E'],AS:['#01426A','#64CCC9'],WA:['#D2232A','#111111'],TK:['#C8102E','#232B38'],VA:['#E10A0A','#41403E'],TN:['#2ECBD3','#0B6E78'],FJ:['#4A3728','#C8A97E'],MH:['#0A2A6B','#E31B23'],TG:['#3E1366','#F4B400'],BR:['#00964B','#F0782D'],KE:['#0064B1','#C8102E'],CX:['#006564','#B5B5B5'],QF:['#E40000','#fff'],SA:['#00205B','#FFB81C'],CA:['#C8102E','#F2C200'],SQ:['#1A2B5E','#F5B335'],
  AZ:['#00843D','#D2232A'],PA:['#0A5BA8','#fff'],JL:['#CC0000','#fff'],LA:['#1B0088','#ED1650'],G3:['#FF6600','#fff'],AD:['#13306B','#27B4E6'],TP:['#D6001C','#00A859'],
  EK:['#C8102E','#C8A052'],AF:['#002157','#EF1A2D'],BA:['#01295F','#EB2226'],AA:['#2B3A4A','#C30019'],AR:['#0065B3','#A7CEEA'],CM:['#0032A0','#B5975A'],QR:['#5C0632','#B0B0B0'],
