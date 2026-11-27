@@ -872,9 +872,9 @@ body.cbar #edge #aqp .aq-in{position:absolute;right:10px;left:auto;bottom:calc(1
 body.cbar #edge #mxTab #mxDot{top:6px;right:6px}
 /* farol giratório no topo da torre de controle */
 #beacon{position:absolute;z-index:4;pointer-events:none;width:0;height:0}
-#beacon i{position:absolute;left:0;top:0;width:calc(var(--mk,1)*80px);height:calc(var(--mk,1)*80px);transform:translate(-50%,-50%);border-radius:50%;background:conic-gradient(from 0deg,rgba(255,255,240,.0) 0deg,rgba(255,255,235,.85) 8deg,rgba(255,255,240,0) 26deg,transparent 180deg,rgba(90,255,150,.0) 180deg,rgba(90,255,150,.8) 188deg,rgba(90,255,150,0) 206deg,transparent 360deg);-webkit-mask:radial-gradient(circle,#000 0,#000 40%,transparent 71%);mask:radial-gradient(circle,#000 0,#000 40%,transparent 71%);mix-blend-mode:screen;animation:bspin 3s linear infinite;opacity:calc(.25 + var(--nt,0)*.75)}
+#beacon i{position:absolute;left:0;top:0;width:0;height:0;animation:bspin 3s linear infinite;opacity:calc(.3 + var(--nt,0)*.7)}#beacon i::before,#beacon i::after{content:"";position:absolute;left:calc(var(--mk,1)*-4px);width:calc(var(--mk,1)*8px);height:calc(var(--mk,1)*40px);bottom:0;clip-path:polygon(50% 100%,0 0,100% 0);mix-blend-mode:screen;filter:blur(calc(var(--mk,1)*1.2px))}#beacon i::before{background:linear-gradient(0deg,rgba(255,255,235,.95),rgba(255,255,235,0))}#beacon i::after{top:0;bottom:auto;clip-path:polygon(50% 0,0 100%,100% 100%);background:linear-gradient(180deg,rgba(90,255,150,.9),rgba(90,255,150,0))}
 #beacon b{position:absolute;left:0;top:0;width:calc(var(--mk,1)*3.5px);height:calc(var(--mk,1)*3.5px);transform:translate(-50%,-50%);border-radius:50%;background:#fff;box-shadow:0 0 6px 3px rgba(255,255,230,.9)}
-@keyframes bspin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes bspin{to{transform:rotate(360deg)}}
 /* abas laterais cabem entre o painel de LED e o painel de botões */
 body.cbar #edge{top:calc(var(--barh,0px) + 74px);transform:scale(var(--eds,.9));transform-origin:100% 0}
 #edge .edt>i:not(#mxDot){display:none!important}#fltTab>i{display:none!important}#edge #aqp .aq-tab{background:var(--y)!important;border-color:var(--y)!important}#edge #aqp:not(.shut) .aq-tab{background:var(--k)!important}
@@ -969,7 +969,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795743117';
+var APPV='1795743202';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -3216,7 +3216,7 @@ var PB=1,NT=0,SKT=0,SKN=0,lastPart="";
 function skyTick(){
   const t=ramp("15:30","17:00")*(1-ramp("17:45","19:00")),n=Math.max(ramp("18:30","18:50"),1-ramp("05:40","06:00"));
   SKT=t;SKN=n;$('skyT').style.opacity=t;$('skyN').style.opacity=n;$('skyTh').style.opacity=t;$('skyNh').style.opacity=n;{const c=camp.closed?1:0;$('skyF').style.opacity=c;$('skyFh').style.opacity=c;document.body.classList.toggle('closed',!!camp.closed)}
-  PB=1-.28*n;NT=n;{const bc=$('beacon');if(bc){bc.style.display=LAY.id===1&&!camp.closed?'':'none';bc.style.left=(842/966*100)+'%';bc.style.top=(1139/1267*100)+'%';map.style.setProperty('--nt',n.toFixed(2))}}{const b=$('brg');if(b){b.style.display=LAY.id===1?'':'none';$('brgT').style.opacity=t;$('brgN').style.opacity=n;$('brgF').style.opacity=camp.closed?1:0}}map.style.setProperty('--nt',(.12+.88*Math.max(n,t*.45)).toFixed(3));
+  PB=1-.28*n;NT=n;{const bc=$('beacon');if(bc){bc.style.display=LAY.id===1&&!camp.closed?'':'none';bc.style.left=(848/966*100)+'%';bc.style.top=(1140/1267*100)+'%';map.style.setProperty('--nt',n.toFixed(2))}}{const b=$('brg');if(b){b.style.display=LAY.id===1?'':'none';$('brgT').style.opacity=t;$('brgN').style.opacity=n;$('brgF').style.opacity=camp.closed?1:0}}map.style.setProperty('--nt',(.12+.88*Math.max(n,t*.45)).toFixed(3));
   const part=n>.5?"Noite":t>.5?"Tarde":"Dia";
   if(part!==lastPart){lastPart=part;const el=document.querySelector('.wind small');if(el)el.dataset.p=part;dirty=true}
 }
