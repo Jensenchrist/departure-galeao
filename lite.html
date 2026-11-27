@@ -71,7 +71,7 @@ button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
 /* luzes de cabeceira */
 .lt{position:absolute;width:calc(var(--mk,1)*var(--lts,7)*1px);height:calc(var(--mk,1)*var(--lts,7)*1px);border-radius:50%;transform:translate(-50%,-50%);z-index:2}
 .lt.g{background:#5dff8f;box-shadow:0 0 6px 2px #2cff6a}
-.lt.r{background:#ff3b30;box-shadow:0 0 6px 2px #ff1a0d}
+.lt.r{background:#ff3b30;box-shadow:0 0 6px 2px #ff1a0d}.lt.ob{background:#ff2a1f;box-shadow:0 0 6px 3px #ff1a0d,0 0 14px 6px rgba(255,30,20,.5);animation:obs 1.6s steps(1) infinite}@keyframes obs{0%{opacity:1}50%{opacity:.08}}
 .lt.w{background:#fff;box-shadow:0 0 8px 3px #fff;opacity:0;animation:rabbit 1.2s infinite}
 .lt.reil{width:calc(var(--mk,1)*10px);height:calc(var(--mk,1)*10px);background:#fff;box-shadow:0 0 10px 4px #fff;opacity:0;animation:strobe 1s infinite}
 @keyframes rabbit{0%,12%{opacity:1}20%,100%{opacity:0}}
@@ -953,7 +953,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795739641';
+var APPV='1795740109';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1073,7 +1073,7 @@ var TH={"10":60,"28":1590};
 // layouts: 1 = Galeão original (1 pista), 2 = expansão (2 pistas, Terminal 1 e 2)
 var CN2=[224,584,1197,1595,1920];
 var LAYS={
- 1:{id:1,W:966,H:1267,ps:1.35,cover:1,ax:40,lts:4.5,endOnly:1,hg:[0,1],hgV:[{x:412,door:52,dir:-1},{x:412,door:1244,dir:1}],G:[{lp:{edge:[[65.0,117.0],[65.0,147.5],[65.0,178.8],[65.0,238.0],[65.0,268.5],[65.0,298.0],[65.0,330.0],[65.0,351.5],[63.0,386.0],[62.5,420.5],[63.0,456.0],[62.8,491.0],[62.8,525.0],[62.8,559.5],[62.5,594.0],[62.5,630.0],[62.8,664.0],[62.8,698.5],[62.8,734.8],[62.8,769.0],[62.8,803.0],[63.0,838.5],[62.8,872.5],[62.8,908.5],[65.0,941.0],[65.0,970.5],[65.0,1001.5],[65.0,1031.0],[65.0,1061.5],[65.0,1121.0],[65.0,1152.5],[65.0,1185.5],[160.5,117.0],[160.5,147.5],[160.5,178.5],[160.5,238.0],[160.2,268.5],[160.0,298.0],[163.0,386.0],[163.0,420.5],[163.0,456.0],[163.0,491.0],[163.0,525.0],[163.0,559.5],[163.0,594.0],[163.0,630.0],[163.0,664.0],[163.0,698.5],[163.0,735.0],[163.0,769.0],[163.0,803.0],[163.0,838.5],[163.0,872.5],[160.2,970.0],[160.2,1000.5],[160.2,1030.5],[160.2,1060.5],[160.2,1120.5],[160.5,1152.0],[160.0,1185.0]],th:{"10":[209,[65,75.5,89.5,104.5,122,138,151,160.5]],"28":[1091,[65,74.5,88.5,104,122,136.5,151,160.2]]},ap:{"10":[[77.2,[87.2,100.2,113.5,126.5,139.5]],[42,[113.2]]],"28":[[1211,[91,104,117,130.2,143.2]],[1243.8,[111.5]]]}},id:'A',rx:110,twy:236,lane:412,sg:1,conn:[337,925],entry:[231,1017],th:{"10":213,"28":1084},nm:{"10":"10","28":"28"},lt:[66,12,8],reil:[55,165],lbx:28,ap:{"10":[20,40,60],"28":[1210,1230,1250]},edge:[63,159]}],
+ 1:{id:1,W:966,H:1267,ps:1.35,cover:1,ax:40,lts:4.5,endOnly:1,hg:[0,1],hgV:[{x:412,door:52,dir:-1},{x:412,door:1244,dir:1}],G:[{lp:{edge:[[65.0,117.0],[65.0,147.5],[65.0,178.8],[65.0,238.0],[65.0,268.5],[65.0,298.0],[65.0,330.0],[65.0,351.5],[63.0,386.0],[62.5,420.5],[63.0,456.0],[62.8,491.0],[62.8,525.0],[62.8,559.5],[62.5,594.0],[62.5,630.0],[62.8,664.0],[62.8,698.5],[62.8,734.8],[62.8,769.0],[62.8,803.0],[63.0,838.5],[62.8,872.5],[62.8,908.5],[65.0,941.0],[65.0,970.5],[65.0,1001.5],[65.0,1031.0],[65.0,1061.5],[65.0,1121.0],[65.0,1152.5],[65.0,1185.5],[160.5,117.0],[160.5,147.5],[160.5,178.5],[160.5,238.0],[160.2,268.5],[160.0,298.0],[163.0,386.0],[163.0,420.5],[163.0,456.0],[163.0,491.0],[163.0,525.0],[163.0,559.5],[163.0,594.0],[163.0,630.0],[163.0,664.0],[163.0,698.5],[163.0,735.0],[163.0,769.0],[163.0,803.0],[163.0,838.5],[163.0,872.5],[160.2,970.0],[160.2,1000.5],[160.2,1030.5],[160.2,1060.5],[160.2,1120.5],[160.5,1152.0],[160.0,1185.0]],th:{"10":[209,[65,75.5,89.5,104.5,122,138,151,160.5]],"28":[1091,[65,74.5,88.5,104,122,136.5,151,160.2]]},ap:{"10":[[77.2,[87.2,100.2,113.5,126.5,139.5]]],"28":[[1211,[91,104,117,130.2,143.2]]]},obs:[[113.2,42],[111.5,1243.8]]},id:'A',rx:110,twy:236,lane:412,sg:1,conn:[337,925],entry:[231,1017],th:{"10":213,"28":1084},nm:{"10":"10","28":"28"},lt:[66,12,8],reil:[55,165],lbx:28,ap:{"10":[20,40,60],"28":[1210,1230,1250]},edge:[63,159]}],
    labels:[],
    // portões do terminal (bico para o leste) + remotas a oeste da faixa do pátio (bico para o oeste)
    mk:()=>[[520,152,7,6],[602,282,6],[600,385,6],[600,480,6],[554,605,3],[554,701,3],[605,813,5],[605,911,5],[605,1017,6],[525,1117,7,6]].map(([x,y,m,mn],i)=>({n:i+1,x,y,max:m,min:mn||1,bd:0,g:'A',sx:x+70,sy:i===9?y+20:y-18}))
@@ -1777,6 +1777,7 @@ function drawLights(){
       for(const end of ["10","28"]){const on=end===r&&!stormNow(),[y,xs]=P.th[end];
         for(const x of xs)h+=`<i class="lt ${on?'g':'r'}" style="left:${x/W*100}%;top:${y/H*100}%"></i>`;
         if(on){const bars=[...P.ap[end]].reverse();bars.forEach(([yy,xx],k)=>xx.forEach(x=>h+=`<i class="lt w" style="left:${x/W*100}%;top:${yy/H*100}%;animation-delay:${(k*.15).toFixed(2)}s"></i>`))}}
+      for(const [x,y] of P.obs||[])h+=`<i class="lt ob" style="left:${x/W*100}%;top:${y/H*100}%"></i>`;
       h+='</div>';continue}
     // luzes de borda em onda, no sentido do pouso
     {const ys=[];for(let y=g.th["10"]+40;y<g.th["28"]-20;y+=88)ys.push(y);const n=ys.length,down=r==="10";
@@ -3035,7 +3036,7 @@ function mkFleet(){const F=[];
       add('catering',xs,s.y+34,90);add('combustivel',xs-2,s.y+42,90);
       add('trem_bagagem',s.x-30,s.y-40,90);add('esteira',s.x-16,s.y-47,90)}
     else{const xr=t=>s.x-4-half(t);
-      add('combustivel',xr('combustivel'),s.y-12,270);add('catering',xr('catering'),s.y-19,270);
+      add('combustivel',xr('combustivel'),s.y-40,270);add('catering',xr('catering'),s.y-19,270);
       add('esteira',xr('esteira'),s.y+12,270);add('trem_bagagem',xr('trem_bagagem'),s.y+19,270);add('escada',xr('escada'),s.y+26,270);add('onibus',xr('onibus'),s.y+33,270)}}
   // só o caminhão de combustível trabalha; os outros ficam só alguns, parados, de enfeite
   const deco={2:1,4:1,7:1,9:1,11:1,13:1};
@@ -3133,7 +3134,7 @@ function carsStep(){const t=performance.now(),dt=Math.min(.1,(t-carLast)/1000);c
 // ---------- trator de pushback: cada posição tem o seu, sempre visível ----------
 // fica na caixa de equipamentos; quando o avião estaciona vai até o bico e engata; empurra como carreta
 // (o trator vira para o lado contrário da curva); desengata, se afasta e volta para a caixa
-var tugBox=s=>{const sg=sgOf(s);return s.remote?[s.x-sg*18,s.y-28]:s.n===10?[s.x-4,s.y+28]:[s.x-4,s.y-26]};
+var tugBox=s=>{const sg=sgOf(s);return s.remote?[s.x-24,s.y-20]:s.n===10?[s.x+24,s.y-20]:[s.x+24,s.y+20]};
 function tugPath(pts){const P=fillet(pts.filter((q,i,a)=>!i||dist(q,a[i-1])>.8),12),Ls=[];let tot=0;for(let i=1;i<P.length;i++){const d=dist(P[i-1],P[i]);Ls.push(d);tot+=d}
   return {P,Ls,tot,at(dd){let i=0;while(i<Ls.length-1&&dd>Ls[i]){dd-=Ls[i];i++}const u=Ls[i]?Math.min(1,dd/Ls[i]):1,a=P[i],b=P[i+1];return {x:lerp(a[0],b[0],u),y:lerp(a[1],b[1],u),h:angTo(a,b)}}}}
 function tugStep(s){const B=tugBox(s),bs=Math.sign(B[1]-s.y)||-1,hPark=bs<0?180:0,sg=sgOf(s),tl=VEH.pushback[1],k=pathK(speed)||1;
@@ -3154,15 +3155,15 @@ function tugStep(s){const B=tugBox(s),bs=Math.sign(B[1]-s.y)||-1,hPark=bs<0?180:
     // ré em curva: o trator gira 90° para o lado da caixa enquanto se afasta do bico
     const sd=(()=>{const v=hv(hT+90,1,0);return v[0]*(Q[0]-D[0])+v[1]*(Q[1]-D[1])>0?1:-1})(),R=14,arc=[D];let hx=hT,px=D;
     for(let i=0;i<8;i++){const hm=hT+sd*90*(i+.5)/8,st=hv(hm,-R*Math.PI/2/8,0);px=[px[0]+st[0],px[1]+st[1]];arc.push(px)}
-    const D1=px,hD=hT+sd*90,f1=hv(hD,10,0),T=tugPath([D1,[D1[0]+f1[0],D1[1]+f1[1]],[Q[0],Q[1]],B]),back=.45*k,dur=Math.max(.4,T.tot/160)*k,u=now-b.end;
+    const D1=px,hD=hT+sd*90,f1=hv(hD,10,0),T=tugPath([D1,[D1[0]+f1[0],D1[1]+f1[1]],[s.x-sg*40,s.y+bs*30],[B[0],s.y+bs*30],B]),back=.45*k,dur=Math.max(.4,T.tot/160)*k,u=now-b.end;
     if(u<back){const v=EASE.io(u/back),fi=v*8,ii=Math.min(7,Math.floor(fi)),w=fi-ii;q={x:lerp(arc[ii][0],arc[ii+1][0],w),y:lerp(arc[ii][1],arc[ii+1][1],w),h:hT+sd*90*v}}
     else if(u<back+dur){const v=EASE.io((u-back)/dur),z=T.at(v*T.tot);q=v>=1?{x:B[0],y:B[1],h:hPark}:z}
     if(u<back+dur)busy=true}
   if(!busy&&pk){
     // avião estacionado: sai da caixa, contorna e encaixa de ré na frente do bico
     const L=spr(pk)[pk.cls-1][1]*PS(),C=parkPos(pk,s),hp=headOf(s),n=hv(hp,L/2-1+tl/2,0),S=[C[0]+n[0],C[1]+n[1]],Wp=[S[0]-sg*26,s.y];
-    const T=tugPath([B,[B[0],s.y-bs*0+bs*0],Wp].map((x,i)=>i===1?[B[0],s.y]:x)),dur=Math.max(.4,T.tot/160)*k,rv=.45*k,t0=Math.max(pk.tPark||0,pf?pf._pb.end+3*k:0)+.3*k,u=now-t0;
-    if(u>=0){if(u<dur){q=T.at(EASE.io(u/dur)*T.tot)}else if(u<dur+rv){const v=EASE.io((u-dur)/rv);q={x:lerp(Wp[0],S[0],v),y:lerp(Wp[1],S[1],v),h:hp+180}}else q={x:S[0],y:S[1],h:hp+180}}}
+    const T=tugPath([B,[B[0],s.y],S]),dur=Math.max(.4,T.tot/120)*k,t0=Math.max(pk.tPark||0,pf?pf._pb.end+3*k:0)+.3*k,u=now-t0;
+    if(u>=0){if(u<dur){q=T.at(EASE.io(u/dur)*T.tot);if(u/dur>.97)q.h=hp+180}else q={x:S[0],y:S[1],h:hp+180}}}
   vehPut(vehEl('tug'+s.n,'pushback'),q.x,q.y,q.h,1)}
 
 // ---------- mapa em alta resolução no zoom: carrega só os ladrilhos visíveis (dia, tarde, noite) ----------
