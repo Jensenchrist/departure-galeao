@@ -944,7 +944,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795736446';
+var APPV='1795739641';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -2979,7 +2979,7 @@ if(!matchMedia('(pointer:coarse)').matches)$('zhint').textContent='Role para apr
 
 
 /* ---------- veículos: serviços de pátio (pelo relógio do jogo) e carros na via de acesso ---------- */
-var VEH={carrinho:[3.25,6.75],carro_branco:[3,6.75],carro_preto:[2.75,6.25],carro_vermelho:[3.25,6.25],catering:[4.75,17.75],combustivel:[5.75,22.25],pushback:[5.76,15],dolly:[3.5,5.75],escada:[5.25,15.75],esteira:[5.25,15.75],onibus:[4.25,17.25],policia:[2.5,5.5],suv_azul:[2.75,6],taxi:[3,6.25],trem_bagagem:[4.5,32.25]};
+var VEH={carrinho:[3.25,6.75],carro_branco:[3,6.75],carro_preto:[2.75,6.25],carro_vermelho:[3.25,6.25],catering:[4.75,17.75],combustivel:[6.61,25.59],pushback:[6.62,17.25],dolly:[3.5,5.75],escada:[5.25,15.75],esteira:[5.25,15.75],onibus:[4.25,17.25],policia:[2.5,5.5],suv_azul:[2.75,6],taxi:[3,6.25],trem_bagagem:[4.5,32.25]};
 var vehEls=new Map(),SVCROAD=625;
 var hv=(h,f,r)=>{const a=h*Math.PI/180;return [Math.sin(a)*f+Math.cos(a)*r,-Math.cos(a)*f+Math.sin(a)*r]};
 var angTo=(a,b)=>Math.atan2(b[0]-a[0],-(b[1]-a[1]))*180/Math.PI;
@@ -3027,7 +3027,9 @@ function mkFleet(){const F=[];
     else{const xr=t=>s.x-4-half(t);
       add('combustivel',xr('combustivel'),s.y-12,270);add('catering',xr('catering'),s.y-19,270);
       add('esteira',xr('esteira'),s.y+12,270);add('trem_bagagem',xr('trem_bagagem'),s.y+19,270);add('escada',xr('escada'),s.y+26,270);add('onibus',xr('onibus'),s.y+33,270)}}
-  return F}
+  // só o caminhão de combustível trabalha; os outros ficam só alguns, parados, de enfeite
+  const deco={2:1,4:1,7:1,9:1,11:1,13:1};
+  return F.filter(v=>v.t==='combustivel'||(deco[v.s]&&(v.t==='trem_bagagem'||v.t==='esteira'||v.t==='escada'||v.t==='onibus')))}
 function drawVeh(){
   for(const el of vehEls.values())el._live=0;
   if(LAY.id===1&&!GSE)GSE=mkFleet();const seen={},used={};
@@ -3038,7 +3040,7 @@ function drawVeh(){
     const at=(fd,rt)=>{const d=hv(h,fd,rt);return [C[0]+d[0],C[1]+d[1]]};
     const viaRoad=!s.remote&&s.n!==1&&s.n!==10;
     // todos vêm pela faixa do pátio (atrás da cauda) e entram reto pela linha até a vaga; nunca passam por cima do terminal
-    const run=(key,spr,T,hf,t0,t1)=>{if(now<t0||VDONE[key])return;seen[key]=1;let J=VJOB[key];
+    const run=(key,spr,T,hf,t0,t1)=>{if(spr!=='combustivel'||now<t0||VDONE[key])return;seen[key]=1;let J=VJOB[key];
       if(!J){const busy=new Set(Object.values(VJOB).map(j=>j.vi)),vi=GSE.findIndex(v=>v.s===s.n&&v.t===spr);if(vi<0||busy.has(vi))return;J=VJOB[key]={vi,st:Math.max(t0,now)}}
       t0=J.st;
       // veículos paralelos ao avião encostam no sentido em que chegam (sem dar meia-volta)
