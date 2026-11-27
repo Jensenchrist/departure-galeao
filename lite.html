@@ -678,7 +678,7 @@ body.two #speed{display:none!important}
 .wx-h{flex:0 0 64px;display:flex;flex-direction:column;align-items:center;background:#111;border:1px solid #2c2c2c;border-radius:10px;padding:6px 2px;margin-right:6px}.wx-h i{font-style:normal;font-size:22px;margin:2px 0}.wx-h b{font-size:15px}.wx-h small{font-size:10px;color:var(--g)}.wx-h.st{border-color:var(--r)}
 #yard{position:fixed;top:0;right:0;bottom:0;left:0;z-index:40;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;padding:max(14px,env(safe-area-inset-top)) 12px max(14px,env(safe-area-inset-bottom))}
 #yard[hidden]{display:none}
-.yd-box{background:rgba(0,0,0,.85);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:2px solid var(--y);border-radius:18px;padding:14px;width:min(560px,100%);max-height:100%;overflow-y:auto;color:#fff}
+.dl-w{display:block;color:#ffb020;font-size:12px;margin-top:4px;text-align:center}.yd-box{background:rgba(0,0,0,.85);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:2px solid var(--y);border-radius:18px;padding:14px;width:min(560px,100%);max-height:100%;overflow-y:auto;color:#fff}
 .yd-h{display:flex;align-items:center}.yd-h b{font-size:20px;color:var(--y);flex:1}.yd-h span{font-size:12px;color:var(--g);margin-right:10px}
 #ydX{width:36px;height:36px;border-radius:10px;background:var(--y);color:var(--k);font-size:24px;font-weight:900;line-height:1}
 .yd-crew{display:flex;flex-wrap:wrap;margin:10px 0 4px}.yd-crew span{display:flex;align-items:center;font-size:12px;color:var(--g);margin:0 12px 6px 0}.yd-crew b{color:#fff;margin-left:4px}
@@ -978,7 +978,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795821296';
+var APPV='1795822047';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -2857,6 +2857,17 @@ function admRow(s){const v=(camp.bud||{})[s.k]||0;
 function admInput(el){const k=el.dataset.adm,v=+el.value,s=ADM.find(x=>x.k===k);camp.bud=camp.bud||{};camp.bud[k]=v;drawFin.t=Date.now()+2500;
   const V=$('admV_'+k);V.textContent=(v>0?'+':'')+v;V.style.color=admCol(v);$('admT_'+k).textContent=v<0?s.lo:v>0?s.hi:'Padrão';
   $('admC_'+k).textContent='−'+money(admCost(s))+'/dia';$('admTot').textContent='−'+money(admTotal());writeKey(AUTO_KEY,false)}
+// quanto dá para gastar sem apertar o caixa: guarda 3 dias de custos fixos (administração, salários e parcelas)
+function freeCash(){const e=ECO(),c=crewCap(),wage=e?(c.fuel+c.cat+c.clean)*e.wage:0,loan=(camp.loans||[]).reduce((a,l)=>a+(l.left>0?l.par:0),0),fix=(e?admTotal():0)+wage+loan,res=3*fix;
+  const H=(camp.hist||[]).slice(-7),avg=H.length?H.reduce((a,h)=>a+h.rev+h.fine+(h.mxr||0)+(h.apr||0)-(h.wage+h.pen+(h.mxc||0)+(h.loan||0)+(h.adm||0)+(h.terc||0)),0)/H.length:null;
+  return {fix,res,free:Math.max(0,Math.round(camp.money-res)),avg}}
+function freeBlock(){const F=freeCash(),L=dealList().filter(d=>!(camp.deals||[]).includes(d.k)),ok=L.filter(d=>d.price<=F.free).sort((a,b)=>b.price-a.price),best=ok[0];
+  return `<div class="gs"><div class="gs-h">💰 Livre para investir</div>
+    <div class="gs-tot"><span>Pode gastar em novas rotas</span><b style="color:${F.free>0?'var(--gr)':'var(--r)'}">${money(F.free)}</b></div>
+    <div class="gs-row"><span>Reserva guardada (3 dias de custos fixos)</span><b>${money(F.res)}</b></div>
+    <div class="gs-row"><span>Custos fixos por dia</span><b class="n">−${money(F.fix)}</b></div>
+    ${F.avg!=null?`<div class="gs-row"><span>Resultado médio por dia (últimos dias)</span><b style="color:${F.avg>=0?'var(--gr)':'var(--r)'}">${F.avg>=0?'+':'−'}${money(Math.abs(F.avg))}</b></div>`:''}
+    <small class="gs-s">${F.free<=0?'Agora o caixa só cobre a reserva. Espere entrar receita antes de comprar rotas.':`Cabem ${ok.length} acordo${ok.length===1?'':'s'} nesse valor${best?`; o maior é ${AIRLINES[best.al]} → ${CITY[best.ap]||best.ap} (${money(best.price)})`:''}.`}</small></div>`}
 function drawFin(){
   $('dlMoney').textContent=money(camp.money);
   const e=ECO(),c=crewCap(),wageT=e?(c.fuel+c.cat+c.clean)*e.wage:0;
@@ -2872,7 +2883,7 @@ function drawFin(){
   const cb=closeBlock(),clS=e?`<div class="gs clx${camp.closed?' on':''}"><div class="gs-h">${camp.closed?'🌙 Aeroporto fechado':'☀️ Aeroporto aberto'} <span>${camp.closed?'reabre sozinho às 05:00':'feche quando não houver mais voos'}</span></div>
     <button class="dl-b" id="clB" ${!camp.closed&&cb?'disabled':''}>${camp.closed?'Abrir o aeroporto':'Fechar o aeroporto'}</button>
     <small class="gs-s">${camp.closed?'Energia, limpeza, pátio e alfândega a 25% do custo. Segurança, manutenção e salários continuam. Voo que chegar agora é desviado.':cb?'Agora não: '+cb+'.':'Fechado, energia, limpeza, pátio e alfândega custam 25%. Voo que chegar com o aeroporto fechado é desviado, com multa.'}</small></div>`:'';
-  $('dlList').innerHTML=clS+admS+`<div class="gs"><div class="gs-h">Hoje <span>${dateLbl(now)} · até ${fmt(now)}</span></div>
+  $('dlList').innerHTML=freeBlock()+clS+admS+`<div class="gs"><div class="gs-h">Hoje <span>${dateLbl(now)} · até ${fmt(now)}</span></div>
     <div class="fin-k">Receitas</div>${row('Voos (taxas de pouso e embarque)',score.rev||0,'p')}${row('Multas de atraso recebidas',score.fine||0,'p')}${row('Manutenção (serviço às companhias)',score.mxr||0,'p')}${score.apr?row('Apreensões da alfândega',score.apr,'p'):''}
     <div class="fin-k">Despesas</div>${e?row('Salários das equipes (pago à meia-noite)',wageT,'n'):''}${row('Penalidades (desvios, vaga provisória)',score.pen||0,'n')}${row('Investimentos (acordos e obras)',score.inv||0,'n')}${row('Peças de manutenção',score.mxc||0,'n')}${row('Parcelas de empréstimos',score.loan||0,'n')}${e?row('Administração do aeroporto',score.adm||0,'n'):''}${score.terc?row('Administração terceirizada (piloto automático)',score.terc,'n'):''}
     <div class="gs-tot"><span>Resultado do dia</span><b style="color:${res>=0?'var(--gr)':'var(--r)'}">${res>=0?'+':'−'}${money(Math.abs(res))}</b></div>
@@ -2903,8 +2914,9 @@ function drawDeals(){
   if(dealTab==='gest')return drawGest();
   if(dealTab==='fin')return drawFin();
   const own=new Set(camp.deals||ALL_LINES.filter(l=>l.kp).map(l=>l.k)),L=dealList();
-  const btn=(id,p)=>camp.money>=p?`<button class="dl-b" data-buy="${id}">${dealAsk===id?'Confirmar':'Fechar acordo'} · ${money(p)}</button>`:`<span class="dl-p">${money(p)}<small>faltam ${money(p-camp.money)}</small></span>`;
+  const FC=freeCash().free,btn=(id,p)=>camp.money>=p?`<button class="dl-b" data-buy="${id}">${dealAsk===id?'Confirmar':'Fechar acordo'} · ${money(p)}</button>${p>FC&&String(id).length<12?'<small class="dl-w">⚠ usa a reserva do caixa</small>':''}`:`<span class="dl-p">${money(p)}<small>faltam ${money(p-camp.money)}</small></span>`;
   $('dlMoney').textContent=money(camp.money);
+  {const F=freeCash();$('dlSub').innerHTML=`Livre para investir sem apertar o caixa: <b style="color:${F.free>0?'var(--gr)':'var(--r)'}">${money(F.free)}</b>`}
   if(dealsAl){
     const al=dealsAl,ds=L.filter(d=>d.al===al).sort((a,b)=>a.price-b.price),av=ds.filter(d=>!own.has(d.k)),mi=ds.filter(d=>own.has(d.k));
     const card=d=>`<div class="dl"><div class="dl-r"><span class="dl-ap">${HOME()} ⇄ <b>${d.ap}</b> ${CITY[d.ap]}</span><em class="dl-c ${d.cat}">${d.cat==='nac'?'Nacional':d.cat==='reg'?'Américas':'Longa distância'}</em></div>
