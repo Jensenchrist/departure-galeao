@@ -620,7 +620,7 @@ body.two .mobileBar{display:none!important}
 body.two #speed{display:none!important}
 #deals{position:fixed;top:0;right:0;bottom:0;left:0;z-index:40;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;padding:max(14px,env(safe-area-inset-top)) 12px max(14px,env(safe-area-inset-bottom))}
 #deals[hidden]{display:none}
-#deals .yd-box *{min-width:0}#deals .yd-box>*{overflow-x:hidden;overscroll-behavior-x:none}#deals .yd-box{overflow-x:hidden;touch-action:pan-y;max-height:100%;display:flex;flex-direction:column}
+#deals #dlList{overflow-x:hidden;overscroll-behavior:contain;touch-action:pan-y}#deals .yd-box{max-height:100%;display:flex;flex-direction:column}
 #dlMoney{font-family:Doto,monospace;font-weight:900;color:var(--y)!important;font-size:15px!important}
 .dl-sub{display:block;color:var(--g);font-size:12px;margin:6px 0 10px}
 #dlList{overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1;min-height:0}
@@ -978,7 +978,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795820990';
+var APPV='1795821296';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
