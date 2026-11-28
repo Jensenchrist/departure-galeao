@@ -994,7 +994,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795823828';
+var APPV='1795824046';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1211,20 +1211,23 @@ var ledDate=m=>{const d=dateOf(dayOf(m));return WDA[d.getDay()]+' '+String(d.get
 function ledDraw(t,d,sp){if(document.body.classList.contains('cbar')){ledOne($('cbC'),t,d,sp);const sd=$('sdC');if(sd&&sd.offsetParent)ledOne(sd,t,d,sp)}const fm=$('fmap');if(fm&&!fm.hidden)ledOne($('fmC'),t,d,sp)}
 // painel do relógio: alterna a hora com os próximos voos chegando (companhia+número, origem e hora do pouso)
 var ledFold=x=>x.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z0-9 :\/]/g,'');
+// alerta: voo chegando sem posição marcada (em aproximação, ou a ~5 s de tempo real do pouso)
+function ledAlert(){if(!flights)return false;const lead=Math.max(1,5*(speed||0)/60);return flights.some(f=>f.cls&&f.stand==null&&(f.state==='approach'||f.state==='holding'||(f.state==='inbound'&&f.eta-now<=lead+8)))}
 function ledArr(){const A=flights.filter(f=>f.cls&&(f.state==='inbound'||f.state==='approach'||f.state==='holding'||f.state==='arriving')&&f.eta-now<180).sort((a,b)=>a.eta-b.eta).slice(0,5);
   if(!A.length)return {k:'c'};const n=A.length+1,sl=Math.floor(performance.now()/3500)%n;if(sl===0)return {k:'c'};
-  const f=A[sl-1],d=ledFold(CITY[f.ap]||f.ap).slice(0,13),sp=ledFold(f.arrNo);return {k:f.i+'|'+sl,f,d,sp}}
-function ledOne(cv,t,d,sp){if(!cv)return;
+  const f=A[sl-1],d=ledFold(f.arrNo+' '+(CITY[f.ap]||f.ap)).slice(0,18);return {k:f.i+'|'+sl,f,d,sp:'#'}}
+function ledOne(cv,t,d,sp){if(!cv)return;if(sp==='#')sp='###';
   const w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return;const dpr=Math.min(3,window.devicePixelRatio||1);
   if(cv.width!==Math.round(w*dpr)||cv.height!==Math.round(h*dpr)){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr)}
   const c=cv.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);c.fillStyle='#050505';c.fillRect(0,0,w,h);
   // células: hora · 2 vazias · data · vazias até a borda · velocidade
   const base=[...t,'','',...d],need=base.length+2+sp.length,N=Math.max(need,Math.floor((w-8)/16));
   const cells=base.concat(Array(Math.max(0,N-base.length-sp.length)).fill(''),[...sp]);
+  const AL=ledAlert(),blink=AL&&Math.floor(performance.now()/350)%2===0;
   const wid=ch=>ch===':'?3:5,units=cells.reduce((a,ch)=>a+wid(ch)+1.4,0)-1.4,p=(w-8)/units,r=p*.34,ch7=7*p,y0=Math.round((h-ch7)/2);
   let x=4;cells.forEach((ch,i)=>{const cw=wid(ch),g=DOT[ch]||null,lit=i<t.length?'#FDE934':i>=N-sp.length?'#bfbfbf':'#F2D530';
     c.fillStyle='#121212';c.fillRect(x-p*.35,y0-p*.35,cw*p+p*.7,ch7+p*.7);
-    for(let yy=0;yy<7;yy++)for(let xx=0;xx<cw;xx++){const on=g&&(cw===3?g[yy][xx+1]:g[yy][xx])==='1';
+    for(let yy=0;yy<7;yy++)for(let xx=0;xx<cw;xx++){if(ch==='#'){const on=blink;c.fillStyle=on?'#ff2a1f':'#3a1414';c.beginPath();c.arc(x+xx*p+p/2,y0+yy*p+p/2,on?r*1.12:r,0,6.2832);c.fill();continue}const on=g&&(cw===3?g[yy][xx+1]:g[yy][xx])==='1';
       c.fillStyle=on?lit:ch===''?'#3a3a3c':'#262628';c.beginPath();c.arc(x+xx*p+p/2,y0+yy*p+p/2,on?r*1.08:r,0,6.2832);c.fill()}
     x+=(cw+1.4)*p});
 }
@@ -3305,7 +3308,7 @@ function tick(t){
   if(dirty){dirty=false;drawUI()}
   if((liteF=(liteF+1)%2)===0){drawPlanes();drawVeh();edgeDot()}
   if(mapOpen)drawFM(t);
-  {const ss=Math.floor((now%1)*60),LA=ledArr(),tx=fmt(now)+'|'+ss+'|'+speed+'|'+LA.k;if(tx!==lastClk){lastClk=tx;$('mcT').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('mcS').textContent=dateLbl(now)+' · '+(speed?speed+'×':'PAUSA');if(LA.f)ledDraw(fmt(LA.f.eta),LA.d,LA.sp);else ledDraw(fmt(now)+':'+String(ss).padStart(2,'0'),ledDate(now),speed?speed+'X':'PAUSA');$('clock').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('clockD').textContent=dateLbl(now)}}
+  {const ss=Math.floor((now%1)*60),LA=ledArr(),tx=fmt(now)+'|'+ss+'|'+speed+'|'+LA.k+'|'+(ledAlert()?Math.floor(performance.now()/350)%2:'');if(tx!==lastClk){lastClk=tx;$('mcT').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('mcS').textContent=dateLbl(now)+' · '+(speed?speed+'×':'PAUSA');if(LA.f)ledDraw(fmt(LA.f.eta),LA.d,'#');else ledDraw(fmt(now)+':'+String(ss).padStart(2,'0'),ledDate(now),'#');$('clock').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('clockD').textContent=dateLbl(now)}}
   requestAnimationFrame(tick);
 }
 $('abtg').addEventListener('click',()=>{const a=$('abar');a.classList.toggle('min');$('abtg').setAttribute('aria-expanded',!a.classList.contains('min'));drawBar()});
