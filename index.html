@@ -765,6 +765,7 @@ body.cbar.glass.gxTuck #gxH{top:-22px;height:22px}
 body.cbar.glass #windBox{cursor:pointer}
 #ovDr{display:none}
 body.cbar.glass.swp #edge{bottom:calc((var(--panh,0px) + env(safe-area-inset-bottom,0px))/2 - 29px)!important;left:24px!important;right:24px!important;transform:none!important;z-index:46!important}
+body.cbar.glass.swp #edge{background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;border-radius:0!important}body.cbar.glass.swp #edge::after,body.cbar.glass.swp #edge::before{display:none!important}
 body.cbar.glass.swp.gxTuck #edge .edw,body.cbar.glass.swp.gxTuck #edge .gx{pointer-events:auto}
 body.cbar.glass #ovDr{display:flex;position:absolute;left:0;right:0;bottom:calc(var(--panh,0px) + 10px);justify-content:center;z-index:45;pointer-events:none;transition:transform .45s cubic-bezier(.22,1,.36,1),z-index 0s .46s}
 #ovDr .ov-tray{pointer-events:auto}#ovDr #gxH{pointer-events:auto}
@@ -1063,7 +1064,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795884786';
+var APPV='1795885511';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
