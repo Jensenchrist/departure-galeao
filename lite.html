@@ -681,13 +681,18 @@ body.two #speed{display:none!important}
 
 
 /* lista de voos: dois blocos de ponta a ponta que descem de cima (relógio primeiro, a lista depois, por baixo) */
-body.two #fltPg{transform:none!important;transition:background .4s,visibility 0s .9s!important;visibility:hidden;pointer-events:none;background:rgba(0,0,0,0)!important;padding:0!important;gap:0}
+body.two #fltPg{transform:none!important;transition:background .4s,visibility 0s 1s!important;visibility:hidden;pointer-events:none;background:rgba(0,0,0,0)!important;padding:0!important;gap:0}
 body.two #fltPg.open{visibility:visible;pointer-events:auto;background:rgba(0,0,0,.55)!important;transition:background .4s,visibility 0s 0s!important}
-body.two #fltPg .fp-top,body.two #fltPg .fp-sheet{transition:transform .75s cubic-bezier(.22,1,.36,1)}
+body.two #fltPg .fp-sheet{transition:transform 1s cubic-bezier(.22,1,.36,1)}
 body.two #fltPg .fp-top{position:relative;z-index:2;transform:translateY(-110%);display:grid!important;grid-template-columns:auto 1fr auto;grid-template-areas:"b c x" "r r r";align-items:center;background:var(--nb,#1c1d21)!important;border-radius:0 0 28px 28px!important;border-bottom:3px solid var(--y);padding:calc(max(10px,env(safe-area-inset-top)) + 8px) 16px 16px!important;box-shadow:0 14px 30px rgba(0,0,0,.6);flex:none}
-body.two #fltPg .fp-sheet{position:relative;z-index:1;transform:translateY(-140%);border-radius:0 0 28px 28px!important;margin-top:-30px;padding-top:40px!important;flex:1;min-height:0;box-shadow:0 14px 30px rgba(0,0,0,.5)}
+body.two #fltPg .fp-top{display:none!important}
+body.two #fltPg .fp-sheet{position:relative;z-index:1;transform:translateY(-105%);border-radius:0 0 28px 28px!important;margin:0;padding:calc(max(10px,env(safe-area-inset-top)) + 6px) 12px 12px!important;flex:none;max-height:88vh;max-height:88dvh;border-bottom:3px solid var(--y);box-shadow:0 16px 34px rgba(0,0,0,.6)}
+body.two #fltPg .fp-sheet h3{display:flex;align-items:center;justify-content:center;position:relative;min-height:40px}
+#fpX{position:absolute;right:0;top:50%;margin-top:-20px;width:40px;height:40px;border-radius:50%;background:var(--k3,#222);color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center}
+body.two #fltPg .fp-grab{display:none}
+body.two #fltPg #fltList{overflow-y:auto;min-height:0}
 body.two #fltPg.open .fp-top{transform:none}
-body.two #fltPg.open .fp-sheet{transform:none;transition-delay:2s}
+body.two #fltPg.open .fp-sheet{transform:none}
 body.two #fltPg:not(.open) .fp-top{transition-delay:.15s}
 body.two #fltPg .fp-top>*+*{margin-left:0}
 body.two #fltPg #fpBack{grid-area:b;width:44px;height:44px;border-radius:14px}
@@ -1011,7 +1016,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795825074';
+var APPV='1795825518';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -2735,10 +2740,11 @@ function drawFlt(ap,rd,bk){
   };
   const sec=(t,arr,kind)=>arr.length?`<div class="tk-sec">${t} <span>${arr.length}</span></div>`+arr.map(f=>card(f,kind)).join(''):'';
   const n=ap.length+rd.length+bk.length;
-  $('fpCount').textContent=n?`${n} voo${n>1?'s':''} ativo${n>1?'s':''}`:'Nenhum voo ativo agora';
+  $('fpCount').innerHTML='<button id="fpX" aria-label="Fechar">×</button>';$('fpCount').insertAdjacentText('afterbegin',n?`${n} voo${n>1?'s':''} ativo${n>1?'s':''}`:'Nenhum voo ativo agora');
   $('fltList').innerHTML=sec('Sem vaga',bk,'blk')+sec('Chegando',ap,'arr')+sec('Prontos para partir',rd,'rd');
   $('fpClock').textContent=fmt(now);$('fpDate').textContent=(speed?speed+'X':'PAUSA');
 }
+$('fltPg').addEventListener('click',e=>{if(e.target.closest('#fpX')||e.target===$('fltPg'))openFlt(false)});
 $('fltList').addEventListener('click',e=>{
   const b=e.target.closest('[data-a]');if(!b)return;const f=flights[+b.dataset.f],a=b.dataset.a;
   if(a==='go'){depart(f);dirty=true;return}
