@@ -1039,7 +1039,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795828649';
+var APPV='1795829724';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -2142,11 +2142,18 @@ var SB={},LOOPS={};
 function loadSnd(k){if(SB[k]||!SFX[k]||loadSnd[k])return;loadSnd[k]=1;fetch(`sons/${k}.mp3?v=${typeof APPV!=='undefined'?APPV:1}`).then(r=>r.ok?r.arrayBuffer():Promise.reject()).then(b=>new Promise((ok,no)=>{const r=AC.decodeAudioData(b,ok,no);if(r&&r.then)r.then(ok,no)})).then(buf=>{SB[k]=buf;if(k===pk('ambiente'))ambStart()}).catch(()=>{loadSnd[k]=0})}
 function loadSounds(){const need=new Set(['bipe']);SLOTS.forEach(x=>need.add(PICK[x.k]));need.forEach(loadSnd)}
 // rádio ao vivo (Jazz24, Seattle): toca por baixo dos sons do jogo e abaixa nos avisos
-var RADIO=null,RADIO_URLS=['https://live.amperwave.net/direct/ppm-jazz24mp3-ibc1','https://live.amperwave.net/direct/ppm-jazz24aac-ibc1'],RVOL=.5;
+var RADIO=null,RADIO_URLS=['https://live.amperwave.net/direct/ppm-jazz24mp3-ibc1','https://live.wostreaming.net/direct/ppm-jazz24mp3-ibc1','https://live.amperwave.net/direct/ppm-jazz24aac-ibc1'],RVOL=.5;
 function radioUI(){const b=$('radioB');if(b)b.classList.toggle('on',!!(RADIO&&!RADIO.paused))}
-function radioToggle(){if(RADIO&&!RADIO.paused){RADIO.pause();RADIO.src='';try{localStorage.setItem('departure_radio','0')}catch(e){}radioUI();toast('Rádio desligada');return}
-  let i=0;const go=()=>{RADIO=RADIO||new Audio();RADIO.preload='none';RADIO.volume=RVOL;RADIO.src=RADIO_URLS[i];RADIO.play().then(()=>{radioUI();toast('📻 Jazz24 ao vivo · Seattle')}).catch(()=>{if(++i<RADIO_URLS.length)go();else{radioUI();toast('Não consegui conectar na rádio agora')}})};
-  RADIO=RADIO||new Audio();RADIO.onerror=()=>{if(++i<RADIO_URLS.length)go()};go();try{localStorage.setItem('departure_radio','1')}catch(e){}}
+function radioToggle(){if(RADIO&&!RADIO.paused){RADIO.pause();RADIO.removeAttribute('src');RADIO.load();try{localStorage.setItem('departure_radio','0')}catch(e){}radioUI();toast('Rádio desligada');return}
+  RADIO=RADIO||new Audio();const A=RADIO;A.setAttribute('playsinline','');A.volume=RVOL;let i=0,ok=false,tm=null;
+  const fail=()=>{if(ok)return;clearTimeout(tm);if(++i<RADIO_URLS.length){A.src=RADIO_URLS[i];A.play().catch(()=>{})}else{radioUI();toast('Não consegui conectar na rádio agora')}};
+  A.onplaying=()=>{ok=true;clearTimeout(tm);radioUI();toast('📻 Jazz24 ao vivo · Seattle')};
+  A.onerror=fail;A.onpause=radioUI;
+  A.src=RADIO_URLS[0];
+  // play() direto no toque (exigência do iPhone); só desiste por bloqueio, erro de rede vem pelo onerror
+  A.play().catch(e=>{if(e&&e.name==='NotAllowedError'){toast('Toque de novo em JAZZ para liberar o som')}});
+  tm=setTimeout(()=>{if(!ok)fail()},12000);
+  try{localStorage.setItem('departure_radio','1')}catch(e){}}
 var radioDuckT=0;function radioDuck(){if(!RADIO||RADIO.paused)return;RADIO.volume=RVOL*.35;clearTimeout(radioDuckT);radioDuckT=setTimeout(()=>{if(RADIO)RADIO.volume=RVOL},3500)}
 function play(k,o={}){
   if(FAST||!soundOn||!AC||AC.state!=="running"||!SB[k])return false;if(!o.loop)radioDuck();
