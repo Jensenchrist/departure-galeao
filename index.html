@@ -1039,7 +1039,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795826524';
+var APPV='1795828649';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -2141,8 +2141,15 @@ var SFX={pouso_2:'engine',pouso_3:'engine',frenagem_2:'brake',frenagem_3:'brake'
 var SB={},LOOPS={};
 function loadSnd(k){if(SB[k]||!SFX[k]||loadSnd[k])return;loadSnd[k]=1;fetch(`sons/${k}.mp3?v=${typeof APPV!=='undefined'?APPV:1}`).then(r=>r.ok?r.arrayBuffer():Promise.reject()).then(b=>new Promise((ok,no)=>{const r=AC.decodeAudioData(b,ok,no);if(r&&r.then)r.then(ok,no)})).then(buf=>{SB[k]=buf;if(k===pk('ambiente'))ambStart()}).catch(()=>{loadSnd[k]=0})}
 function loadSounds(){const need=new Set(['bipe']);SLOTS.forEach(x=>need.add(PICK[x.k]));need.forEach(loadSnd)}
+// rádio ao vivo (Jazz24, Seattle): toca por baixo dos sons do jogo e abaixa nos avisos
+var RADIO=null,RADIO_URLS=['https://live.amperwave.net/direct/ppm-jazz24mp3-ibc1','https://live.amperwave.net/direct/ppm-jazz24aac-ibc1'],RVOL=.5;
+function radioUI(){const b=$('radioB');if(b)b.classList.toggle('on',!!(RADIO&&!RADIO.paused))}
+function radioToggle(){if(RADIO&&!RADIO.paused){RADIO.pause();RADIO.src='';try{localStorage.setItem('departure_radio','0')}catch(e){}radioUI();toast('Rádio desligada');return}
+  let i=0;const go=()=>{RADIO=RADIO||new Audio();RADIO.preload='none';RADIO.volume=RVOL;RADIO.src=RADIO_URLS[i];RADIO.play().then(()=>{radioUI();toast('📻 Jazz24 ao vivo · Seattle')}).catch(()=>{if(++i<RADIO_URLS.length)go();else{radioUI();toast('Não consegui conectar na rádio agora')}})};
+  RADIO=RADIO||new Audio();RADIO.onerror=()=>{if(++i<RADIO_URLS.length)go()};go();try{localStorage.setItem('departure_radio','1')}catch(e){}}
+var radioDuckT=0;function radioDuck(){if(!RADIO||RADIO.paused)return;RADIO.volume=RVOL*.35;clearTimeout(radioDuckT);radioDuckT=setTimeout(()=>{if(RADIO)RADIO.volume=RVOL},3500)}
 function play(k,o={}){
-  if(FAST||!soundOn||!AC||AC.state!=="running"||!SB[k])return false;
+  if(FAST||!soundOn||!AC||AC.state!=="running"||!SB[k])return false;if(!o.loop)radioDuck();
   const src=AC.createBufferSource();src.buffer=SB[k];src.playbackRate.value=o.rate||1;
   const g=AC.createGain(),t=AC.currentTime,vv=nz(o.vol,1)*slotVol(k);g.gain.setValueAtTime(vv,t);
   if(o.dur){g.gain.setValueAtTime(vv,t+Math.max(0,o.dur-1.2));g.gain.linearRampToValueAtTime(0,t+o.dur)}
@@ -3065,6 +3072,8 @@ if(TWO){
   mk('edApt','<span class="ico"><svg viewBox="0 0 24 24"><path d="M8 2h8l1 3H7zM5 6h14l-2 4H7zM9.5 11h5l1.2 9H18v2H6v-2h2.3z"/></svg></span>','Aeroportos',[]);$('edAptP').addEventListener('click',e=>{const b=e.target.closest('[data-apt]');if(!b)return;$('edApt').parentNode.classList.remove('open');const c=b.dataset.apt;if(SPEC){if(c===SPEC.code)return;specExit();return}if(!OWNED().includes(c)){specEnter(c);return}switchApt(c)});
   // opções saem da lateral e vão para o botão redondo do painel de baixo
   {const src=$('edOptP'),dst=$('ovOpt');if(src&&dst){[...src.children].forEach(c=>dst.appendChild(c));src.parentNode.remove()}
+   dst.insertAdjacentHTML('beforeend','<button id="radioB" aria-label="Rádio Jazz24"><span class="ico"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M3.2 7.8 17.6 2.4l.7 1.9L8.6 8H20a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8.8c0-.4.2-.8.6-1zM8 18a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm7-5v2h4v-2h-4zm0 3v2h4v-2h-4z"/></svg></span><small style="font-size:10px">JAZZ</small></button>');
+   $('radioB').addEventListener('click',e=>{e.stopPropagation();radioToggle()});radioUI();
    const close=()=>{dst.hidden=true;$('ovMore').classList.remove('on')};
    $('ovDeal').addEventListener('click',e=>{e.stopPropagation();audioInit();chime();if(dealsOn&&dealMode==='deals')openDeals(false);else openDeals(true,'deals')});
    $('ovMore').addEventListener('click',e=>{e.stopPropagation();const o=dst.hidden;dst.hidden=!o;$('ovMore').classList.toggle('on',o);if(o)chime()});
