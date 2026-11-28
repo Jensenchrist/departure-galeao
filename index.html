@@ -679,6 +679,19 @@ body.two #speed{display:none!important}
 #yard{position:fixed;top:0;right:0;bottom:0;left:0;z-index:40;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;padding:max(14px,env(safe-area-inset-top)) 12px max(14px,env(safe-area-inset-bottom))}
 #yard[hidden]{display:none}
 
+
+/* lista de voos: desce de cima, em dois cartões arredondados (relógio grande + voos) */
+body.two #fltPg{transform:translateY(-104%)!important;transition:transform .38s cubic-bezier(.2,.9,.25,1.05)!important;background:rgba(0,0,0,.55)!important;padding:max(8px,env(safe-area-inset-top)) 10px 10px!important;gap:10px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+body.two #fltPg.open{transform:none!important}
+body.two #fltPg .fp-top{position:relative;display:grid!important;grid-template-columns:auto 1fr;grid-template-areas:"b d" "c c" "r r";align-items:center;background:#1c1d21!important;border-radius:28px;padding:16px 18px 14px!important;box-shadow:0 14px 30px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.05);flex:none}
+body.two #fltPg .fp-top>*+*{margin-left:0}
+body.two #fltPg #fpBack{grid-area:b;width:40px;height:40px;border-radius:14px}
+body.two #fltPg .fp-d{grid-area:d;text-align:center;color:#c9ccd6;font-size:15px;letter-spacing:.04em;font-weight:600;padding-right:40px}
+body.two #fltPg .fp-clock{grid-area:c;display:block;text-align:center;font-family:"Avenir Next Condensed","HelveticaNeue-CondensedBold","Arial Narrow","Roboto Condensed",sans-serif;font-weight:600;color:#e6e8ef;font-size:54px;line-height:1;letter-spacing:-.01em;transform:scaleY(1.12);transform-origin:50% 50%;margin:8px 0 10px}
+body.two #fltPg .fp-route{grid-area:r;text-align:center;flex:none}
+body.two #fltPg .fp-route .fp-c{display:inline;font-size:20px;color:#fff;margin-right:8px}
+body.two #fltPg .fp-route small{display:inline;font-size:11px}
+body.two #fltPg .fp-sheet{border-radius:28px!important;flex:1;min-height:0;box-shadow:0 14px 30px rgba(0,0,0,.5)}
 /* celular: o topo do painel vira a barra de LED padrão + uma placa de aeroporto grande */
 #sdC,.sgn{display:none}
 body.cbar #side #sdC{display:block;width:100%;height:44px;flex:none;background:#050505}
@@ -985,7 +998,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795824046';
+var APPV='1795824705';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1015,7 +1028,7 @@ chk();document.addEventListener('visibilitychange',function(){if(!document.hidde
       <button class="ov-b" id="ovAuto" aria-label="Piloto automático"><svg viewBox="0 0 24 24"></svg></button>
       <button class="ov-b" id="ovFin" aria-label="Gestão"><svg viewBox="0 0 24 24"><path d="M4 19h16v2H4zM5 10h3v7H5zm5.5-4h3v11h-3zM16 13h3v4h-3z"/></svg><i class="finb"><b></b></i></button>
       <button class="ov-b" id="ovPause" aria-label="Pausar"><svg viewBox="0 0 24 24"></svg></button><button class="ov-b" id="ovDeal" aria-label="Negócios"><svg viewBox="0 0 24 24"><path d="M10 4h4a2 2 0 0 1 2 2v1h3a2 2 0 0 1 2 2v3H3V9a2 2 0 0 1 2-2h3V6a2 2 0 0 1 2-2zm0 3h4V6h-4zM3 13.5h7V15h4v-1.5h7V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></button><button class="ov-b" id="ovMore" aria-label="Opções"><svg viewBox="0 0 24 24"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg></button></div><div id="ovOpt" hidden></div></div>
-    <div id="fltPg"><div class="fp-top"><button id="fpBack" aria-label="Voltar ao mapa">‹</button><div class="fp-route"><span class="fp-c">GIG</span><small>RIO DE JANEIRO · GALEÃO</small></div><span class="fp-clock" id="fpClock">--:--</span></div><div class="fp-sheet"><i class="fp-grab"></i><h3 id="fpCount">Voos ativos</h3><div id="fltList"></div></div></div>
+    <div id="fltPg"><div class="fp-top"><button id="fpBack" aria-label="Voltar ao mapa">‹</button><div class="fp-route"><span class="fp-c">GIG</span><small>RIO DE JANEIRO · GALEÃO</small></div><span class="fp-clock" id="fpClock">--:--</span><small class="fp-d" id="fpDate"></small></div><div class="fp-sheet"><i class="fp-grab"></i><h3 id="fpCount">Voos ativos</h3><div id="fltList"></div></div></div>
     <button id="fltTab" hidden><span>✈</span><b id="fltN">0</b><i>‹</i></button>
     <div class="rail" id="rail" aria-label="Voos chegando e prontos"></div>
     <div class="abar" id="abar" style="display:none"><div class="abh"><h2 id="abt"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 19h19v2h-19zM9.2 13.7l4.3 1.2 5.3 1.4c.8.2 1.6-.3 1.8-1.1.2-.8-.3-1.6-1.1-1.8l-5.3-1.4-2.8-9-1.9-.5v8.3L4.5 9.4l-.9-2.4-1.4-.4v5.2z"/></svg></span>Em aproximação · toque no avião, depois na posição</h2><button id="abtg" aria-expanded="true">Ocultar ▾</button></div><div class="cards" id="cards"></div></div>
@@ -2710,7 +2723,7 @@ function drawFlt(ap,rd,bk){
   const n=ap.length+rd.length+bk.length;
   $('fpCount').textContent=n?`${n} voo${n>1?'s':''} ativo${n>1?'s':''}`:'Nenhum voo ativo agora';
   $('fltList').innerHTML=sec('Sem vaga',bk,'blk')+sec('Chegando',ap,'arr')+sec('Prontos para partir',rd,'rd');
-  $('fpClock').textContent=fmt(now);
+  $('fpClock').textContent=fmt(now);$('fpDate').textContent=dateLbl(now)+' · '+(speed?speed+'×':'pausa');
 }
 $('fltList').addEventListener('click',e=>{
   const b=e.target.closest('[data-a]');if(!b)return;const f=flights[+b.dataset.f],a=b.dataset.a;
