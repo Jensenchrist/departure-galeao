@@ -716,6 +716,24 @@ body.cbar #side .sgn .close{position:absolute;right:14px;top:50%;margin-top:-22p
 .rs-t{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
 .rs-t div{background:#0e0e10;border-radius:12px;padding:10px 6px;text-align:center}.rs-t small{display:block;font-size:9.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#9a9a9a;text-transform:uppercase;letter-spacing:.04em}.rs-t b{display:block;font-size:20px;margin-top:3px;color:#fff}.rs-t b.bad{color:var(--r)}
 .rs-g{display:flex;align-items:center;gap:10px;padding:7px 0;border-top:1px solid #222;font-size:14px;color:#cfcfcf}.rs-g i{width:22px;height:22px;border-radius:50%;background:#2a2a2a;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:12px;flex:none}.rs-g.ok i{background:var(--gr);color:#000}.rs-g.ok{color:#fff}.rs-g b{margin-left:auto;color:#fff}.rs-g.ok b{color:var(--gr)}
+
+/* ===== barra de vidro (celular) ===== */
+body.cbar.glass #edge{left:10px!important;right:10px!important;bottom:calc(var(--panh,0px) + 10px)!important;height:68px!important;border-radius:34px;background:rgba(24,24,28,.42)!important;-webkit-backdrop-filter:blur(18px) saturate(1.5);backdrop-filter:blur(18px) saturate(1.5);border:1px solid rgba(255,255,255,.24);box-shadow:0 10px 30px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.12);padding:0 6px!important;z-index:30}
+body.cbar.glass #edge::before{display:none}
+body.cbar.glass #edge #edgeDot,body.cbar.glass #edge .gxHide,body.cbar.glass #edge #aqp,body.cbar.glass #edge #fltTab{display:none!important}
+body.cbar.glass #edge>.edw~.edw{background:none!important}
+body.cbar.glass #edge #mxTab,body.cbar.glass #edge .edt{flex-direction:column!important;display:flex!important;align-items:center!important;justify-content:center!important;height:60px!important;min-width:0!important;width:100%;padding:0!important;gap:3px;background:transparent!important}
+body.cbar.glass #edge .edt .ico{width:40px!important;height:34px!important;border-radius:12px!important;display:flex!important;align-items:center;justify-content:center;transition:background .25s}
+body.cbar.glass #edge .edt .ico svg,body.cbar.glass #edge #mxTab svg{width:23px;height:23px;fill:#ececec!important}
+body.cbar.glass #edge .gxb{font-weight:500!important;font-size:10px!important}body.cbar.glass #edge .glb{font-size:10px;font-weight:500;color:#d6d6d6;letter-spacing:.01em;line-height:1;white-space:nowrap}
+body.cbar.glass #edge .on-dot .ico{background:var(--y)!important;box-shadow:0 4px 12px rgba(253,233,52,.35)}
+body.cbar.glass #edge .on-dot .ico svg,body.cbar.glass #edge .on-dot svg{fill:#111!important}
+body.cbar.glass #edge .on-dot .glb{color:#fff;font-weight:700}
+body.cbar.glass #edge .edt>i:not(#mxDot){display:none!important}
+body.cbar.glass #edge #mxTab #mxDot{top:2px;right:calc(50% - 22px)}
+body.cbar.glass #edge .edp{bottom:calc(100% + 10px)}
+body.cbar.glass #windBox{cursor:pointer}
+body.cbar.glass #yard,body.cbar.glass #mxp{padding-bottom:calc(var(--panh,0px) + 88px)!important;align-items:flex-end!important}body.cbar.glass #edge{z-index:45!important}
 .dl-w{display:block;color:#ffb020;font-size:12px;margin-top:4px;text-align:center}.yd-box{background:rgba(0,0,0,.85);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:2px solid var(--y);border-radius:18px;padding:14px;width:min(560px,100%);max-height:100%;overflow-y:auto;color:#fff}
 .yd-h{display:flex;align-items:center}.yd-h b{font-size:20px;color:var(--y);flex:1}.yd-h span{font-size:12px;color:var(--g);margin-right:10px}
 #ydX{width:36px;height:36px;border-radius:10px;background:var(--y);color:var(--k);font-size:24px;font-weight:900;line-height:1}
@@ -1016,7 +1034,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795825518';
+var APPV='1795826201';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -2643,7 +2661,7 @@ var dispW=()=>(ROTM?bh:bw),dispH=()=>(ROTM?bw:bh);
 function layoutMap(){
   const r=stage.getBoundingClientRect();SW=r.width;SH=r.height;
   const fitW=!ROTM&&SW/SH<W/H*1.15&&matchMedia('(pointer:coarse)').matches;
-  const sq=W/H>.8,RBH=fitW?42:0,PANH0=fitW?Math.round((sq?66:Math.min(110,Math.max(62,SH-44-SW/W*H)))*.9):0,PANH=PANH0+RBH;
+  const sq=W/H>.8,RBH=0,PANH0=fitW?Math.round((sq?66:Math.min(110,Math.max(62,SH-44-SW/W*H)))*.9):0,PANH=PANH0+RBH;
   const sc=fitW?(sq||LAY.cover?Math.max(SW/W,(SH-44-PANH)/H):Math.min(SW/W,(SH-44-PANH)/H)):ROTM?Math.max(SW/H,SH/W):(SW/SH<W/H*1.15?Math.max(SW/W,SH/H):SH/H);
   const cu=(SW/2-ZX)/(dispW()*zk),cv=(SH/2-ZY)/(dispH()*zk);
   barH=fitW?44:0;document.body.classList.toggle('cbar',fitW);$('cbar').style.height=barH+'px';document.body.style.setProperty('--barh',barH+'px');document.body.style.setProperty('--panh',PANH0+'px');document.body.style.setProperty('--rbh',RBH+'px');PANHV=PANH;lastClk='';requestAnimationFrame(edFit);
@@ -2779,7 +2797,7 @@ function drawWx(){
 $('wxX').addEventListener('click',()=>openWx(false));
 $('wxp').addEventListener('click',e=>{if(e.target.id==='wxp')openWx(false)});
 {const wb=$('windBox');try{if(localStorage.getItem('departure_wtuck')==='1')wb.classList.add('tuck')}catch(e){}
- wb.addEventListener('click',()=>{const t=wb.classList.toggle('tuck');try{localStorage.setItem('departure_wtuck',t?'1':'0')}catch(e){}})}
+ wb.addEventListener('click',()=>{if(document.body.classList.contains('glass')){const tb=document.querySelector('#edCtlP button[aria-label="Tempo"]');if(tb)tb.click();return}const t=wb.classList.toggle('tuck');try{localStorage.setItem('departure_wtuck',t?'1':'0')}catch(e){}})}
 var yardOn=false;
 function openYard(on){yardOn=on;$('yard').hidden=!on;if(on)drawYard()}
 function drawYard(){
@@ -3055,6 +3073,15 @@ if(TWO){
   {const ft=$('fltTab');if(ft&&ft.parentNode!==edge)edge.prepend(ft)}
   {const w=document.createElement('div');w.className='edw';const mt=$('mxTab');mt.classList.add('edt');mt.insertAdjacentHTML('beforeend','<i>‹</i>');w.appendChild(mt);edge.appendChild(w);
    const a=$('aqp');edge.appendChild(a);$('aqTab').classList.add('edt')}
+  /* celular: barra única de vidro — Torre, Manutenção, Pátio, Pouso, Decolagem, Mapa */
+  {const P=$('edCtlP'),lb=(el,t)=>{if(el&&!el.querySelector('.glb'))el.insertAdjacentHTML('beforeend',`<small class="glb">${t}</small>`)};
+   const mk=(btn,t)=>{const w=document.createElement('div');w.className='edw gx';btn.classList.add('edt','gxb');lb(btn,t);w.appendChild(btn);return w};
+   const apt=$('edApt').parentNode,mx=$('mxTab').parentNode,yd=$('edYard').parentNode;
+   lb($('edApt'),'Torre');lb($('mxTab'),'Manutenção');lb($('edYard'),'Pátio');
+   const arr=P.querySelector('[data-t="arr"]'),dep=P.querySelector('[data-t="dep"]'),mp=$('mapBtn2');
+   [arr,dep,mp].forEach(b=>{if(!b)return;const ic=b.querySelector('.ico');b.textContent='';b.appendChild(ic)});
+   [apt,mx,yd,mk(arr,'Pouso'),mk(dep,'Decolagem'),mk(mp,'Mapa')].forEach(x=>edge.appendChild(x));
+   $('edCtl').parentNode.classList.add('gxHide');document.body.classList.add('glass')}
   // abas reordenáveis: segure meio segundo e arraste para cima/baixo; encaixam como ímã
   {const key=el=>el.id==='fltTab'?'flt':(el.querySelector('.edt')||{}).id;
    try{const ord=JSON.parse(localStorage.getItem('departure_edge')||'null');if(ord)ord.forEach(k=>{const el=[...edge.children].find(c=>key(c)===k);if(el)edge.appendChild(el)})}catch(e){}
@@ -3294,9 +3321,9 @@ function hrStep(){
 
 // círculo que desliza até a aba aberta na barra de baixo
 function edgeDot(){sgnClose();const e=$('edge');if(!e||!document.body.classList.contains('cbar'))return;let d=$('edgeDot');if(!d){d=document.createElement('i');d.id='edgeDot';e.prepend(d)}
-  let a=null;const w=e.querySelector('.edw.open .edt');if(w)a=w;else if(typeof yardOn!=='undefined'&&yardOn)a=$('edYard');else if($('aqp')&&!$('aqp').classList.contains('shut'))a=$('aqTab');else if(typeof mxOn!=='undefined'&&mxOn)a=$('mxTab');
+  let a=null;const w=e.querySelector('.edw.open .edt');if(w)a=w;else if(document.body.classList.contains('glass')&&side.classList.contains('open'))a=e.querySelector(`.gxb[data-t="${tab}"]`);else if(document.body.classList.contains('glass')&&mapOpen)a=$('mapBtn2');else if(typeof yardOn!=='undefined'&&yardOn)a=$('edYard');else if($('aqp')&&!$('aqp').classList.contains('shut'))a=$('aqTab');else if(typeof mxOn!=='undefined'&&mxOn)a=$('mxTab');
   e.querySelectorAll('.on-dot').forEach(x=>x!==a&&x.classList.remove('on-dot'));
-  if(!a){d.style.opacity=0;return}a.classList.add('on-dot');const er=e.getBoundingClientRect(),r=a.getBoundingClientRect();
+  if(!a){d.style.opacity=0;return}a.classList.add('on-dot');if(document.body.classList.contains('glass'))return;const er=e.getBoundingClientRect(),r=a.getBoundingClientRect();
   const sz=Math.max(46,r.width+8);d.style.width=sz+'px';d.style.height='38px';d.style.borderRadius='19px';d.style.transform=`translateX(${(r.left+r.width/2-er.left-sz/2).toFixed(1)}px)`;d.style.opacity=1}
 /* ---------- tarde e noite ---------- */
 var ramp=(a,b)=>clamp((tod(now)-toMin(a))/(toMin(b)-toMin(a)),0,1);
