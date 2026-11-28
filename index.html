@@ -391,15 +391,7 @@ body.neo .aq-t:empty{background:#1d1e21;box-shadow:inset 3px 3px 6px rgba(0,0,0,
 .mx-r output{text-align:right;font-variant-numeric:tabular-nums;color:var(--y)}
 #slots{z-index:120}
 .sl-card{width:min(420px,100%)}
-.pk-card{width:min(560px,100%)}.pk-sub{font:700 12px/1.3 system-ui,sans-serif;color:#bbb;margin:-2px 0 10px}.pk-sub b{color:var(--y)}
-.pk-map{position:relative;width:100%;aspect-ratio:1267/703;border-radius:14px;overflow:hidden;background:url(maph_dia.jpg?v=20261128a) center/100% 100% no-repeat}
-.pk-map::before{content:"";position:absolute;inset:0;background:rgba(0,0,0,.42)}
-.pk-d{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px;min-width:30px;background:none;border:0;color:#fff;font:900 9px/1 system-ui,sans-serif;letter-spacing:.02em;text-shadow:0 1px 2px #000}
-.pk-d i{width:16px;height:16px;border-radius:50%;background:#3dff7a;box-shadow:0 0 0 2px rgba(0,0,0,.6),0 0 10px 2px rgba(61,255,122,.7)}
-.pk-d.oc i{background:#ff3b30;box-shadow:0 0 0 2px rgba(0,0,0,.6),0 0 8px 2px rgba(255,59,48,.6)}.pk-d.tmp i{background:#ff9f1a;box-shadow:0 0 0 2px rgba(0,0,0,.6),0 0 8px 2px rgba(255,159,26,.6)}
-.pk-d.no i{background:#666;box-shadow:0 0 0 2px rgba(0,0,0,.6)}.pk-d.no,.pk-d.oc{opacity:.75}.pk-d.cur i{outline:2.5px solid var(--y);outline-offset:2px}
-.pk-d small{font-size:6.5px;letter-spacing:-.02em;color:#ffb3ad;font-weight:800}.pk-d em{font-style:normal;font-size:7.5px;color:#cfc;opacity:.85}
-.pk-leg{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font:700 11px system-ui,sans-serif;color:#bbb}.pk-leg span{display:flex;align-items:center;gap:5px}.pk-leg i{width:10px;height:10px;border-radius:50%;background:#3dff7a}.pk-leg i.oc{background:#ff3b30}.pk-leg i.tmp{background:#ff9f1a}.pk-leg i.no{background:#666}
+
 .sl{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;width:100%;text-align:left;background:var(--k3);border:1px solid #2e2e2e;border-radius:10px;padding:10px 12px;margin-top:8px;min-height:64px}
 .sl:hover{border-color:var(--y)}
 .sl .n{width:44px;height:44px;border-radius:8px;background:var(--y);color:var(--k);font:900 22px Doto,monospace;display:flex;align-items:center;justify-content:center}
@@ -693,6 +685,15 @@ body.two #speed{display:none!important}
 .wx-h{flex:0 0 64px;display:flex;flex-direction:column;align-items:center;background:#111;border:1px solid #2c2c2c;border-radius:10px;padding:6px 2px;margin-right:6px}.wx-h i{font-style:normal;font-size:22px;margin:2px 0}.wx-h b{font-size:15px}.wx-h small{font-size:10px;color:var(--g)}.wx-h.st{border-color:var(--r)}
 #yard{position:fixed;top:0;right:0;bottom:0;left:0;z-index:40;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;padding:max(14px,env(safe-area-inset-top)) 12px max(14px,env(safe-area-inset-bottom))}
 #yard[hidden]{display:none}
+#pickDlg{position:fixed;top:0;right:0;bottom:0;left:0;z-index:92;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:max(14px,env(safe-area-inset-top)) 12px max(14px,env(safe-area-inset-bottom))}#pickDlg[hidden]{display:none}
+body.cbar #pickDlg{padding-bottom:calc(var(--panh,0px) + 88px);align-items:flex-end}
+.pk-sub{font:600 12px/1.3 system-ui,sans-serif;color:#bbb;margin:0 0 8px}.pk-sub b{color:var(--y)}
+#pkM .yc{cursor:pointer}#pkM .yc.free{border-color:var(--gr)}#pkM .yc.free .ico{background:var(--gr)}#pkM .yc.free small{color:var(--gr)}
+#pkM .yc.tmpv{border-color:#ff9f1a}#pkM .yc.tmpv .ico{background:#ff9f1a}#pkM .yc.tmpv small{color:#ff9f1a}
+#pkM .yc.occ{border-color:var(--r);opacity:.75}#pkM .yc.occ .ico{background:var(--r)}#pkM .yc.occ small{color:#ff8a80}
+#pkM .yc.nf{opacity:.35}#pkM .yc.nf .ico{background:#444}#pkM .yc.cur{outline:2px solid var(--y);outline-offset:2px}
+body.neo #pkM .yc.free{box-shadow:var(--ra2),0 0 0 2px var(--gr),0 0 14px rgba(70,224,122,.3)}body.neo #pkM .yc.occ{box-shadow:var(--ra2),0 0 0 2px var(--r)}body.neo #pkM .yc.tmpv{box-shadow:var(--ra2),0 0 0 2px #ff9f1a}
+.yd-lg i.tmpv{background:#ff9f1a}
 
 
 /* lista de voos: dois blocos de ponta a ponta que descem de cima (relógio primeiro, a lista depois, por baixo) */
@@ -762,6 +763,13 @@ body.cbar.glass.gxTuck #edge{transform:translateY(calc(100% + 12px))!important;z
 body.cbar.glass.gxTuck #edge .edw,body.cbar.glass.gxTuck #edge .gx{pointer-events:none}
 body.cbar.glass.gxTuck #gxH{top:-22px;height:22px}
 body.cbar.glass #windBox{cursor:pointer}
+#ovDr{display:none}
+body.cbar.glass.swp #edge{bottom:calc((var(--panh,0px) + env(safe-area-inset-bottom,0px))/2 - 29px)!important;left:24px!important;right:24px!important;transform:none!important;z-index:46!important}
+body.cbar.glass.swp.gxTuck #edge .edw,body.cbar.glass.swp.gxTuck #edge .gx{pointer-events:auto}
+body.cbar.glass #ovDr{display:flex;position:absolute;left:0;right:0;bottom:calc(var(--panh,0px) + 10px);justify-content:center;z-index:45;pointer-events:none;transition:transform .45s cubic-bezier(.22,1,.36,1),z-index 0s .46s}
+#ovDr .ov-tray{pointer-events:auto}#ovDr #gxH{pointer-events:auto}
+body.cbar.glass.gxTuck #ovDr{transform:translateY(calc(100% + 12px));z-index:10;transition:transform .45s cubic-bezier(.22,1,.36,1),z-index 0s 0s}
+body.cbar.glass.gxTuck #ovDr .ov-tray{pointer-events:none}
 body.cbar.glass #yard,body.cbar.glass #mxp{padding-bottom:calc(var(--panh,0px) + 88px)!important;align-items:flex-end!important}body.cbar.glass #edge{z-index:45!important}
 .dl-w{display:block;color:#ffb020;font-size:12px;margin-top:4px;text-align:center}.yd-box{background:rgba(0,0,0,.85);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:2px solid var(--y);border-radius:18px;padding:14px;width:min(560px,100%);max-height:100%;overflow-y:auto;color:#fff}
 .yd-h{display:flex;align-items:center}.yd-h b{font-size:20px;color:var(--y);flex:1}.yd-h span{font-size:12px;color:var(--g);margin-right:10px}
@@ -891,6 +899,7 @@ body.cbar #cbar{display:flex}body.cbar #hud{top:calc(var(--barh,0px) + 8px)}body
 #windBox{transition:transform .35s cubic-bezier(.2,.8,.2,1)}
 #windBox.tuck{transform:translateX(calc(100% - 38px))}
 #windBox.tuck .wind{border-radius:22px 0 0 22px!important}
+.mx-rd{display:inline-flex;gap:6px;margin-left:8px;vertical-align:middle}.mx-rd button{font:800 10px/1 system-ui,sans-serif;letter-spacing:.04em;padding:5px 9px;border-radius:12px;border:1.5px solid #555;background:#1b1b1d;color:#aaa;cursor:pointer}.mx-rd button.on{border-color:var(--y);background:var(--y);color:#111}
 .mx-nx{background:none;border:0;color:var(--y);font-size:14px;padding:0 4px;cursor:pointer;vertical-align:middle}
 
 /* painel de botões embaixo do mapa (identidade do jogo: grafite + ícones amarelos) */
@@ -1054,7 +1063,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795883346';
+var APPV='1795884786';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1114,13 +1123,7 @@ chk();document.addEventListener('visibilitychange',function(){if(!document.hidde
     <button class="sl df" data-d="dificil"><span class="n">3</span><span><b>Difícil</b><small>Pico às 18h, equipes reduzidas, 2 tempestades. Só 28 min de combustível.</small></span><em>Jogar</em></button>
   </div>
 </div>
-<div class="mixer" id="pickDlg" hidden>
-  <div class="mx-card pk-card" role="dialog" aria-label="Escolher vaga">
-    <div class="mx-h"><b id="pkT">Escolher vaga</b><button id="pkX" aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
-    <div class="pk-sub" id="pkS"></div><div class="pk-map" id="pkM"></div>
-    <div class="pk-leg"><span><i class="ok"></i>Livre</span><span><i class="tmp"></i>Provisória</span><span><i class="oc"></i>Ocupada</span><span><i class="no"></i>Não cabe</span></div>
-  </div>
-</div>
+<div id="pickDlg" hidden><div class="yd-box"><div class="yd-h"><b id="pkT">Escolher vaga</b><span id="pkS"></span><button id="pkX" aria-label="Fechar">×</button></div><div class="pk-sub" id="pkI"></div><div class="yd-g" id="pkM"></div><small class="yd-lg"><i class="ok"></i>livre <i class="tmpv"></i>provisória <i class="bad"></i>ocupada <i class="in"></i>não cabe</small></div></div>
 <div class="mixer" id="dayDlg" hidden>
   <div class="mx-card sl-card" role="dialog" aria-label="Fim do dia" id="dayCard"></div>
 </div>
@@ -1139,6 +1142,7 @@ chk();document.addEventListener('visibilitychange',function(){if(!document.hidde
     <label class="mx-r"><span>Freios e pneus</span><input type="range" min="0" max="100" data-k="brake"><output></output></label>
     <label class="mx-r"><span>Ambiente (pátio, chuva)</span><input type="range" min="0" max="100" data-k="amb"><output></output></label>
     <label class="mx-r"><span>Música lo-fi <button type="button" id="musNext" class="mx-nx" aria-label="Próxima música">⏭</button></span><input type="range" min="0" max="100" data-k="music"><output></output></label>
+    <label class="mx-r"><span>Rádio ao vivo <span class="mx-rd"><button type="button" class="radB" data-st="jazz">JAZZ24</button><button type="button" class="radB" data-st="kiss">KISS FM</button></span></span><input type="range" min="0" max="100" id="radVol"><output id="radVolO"></output></label>
     <label class="mx-r"><span>Avisos e cliques</span><input type="range" min="0" max="100" data-k="ui"><output></output></label>
     <div class="mx-sec">Escolha dos sons</div><div id="picks"></div>
 
@@ -1954,13 +1958,13 @@ function pickSync(){if(!LAY.pick)return;const dl=$('pickDlg');
   if(!f){if(pkOpen!=null){dl.hidden=true;pkOpen=null;pkKey=''}return}
   const key=assignFor+'|'+STANDS.map(s=>s.res==null?'-':s.res).join(',')+'|'+f.stand+'|'+f.state;if(pkOpen===assignFor&&key===pkKey)return;pkOpen=assignFor;pkKey=key;
   const parked=f.state==='parked';
-  $('pkT').textContent=parked?(f.blk?'Vaga certa para '+f.depNo:'Trocar vaga · '+f.depNo):(f.stand?'Trocar vaga · ':'Escolher vaga · ')+f.arrNo;
-  $('pkS').innerHTML=`<b>${AIRLINES[f.al]||f.al}</b> · ${model(f)} · classe ${f.cls}${f.stand?` · agora em <b>${sn(f.stand)}</b>`:''}`;
+  $('pkT').textContent=parked&&!f.blk?'Trocar vaga':'Escolher vaga';$('pkS').textContent=parked?f.depNo:f.arrNo;
+  $('pkI').innerHTML=`<b>${AIRLINES[f.al]||f.al}</b> · ${model(f)} · classe ${f.cls}${f.stand?` · agora em <b>${sn(f.stand)}</b>`:''}`;
   let h='';for(const s of STANDS){const o=s.res!=null&&s.res!==f.i?flights[s.res]:null,fit=fits(s,f.cls),tmp=!o&&!fit&&!parked&&!s.remote&&f.cls>s.max&&f.cls-s.max<=2;
-    const c=o?'oc':fit?'ok':tmp?'tmp':'no',lx=s.y,ly=W-s.x+(s.remote?-14:14);
-    h+=`<button class="pk-d ${c}${f.stand===s.n?' cur':''}" data-n="${s.n}" style="left:${lx/H*100}%;top:${ly/W*100}%"${o||c==='no'?' disabled':''}><i></i>${s.lab||s.n}${o?`<small>${o.state==='parked'?o.depNo:o.arrNo}</small>`:`<em>máx ${s.max}</em>`}</button>`}
+    const c=o?'occ':fit?'free':tmp?'tmpv':'nf',t=o?(o.state==='parked'?'ocupada':o.state==='departing'||o.state==='lineup'?'saindo':'reservada'):fit?'livre · até '+s.max:tmp?'provisória':'máx classe '+s.max;
+    h+=`<button class="yc ${c}${f.stand===s.n?' cur':''}" data-n="${s.n}"${o||c==='nf'?' disabled':''}><span class="yc-n">${sn(s.n)}</span>${ic('plane')}<b>${o?(o.state==='parked'||o.state==='departing'?o.depNo:o.arrNo):f.stand===s.n?'atual':'—'}</b><small>${t}</small></button>`}
   $('pkM').innerHTML=h;dl.hidden=false}
-$('pkM').addEventListener('click',e=>{const b=e.target.closest('.pk-d');if(!b||b.disabled)return;const f=assignFor!=null?flights[assignFor]:null;if(!f)return;assign(f,STANDS[+b.dataset.n-1]);pkKey='';dirty=true});
+$('pkM').addEventListener('click',e=>{const b=e.target.closest('.yc');if(!b||b.disabled)return;const f=assignFor!=null?flights[assignFor]:null;if(!f)return;assign(f,STANDS[+b.dataset.n-1]);pkKey='';dirty=true});
 $('pickDlg').addEventListener('click',e=>{if(e.target===$('pickDlg')||e.target.closest('#pkX')){assignFor=null;dirty=true;pickSync()}});
 function drawFixed(){
   // plaquinhas e áreas de clique
@@ -2195,7 +2199,7 @@ var SB={},LOOPS={};
 function loadSnd(k){if(SB[k]||!SFX[k]||loadSnd[k])return;loadSnd[k]=1;fetch(`sons/${k}.mp3?v=${typeof APPV!=='undefined'?APPV:1}`).then(r=>r.ok?r.arrayBuffer():Promise.reject()).then(b=>new Promise((ok,no)=>{const r=AC.decodeAudioData(b,ok,no);if(r&&r.then)r.then(ok,no)})).then(buf=>{SB[k]=buf;if(k===pk('ambiente'))ambStart()}).catch(()=>{loadSnd[k]=0})}
 function loadSounds(){const need=new Set(['bipe']);SLOTS.forEach(x=>need.add(PICK[x.k]));need.forEach(loadSnd)}
 // rádio ao vivo (Jazz24, Seattle): toca por baixo dos sons do jogo e abaixa nos avisos
-var RADIO=null,RST=null,RVOL=.5,STATIONS={
+var RADIO=null,RST=null,RVOL=(()=>{try{const v=localStorage.getItem('departure_rvol');return v!=null?+v:.5}catch(e){return .5}})(),STATIONS={
  jazz:{lbl:'📻 Jazz24 ao vivo · Seattle',urls:['https://knkx-live-a.edge.audiocdn.com/6285_128k','https://knkx-live-a.edge.audiocdn.com/6285_128k/playlist.m3u8?aw_0_1st.playerid=link','https://knkx-live-a.edge.audiocdn.com/6285_64k']},
  kiss:{lbl:'🎸 Kiss FM 92.5 ao vivo · São Paulo',urls:['https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_KISSFMAAC.aac','https://27443.live.streamtheworld.com/RADIO_KISSFMAAC.aac','https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_KISSFM_ADP.aac','https://26593.live.streamtheworld.com/RADIO_KISSFM_ADP.aac']}};
 function radioUI(){document.querySelectorAll('.radB').forEach(b=>b.classList.toggle('on',!!(RADIO&&!RADIO.paused&&RST===b.dataset.st)))}
@@ -3146,7 +3150,7 @@ if(TWO){
   // opções saem da lateral e vão para o botão redondo do painel de baixo
   {const src=$('edOptP'),dst=$('ovOpt');if(src&&dst){[...src.children].forEach(c=>dst.appendChild(c));src.parentNode.remove()}
    dst.insertAdjacentHTML('beforeend','<button id="radioB" class="radB" data-st="jazz" aria-label="Rádio Jazz24"><span class="ico"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M3.2 7.8 17.6 2.4l.7 1.9L8.6 8H20a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8.8c0-.4.2-.8.6-1zM8 18a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm7-5v2h4v-2h-4zm0 3v2h4v-2h-4z"/></svg></span><small style="font-size:10px">JAZZ</small></button><button id="radioK" class="radB" data-st="kiss" aria-label="Rádio Kiss FM"><span class="ico"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M3.2 7.8 17.6 2.4l.7 1.9L8.6 8H20a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8.8c0-.4.2-.8.6-1zM8 18a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm7-5v2h4v-2h-4zm0 3v2h4v-2h-4z"/></svg></span><small style="font-size:10px">KISS</small></button>');
-   document.querySelectorAll('.radB').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();radioToggle(b.dataset.st)}));radioUI();
+   document.querySelectorAll('#radioB,#radioK').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();radioToggle(b.dataset.st)}));radioUI();
    const close=()=>{dst.hidden=true;$('ovMore').classList.remove('on')};
    $('ovDeal').addEventListener('click',e=>{e.stopPropagation();audioInit();chime();if(dealsOn&&dealMode==='deals')openDeals(false);else openDeals(true,'deals')});
    $('ovMore').addEventListener('click',e=>{e.stopPropagation();const o=dst.hidden;dst.hidden=!o;$('ovMore').classList.toggle('on',o);if(o)chime()});
@@ -3168,7 +3172,9 @@ if(TWO){
    [arr,dep,mp].forEach(b=>{if(!b)return;const ic=b.querySelector('.ico');b.textContent='';b.appendChild(ic)});
    [apt,mx,yd,mk(arr,'Pouso'),mk(dep,'Decolagem'),mk(mp,'Mapa')].forEach(x=>edge.appendChild(x));
    $('edCtl').parentNode.classList.add('gxHide');document.body.classList.add('glass');
-   edge.insertAdjacentHTML('beforeend','<button id="gxH" aria-label="Mostrar/recolher menu"><i></i></button>');
+   // menus trocados: a barra de ícones fica fixa embaixo e os botões redondos viram a gaveta que recolhe
+   {const ov=$('ovh'),tr=ov.querySelector('.ov-tray'),dr=document.createElement('div');dr.id='ovDr';ov.parentNode.insertBefore(dr,ov);dr.appendChild(tr);
+    dr.insertAdjacentHTML('beforeend','<button id="gxH" aria-label="Mostrar/recolher menu"><i></i></button>');document.body.classList.add('swp')}
    let tk=true;try{tk=localStorage.getItem('departure_gx')!=='0'}catch(e){}document.body.classList.toggle('gxTuck',tk);
    $('gxH').addEventListener('click',e=>{e.stopPropagation();const t=document.body.classList.toggle('gxTuck');try{localStorage.setItem('departure_gx',t?'1':'0')}catch(e){}})}
   // abas reordenáveis: segure meio segundo e arraste para cima/baixo; encaixam como ímã
@@ -3552,6 +3558,9 @@ mixer.querySelectorAll('input[data-k]').forEach(inp=>{
 $('mixBtn').addEventListener('click',()=>{audioInit();mixer.hidden=false});
 $('mixBtn2').addEventListener('click',()=>{audioInit();mixer.hidden=false});
 $('mixClose').addEventListener('click',()=>{mixer.hidden=true});
+{const rv=$('radVol'),ro=$('radVolO');rv.value=Math.round(RVOL*100);ro.textContent=rv.value;
+ rv.addEventListener('input',()=>{RVOL=+rv.value/100;ro.textContent=rv.value;if(RADIO)RADIO.volume=RVOL;try{localStorage.setItem('departure_rvol',RVOL)}catch(e){}});
+ mixer.querySelectorAll('.mx-rd .radB').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();radioToggle(b.dataset.st)}));radioUI()}
 $('musNext').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();audioInit();musicNext();toast('Música: '+['Galeão Night Shift','Galeão Night Shift 2','Ato 2'][MUS.i])});
 mixer.addEventListener('click',e=>{
   if(e.target===mixer)mixer.hidden=true;
