@@ -680,18 +680,22 @@ body.two #speed{display:none!important}
 #yard[hidden]{display:none}
 
 
-/* lista de voos: desce de cima, em dois cartões arredondados (relógio grande + voos) */
-body.two #fltPg{transform:translateY(-104%)!important;transition:transform .38s cubic-bezier(.2,.9,.25,1.05)!important;background:rgba(0,0,0,.55)!important;padding:max(8px,env(safe-area-inset-top)) 10px 10px!important;gap:10px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
-body.two #fltPg.open{transform:none!important}
-body.two #fltPg .fp-top{position:relative;display:grid!important;grid-template-columns:auto 1fr;grid-template-areas:"b d" "c c" "r r";align-items:center;background:#1c1d21!important;border-radius:28px;padding:16px 18px 14px!important;box-shadow:0 14px 30px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.05);flex:none}
+/* lista de voos: dois blocos de ponta a ponta que descem de cima (relógio primeiro, a lista depois, por baixo) */
+body.two #fltPg{transform:none!important;transition:background .4s,visibility 0s .9s!important;visibility:hidden;pointer-events:none;background:rgba(0,0,0,0)!important;padding:0!important;gap:0}
+body.two #fltPg.open{visibility:visible;pointer-events:auto;background:rgba(0,0,0,.55)!important;transition:background .4s,visibility 0s 0s!important}
+body.two #fltPg .fp-top,body.two #fltPg .fp-sheet{transition:transform .75s cubic-bezier(.22,1,.36,1)}
+body.two #fltPg .fp-top{position:relative;z-index:2;transform:translateY(-110%);display:grid!important;grid-template-columns:auto 1fr auto;grid-template-areas:"b c x" "r r r";align-items:center;background:var(--nb,#1c1d21)!important;border-radius:0 0 28px 28px!important;border-bottom:3px solid var(--y);padding:calc(max(10px,env(safe-area-inset-top)) + 8px) 16px 16px!important;box-shadow:0 14px 30px rgba(0,0,0,.6);flex:none}
+body.two #fltPg .fp-sheet{position:relative;z-index:1;transform:translateY(-140%);border-radius:0 0 28px 28px!important;margin-top:-30px;padding-top:40px!important;flex:1;min-height:0;box-shadow:0 14px 30px rgba(0,0,0,.5)}
+body.two #fltPg.open .fp-top{transform:none}
+body.two #fltPg.open .fp-sheet{transform:none;transition-delay:2s}
+body.two #fltPg:not(.open) .fp-top{transition-delay:.15s}
 body.two #fltPg .fp-top>*+*{margin-left:0}
-body.two #fltPg #fpBack{grid-area:b;width:40px;height:40px;border-radius:14px}
-body.two #fltPg .fp-d{grid-area:d;text-align:center;color:#c9ccd6;font-size:15px;letter-spacing:.04em;font-weight:600;padding-right:40px}
-body.two #fltPg .fp-clock{grid-area:c;display:block;text-align:center;font-family:"Avenir Next Condensed","HelveticaNeue-CondensedBold","Arial Narrow","Roboto Condensed",sans-serif;font-weight:600;color:#e6e8ef;font-size:54px;line-height:1;letter-spacing:-.01em;transform:scaleY(1.12);transform-origin:50% 50%;margin:8px 0 10px}
-body.two #fltPg .fp-route{grid-area:r;text-align:center;flex:none}
-body.two #fltPg .fp-route .fp-c{display:inline;font-size:20px;color:#fff;margin-right:8px}
+body.two #fltPg #fpBack{grid-area:b;width:44px;height:44px;border-radius:14px}
+body.two #fltPg .fp-clock{grid-area:c;display:block;text-align:center;font-family:Doto,monospace;font-weight:900;color:var(--y);font-size:46px;line-height:1;letter-spacing:.02em;text-shadow:0 0 12px rgba(253,233,52,.35)}
+body.two #fltPg .fp-d{grid-area:x;font-family:Doto,monospace;font-weight:900;color:#bfbfbf;font-size:12px;letter-spacing:.04em;text-align:right;width:44px;line-height:1.2}
+body.two #fltPg .fp-route{grid-area:r;text-align:center;flex:none;margin-top:8px}
+body.two #fltPg .fp-route .fp-c{display:inline;font-size:22px;font-weight:800;color:#fff;margin-right:8px}
 body.two #fltPg .fp-route small{display:inline;font-size:11px}
-body.two #fltPg .fp-sheet{border-radius:28px!important;flex:1;min-height:0;box-shadow:0 14px 30px rgba(0,0,0,.5)}
 /* celular: o topo do painel vira a barra de LED padrão + uma placa de aeroporto grande */
 #sdC,.sgn{display:none}
 body.cbar #side #sdC{display:block;width:100%;height:44px;flex:none;background:#050505}
@@ -1007,7 +1011,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795824705';
+var APPV='1795825074';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -2733,7 +2737,7 @@ function drawFlt(ap,rd,bk){
   const n=ap.length+rd.length+bk.length;
   $('fpCount').textContent=n?`${n} voo${n>1?'s':''} ativo${n>1?'s':''}`:'Nenhum voo ativo agora';
   $('fltList').innerHTML=sec('Sem vaga',bk,'blk')+sec('Chegando',ap,'arr')+sec('Prontos para partir',rd,'rd');
-  $('fpClock').textContent=fmt(now);$('fpDate').textContent=dateLbl(now)+' · '+(speed?speed+'×':'pausa');
+  $('fpClock').textContent=fmt(now);$('fpDate').textContent=(speed?speed+'X':'PAUSA');
 }
 $('fltList').addEventListener('click',e=>{
   const b=e.target.closest('[data-a]');if(!b)return;const f=flights[+b.dataset.f],a=b.dataset.a;
