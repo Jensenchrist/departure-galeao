@@ -763,13 +763,14 @@ body.cbar.glass.gxTuck #edge{transform:translateY(calc(100% + 12px))!important;z
 body.cbar.glass.gxTuck #edge .edw,body.cbar.glass.gxTuck #edge .gx{pointer-events:none}
 body.cbar.glass.gxTuck #gxH{top:-22px;height:22px}
 body.cbar.glass #windBox{cursor:pointer}
+body.cbar.glass.swp #ovDr .ov-b{width:min(12.4vw,50px);height:min(12.4vw,50px)}body.cbar.glass.swp #ovDr .ov-tray{gap:min(2vw,8px)}
 #ovDr{display:none}
 body.cbar.glass.swp #edge{bottom:calc((var(--panh,0px) + env(safe-area-inset-bottom,0px))/2 - 29px)!important;left:24px!important;right:24px!important;transform:none!important;z-index:46!important}
 body.cbar.glass.swp #edge{background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;border-radius:0!important}body.cbar.glass.swp #edge::after,body.cbar.glass.swp #edge::before{display:none!important}
 body.cbar.glass.swp #edge{left:50%!important;right:auto!important;width:auto!important;transform:translateX(-50%)!important;height:auto!important;padding:6px 10px!important;gap:min(2vw,8px)!important;border-radius:40px!important;background:linear-gradient(180deg,#17181a,#202124)!important;box-shadow:inset 0 3px 8px rgba(0,0,0,.75),inset 0 -1px 0 rgba(255,255,255,.05),0 1px 0 rgba(255,255,255,.05)!important;bottom:calc((var(--panh,0px) + env(safe-area-inset-bottom,0px))/2 - min(6vw,23px) - 6px)!important}
 body.cbar.glass.swp #edge>.edw{flex:none!important;width:auto!important;margin:0!important;padding:0!important}
-body.cbar.glass.swp #edge .edt,body.cbar.glass.swp #edge #mxTab{width:min(12vw,46px)!important;height:min(12vw,46px)!important;padding:0!important}
-body.cbar.glass.swp #edge .edt .ico,body.cbar.glass.swp #edge #mxTab .ico{width:min(12vw,46px)!important;height:min(12vw,46px)!important;border-radius:50%!important;background:radial-gradient(circle at 50% 35%,#3a3c41,#26272b 70%)!important;box-shadow:0 0 0 2px #121315,0 4px 8px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.12),inset 0 -2px 4px rgba(0,0,0,.4)!important;transition:transform .08s,box-shadow .15s}
+body.cbar.glass.swp #edge .edt,body.cbar.glass.swp #edge #mxTab{width:min(12.4vw,50px)!important;height:min(12.4vw,50px)!important;padding:0!important}
+body.cbar.glass.swp #edge .edt .ico,body.cbar.glass.swp #edge #mxTab .ico{width:min(12.4vw,50px)!important;height:min(12.4vw,50px)!important;border-radius:50%!important;background:radial-gradient(circle at 50% 35%,#3a3c41,#26272b 70%)!important;box-shadow:0 0 0 2px #121315,0 4px 8px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.12),inset 0 -2px 4px rgba(0,0,0,.4)!important;transition:transform .08s,box-shadow .15s}
 body.cbar.glass.swp #edge .edt:active .ico{transform:scale(.95)}
 body.cbar.glass.swp #edge .edt .ico svg,body.cbar.glass.swp #edge #mxTab svg{width:46%!important;height:46%!important;fill:var(--y)!important;opacity:.9}
 body.cbar.glass.swp #edge .on-dot .ico{background:radial-gradient(circle at 50% 40%,#2a2b2f,#1b1c1f 70%)!important;box-shadow:0 0 0 2px #121315,inset 0 3px 8px rgba(0,0,0,.8),inset 0 -1px 0 rgba(255,255,255,.06)!important}
@@ -907,7 +908,7 @@ body.neo .tk-pill,body.neo .dl-c{border-radius:10px}
 
 /* relógio de fora a fora embaixo do mapa */
 #cbar{display:none;position:absolute;left:0;right:0;top:0;z-index:11;flex-direction:column;align-items:center;justify-content:center;background:#050505;border-bottom:1px solid #1a1a1a;cursor:pointer;box-sizing:border-box}
-#cbC{display:block;width:100%;height:100%}
+#cbC,#cbF{display:block;width:100%;height:50%;flex:none}#cbF{border-top:1px solid #1c1c1e}
 body.cbar #cbar{display:flex}body.cbar #hud{top:calc(var(--barh,0px) + 8px)}body.cbar #autoBan{top:calc(var(--barh,0px) + 76px)}body.cbar #hud .mclock{display:none}
 #cbar b{font-family:Doto,monospace;font-weight:900;color:var(--y);font-size:min(17vw,9vh,74px);line-height:.95;letter-spacing:-.02em;font-variant-numeric:tabular-nums;text-shadow:0 0 18px rgba(253,233,52,.35)}
 #cbar b{display:flex;align-items:flex-end;gap:min(1.6vw,8px);text-shadow:none}
@@ -1091,7 +1092,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795888767';
+var APPV='1795888980';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1118,7 +1119,7 @@ chk();document.addEventListener('visibilitychange',function(){if(!document.hidde
     </div>
     <div id="storm"></div><video id="rainVid" src="chuva.mp4" muted loop playsinline webkit-playsinline preload="auto"></video>
     <div class="pop" id="pop" hidden><span class="pop-t"></span><div><button data-pm="svc" aria-label="Serviços"><span class="ico"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span><small>Serviços</small></button><button data-pm="data" aria-label="Dados do voo"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></span><small>Voo</small></button></div></div>
-    <div id="deals" hidden><div class="yd-box"><div class="yd-h"><button id="dlBk" aria-label="Voltar">‹</button><b id="dlTtl">Acordos</b><span id="dlMoney"></span><button id="dlX" aria-label="Fechar">×</button></div><div class="dl-tabs"><button data-dt="deals" class="on">Acordos</button><button data-dt="fin">Finanças</button><button data-dt="gest">Equipes</button><button data-dt="loan">Crédito</button></div><small class="dl-sub" id="dlSub">Traga novas rotas para o Galeão. Do mais barato ao mais caro.</small><div id="dlList"></div></div></div><div id="mxp" hidden><div class="yd-box"><div class="yd-h"><button id="mxBk" aria-label="Voltar">‹</button><b>Manutenção</b><span id="mxMoney"></span><button id="mxX" aria-label="Fechar">×</button></div><small class="dl-sub" id="mxSub">Escolha a companhia para ver as aeronaves.</small><div id="mxList"></div></div></div><div id="wxp" hidden><div class="yd-box"><div class="yd-h"><b>Tempo · Galeão</b><span id="wxD"></span><button id="wxX" aria-label="Fechar">×</button></div><div id="wxB"></div></div></div><div id="yard" hidden><div class="yd-box"><div class="yd-h"><b>Pátio</b><span id="ydSum"></span><button id="ydX" aria-label="Fechar">×</button></div><div class="yd-crew" id="ydCrew"></div><div class="yd-g" id="ydG"></div><small class="yd-lg"><i class="ok"></i>pronto <i class="run"></i>em serviço <i class="idle"></i>parado <i class="bad"></i>provisória <i class="in"></i>chegando</small></div></div><div id="autoBan">PILOTO AUTOMÁTICO · toque para desligar</div><div id="hud"><div class="mclock" id="mclock"><b id="mcT">11:52<i>:00</i></b><small id="mcS">10×</small></div><div id="windBox"></div></div><button id="mxTab" aria-label="Manutenção"><span class="ico"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span><i id="mxDot"></i></button><div id="specBar"><span id="specT">ESPECTADOR</span><button id="specX">Voltar ao meu aeroporto</button></div><div id="aqp"><div class="aq-in"><div class="aq-hd">PRÓXIMOS</div><div id="aqL"></div></div><button class="aq-tab" id="aqTab" aria-label="Próximos voos"><svg class="aqi" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><g fill="currentColor"><rect x="5" y="7.5" width="5" height="2.2" rx=".6"/><rect x="11.5" y="7.5" width="7.5" height="2.2" rx=".6"/><rect x="5" y="11" width="5" height="2.2" rx=".6"/><rect x="11.5" y="11" width="7.5" height="2.2" rx=".6"/><rect x="5" y="14.5" width="5" height="2.2" rx=".6"/><rect x="11.5" y="14.5" width="4.5" height="2.2" rx=".6"/></g></svg></button></div><div id="cbar"><canvas id="cbC" aria-label="Relógio"></canvas></div><div id="ovh"><div class="ov-tray">
+    <div id="deals" hidden><div class="yd-box"><div class="yd-h"><button id="dlBk" aria-label="Voltar">‹</button><b id="dlTtl">Acordos</b><span id="dlMoney"></span><button id="dlX" aria-label="Fechar">×</button></div><div class="dl-tabs"><button data-dt="deals" class="on">Acordos</button><button data-dt="fin">Finanças</button><button data-dt="gest">Equipes</button><button data-dt="loan">Crédito</button></div><small class="dl-sub" id="dlSub">Traga novas rotas para o Galeão. Do mais barato ao mais caro.</small><div id="dlList"></div></div></div><div id="mxp" hidden><div class="yd-box"><div class="yd-h"><button id="mxBk" aria-label="Voltar">‹</button><b>Manutenção</b><span id="mxMoney"></span><button id="mxX" aria-label="Fechar">×</button></div><small class="dl-sub" id="mxSub">Escolha a companhia para ver as aeronaves.</small><div id="mxList"></div></div></div><div id="wxp" hidden><div class="yd-box"><div class="yd-h"><b>Tempo · Galeão</b><span id="wxD"></span><button id="wxX" aria-label="Fechar">×</button></div><div id="wxB"></div></div></div><div id="yard" hidden><div class="yd-box"><div class="yd-h"><b>Pátio</b><span id="ydSum"></span><button id="ydX" aria-label="Fechar">×</button></div><div class="yd-crew" id="ydCrew"></div><div class="yd-g" id="ydG"></div><small class="yd-lg"><i class="ok"></i>pronto <i class="run"></i>em serviço <i class="idle"></i>parado <i class="bad"></i>provisória <i class="in"></i>chegando</small></div></div><div id="autoBan">PILOTO AUTOMÁTICO · toque para desligar</div><div id="hud"><div class="mclock" id="mclock"><b id="mcT">11:52<i>:00</i></b><small id="mcS">10×</small></div><div id="windBox"></div></div><button id="mxTab" aria-label="Manutenção"><span class="ico"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></span><i id="mxDot"></i></button><div id="specBar"><span id="specT">ESPECTADOR</span><button id="specX">Voltar ao meu aeroporto</button></div><div id="aqp"><div class="aq-in"><div class="aq-hd">PRÓXIMOS</div><div id="aqL"></div></div><button class="aq-tab" id="aqTab" aria-label="Próximos voos"><svg class="aqi" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><g fill="currentColor"><rect x="5" y="7.5" width="5" height="2.2" rx=".6"/><rect x="11.5" y="7.5" width="7.5" height="2.2" rx=".6"/><rect x="5" y="11" width="5" height="2.2" rx=".6"/><rect x="11.5" y="11" width="7.5" height="2.2" rx=".6"/><rect x="5" y="14.5" width="5" height="2.2" rx=".6"/><rect x="11.5" y="14.5" width="4.5" height="2.2" rx=".6"/></g></svg></button></div><div id="cbar"><canvas id="cbC" aria-label="Relógio"></canvas><canvas id="cbF" aria-label="Próximas chegadas"></canvas></div><div id="ovh"><div class="ov-tray">
       <button class="ov-b" id="ovAuto" aria-label="Piloto automático"><svg viewBox="0 0 24 24"></svg></button>
       <button class="ov-b" id="ovFin" aria-label="Gestão"><svg viewBox="0 0 24 24"><path d="M4 19h16v2H4zM5 10h3v7H5zm5.5-4h3v11h-3zM16 13h3v4h-3z"/></svg><i class="finb"><b></b></i></button>
       <button class="ov-b" id="ovPause" aria-label="Pausar"><svg viewBox="0 0 24 24"></svg></button><button class="ov-b" id="ovDeal" aria-label="Negócios"><svg viewBox="0 0 24 24"><path d="M10 4h4a2 2 0 0 1 2 2v1h3a2 2 0 0 1 2 2v3H3V9a2 2 0 0 1 2-2h3V6a2 2 0 0 1 2-2zm0 3h4V6h-4zM3 13.5h7V15h4v-1.5h7V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></button><button class="ov-b" id="ovMore" aria-label="Opções"><svg viewBox="0 0 24 24"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg></button></div><div id="ovOpt" hidden></div></div>
@@ -1229,7 +1230,7 @@ var LAYS={
    labels:[],
    mk:()=>{const Y=[534,648,762,876],M=[5,6,6,5];
      return Y.map((y,i)=>({n:i+1,x:350,y,max:M[i],g:'A',bd:1,sx:432,sy:y})).concat(Y.map((y,i)=>({n:i+5,x:591,y,max:M[i],g:'B',bd:1,sx:509,sy:y})))}}};
-var LAY=LAYS[1],ROTM=false,FLOOR=2;
+var LAY=LAYS[1],ROTM=false,FLOOR=2,CBH=80;
 var STANDS=LAY.mk();
 var grpOf=s=>LAY.G.find(g=>g.id===(s&&s.g))||LAY.G[0];
 var gid=id=>LAY.G.find(g=>g.id===id)||LAY.G[0];
@@ -1313,15 +1314,18 @@ function ledDraw(t,d,sp){if(document.body.classList.contains('cbar')){ledOne($('
 var ledFold=x=>x.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z0-9 :\/]/g,'');
 // alerta: voo chegando sem posição marcada (em aproximação, ou a ~5 s de tempo real do pouso)
 function ledAlert(){if(!flights)return false;const lead=Math.max(1,5*(speed||0)/60);return flights.some(f=>f.cls&&f.stand==null&&(f.state==='approach'||f.state==='holding'||(f.state==='inbound'&&f.eta-now<=lead+8)))}
+// segunda linha: só os voos chegando, um de cada vez
+function ledFl(){const A=flights.filter(f=>f.cls&&(f.state==='inbound'||f.state==='approach'||f.state==='holding'||f.state==='arriving')&&f.eta-now<180).sort((a,b)=>a.eta-b.eta).slice(0,5);
+  if(!A.length)return {k:'n'};const sl=Math.floor(performance.now()/3500)%A.length,f=A[sl];return {k:f.i+'|'+sl,f,d:ledFold(f.arrNo+' '+(CITY[f.ap]||f.ap)).slice(0,16)}}
 function ledArr(){const A=flights.filter(f=>f.cls&&(f.state==='inbound'||f.state==='approach'||f.state==='holding'||f.state==='arriving')&&f.eta-now<180).sort((a,b)=>a.eta-b.eta).slice(0,5);
   if(!A.length)return {k:'c'};const n=A.length+1,sl=Math.floor(performance.now()/3500)%n;if(sl===0)return {k:'c'};
   const f=A[sl-1],d=ledFold(f.arrNo+' '+(CITY[f.ap]||f.ap)).slice(0,18);return {k:f.i+'|'+sl,f,d,sp:'#'}}
-function ledOne(cv,t,d,sp){if(!cv)return;if(sp==='#')sp='###';
+function ledOne(cv,t,d,sp,nm){if(!cv)return;if(sp==='#')sp='###';
   const w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return;const dpr=Math.min(3,window.devicePixelRatio||1);
   if(cv.width!==Math.round(w*dpr)||cv.height!==Math.round(h*dpr)){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr)}
   const c=cv.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);c.fillStyle='#050505';c.fillRect(0,0,w,h);
   // células: hora · 2 vazias · data · vazias até a borda · velocidade
-  const base=[...t,'','',...d],need=base.length+2+sp.length,N=Math.max(need,Math.floor((w-8)/16));
+  const base=[...t,'','',...d],need=base.length+2+sp.length,N=Math.max(need,nm||0,Math.floor((w-8)/16));
   const cells=base.concat(Array(Math.max(0,N-base.length-sp.length)).fill(''),[...sp]);
   const AL=ledAlert(),blink=AL&&Math.floor(performance.now()/350)%2===0;
   const wid=ch=>ch===':'?3:5,units=cells.reduce((a,ch)=>a+wid(ch)+1.4,0)-1.4,p=(w-8)/units,r=p*.34,ch7=7*p,y0=Math.round((h-ch7)/2);
@@ -2769,10 +2773,10 @@ var dispW=()=>(ROTM?bh:bw),dispH=()=>(ROTM?bw:bh);
 function layoutMap(){
   const r=stage.getBoundingClientRect();SW=r.width;SH=r.height;
   const coarse=matchMedia('(pointer:coarse)').matches,fitW=LAY.land?coarse&&!LAND:!ROTM&&SW/SH<W/H*1.15&&coarse;
-  const sq=W/H>.8||LAY.land,RBH=0,PANH0=fitW?Math.round((sq?66:Math.min(110,Math.max(62,SH-44-SW/W*H)))*.9):0,PANH=PANH0+RBH;
-  const sc=fitW&&LAY.land?(SH-44)/W:fitW?(sq||LAY.cover?Math.max(SW/W,(SH-44-PANH)/H):Math.min(SW/W,(SH-44-PANH)/H)):ROTM?Math.max(SW/H,SH/W):(SW/SH<W/H*1.15?Math.max(SW/W,SH/H):SH/H);
+  const sq=W/H>.8||LAY.land,RBH=0,PANH0=fitW?Math.round((sq?66:Math.min(110,Math.max(62,SH-CBH-SW/W*H)))*.9):0,PANH=PANH0+RBH;
+  const sc=fitW&&LAY.land?(SH-CBH)/W:fitW?(sq||LAY.cover?Math.max(SW/W,(SH-CBH-PANH)/H):Math.min(SW/W,(SH-CBH-PANH)/H)):ROTM?Math.max(SW/H,SH/W):(SW/SH<W/H*1.15?Math.max(SW/W,SH/H):SH/H);
   const cu=(SW/2-ZX)/(dispW()*zk),cv=(SH/2-ZY)/(dispH()*zk);
-  barH=fitW?44:0;document.body.classList.toggle('cbar',fitW);$('cbar').style.height=barH+'px';document.body.style.setProperty('--barh',barH+'px');document.body.style.setProperty('--panh',PANH0+'px');document.body.style.setProperty('--rbh',RBH+'px');PANHV=fitW&&LAY.land?0:PANH;lastClk='';requestAnimationFrame(edFit);
+  barH=fitW?CBH:0;document.body.classList.toggle('cbar',fitW);$('cbar').style.height=barH+'px';document.body.style.setProperty('--barh',barH+'px');document.body.style.setProperty('--panh',PANH0+'px');document.body.style.setProperty('--rbh',RBH+'px');PANHV=fitW&&LAY.land?0:PANH;lastClk='';requestAnimationFrame(edFit);
   bw=W*sc;bh=H*sc;map.style.width=bw+'px';map.style.height=bh+'px';map.style.setProperty('--mk',(bw/W).toFixed(4));
   const bg=$('bgH');bg.style.width=bh+'px';bg.style.height=bw+'px';bg.style.transform=`translateX(${bw}px) rotate(90deg)`;
   if(!laidOut&&LAY.land&&fitW){zk=FLOOR;ZX=(SW-dispW()*zk)/2;ZY=SH-dispH()*zk;laidOut=true}
@@ -3488,7 +3492,7 @@ function tick(t){
   if(dirty){dirty=false;drawUI()}
   if((liteF=(liteF+1)%2)===0){drawPlanes();drawVeh();edgeDot()}
   if(mapOpen)drawFM(t);
-  {const ss=Math.floor((now%1)*60),LA=ledArr(),tx=fmt(now)+'|'+ss+'|'+speed+'|'+LA.k+'|'+(ledAlert()?Math.floor(performance.now()/350)%2:'');if(tx!==lastClk){lastClk=tx;$('mcT').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('mcS').textContent=dateLbl(now)+' · '+(speed?speed+'×':'PAUSA');if(LA.f)ledDraw(fmt(LA.f.eta),LA.d,'#');else ledDraw(fmt(now)+':'+String(ss).padStart(2,'0'),ledDate(now),'#');$('clock').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('clockD').textContent=dateLbl(now)}}
+  {const ss=Math.floor((now%1)*60),LA=ledArr(),LF=ledFl(),tx=fmt(now)+'|'+ss+'|'+speed+'|'+LF.k+'|'+(ledAlert()?Math.floor(performance.now()/350)%2:'');if(tx!==lastClk){lastClk=tx;$('mcT').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('mcS').textContent=dateLbl(now)+' · '+(speed?speed+'×':'PAUSA');{const tc=fmt(now)+':'+String(ss).padStart(2,'0');if(document.body.classList.contains('cbar')){ledOne($('cbC'),tc,ledDate(now),'',28);ledOne($('cbF'),LF.f?fmt(LF.f.eta):'',LF.f?LF.d:'SEM CHEGADAS','#',28);const sd=$('sdC');if(sd&&sd.offsetParent)ledOne(sd,tc,ledDate(now),'#')}const fm=$('fmap');if(fm&&!fm.hidden)ledOne($('fmC'),tc,ledDate(now),'#')}$('clock').innerHTML=fmt(now)+'<i>:'+String(ss).padStart(2,'0')+'</i>';$('clockD').textContent=dateLbl(now)}}
   requestAnimationFrame(tick);
 }
 $('abtg').addEventListener('click',()=>{const a=$('abar');a.classList.toggle('min');$('abtg').setAttribute('aria-expanded',!a.classList.contains('min'));drawBar()});
