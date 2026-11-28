@@ -776,7 +776,17 @@ body.cbar.glass.swp #edge .on-dot .ico{background:radial-gradient(circle at 50% 
 body.cbar.glass.swp #edge .on-dot .ico svg,body.cbar.glass.swp #edge .on-dot svg{fill:var(--y)!important;opacity:1;filter:drop-shadow(0 0 5px rgba(253,233,52,.85))}
 body.cbar.glass.swp.gxTuck #edge .edw,body.cbar.glass.swp.gxTuck #edge .gx{pointer-events:auto}
 body.cbar.glass #ovDr{display:flex;position:absolute;left:0;right:0;bottom:calc(var(--panh,0px) + 10px);justify-content:center;z-index:45;pointer-events:none;transition:transform .45s cubic-bezier(.22,1,.36,1),z-index 0s .46s}
-#ovDr .ov-tray{pointer-events:auto}#ovDr #gxH{pointer-events:auto}
+#ovDr .ov-tray{pointer-events:auto}
+/* painel único: as duas fileiras juntas, escondido embaixo; a alça abre tudo */
+body.cbar.glass.swp #ovDr{bottom:var(--panh,0px)!important;height:76px;align-items:center;pointer-events:auto;background:repeating-linear-gradient(45deg,rgba(255,255,255,.012) 0 2px,rgba(0,0,0,.03) 2px 4px),linear-gradient(180deg,#2b2c30,#26272b);border-top:1px solid #3a3b40;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 -6px 16px rgba(0,0,0,.5)}
+body.cbar.glass.swp #ovDr::before,body.cbar.glass.swp #ovDr::after{content:"";position:absolute;top:10px;width:8px;height:8px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#c9ccd1,#5b5f66 60%,#2c2e32);box-shadow:0 1px 1px rgba(0,0,0,.6)}
+body.cbar.glass.swp #ovDr::before{left:10px}body.cbar.glass.swp #ovDr::after{right:10px}
+body.cbar.glass.swp #ovh{border-top:0;box-shadow:none;transition:transform .45s cubic-bezier(.22,1,.36,1)}body.cbar.glass.swp #ovh::before,body.cbar.glass.swp #ovh::after{display:none}
+body.cbar.glass.swp.gxTuck #ovh{transform:translateY(calc(var(--panh,0px) + 76px - env(safe-area-inset-bottom,0px)))}
+body.cbar.glass.swp.gxTuck #ovDr{transform:translateY(calc(var(--panh,0px) + 76px - env(safe-area-inset-bottom,0px)));z-index:45;transition:transform .45s cubic-bezier(.22,1,.36,1)}
+body.cbar.glass.swp.gxTuck #edge{transform:translate(-50%,calc(var(--panh,0px) + 76px - env(safe-area-inset-bottom,0px)))!important;z-index:46!important}
+body.cbar.glass.swp.gxTuck #edge .edw,body.cbar.glass.swp.gxTuck #edge .gx,body.cbar.glass.swp.gxTuck #ovDr .ov-tray{pointer-events:none!important}
+body.cbar.glass.swp #edge{transition:transform .45s cubic-bezier(.22,1,.36,1)!important}#ovDr #gxH{pointer-events:auto}
 body.cbar.glass.gxTuck #ovDr{transform:translateY(calc(100% + 12px));z-index:10;transition:transform .45s cubic-bezier(.22,1,.36,1),z-index 0s 0s}
 body.cbar.glass.gxTuck #ovDr .ov-tray{pointer-events:none}
 body.cbar.glass #yard,body.cbar.glass #mxp{padding-bottom:calc(var(--panh,0px) + 88px)!important;align-items:flex-end!important}body.cbar.glass #edge{z-index:45!important}
@@ -1072,7 +1082,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795885590';
+var APPV='1795888767';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -2750,12 +2760,12 @@ function layoutMap(){
   const r=stage.getBoundingClientRect();SW=r.width;SH=r.height;
   const coarse=matchMedia('(pointer:coarse)').matches,fitW=LAY.land?coarse&&!LAND:!ROTM&&SW/SH<W/H*1.15&&coarse;
   const sq=W/H>.8||LAY.land,RBH=0,PANH0=fitW?Math.round((sq?66:Math.min(110,Math.max(62,SH-44-SW/W*H)))*.9):0,PANH=PANH0+RBH;
-  const sc=fitW&&LAY.land?(SH-44-PANH)/W:fitW?(sq||LAY.cover?Math.max(SW/W,(SH-44-PANH)/H):Math.min(SW/W,(SH-44-PANH)/H)):ROTM?Math.max(SW/H,SH/W):(SW/SH<W/H*1.15?Math.max(SW/W,SH/H):SH/H);
+  const sc=fitW&&LAY.land?(SH-44)/W:fitW?(sq||LAY.cover?Math.max(SW/W,(SH-44-PANH)/H):Math.min(SW/W,(SH-44-PANH)/H)):ROTM?Math.max(SW/H,SH/W):(SW/SH<W/H*1.15?Math.max(SW/W,SH/H):SH/H);
   const cu=(SW/2-ZX)/(dispW()*zk),cv=(SH/2-ZY)/(dispH()*zk);
-  barH=fitW?44:0;document.body.classList.toggle('cbar',fitW);$('cbar').style.height=barH+'px';document.body.style.setProperty('--barh',barH+'px');document.body.style.setProperty('--panh',PANH0+'px');document.body.style.setProperty('--rbh',RBH+'px');PANHV=PANH;lastClk='';requestAnimationFrame(edFit);
+  barH=fitW?44:0;document.body.classList.toggle('cbar',fitW);$('cbar').style.height=barH+'px';document.body.style.setProperty('--barh',barH+'px');document.body.style.setProperty('--panh',PANH0+'px');document.body.style.setProperty('--rbh',RBH+'px');PANHV=fitW&&LAY.land?0:PANH;lastClk='';requestAnimationFrame(edFit);
   bw=W*sc;bh=H*sc;map.style.width=bw+'px';map.style.height=bh+'px';map.style.setProperty('--mk',(bw/W).toFixed(4));
   const bg=$('bgH');bg.style.width=bh+'px';bg.style.height=bw+'px';bg.style.transform=`translateX(${bw}px) rotate(90deg)`;
-  if(!laidOut&&LAY.land&&fitW){zk=FLOOR;ZX=(SW-dispW()*zk)/2;ZY=barH+(SH-barH-PANH)-dispH()*zk;laidOut=true}
+  if(!laidOut&&LAY.land&&fitW){zk=FLOOR;ZX=(SW-dispW()*zk)/2;ZY=SH-dispH()*zk;laidOut=true}
   else if(!laidOut){ZX=LAY.ax!=null&&!ROTM&&dispW()>SW?clamp(-LAY.ax*bw/W,SW-dispW(),0):(SW-dispW())/2;ZY=ROTM?(SH-dispH())/2:barH;laidOut=true}else{ZX=SW/2-cu*dispW()*zk;ZY=SH/2-cv*dispH()*zk}
   clampZ();applyZ();
 }
