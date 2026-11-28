@@ -1048,7 +1048,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795829724';
+var APPV='1795864532';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -2152,7 +2152,7 @@ var SB={},LOOPS={};
 function loadSnd(k){if(SB[k]||!SFX[k]||loadSnd[k])return;loadSnd[k]=1;fetch(`sons/${k}.mp3?v=${typeof APPV!=='undefined'?APPV:1}`).then(r=>r.ok?r.arrayBuffer():Promise.reject()).then(b=>new Promise((ok,no)=>{const r=AC.decodeAudioData(b,ok,no);if(r&&r.then)r.then(ok,no)})).then(buf=>{SB[k]=buf;if(k===pk('ambiente'))ambStart()}).catch(()=>{loadSnd[k]=0})}
 function loadSounds(){const need=new Set(['bipe']);SLOTS.forEach(x=>need.add(PICK[x.k]));need.forEach(loadSnd)}
 // rádio ao vivo (Jazz24, Seattle): toca por baixo dos sons do jogo e abaixa nos avisos
-var RADIO=null,RADIO_URLS=['https://live.amperwave.net/direct/ppm-jazz24mp3-ibc1','https://live.wostreaming.net/direct/ppm-jazz24mp3-ibc1','https://live.amperwave.net/direct/ppm-jazz24aac-ibc1'],RVOL=.5;
+var RADIO=null,RADIO_URLS=['https://knkx-live-a.edge.audiocdn.com/6285_128k','https://knkx-live-a.edge.audiocdn.com/6285_128k/playlist.m3u8?aw_0_1st.playerid=link','https://knkx-live-a.edge.audiocdn.com/6285_64k'],RVOL=.5;
 function radioUI(){const b=$('radioB');if(b)b.classList.toggle('on',!!(RADIO&&!RADIO.paused))}
 function radioToggle(){if(RADIO&&!RADIO.paused){RADIO.pause();RADIO.removeAttribute('src');RADIO.load();try{localStorage.setItem('departure_radio','0')}catch(e){}radioUI();toast('Rádio desligada');return}
   RADIO=RADIO||new Audio();const A=RADIO;A.setAttribute('playsinline','');A.volume=RVOL;let i=0,ok=false,tm=null;
