@@ -1092,7 +1092,7 @@ if(!window.PointerEvent){(function(){
 })()}
 </script>
 <script>
-var APPV='1795889009';
+var APPV='1795890244';
 (function(){function chk(){try{fetch('version.txt?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.text():''}).then(function(v){v=(v||'').trim();if(v&&v!==APPV){var k='departure_reload_'+v;if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');location.replace(location.pathname+'?v='+v)}}}).catch(function(){})}catch(e){}}
 chk();document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});})();
 </script>
@@ -1862,7 +1862,17 @@ function toHangar(f){if(LAY.hgV)return toHangarV(f);const s=STANDS[f.stand-1],g=
 function fromHangar(f){const fr=STANDS.filter(x=>x.res==null&&fits(x,f.cls)).sort((a,b)=>(a.remote?1:0)-(b.remote?1:0)||a.max-b.max);const s=fr[0];if(!s)return false;
   if(LAY.hgV){const g=grpOf(s),v=LAY.hgV[f.hg],a=hgPos(f,f.hg),L=spr(f)[f.cls-1][1]*PS(),hd=hgHd(f.hg),o=[v.x,v.door-v.dir*(L+40)];s.res=f.i;f.stand=s.n;
     // sai de ré do hangar e volta pela faixa do pátio
-    const segs=[{b:o,d:1.4,e:'io',h:hd}],pp=parkPos(f,s),pts=fillet([o,[g.lane,s.y],[g.lane+(pp[0]-g.lane)*.35,s.y]],40);
+    const pp=parkPos(f,s);let segs,pts;
+    if(LAY.land){
+      // sai de ré pela linha amarela até a junção do conector, entra de ré no conector fazendo a curva e só então segue de frente
+      const J=nearest(g.conn,v.door),R=34,kx=Math.sign(g.rx-g.lane),ky=v.dir<0?1:-1,A0=[v.x,J-ky*R],C=[g.lane+kx*R,J-ky*R],B=[g.lane+kx*R,J],B2=[g.lane+kx*(R+L*.55),J];
+      segs=[{b:A0,d:Math.max(1,dist(a,A0)/70),e:'io',h:hd}];let prev=A0;
+      const a0=Math.atan2(A0[1]-C[1],A0[0]-C[0]),a1=Math.atan2(B[1]-C[1],B[0]-C[0]);let da=a1-a0;while(da>Math.PI)da-=2*Math.PI;while(da<-Math.PI)da+=2*Math.PI;
+      for(let k=1;k<=8;k++){const an=a0+da*k/8,q=[C[0]+Math.cos(an)*R,C[1]+Math.sin(an)*R];segs.push({b:q,d:Math.max(.05,dist(prev,q)/55),h:angTo(prev,q)+180,e:'lin'});prev=q}
+      segs.push({b:B2,d:Math.max(.3,dist(B,B2)/60),h:kx>0?270:90,e:'out'});
+      segs.push({b:B2,d:.35,h:kx>0?270:90});   // para, e agora vai de frente
+      pts=fillet([B2,[g.lane,J],[g.lane,s.y],[g.lane+(pp[0]-g.lane)*.35,s.y]],40)}
+    else{segs=[{b:o,d:1.4,e:'io',h:hd}];pts=fillet([o,[g.lane,s.y],[g.lane+(pp[0]-g.lane)*.35,s.y]],40)}
     segsAlong(pts,260,segs);
     segs.push({b:pp,d:Math.max(.3,dist(pts[pts.length-1],pp)/150),e:'out'});f.path=mkPath(a,segs,now,hd);f.state='fromHg';dirty=true;
     toast(`${f.depNo} saindo do hangar para o portão ${sn(s.n)}`);return true}
@@ -2235,20 +2245,31 @@ function loadSounds(){const need=new Set(['bipe']);SLOTS.forEach(x=>need.add(PIC
 var RADIO=null,RST=null,RVOL=(()=>{try{const v=localStorage.getItem('departure_rvol');return v!=null?+v:.5}catch(e){return .5}})(),STATIONS={
  jazz:{lbl:'📻 Jazz24 ao vivo · Seattle',urls:['https://knkx-live-a.edge.audiocdn.com/6285_128k','https://knkx-live-a.edge.audiocdn.com/6285_128k/playlist.m3u8?aw_0_1st.playerid=link','https://knkx-live-a.edge.audiocdn.com/6285_64k']},
  kiss:{lbl:'🎸 Kiss FM 92.5 ao vivo · São Paulo',urls:['https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_KISSFMAAC.aac','https://27443.live.streamtheworld.com/RADIO_KISSFMAAC.aac','https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_KISSFM_ADP.aac','https://26593.live.streamtheworld.com/RADIO_KISSFM_ADP.aac']}};
+// o iPhone ignora o volume de <audio>; com CORS o som passa por um ganho do Web Audio e o controle funciona
+var RCORS=null,RNORM=null,RGAIN=null;
+function radEl(cors){if(cors){if(!RCORS){RCORS=new Audio();RCORS.crossOrigin='anonymous';RCORS.setAttribute('playsinline','');
+    try{audioInit();const sn=AC.createMediaElementSource(RCORS);RGAIN=AC.createGain();sn.connect(RGAIN);RGAIN.connect(AC.destination)}catch(e){RCORS._bad=1}}return RCORS._bad?null:RCORS}
+  if(!RNORM){RNORM=new Audio();RNORM.setAttribute('playsinline','')}return RNORM}
+function radVol(v){if(!RADIO)return;if(RADIO===RCORS&&RGAIN){RCORS.volume=1;RGAIN.gain.setTargetAtTime(v,AC.currentTime,.05)}else RADIO.volume=v}
 function radioUI(){document.querySelectorAll('.radB').forEach(b=>b.classList.toggle('on',!!(RADIO&&!RADIO.paused&&RST===b.dataset.st)))}
-function radioOff(){if(RADIO){RADIO.onerror=null;RADIO.pause();RADIO.removeAttribute('src');RADIO.load()}}
+function radioOff(){for(const A of [RCORS,RNORM])if(A){A.onerror=null;A.onplaying=null;A.onpause=null;A.pause();A.removeAttribute('src');A.load()}}
 function radioToggle(st){st=st||'jazz';if(RADIO&&!RADIO.paused&&RST===st){radioOff();RST=null;try{localStorage.setItem('departure_radio','0')}catch(e){}radioUI();toast('Rádio desligada');return}
-  radioOff();RST=st;const S=STATIONS[st];
-  RADIO=RADIO||new Audio();const A=RADIO;A.setAttribute('playsinline','');A.volume=RVOL;let i=0,ok=false,tm=null;const my=st;
-  const fail=()=>{if(ok||RST!==my)return;clearTimeout(tm);if(++i<S.urls.length){A.src=S.urls[i];A.play().catch(()=>{});tm=setTimeout(()=>{if(!ok)fail()},12000)}else{radioUI();toast('Não consegui conectar na rádio agora')}};
-  A.onplaying=()=>{if(RST!==my)return;ok=true;clearTimeout(tm);radioUI();toast(S.lbl)};
-  A.onerror=fail;A.onpause=radioUI;
-  A.src=S.urls[0];
-  // play() direto no toque (exigência do iPhone); só desiste por bloqueio, erro de rede vem pelo onerror
-  A.play().catch(e=>{if(e&&e.name==='NotAllowedError'){toast('Toque de novo para liberar o som')}});
-  tm=setTimeout(()=>{if(!ok)fail()},12000);
+  radioOff();RST=st;const S=STATIONS[st],my=st;try{audioInit();if(AC&&AC.state!=='running')AC.resume()}catch(e){}
+  if(!radioToggle.pr){radioToggle.pr=1;for(const A of [radEl(1),radEl(0)])if(A){A.src='data:audio/wav;base64,UklGRnQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YVAAAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgA==';const q=A.play();if(q)q.then(()=>{if(String(A.src).startsWith('data:'))A.pause()}).catch(()=>{})}}
+  const tries=[];for(const u of S.urls){tries.push([u,1]);tries.push([u,0])}
+  let i=-1,ok=false,tm=null;
+  const go=()=>{if(ok||RST!==my)return;clearTimeout(tm);
+    while(++i<tries.length){const A=radEl(tries[i][1]);if(A)break}
+    if(i>=tries.length){radioUI();toast('Não consegui conectar na rádio agora');return}
+    const A=radEl(tries[i][1]);RADIO=A;radVol(RVOL);
+    A.onplaying=()=>{if(RST!==my||RADIO!==A)return;ok=true;clearTimeout(tm);radioUI();toast(S.lbl)};
+    A.onerror=()=>{if(RADIO===A)go()};A.onpause=radioUI;A.src=tries[i][0];
+    // play() direto no toque (exigência do iPhone)
+    A.play().catch(e=>{if(e&&e.name==='NotAllowedError'){toast('Toque de novo para liberar o som')}});
+    tm=setTimeout(()=>{if(!ok&&RADIO===A){A.onerror=null;A.pause();go()}},9000)};
+  go();
   try{localStorage.setItem('departure_radio',st)}catch(e){}}
-var radioDuckT=0;function radioDuck(){if(!RADIO||RADIO.paused)return;RADIO.volume=RVOL*.35;clearTimeout(radioDuckT);radioDuckT=setTimeout(()=>{if(RADIO)RADIO.volume=RVOL},3500)}
+var radioDuckT=0;function radioDuck(){if(!RADIO||RADIO.paused)return;radVol(RVOL*.35);clearTimeout(radioDuckT);radioDuckT=setTimeout(()=>radVol(RVOL),3500)}
 function play(k,o={}){
   if(FAST||!soundOn||!AC||AC.state!=="running"||!SB[k])return false;if(!o.loop)radioDuck();
   const src=AC.createBufferSource();src.buffer=SB[k];src.playbackRate.value=o.rate||1;
@@ -3592,7 +3613,7 @@ $('mixBtn').addEventListener('click',()=>{audioInit();mixer.hidden=false});
 $('mixBtn2').addEventListener('click',()=>{audioInit();mixer.hidden=false});
 $('mixClose').addEventListener('click',()=>{mixer.hidden=true});
 {const rv=$('radVol'),ro=$('radVolO');rv.value=Math.round(RVOL*100);ro.textContent=rv.value;
- rv.addEventListener('input',()=>{RVOL=+rv.value/100;ro.textContent=rv.value;if(RADIO)RADIO.volume=RVOL;try{localStorage.setItem('departure_rvol',RVOL)}catch(e){}});
+ rv.addEventListener('input',()=>{RVOL=+rv.value/100;ro.textContent=rv.value;radVol(RVOL);try{localStorage.setItem('departure_rvol',RVOL)}catch(e){}});
  mixer.querySelectorAll('.mx-rd .radB').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();radioToggle(b.dataset.st)}));radioUI()}
 $('musNext').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();audioInit();musicNext();toast('Música: '+['Galeão Night Shift','Galeão Night Shift 2','Ato 2'][MUS.i])});
 mixer.addEventListener('click',e=>{
